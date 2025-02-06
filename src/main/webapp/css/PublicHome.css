@@ -11,7 +11,7 @@ body, html {
     background-position: center;
     height: 600px;
     position: relative;
-    background-image: url('../images/anh_bia.png');
+    background-image: url('../img/anh_bia.png');
     margin-top: 71px;
     /*animation: changeBackground 240s infinite;*/
     /*animation-play-state: running;*/
@@ -20,19 +20,19 @@ body, html {
 
 @keyframes changeBackground {
     0% {
-        background-image: url('../images/anh_bia.png');
+        background-image: url('../img/anh_bia.png');
     }
     25% {
-        background-image: url('../images/anh_bia2.png');
+        background-image: url('../img/anh_bia2.png');
     }
     50% {
-        background-image: url('../images/anh_bia3.png');
+        background-image: url('../img/anh_bia3.png');
     }
     75% {
-        background-image: url('../images/anh_bia4.png');
+        background-image: url('../img/anh_bia4.png');
     }
     100% {
-        background-image: url('../images/anh_bia.png');
+        background-image: url('../img/anh_bia.png');
     }
 }
 
