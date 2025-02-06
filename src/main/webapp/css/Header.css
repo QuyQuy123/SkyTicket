@@ -1,0 +1,78 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: white;
+    border-bottom: 1px solid #ccc;
+    border-radius: 0px;
+}
+
+
+.logo {
+
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+
+}
+
+
+.logo img {
+    width: 50px; /* Cập nhật kích thước phù hợp */
+
+
+}
+
+
+.logo span {
+    font-size: 20px;
+    font-weight: bold;
+    color: black;
+
+
+}
+
+
+.logo .highlight {
+    color: orange;
+
+
+}
+
+
+.nav {
+    display: flex;
+    gap: 20px;
+}
+
+
+.nav a {
+    text-decoration: none;
+    color: black;
+    font-size: 16px;
+    font-weight: bold;
+    padding-bottom: 5px;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.3s;
+}
+
+
+.nav a:hover,
+.nav a.active {
+    border-color: orange;
+}
+
+
+
+
+
