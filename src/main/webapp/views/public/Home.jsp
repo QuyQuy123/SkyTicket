@@ -81,6 +81,7 @@
                                             onclick="adjustPassenger('adult', 1)">+
                                     </button>
                                 </div>
+                                <input type="hidden" id="adultPassenger" name="adultPassenger" value="1">
                             </div>
                             <div class="passenger-item">
                                 <span>Trẻ em (2-12)</span>
@@ -93,6 +94,7 @@
                                             onclick="adjustPassenger('child', 1)">+
                                     </button>
                                 </div>
+                                <input type="hidden" id="childPassenger" name="childPassenger" value="1">
                             </div>
                             <div class="passenger-item">
                                 <span>Em bé (0-2)</span>
@@ -105,6 +107,7 @@
                                             onclick="adjustPassenger('infant', 1)">+
                                     </button>
                                 </div>
+                                <input type="hidden" id="infantPassenger" name="infantPassenger" value="1">
                             </div>
                             <button type="button" class="btn btn-orange w-100 mt-2" onclick="closePassengerDropdown()">
                                 Chọn
