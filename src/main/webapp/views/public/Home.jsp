@@ -144,10 +144,14 @@
                 </div>
             </div>
         </div>
+        <p><a href="AirportURL" style="color: red" >Test</a></p>
     </form>
 
 
 </div>
+
+
+
 <jsp:include page="/views/layout/Footer.jsp"/>
 <jsp:include page="/views/layout/Footer.jsp"/>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.js"></script>

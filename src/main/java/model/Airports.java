@@ -1,14 +1,14 @@
 package model;
 
-import jakarta.servlet.http.HttpServlet;
 
-public class Airports  {
 
-    private String airportId;
+public class Airports {
+
+    private int airportId;
     private String airportName;
-    private String location;
-    private boolean status;
-    private String country;
+    private int locationId;
+    private int status;
+
 
     public Airports() {
 
@@ -16,20 +16,36 @@ public class Airports  {
 
     // Alt + Ins
 
-    public Airports(String airportId, String airportName, String location, boolean status, String country) {
+
+    public Airports(int airportId, int status, int locationId, String airportName) {
         this.airportId = airportId;
-        this.airportName = airportName;
-        this.location = location;
         this.status = status;
-        this.country = country;
+        this.locationId = locationId;
+        this.airportName = airportName;
     }
 
-    public String getAirportId() {
+    public int getAirportId() {
         return airportId;
     }
 
-    public void setAirportId(String airportId) {
+    public void setAirportId(int airportId) {
         this.airportId = airportId;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public int getLocationId() {
+        return locationId;
+    }
+
+    public void setLocationId(int locationId) {
+        this.locationId = locationId;
     }
 
     public String getAirportName() {
@@ -38,41 +54,6 @@ public class Airports  {
 
     public void setAirportName(String airportName) {
         this.airportName = airportName;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public boolean isStatus() {
-        return status;
-    }
-
-    public void setStatus(boolean status) {
-        this.status = status;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    @Override
-    public String toString() {
-        return "Airports{" +
-                "airportId='" + airportId + '\'' +
-                ", airportName='" + airportName + '\'' +
-                ", location='" + location + '\'' +
-                ", status=" + status +
-                ", country='" + country + '\'' +
-                '}';
     }
 }
 
