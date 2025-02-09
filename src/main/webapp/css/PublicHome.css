@@ -9,7 +9,7 @@ body, html {
 .background {
     background-size: cover;
     background-position: center;
-    height: 600px;
+    height: 500px;
     position: relative;
     background-image: url('../img/anh_bia.png');
     margin-top: 0px;
@@ -17,6 +17,64 @@ body, html {
     /*animation-play-state: running;*/
 }
 
+/**/
+#introduction {
+    padding: 20px;
+    background-image: linear-gradient(#f0f8ff, #ffffff); /* Xanh pastel nhẹ kết hợp trắng */
+    text-align: center;
+    color: #333; /* Màu chữ tối để dễ đọc */
+    height: 150px;
+}
+
+#introduction h1 {
+    color: #007acc; /* Màu xanh nhẹ để nổi bật */
+    margin-top: 15px;
+}
+
+#promotion {
+    display: flex;
+    justify-content: space-around;
+    margin: 50px 0;
+    font-size: 16px;
+}
+
+#promotion h3 {
+    color: #007acc; /* Màu xanh nhạt */
+    font-size: 20px;
+}
+
+#promotion p {
+    text-align: justify;
+    color: #444; /* Màu chữ tối hơn để dễ đọc */
+}
+
+.promotion-item {
+    text-align: center;
+    width: 45%;
+    margin: 10px;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ tạo chiều sâu */
+    background-color: #f9f9f9; /* Màu nền sáng hơn */
+    transition: transform 0.3s ease-in-out;
+}
+
+.promotion-item:hover {
+    transform: translateY(-5px); /* Hiệu ứng nhẹ khi di chuột vào */
+}
+
+.promotion-item img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+
+
+
+
+/**/
 
 @keyframes changeBackground {
     0% {
