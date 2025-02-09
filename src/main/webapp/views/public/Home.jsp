@@ -153,7 +153,6 @@
 
 
 <jsp:include page="/views/layout/Footer.jsp"/>
-<jsp:include page="/views/layout/Footer.jsp"/>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.js"></script>
 
 

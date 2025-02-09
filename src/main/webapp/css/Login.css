@@ -16,15 +16,6 @@ body, html {
     text-align: center;
     background-color: rgba(0, 0, 0, 0.3);
 }
-.login-by-google {
-    margin: 0 50px;
-    border: 1px solid red;
-    background: red;
-    border-radius: 50px;
-    width: 300px;
-    height: 50px;
-    color: white;
-}
 .login-content input {
     margin: 10px 0;
 }
