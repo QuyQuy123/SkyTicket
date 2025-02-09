@@ -55,6 +55,16 @@ public class Airports {
     public void setAirportName(String airportName) {
         this.airportName = airportName;
     }
+
+    @Override
+    public String toString() {
+        return "Airports{" +
+                "airportId=" + airportId +
+                ", airportName='" + airportName + '\'' +
+                ", locationId=" + locationId +
+                ", status=" + status +
+                '}';
+    }
 }
 
 
