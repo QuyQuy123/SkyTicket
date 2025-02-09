@@ -29,10 +29,7 @@ public class AirportsController extends HttpServlet {
                     String sql = "select * from airports";
                     if(submit != null) {
                         String locate = req.getParameter("airport");
-                        sql = "SELECT * \n" +
-                                "FROM airports a \n" +
-                                "JOIN locations b ON a.LocationId = b.LocationId\n" +
-                                "WHERE b.LocationName LIKE '%" + locate + "%'";
+                        sql = "SELECT * FROM airports WHERE Location LIKE '%" + locate + "%'";
                     }
                     List<Airports> listAirports = dao.getAllAirports(sql);
                     req.setAttribute("airports", listAirports);

@@ -6,7 +6,7 @@
  To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<div class="fixed-header">
+<div class="fixed-header" style="position: fixed;top: 0;left: 0;right: 0;bottom: 0;">
     <jsp:include page="/views/layout/Header.jsp"/>
 </div>
 

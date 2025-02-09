@@ -16,7 +16,7 @@
         List<Airports> listAirport = (List<Airports>) request.getAttribute("airports");
     %>
     <form action="AirportURL" method="get">
-        <p> <input type="text" name="airport" id="" placeholder="Nhập tên thành phố" >
+        <p> <input type="text" name="airport" id="" placeholder="Nhập tên thành phố hoặc mã sân bay" >
             <input type="hidden" name="service" value="listAll">
             <input type="submit" value="Search" name="submit">
             <input type="reset" value="Clear">
@@ -26,11 +26,11 @@
     <table border="1">
 
     <tr>
-            <th>Chọn sân bay</th>
+            <th>Locations</th>
         </tr>
         <%for (Airports airports : listAirport){ %>
             <tr>
-                <td> <%=airports.getAirportName()%></td>
+                <td> <%=airports.getLocation()%></td>
             </tr>
         <%}%>
     </table>

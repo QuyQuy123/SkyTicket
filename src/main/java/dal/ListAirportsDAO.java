@@ -16,18 +16,7 @@ public class ListAirportsDAO extends  DBConnect{
 
     public List<Airports> getAllAirports(String sql){
         List<Airports> list = new ArrayList<>();
-        try(PreparedStatement ps = connection.prepareStatement(sql);ResultSet rs = ps.executeQuery()) {
-            while(rs.next()){
-                Airports airports = new Airports();
-                airports.setAirportId(rs.getInt("AirportId"));
-                airports.setAirportName(rs.getString("AirportName"));
-                airports.setLocationId(rs.getInt("LocationId"));
-                airports.setStatus(rs.getInt("Status"));
-                list.add(airports);
-            }
-        }catch (SQLException e){
-            e.printStackTrace();
-        }
+
 
         return list;
 
