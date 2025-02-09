@@ -145,6 +145,8 @@
             </div>
         </div>
         <p><a href="AirportURL" style="color: red" >Test</a></p>
+
+        <p><a href="views/admin/jsp/Dashboard.jsp" style="color: red" >Admin dash board</a></p>
     </form>
 
 
