@@ -5,6 +5,9 @@
  Time: 2:52 PM
  To change this template use File | Settings | File Templates.
 --%>
+<%@page import="model.News" %>
+<%@page import="dal.NewsDAO" %>
+<%@page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <div class="fixed-header">
     <jsp:include page="/views/layout/Header.jsp"/>
@@ -20,6 +23,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="<%= request.getContextPath() %>/css/PublicHome.css">
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/css/News.css"/>
     <script src="<%= request.getContextPath() %>/js/Home.js" defer></script>
 
 
@@ -144,9 +148,50 @@
                 </div>
             </div>
         </div>
-        <p><a href="AirportURL" style="color: red" >Test</a></p>
+
     </form>
 
+
+</div>
+
+<div class="main-container" id="body-2">
+
+    <div style="display: ${empty param.id ? '' : 'none'};margin: 60px 0">
+        <h1 style="margin-bottom: 30px; text-align: center; font-size: 30px">NEWS</h1>
+        <div class="news-container">
+            <%
+
+                List<News> listNew = (List<News>) request.getAttribute("listNew");
+
+                if (listNew != null) {
+                    for (int i = listNew.size() - 1; i >= listNew.size()-4; i--) {
+                        News n = listNew.get(i);
+            %>
+            <div class="news-item" onclick="viewNews('<%= n.getNewId() %>');">
+                <img src="<%= n.getImg() %>" alt="<%= n.getTitle() %>" >
+
+                <h2 style="height: 25%;"><%= n.getTitle() %></h2>
+                <div class="news-content" style="display: none;">
+                    <p><%= n.getContent() %></p>
+                </div>
+
+<%--                <div   style="margin-top: 7%;margin-left: 3%;">--%>
+<%--                    <img src="#" style="width: 12%; height: 100%;">--%>
+<%--                    <p style="margin-top: -8%;--%>
+<%--                               margin-left: 14%;--%>
+<%--                               font-size: 16px;">BamBoo Eway</p>--%>
+<%--                </div>--%>
+
+            </div>
+            <%
+                    }
+                }
+            %>
+        </div>
+        <div style="width: 100%; text-align: center; margin-top: 20px; ">
+            <a href="NewsURL" style="font-size: 20px; color: #3C6E57">More >></a>
+        </div>
+    </div>
 
 </div>
 
