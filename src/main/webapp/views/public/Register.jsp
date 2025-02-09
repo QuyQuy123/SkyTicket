@@ -16,7 +16,11 @@
 <!--Register Box here-->
 <div class="login-box">
     <div class="login-content">
-        <form action="login" method="POST">
+        <% String error = (String) request.getAttribute("error"); %>
+        <% if (error != null) { %>
+        <p style="color: red;"><%= error %></p>
+        <% } %>
+        <form action="#" method="POST">
             <h2>Đăng ký</h2>
             <input type="text" class="login-input" name="name" autocomplete="off" placeholder="Họ và tên" required>
             <input type="date" class="login-input" name="dob" autocomplete="off" required>

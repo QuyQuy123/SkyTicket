@@ -16,7 +16,11 @@
 <!--Login Box here-->
 <div class="login-box">
     <div class="login-content">
-        <form action="LoginURL" method="POST">
+        <% String error = (String) request.getAttribute("error"); %>
+        <% if (error != null) { %>
+        <p style="color: red;"><%= error %></p>
+        <% } %>
+        <form action="#" method="POST">
             <h2>Đăng nhập</h2>
             <input type="text" class="login-input" name="username" autocomplete="off" placeholder="Email hoặc Số điện thoại" required> <br>
             <input type="password" class="login-input" name="password" autocomplete="off" placeholder="Mật khẩu" required> <br>

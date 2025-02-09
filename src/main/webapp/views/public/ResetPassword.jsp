@@ -16,6 +16,10 @@
 <!--Reset Password Box here-->
 <div class="login-box">
     <div class="login-content">
+        <% String message = (String) request.getAttribute("message"); %>
+        <% if (message != null) { %>
+        <p style="color: green;"><%= message %></p>
+        <% } %>
         <form action="#" method="POST">
             <h2>Đặt lại mật khẩu</h2>
             <input type="email" class="login-input, reset-email" name="email" autocomplete="off" placeholder="Email" required>
@@ -23,6 +27,10 @@
             <h20 class="reset-label">(*) Hãy nhập email để chúng tôi sẽ gửi cho bạn một mã xác thực!</h20>
         </form>
 
+        <% String error = (String) request.getAttribute("error"); %>
+        <% if (error != null) { %>
+        <p style="color: red;"><%= error %></p>
+        <% } %>
         <form action="#" method="POST">
             <br><br>
             <input type="text" class="login-input" name="resetCode" autocomplete="off" placeholder="Mã xác thực" required> <br>
