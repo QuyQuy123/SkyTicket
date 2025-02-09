@@ -16,7 +16,7 @@
 <!--Login Box here-->
 <div class="login-box">
     <div class="login-content">
-        <form action="login" method="POST">
+        <form action="loginURL" method="POST">
             <h2>Đăng nhập</h2>
             <input type="text" class="login-input" name="username" autocomplete="off" placeholder="Email hoặc Tài khoản" required> <br>
             <input type="password" class="login-input" name="password" autocomplete="off" placeholder="Mật khẩu" required> <br>

@@ -12,8 +12,8 @@ public class DBConnect {
     public DBConnect() {
         try {
             String user = "root";
-            String pass = "123456";
-            String url = "jdbc:mysql://localhost:3307/skytickets?useSSL=false&serverTimezone=UTC";
+            String pass = "123456789";
+            String url = "jdbc:mysql://localhost:3306/skytickets?useSSL=false&serverTimezone=UTC";
             Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection(url, user, pass);
         } catch (ClassNotFoundException | SQLException ex) {
