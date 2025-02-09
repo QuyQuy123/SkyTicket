@@ -25,7 +25,7 @@
         <a href="#">GIỚI THIỆU</a>
         <a href="#">VÉ NỘI ĐỊA</a>
         <a href="#">VÉ QUỐC TẾ</a>
-        <a href="#">TIN TỨC</a>
+        <a href="NewsURL">TIN TỨC</a>
         <a href="#">LIÊN HỆ</a>
     </nav>
     <!-- Thay phần contact bằng 2 nút -->

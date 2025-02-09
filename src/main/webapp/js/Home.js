@@ -1,3 +1,9 @@
+
+
+
+function viewNews(newsId) {
+    window.location.href = 'News?id=' + newsId;
+}
 // Enable/disable return date based on trip type
 document.getElementById('oneWay').addEventListener('change', function () {
     document.getElementById('returnDate').disabled = true;
