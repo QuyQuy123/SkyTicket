@@ -9,7 +9,7 @@
 <%@page import="dal.NewsDAO" %>
 <%@page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<div class="fixed-header">
+<div class="fixed-header" style=";top: 0;left: 0;right: 0;bottom: 0;">
     <jsp:include page="/views/layout/Header.jsp"/>
 </div>
 
@@ -190,6 +190,7 @@
         </div>
         <div style="width: 100%; text-align: center; margin-top: 20px; ">
             <a href="NewsURL" style="font-size: 20px; color: #3C6E57">More >></a>
+
         </div>
     </div>
 
