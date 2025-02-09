@@ -18,13 +18,19 @@
     <div class="login-content">
         <form action="#" method="POST">
             <h2>Đặt lại mật khẩu</h2>
-            <input type="text" class="login-input" name="email" autocomplete="off" placeholder="Email" required> <br>
-            <input type="text" class="login-input, reset-code" name="resetCode" autocomplete="off" placeholder="Mã xác thực" required>
-            <input type="submit" class="reset-submit" value="Gửi" name="sendEmail" /> <br>
-            <input type="password" class="login-input" name="password" autocomplete="off" placeholder="Mật khẩu" required> <br>
-            <input type="password" class="login-input" name="repassword" autocomplete="off" placeholder="Nhập lại mật khẩu" required> <br>
-            <input type="Submit" class="login-submit" value="Đặt lại"> <br><br><br>
+            <input type="email" class="login-input, reset-email" name="email" autocomplete="off" placeholder="Email" required>
+            <input type="submit" class="reset-submit" value="Gửi mã" name="sendEmail" /> <br>
+            <h20 class="reset-label">(*) Hãy nhập email để chúng tôi sẽ gửi cho bạn một mã xác thực!</h20>
         </form>
+
+        <form action="#" method="POST">
+            <br><br>
+            <input type="text" class="login-input" name="resetCode" autocomplete="off" placeholder="Mã xác thực" required> <br>
+            <input type="password" class="login-input" name="password" autocomplete="off" placeholder="Mật khẩu mới" required> <br>
+            <input type="password" class="login-input" name="repassword" autocomplete="off" placeholder="Nhập lại mật khẩu" required> <br>
+            <input type="submit" class="login-submit" value="Đặt lại mật khẩu"> <br>
+        </form>
+        <br><br>
         <a href="<%= request.getContextPath() %>/views/public/Login.jsp">Quay lại</a>
     </div>
 </div>
