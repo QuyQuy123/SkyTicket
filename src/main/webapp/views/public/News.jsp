@@ -108,7 +108,7 @@
 <jsp:include page="/views/layout/Footer.jsp"/>
 <script>
   function viewNews(newsId) {
-    window.location.href = 'News?id=' + newsId;
+    window.location.href = 'NewsURL?id=' + newsId;
   }
 </script>
 </body>
