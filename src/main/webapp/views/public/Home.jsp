@@ -5,15 +5,14 @@
  Time: 2:52 PM
  To change this template use File | Settings | File Templates.
 --%>
-<%@ page import="model.News" %>
-<%@ page import="dal.NewsDAO" %>
-<%@ page import="java.util.List" %>
-<%@ page import="model.Locations"%>
+<%@page import="model.News" %>
+<%@page import="dal.NewsDAO" %>
+<%@page import="java.util.List" %>
+<%@page import="model.Locations"%>
 <%@ page import="model.Locations" %>
 <%@ page import="dal.LocationsDAO" %>
-<%@ page import="dal.AirportsDAO"%>
+<%@page import="dal.AirportsDAO"%>
 <%@ page import="model.Airports" %>
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <div class="fixed-header" style=";top: 0;left: 0;right: 0;bottom: 0;">
     <jsp:include page="/views/layout/Header.jsp"/>
@@ -81,12 +80,14 @@
             top: 80px;
             left: 14px;
             border-radius: 8px;
+
         }
 
         .location-item {
             cursor: pointer;
             padding: 10px 15px;
             transition: background-color 0.3s ease;
+
         }
 
         .location-item:hover {
@@ -178,6 +179,7 @@
     LocationsDAO locate = new LocationsDAO();
     AirportsDAO airport = new AirportsDAO();
 %>
+ <div>
 
 <div class="background">
     <div class="flight-form ">
@@ -206,9 +208,12 @@
                     <!-- From Field -->
                     <div class="col-md-2" style="padding-right: 0px">
                         <p style="color: black; margin: 0; font-size: 12px">FROM</p>
-                        <input type="text" value="Hà Nội" readonly style="height: 100%;font-size: 18px" class="form-control" id="fromDisplay" onclick="showLocationList('from')" oninput="filterLocations('from')" placeholder="FROM" required>
+                        <input type="text" value="Hà Nội" readonly style="height: 100%;font-size: 18px" class="form-control" id="fromDisplay" onclick="showLocationList('from')" oninput="filterLocations('from')" placeholder="FROM" required >
                         <input type="hidden" value="1" id="from" name="departure">
-                        <div id="from-locations" class="location-list">
+
+<%--                        --%><%--                        --%>
+
+                        <div id="from-locations" class="location-list" style="margin-top: 88px;margin-left: 85px;width: 300px;height: 300px">
                             <%
                                 for(Locations lo : locate.getAllLocation()) {
                                     for(Airports ai : airport.getAllAirports()){
@@ -231,7 +236,7 @@
                         <p style="color: black; margin: 0; font-size: 12px">TO</p>
                         <input type="text" value="TP. Hồ Chí Minh" readonly style="height: 100%;font-size: 18px" class="form-control" id="toDisplay" onclick="showLocationList('to')" oninput="filterLocations('to')" placeholder="TO" required>
                         <input type="hidden" value="2" id="to" name="destination">
-                        <div id="to-locations" class="location-list">
+                        <div id="to-locations" class="location-list" style="margin-top: 88px;margin-left: 260px;width: 300px;height: 300px">
                             <%
                                 for(Locations lo : locate.getAllLocation()) {
                                     for(Airports ai : airport.getAllAirports()){
@@ -252,11 +257,11 @@
                     <!-- Departure Date Field -->
                     <div class="col-md-2" style="padding-right: 0px">
                         <p style="color: black; margin: 0; font-size: 12px">DEPART</p>
-                        <input type="text" class="form-control" id="departureDate" name="departureDate" style="height: 100%;font-size: 18px;" placeholder="yyyy-mm-dd" onkeydown="return false;" required >
+                        <input type="text" class="form-control" id="departureDate" name="departureDate" style="height: 100%;font-size: 18px;" placeholder="dd-mm-yyyy" onkeydown="return false;" required >
                     </div>
                     <div class="col-md-2" id="returnDateField" style="display:none;padding-right: 0px">
                         <p style="color: black; margin: 0; font-size: 12px">RETURN</p>
-                        <input type="text" id="returnDate" class="form-control" name="returnDate" style="height: 100%;font-size: 18px;" placeholder="yyyy-mm-dd" onkeydown="return false;">
+                        <input type="text" id="returnDate" class="form-control" name="returnDate" style="height: 100%;font-size: 18px;" placeholder="dd-mm-yyyy" onkeydown="return false;">
                     </div>
 
                     <!-- Passengers Field -->
@@ -268,7 +273,7 @@
 
                         <div id="passenger-options" class="passenger-options"
                              style="display: none; position: absolute; top: 50px; left: 15px; z-index: 1000;">
-                            <div class="options-container" style="border: 2px solid #ccc">
+                            <div class="options-container" style="border: 2px solid #ccc;margin-top: 46px;margin-left: -32px">
                                 <div class="passenger-selector">
                                     <div class="passenger-type">
                                         <div class="passenger-label">Adult</div>
@@ -297,7 +302,7 @@
 
                     <!-- Submit Button -->
                     <div class="col-md-2">
-                        <button type="submit" class="search-button" onclick="validateDates()">
+                        <button type="submit" class="search-button" onclick="validateDates()" style="margin-top: 21px">
 <%--                                <%= (request.getAttribute("account") == null || ((Accounts)request.getAttribute("account")).getRoleId() == 3) ? "" : "disabled" %>>--%>
                             Search Flights
                         </button>
@@ -310,7 +315,6 @@
     </div>
 
 </div>
-
 
 <div class="main-container">
     <div id="introduction">
@@ -346,8 +350,6 @@
 
 </div>
 
-
---
 <div class="main-container" id="body-2">
 
     <div style="display: ${empty param.id ? '' : 'none'};margin: 60px 0">
@@ -389,10 +391,9 @@
     </div>
 
 </div>
-
-
+ </div>
 <jsp:include page="/views/layout/Footer.jsp"/>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.js"></script>
+
 
 
 </body>

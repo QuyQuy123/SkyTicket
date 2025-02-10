@@ -12,6 +12,7 @@
 <%@page import="model.News" %>
 <%@page import="dal.NewsDAO" %>
 <%@page import="java.util.List" %>
+<jsp:include page="/views/layout/Header.jsp"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,10 +22,10 @@
   <title>News</title>
 </head>
 <body>
-<jsp:include page="/views/layout/Header.jsp"/>
-<div class="box" >
-  <div style="display: ${empty param.id ? '' : 'none'};margin: 130px 0">
-    <h1 style="margin-bottom: 20px; text-align: center;">NEWS</h1>
+
+<div class="container box" >
+  <div style="display: ${empty param.id ? '' : 'none'};margin: auto">
+    <h1 style="margin-bottom: 20px; text-align: center;padding-top: 106px">NEWS</h1>
     <div class="news-container">
       <%
 
@@ -39,14 +40,6 @@
         <h2 style="height: 25%;"><%= n.getTitle() %></h2>
         <div class="news-content" style="display: none;">
           <p><%= n.getContent() %></p>
-        </div>
-
-
-        <div   style="margin-top: 9%;margin-left: 3%;">
-<%--          <img src="#" style="width: 12%; height: 100%;">--%>
-          <p style="margin-top: -8%;
-                               margin-left: 14%;
-                               font-size: 16px;">BamBoo Eway</p>
         </div>
 
       </div>
@@ -84,27 +77,11 @@
         }
       %>
     </div>
-
-    <div class="col-md-4" style="margin: 130px 0">
-<%--      <div class="news-list">--%>
-<%--        <%--%>
-<%--          if (listNew != null) {--%>
-<%--            for (int i = listNew.size() - 1; i >= 0; i--) {--%>
-<%--              News n = listNew.get(i);--%>
-<%--        %>--%>
-<%--        <div class="news-item-small" onclick="viewNews('<%= n.getNewId() %>');">--%>
-<%--          <img src="<%= n.getImg()%>" alt="<%= n.getTitle() %>">--%>
-<%--          <h2><%= n.getTitle() %></h2>--%>
-
-<%--        </div>--%>
-<%--        <%--%>
-<%--            }--%>
-<%--          }--%>
-<%--        %>--%>
-<%--      </div>--%>
-    </div>
   </div>
 </div>
+
+
+
 <jsp:include page="/views/layout/Footer.jsp"/>
 <script>
   function viewNews(newsId) {

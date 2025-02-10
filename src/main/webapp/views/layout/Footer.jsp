@@ -20,7 +20,7 @@
     <h3>Đặt vé máy bay, thật đơn giản.</h3>
     <p>Tải ngay ứng dụng để trải nghiệm đặt vé nhanh chóng và dễ dàng nhất chỉ trong 1 phút!</p>
     <hr>
-    <div class="content">
+    <div class="content" id="contactSection">
         <div class="column">
             <h4>SKY TICKET</h4>
             <a href="#">Tin tức</a>

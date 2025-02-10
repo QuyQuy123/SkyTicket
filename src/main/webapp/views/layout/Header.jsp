@@ -23,10 +23,11 @@
     <nav class="nav">
         <a href="<%= request.getContextPath() %>">TRANG CHỦ</a>
         <a href="#">GIỚI THIỆU</a>
-        <a href="#">VÉ NỘI ĐỊA</a>
-        <a href="#">VÉ QUỐC TẾ</a>
+<%--        <a href="#">VÉ NỘI ĐỊA</a>--%>
+<%--        <a href="#">VÉ QUỐC TẾ</a>--%>
         <a href="NewsURL">TIN TỨC</a>
-        <a href="#">LIÊN HỆ</a>
+        <a href="home#contactSection">LIÊN HỆ</a>
+
     </nav>
     <!-- Thay phần contact bằng 2 nút -->
 
@@ -97,5 +98,11 @@
 
     </style>
 </header>
+
+
+
+
+
+
 </body>
 </html>
