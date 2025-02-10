@@ -1,7 +1,5 @@
 package model;
 
-
-
 public class Airports {
 
     private int airportId;

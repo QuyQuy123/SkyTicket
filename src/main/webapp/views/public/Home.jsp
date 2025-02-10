@@ -5,13 +5,13 @@
  Time: 2:52 PM
  To change this template use File | Settings | File Templates.
 --%>
-<%@page import="model.News" %>
-<%@page import="dal.NewsDAO" %>
-<%@page import="java.util.List" %>
-<%@page import="model.Locations"%>
+<%@ page import="model.News" %>
+<%@ page import="dal.NewsDAO" %>
+<%@ page import="java.util.List" %>
+<%@ page import="model.Locations"%>
 <%@ page import="model.Locations" %>
 <%@ page import="dal.LocationsDAO" %>
-<%@page import="dal.AirportsDAO"%>
+<%@ page import="dal.AirportsDAO"%>
 <%@ page import="model.Airports" %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -178,6 +178,7 @@
     LocationsDAO locate = new LocationsDAO();
     AirportsDAO airport = new AirportsDAO();
 %>
+
 <div class="background">
     <div class="flight-form ">
     <form id="input-form" action="flightTickets" method="GET" class="row g-1" onsubmit="return validateLocations(event)">
