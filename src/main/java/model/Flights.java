@@ -26,6 +26,9 @@ public class Flights {
         this.ClassEconomyPrice = classEconomyPrice;
     }
 
+    public Flights() {
+    }
+
     public int getFlightId() {
         return FlightId;
     }
