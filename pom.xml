@@ -3,8 +3,11 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.example</groupId>
   <artifactId>SkyTicket</artifactId>
-  <packaging>war</packaging>
-  <version>1.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+    <modules>
+        <module>untitled</module>
+    </modules>
+    <version>1.0-SNAPSHOT</version>
   <name>SkyTicket Maven Webapp</name>
   <url>http://maven.apache.org</url>
   <dependencies>
