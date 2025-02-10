@@ -9,8 +9,19 @@ public class Airlines {
     private int ClassVipCapacity;
     private int ClassEconomyCapacity;
 
+
     public Airlines() {
     }
+
+    public Airlines(String airlineName, String image, String information, int status, int classVipCapacity, int classEconomyCapacity) {
+        this.airlineName = airlineName;
+        this.image = image;
+        this.information = information;
+        this.status = status;
+        ClassVipCapacity = classVipCapacity;
+        ClassEconomyCapacity = classEconomyCapacity;
+    }
+
 
     public Airlines(int airlineId, int classEconomyCapacity, int classVipCapacity, String information, String image, String airlineName, int status) {
         this.airlineId = airlineId;

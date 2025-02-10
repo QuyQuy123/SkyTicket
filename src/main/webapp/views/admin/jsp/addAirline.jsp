@@ -40,281 +40,35 @@
 
 <body>
 
-<%@ include file="Dashboard.jsp" %>
-<div class="page-wrapper doctris-theme toggled">
-    <nav id="sidebar" class="sidebar-wrapper">
-        <div class="sidebar-content" data-simplebar style="height: calc(100% - 60px);">
-            <div class="sidebar-brand">
-                <a href="index.html">
-                    <img src="../assets/images/logo-dark.png" height="24" class="logo-light-mode" alt="">
-                    <img src="../assets/images/logo-light.png" height="24" class="logo-dark-mode" alt="">
-                </a>
-            </div>
-
-            <ul class="sidebar-menu pt-3">
-                <li><a href="index.html"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
-                <li><a href="appointment.html"><i class="uil uil-stethoscope me-2 d-inline-block"></i>Appointment</a></li>
-
-                <li class="sidebar-dropdown">
-                    <a href="javascript:void(0)"><i class="uil uil-user me-2 d-inline-block"></i>Doctors</a>
-                    <div class="sidebar-submenu">
-                        <ul>
-                            <li><a href="doctors.html">Doctors</a></li>
-                            <li><a href="add-doctor.html">Add Doctor</a></li>
-                            <li><a href="dr-profile.html">Profile</a></li>
-                        </ul>
-                    </div>
-                </li>
-
-                <li class="sidebar-dropdown">
-                    <a href="javascript:void(0)"><i class="uil uil-wheelchair me-2 d-inline-block"></i>Patients</a>
-                    <div class="sidebar-submenu">
-                        <ul>
-                            <li><a href="patients.html">All Patients</a></li>
-                            <li><a href="add-patient.html">Add Patients</a></li>
-                            <li><a href="patient-profile.html">Profile</a></li>
-                        </ul>
-                    </div>
-                </li>
-
-                <li class="sidebar-dropdown">
-                    <a href="javascript:void(0)"><i class="uil uil-apps me-2 d-inline-block"></i>Apps</a>
-                    <div class="sidebar-submenu">
-                        <ul>
-                            <li><a href="chat.html">Chat</a></li>
-                            <li><a href="email.html">Email</a></li>
-                            <li><a href="calendar.html">Calendar</a></li>
-                        </ul>
-                    </div>
-                </li>
-
-                <li class="sidebar-dropdown">
-                    <a href="javascript:void(0)"><i class="uil uil-shopping-cart me-2 d-inline-block"></i>Pharmacy</a>
-                    <div class="sidebar-submenu">
-                        <ul>
-                            <li><a href="shop.html">Shop</a></li>
-                            <li><a href="product-detail.html">Shop Detail</a></li>
-                            <li><a href="shopcart.html">Shopcart</a></li>
-                            <li><a href="checkout.html">Checkout</a></li>
-                        </ul>
-                    </div>
-                </li>
-
-                <li class="sidebar-dropdown">
-                    <a href="javascript:void(0)"><i class="uil uil-flip-h me-2 d-inline-block"></i>Blogs</a>
-                    <div class="sidebar-submenu">
-                        <ul>
-                            <li><a href="blogs.html">Blogs</a></li>
-                            <li><a href="blog-detail.html">Blog Detail</a></li>
-                        </ul>
-                    </div>
-                </li>
-
-                <li class="sidebar-dropdown">
-                    <a href="javascript:void(0)"><i class="uil uil-file me-2 d-inline-block"></i>Pages</a>
-                    <div class="sidebar-submenu">
-                        <ul>
-                            <li><a href="faqs.html">FAQs</a></li>
-                            <li><a href="review.html">Reviews</a></li>
-                            <li><a href="invoice-list.html">Invoice List</a></li>
-                            <li><a href="invoice.html">Invoice</a></li>
-                            <li><a href="terms.html">Terms & Policy</a></li>
-                            <li><a href="privacy.html">Privacy Policy</a></li>
-                            <li><a href="error.html">404 !</a></li>
-                            <li><a href="blank-page.html">Blank Page</a></li>
-                        </ul>
-                    </div>
-                </li>
-
-                <li class="sidebar-dropdown">
-                    <a href="javascript:void(0)"><i class="uil uil-sign-in-alt me-2 d-inline-block"></i>Authentication</a>
-                    <div class="sidebar-submenu">
-                        <ul>
-                            <li><a href="login.html">Login</a></li>
-                            <li><a href="signup.html">Signup</a></li>
-                            <li><a href="forgot-password.html">Forgot Password</a></li>
-                            <li><a href="lock-screen.html">Lock Screen</a></li>
-                            <li><a href="thankyou.html">Thank you...!</a></li>
-                        </ul>
-                    </div>
-                </li>
-
-                <li><a href="components.html"><i class="uil uil-cube me-2 d-inline-block"></i>Components</a></li>
-
-                <li><a href="../landing/index-two.html" target="_blank"><i class="uil uil-window me-2 d-inline-block"></i>Landing page</a></li>
-            </ul>
-            <!-- sidebar-menu  -->
+<!-- Loader -->
+<div id="preloader">
+    <div id="status">
+        <div class="spinner">
+            <div class="double-bounce1"></div>
+            <div class="double-bounce2"></div>
         </div>
-        <!-- sidebar-content  -->
-        <ul class="sidebar-footer list-unstyled mb-0">
-            <li class="list-inline-item mb-0 ms-1">
-                <a href="#" class="btn btn-icon btn-pills btn-soft-primary">
-                    <i class="uil uil-comment icons"></i>
-                </a>
-            </li>
-        </ul>
-    </nav>
-    <!-- sidebar-wrapper  -->
+    </div>
+</div>
+<!-- Loader -->
+
+<div class="page-wrapper doctris-theme toggled">
+
+    <%@include file="right.jsp"%>
 
     <!-- Start Page Content -->
     <main class="page-content bg-light">
-        <div class="top-header">
-            <div class="header-bar d-flex justify-content-between border-bottom">
-                <div class="d-flex align-items-center">
-                    <a href="#" class="logo-icon">
-                        <img src="../assets/images/logo-icon.png" height="30" class="small" alt="">
-                        <span class="big">
-                                    <img src="../assets/images/logo-dark.png" height="24" class="logo-light-mode" alt="">
-                                    <img src="../assets/images/logo-light.png" height="24" class="logo-dark-mode" alt="">
-                                </span>
-                    </a>
-                    <a id="close-sidebar" class="btn btn-icon btn-pills btn-soft-primary ms-2" href="#">
-                        <i class="uil uil-bars"></i>
-                    </a>
-                    <div class="search-bar p-0 d-none d-lg-block ms-2">
-                        <div id="search" class="menu-search mb-0">
-                            <form role="search" method="get" id="searchform" class="searchform">
-                                <div>
-                                    <input type="text" class="form-control border rounded-pill" name="s" id="s" placeholder="Search Keywords...">
-                                    <input type="submit" id="searchsubmit" value="Search">
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-
-                <ul class="list-unstyled mb-0">
-                    <li class="list-inline-item mb-0">
-                        <div class="dropdown dropdown-primary">
-                            <button type="button" class="btn btn-pills btn-soft-primary dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="../assets/images/language/american.png" class="avatar avatar-ex-small rounded-circle p-2" alt=""></button>
-                            <div class="dropdown-menu dd-menu drop-ups dropdown-menu-end bg-white shadow border-0 mt-3 p-2" data-simplebar style="height: 175px;">
-                                <a href="javascript:void(0)" class="d-flex align-items-center">
-                                    <img src="../assets/images/language/chinese.png" class="avatar avatar-client rounded-circle shadow" alt="">
-                                    <div class="flex-1 text-left ms-2 overflow-hidden">
-                                        <small class="text-dark mb-0">Chinese</small>
-                                    </div>
-                                </a>
-
-                                <a href="javascript:void(0)" class="d-flex align-items-center mt-2">
-                                    <img src="../assets/images/language/european.png" class="avatar avatar-client rounded-circle shadow" alt="">
-                                    <div class="flex-1 text-left ms-2 overflow-hidden">
-                                        <small class="text-dark mb-0">European</small>
-                                    </div>
-                                </a>
-
-                                <a href="javascript:void(0)" class="d-flex align-items-center mt-2">
-                                    <img src="../assets/images/language/indian.png" class="avatar avatar-client rounded-circle shadow" alt="">
-                                    <div class="flex-1 text-left ms-2 overflow-hidden">
-                                        <small class="text-dark mb-0">Indian</small>
-                                    </div>
-                                </a>
-
-                                <a href="javascript:void(0)" class="d-flex align-items-center mt-2">
-                                    <img src="../assets/images/language/japanese.png" class="avatar avatar-client rounded-circle shadow" alt="">
-                                    <div class="flex-1 text-left ms-2 overflow-hidden">
-                                        <small class="text-dark mb-0">Japanese</small>
-                                    </div>
-                                </a>
-
-                                <a href="javascript:void(0)" class="d-flex align-items-center mt-2">
-                                    <img src="../assets/images/language/russian.png" class="avatar avatar-client rounded-circle shadow" alt="">
-                                    <div class="flex-1 text-left ms-2 overflow-hidden">
-                                        <small class="text-dark mb-0">Russian</small>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    </li>
-
-                    <li class="list-inline-item mb-0 ms-1">
-                        <a href="javascript:void(0)" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
-                            <div class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="settings" class="fea icon-sm"></i></div>
-                        </a>
-                    </li>
-
-                    <li class="list-inline-item mb-0 ms-1">
-                        <div class="dropdown dropdown-primary">
-                            <button type="button" class="btn btn-icon btn-pills btn-soft-primary dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i data-feather="mail" class="fea icon-sm"></i></button>
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">4 <span class="visually-hidden">unread mail</span></span>
-
-                            <div class="dropdown-menu dd-menu dropdown-menu-end bg-white shadow rounded border-0 mt-3 px-2 py-2" data-simplebar style="height: 320px; width: 300px;">
-                                <a href="#" class="d-flex align-items-center justify-content-between py-2">
-                                    <div class="d-inline-flex position-relative overflow-hidden">
-                                        <img src="../assets/images/client/02.jpg" class="avatar avatar-md-sm rounded-circle shadow" alt="">
-                                        <small class="text-dark mb-0 d-block text-truncat ms-3">You received a new email from <b>Janalia</b> <small class="text-muted fw-normal d-inline-block">1 hour ago</small></small>
-                                    </div>
-                                </a>
-
-                                <a href="#" class="d-flex align-items-center justify-content-between py-2 border-top">
-                                    <div class="d-inline-flex position-relative overflow-hidden">
-                                        <img src="../assets/images/client/Codepen.svg" class="avatar avatar-md-sm rounded-circle shadow" alt="">
-                                        <small class="text-dark mb-0 d-block text-truncat ms-3">You received a new email from <b>codepen</b>  <small class="text-muted fw-normal d-inline-block">4 hour ago</small></small>
-                                    </div>
-                                </a>
-
-                                <a href="#" class="d-flex align-items-center justify-content-between py-2 border-top">
-                                    <div class="d-inline-flex position-relative overflow-hidden">
-                                        <img src="../assets/images/client/03.jpg" class="avatar avatar-md-sm rounded-circle shadow" alt="">
-                                        <small class="text-dark mb-0 d-block text-truncat ms-3">You received a new email from <b>Cristina</b> <small class="text-muted fw-normal d-inline-block">5 hour ago</small></small>
-                                    </div>
-                                </a>
-
-                                <a href="#" class="d-flex align-items-center justify-content-between py-2 border-top">
-                                    <div class="d-inline-flex position-relative overflow-hidden">
-                                        <img src="../assets/images/client/dribbble.svg" class="avatar avatar-md-sm rounded-circle shadow" alt="">
-                                        <small class="text-dark mb-0 d-block text-truncat ms-3">You received a new email from <b>Dribbble</b> <small class="text-muted fw-normal d-inline-block">24 hour ago</small></small>
-                                    </div>
-                                </a>
-
-                                <a href="#" class="d-flex align-items-center justify-content-between py-2 border-top">
-                                    <div class="d-inline-flex position-relative overflow-hidden">
-                                        <img src="../assets/images/client/06.jpg" class="avatar avatar-md-sm rounded-circle shadow" alt="">
-                                        <small class="text-dark mb-0 d-block text-truncat ms-3">You received a new email from <b>Donald Aghori</b> <small class="text-muted fw-normal d-inline-block">1 day ago</small></small>
-                                    </div>
-                                </a>
-
-                                <a href="#" class="d-flex align-items-center justify-content-between py-2 border-top">
-                                    <div class="d-inline-flex position-relative overflow-hidden">
-                                        <img src="../assets/images/client/07.jpg" class="avatar avatar-md-sm rounded-circle shadow" alt="">
-                                        <small class="text-dark mb-0 d-block text-truncat ms-3">You received a new email from <b>Calvin</b> <small class="text-muted fw-normal d-inline-block">2 day ago</small></small>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    </li>
-
-                    <li class="list-inline-item mb-0 ms-1">
-                        <div class="dropdown dropdown-primary">
-                            <button type="button" class="btn btn-pills btn-soft-primary dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="../assets/images/doctors/01.jpg" class="avatar avatar-ex-small rounded-circle" alt=""></button>
-                            <div class="dropdown-menu dd-menu dropdown-menu-end bg-white shadow border-0 mt-3 py-3" style="min-width: 200px;">
-                                <a class="dropdown-item d-flex align-items-center text-dark" href="https://shreethemes.in/doctris/layouts/admin/profile.html">
-                                    <img src="../assets/images/doctors/01.jpg" class="avatar avatar-md-sm rounded-circle border shadow" alt="">
-                                    <div class="flex-1 ms-2">
-                                        <span class="d-block mb-1">Calvin Carlo</span>
-                                        <small class="text-muted">Orthopedic</small>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item text-dark" href="index.html"><span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> Dashboard</a>
-                                <a class="dropdown-item text-dark" href="dr-profile.html"><span class="mb-0 d-inline-block me-1"><i class="uil uil-setting align-middle h6"></i></span> Profile Settings</a>
-                                <div class="dropdown-divider border-top"></div>
-                                <a class="dropdown-item text-dark" href="lock-screen.html"><span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Logout</a>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
+        <%@ include file="top.jsp"%>
 
         <div class="container-fluid">
             <div class="layout-specing">
                 <div class="d-md-flex justify-content-between">
-                    <h5 class="mb-0">Add New Doctor</h5>
+                    <h5 class="mb-0">Add New Airline</h5>
 
                     <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
                         <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
-                            <li class="breadcrumb-item"><a href="index.html">Doctris</a></li>
-                            <li class="breadcrumb-item"><a href="doctors.html">Doctors</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Add Doctor</li>
+                            <li class="breadcrumb-item"><a href="Dashboard.jsp">SkyTicket</a></li>
+                            <li class="breadcrumb-item"><a href="viewListAirlines.jsp">Airlines</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Add Airline</li>
                         </ul>
                     </nav>
                 </div>
@@ -323,126 +77,65 @@
                     <div class="col-lg-8 mt-4">
                         <div class="card border-0 p-4 rounded shadow">
                             <div class="row align-items-center">
-                                <div class="col-lg-2 col-md-4">
-                                    <img src="../assets/images/doctors/01.jpg" class="avatar avatar-md-md rounded-pill shadow mx-auto d-block" alt="">
+                                <div class="col-lg-5 col-md-4">
+                                    <img id="previewImage" src="../assets/images/doctors/demo_img.jpg" class="avatar rounded shadow mt-3" width="280">
+                                    <hr>
+                                    <input type="file" name="airlineImage" id="airlineImage" class="form-control">
                                 </div><!--end col-->
 
-                                <div class="col-lg-5 col-md-8 text-center text-md-start mt-4 mt-sm-0">
-                                    <h5 class="">Upload your picture</h5>
+                                <div class="col-lg-7 col-md-8 text-center text-md-start mt-4 mt-sm-0">
+                                    <h5 class="">Upload picture</h5>
                                     <p class="text-muted mb-0">For best results, use an image at least 600px by 600px in either .jpg or .png format</p>
                                 </div><!--end col-->
 
-                                <div class="col-lg-5 col-md-12 text-lg-end text-center mt-4 mt-lg-0">
-                                    <a href="#" class="btn btn-primary">Upload</a>
-                                    <a href="#" class="btn btn-soft-primary ms-2">Remove</a>
-                                </div><!--end col-->
+
                             </div><!--end row-->
 
                             <form class="mt-4">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label">First Name</label>
-                                            <input name="name" id="name" type="text" class="form-control" placeholder="First Name :">
+                                            <label class="form-label">Airline Name: </label>
+                                            <input name="name" id="name" type="text" class="form-control" placeholder="Airline name">
                                         </div>
                                     </div><!--end col-->
 
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label class="form-label">Last Name</label>
-                                            <input name="name" id="name2" type="text" class="form-control" placeholder="Last Name :">
-                                        </div>
-                                    </div><!--end col-->
+
 
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label">Your Email</label>
-                                            <input name="email" id="email" type="email" class="form-control" placeholder="Your email :">
-                                        </div>
-                                    </div><!--end col-->
-
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label class="form-label">Phone no.</label>
-                                            <input name="number" id="number" type="text" class="form-control" placeholder="Phone no. :">
-                                        </div>
-                                    </div><!--end col-->
-
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label class="form-label">Departments</label>
-                                            <select class="form-control department-name select2input">
-                                                <option value="EY">Eye Care</option>
-                                                <option value="GY">Gynecologist</option>
-                                                <option value="PS">Psychotherapist</option>
-                                                <option value="OR">Orthopedic</option>
-                                                <option value="DE">Dentist</option>
-                                                <option value="GA">Gastrologist</option>
-                                                <option value="UR">Urologist</option>
-                                                <option value="NE">Neurologist</option>
-                                            </select>
-                                        </div>
-                                    </div><!--end col-->
-
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label class="form-label">Gender</label>
+                                            <label class="form-label">Status</label>
                                             <select class="form-control gender-name select2input">
-                                                <option value="EY">Male</option>
-                                                <option value="GY">Female</option>
+                                                <option value="EY">Active</option>
+                                                <option value="GY">Deactive</option>
                                             </select>
                                         </div>
                                     </div><!--end col-->
 
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label">Instagram</label>
-                                            <div class="input-group flex-nowrap">
-                                                <span class="input-group-text bg-white border border-end-0 text-dark" id="insta-id"><i data-feather="instagram" class="fea icon-sm"></i></span>
-                                                <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="insta-id">
-                                            </div>
+                                            <label class="form-label">Capacity Class Vip: </label>
+                                            <input name="number" id="number" type="text" class="form-control" placeholder="Number of seat Vip">
                                         </div>
-                                    </div><!--end col-->
+                                    </div>
 
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label">Facebook</label>
-                                            <div class="input-group flex-nowrap">
-                                                <span class="input-group-text bg-white border border-end-0 text-dark" id="fb-id"><i data-feather="facebook" class="fea icon-sm"></i></span>
-                                                <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="fb-id">
-                                            </div>
+                                            <label class="form-label">Capacity Class Economy: </label>
+                                            <input name="number" id="number" type="text" class="form-control" placeholder="Number of seats economy">
                                         </div>
-                                    </div><!--end col-->
+                                    </div>
 
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label class="form-label">Linkedin</label>
-                                            <div class="input-group flex-nowrap">
-                                                <span class="input-group-text bg-white border border-end-0 text-dark" id="linke-pro"><i data-feather="linkedin" class="fea icon-sm"></i></span>
-                                                <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="linke-pro">
-                                            </div>
-                                        </div>
-                                    </div><!--end col-->
-
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label class="form-label">Twitter</label>
-                                            <div class="input-group flex-nowrap">
-                                                <span class="input-group-text bg-white border border-end-0 text-dark" id="twitter-id"><i data-feather="twitter" class="fea icon-sm"></i></span>
-                                                <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="twitter-id">
-                                            </div>
-                                        </div>
-                                    </div><!--end col-->
 
                                     <div class="col-md-12">
                                         <div class="mb-3">
-                                            <label class="form-label">Your Bio Here</label>
-                                            <textarea name="comments" id="comments" rows="3" class="form-control" placeholder="Bio :"></textarea>
+                                            <label class="form-label">Airline information</label>
+                                            <textarea name="comments" id="comments" rows="3" class="form-control" placeholder="Infor"></textarea>
                                         </div>
                                     </div>
                                 </div><!--end row-->
 
-                                <button type="submit" class="btn btn-primary">Add Doctor</button>
+                                <button type="submit" class="btn btn-primary">Add airline</button>
                             </form>
                         </div>
                     </div><!--end col-->
@@ -514,19 +207,7 @@
             </div>
         </div><!--end container-->
 
-        <!-- Footer Start -->
-        <footer class="bg-white shadow py-3">
-            <div class="container-fluid">
-                <div class="row align-items-center">
-                    <div class="col">
-                        <div class="text-sm-start text-center">
-                            <p class="mb-0 text-muted"><script>document.write(new Date().getFullYear())</script> © Doctris. Design with <i class="mdi mdi-heart text-danger"></i> by <a href="../../../index.html" target="_blank" class="text-reset">Shreethemes</a>.</p>
-                        </div>
-                    </div><!--end col-->
-                </div><!--end row-->
-            </div><!--end container-->
-        </footer><!--end footer-->
-        <!-- End -->
+        <%@include file="bottom.jsp"%>
     </main>
     <!--End page-content" -->
 </div>
@@ -694,7 +375,15 @@
 <!-- Main Js -->
 <script src="../assets/js/app.js"></script>
 
-
+<script>
+    document.getElementById('airlineImage').addEventListener('change', function(event) {
+        let reader = new FileReader();
+        reader.onload = function() {
+            document.getElementById('previewImage').src = reader.result;
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    });
+</script>
 
 </body>
 </html>
