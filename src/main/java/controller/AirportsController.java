@@ -1,6 +1,7 @@
 package controller;
 
-import dal.ListAirportsDAO;
+import dal.AirportsDAO;
+import dal.LocationsDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -18,7 +19,7 @@ public class AirportsController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");
-        ListAirportsDAO dao = new ListAirportsDAO();
+        AirportsDAO dao = new AirportsDAO();
         try(PrintWriter out = resp.getWriter()) {
             String service = req.getParameter("service");
             if(service == null) {
@@ -34,7 +35,7 @@ public class AirportsController extends HttpServlet {
                                 "JOIN locations b ON a.LocationId = b.LocationId\n" +
                                 "WHERE b.LocationName LIKE '%" + locate + "%'";
                     }
-                    List<Airports> listAirports = dao.getAllAirports(sql);
+                    List<Airports> listAirports = dao.getAllAirports();
                     req.setAttribute("airports", listAirports);
                     req.getRequestDispatcher("views/public/ListAirports.jsp").forward(req, resp);
 

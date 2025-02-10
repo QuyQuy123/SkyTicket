@@ -3,8 +3,11 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.example</groupId>
   <artifactId>SkyTicket</artifactId>
-  <packaging>war</packaging>
-  <version>1.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+    <modules>
+        <module>untitled</module>
+    </modules>
+    <version>1.0-SNAPSHOT</version>
   <name>SkyTicket Maven Webapp</name>
   <url>http://maven.apache.org</url>
   <dependencies>
@@ -17,7 +20,7 @@
     <dependency>
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
-      <version>8.0.41</version>
+      <version>8.0.33</version>
     </dependency>
       <dependency>
           <groupId>jakarta.servlet</groupId>

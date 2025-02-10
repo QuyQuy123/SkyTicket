@@ -10,11 +10,11 @@ public class Locations {
     public Locations() {
     }
 
-    public Locations(int locationId, int status, int countryId, String locationName) {
+    public Locations(int locationId, String locationName, int countryId, int status) {
         this.locationId = locationId;
-        this.status = status;
-        this.countryId = countryId;
         this.locationName = locationName;
+        this.countryId = countryId;
+        this.status = status;
     }
 
     public int getLocationId() {
@@ -49,9 +49,13 @@ public class Locations {
         this.locationName = locationName;
     }
 
-
-
-
-
-
+    @Override
+    public String toString() {
+        return "Locations{" +
+                "locationId=" + locationId +
+                ", locationName='" + locationName + '\'' +
+                ", countryId=" + countryId +
+                ", status=" + status +
+                '}';
+    }
 }
