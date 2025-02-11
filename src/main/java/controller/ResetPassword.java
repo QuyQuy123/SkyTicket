@@ -21,6 +21,11 @@ public class ResetPassword extends HttpServlet {
     }
 
     @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.getRequestDispatcher("views/public/ResetPassword.jsp").forward(req, resp);
+    }
+
+    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String email = req.getParameter("email");
         String resetCode = req.getParameter("resetCode");
@@ -35,7 +40,7 @@ public class ResetPassword extends HttpServlet {
             if (email != null) {
                 if (!accountDAO.checkEmailExists(email)) {
                     req.setAttribute("error", "Email không tồn tại trong hệ thống!");
-                    req.getRequestDispatcher("ResetPassword.jsp").forward(req, resp);
+                    req.getRequestDispatcher("views/public/ResetPassword.jsp").forward(req, resp);
                     return;
                 }
                 String verificationCode = generateVerificationCode();
@@ -46,7 +51,7 @@ public class ResetPassword extends HttpServlet {
                 System.out.println("Mã xác thực: " + verificationCode); // Debug
 
                 req.setAttribute("message", "Mã xác thực đã được gửi đến email của bạn!");
-                req.getRequestDispatcher("ResetPassword.jsp").forward(req, resp);
+                req.getRequestDispatcher("views/public/ResetPassword.jsp").forward(req, resp);
             }
 
             // Bước 2: Xác minh mã và đặt lại mật khẩu
@@ -56,12 +61,12 @@ public class ResetPassword extends HttpServlet {
 
                 if (storedCode == null || !storedCode.equals(resetCode)) {
                     req.setAttribute("error", "Mã xác thực không đúng!");
-                    req.getRequestDispatcher("ResetPassword.jsp").forward(req, resp);
+                    req.getRequestDispatcher("views/public/ResetPassword.jsp").forward(req, resp);
                     return;
                 }
                 if (!newPassword.equals(rePassword)) {
                     req.setAttribute("error", "Mật khẩu nhập lại không khớp!");
-                    req.getRequestDispatcher("ResetPassword.jsp").forward(req, resp);
+                    req.getRequestDispatcher("views/public/ResetPassword.jsp").forward(req, resp);
                     return;
                 }
 
@@ -69,10 +74,10 @@ public class ResetPassword extends HttpServlet {
                 if (updated) {
                     session.removeAttribute("resetCode");
                     session.removeAttribute("resetEmail");
-                    resp.sendRedirect("Login.jsp?message=Đặt lại mật khẩu thành công!");
+                    resp.sendRedirect("views/public/Login.jsp?message=Đặt lại mật khẩu thành công!");
                 } else {
                     req.setAttribute("error", "Có lỗi xảy ra, vui lòng thử lại!");
-                    req.getRequestDispatcher("ResetPassword.jsp").forward(req, resp);
+                    req.getRequestDispatcher("views/public/ResetPassword.jsp").forward(req, resp);
                 }
             }
         } catch (SQLException e) {

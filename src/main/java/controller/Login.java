@@ -15,6 +15,11 @@ import java.sql.SQLException;
 @WebServlet(name = "Login", urlPatterns = {"/LoginURL"})
 public class Login extends HttpServlet {
     @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.getRequestDispatcher("views/public/Login.jsp").forward(req, resp);
+    }
+
+    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
@@ -27,11 +32,11 @@ public class Login extends HttpServlet {
             if (account == null) {
                 error = "Tài khoản hoặc mật khẩu không đúng";
                 req.setAttribute("error", error);
-                req.getRequestDispatcher("Login.jsp").forward(req, resp);
+                req.getRequestDispatcher("/views/public/Login.jsp").forward(req, resp);
             } else {
                 HttpSession session = req.getSession();
                 session.setAttribute("account", account);
-                resp.sendRedirect("Home.jsp"); // Điều hướng đến trang chính sau khi đăng nhập thành công
+                resp.sendRedirect("controller/home");
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
