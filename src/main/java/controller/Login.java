@@ -36,7 +36,7 @@ public class Login extends HttpServlet {
             } else {
                 HttpSession session = req.getSession();
                 session.setAttribute("account", account);
-                resp.sendRedirect("controller/home");
+                resp.sendRedirect("home");
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

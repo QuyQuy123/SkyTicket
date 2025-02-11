@@ -1,3 +1,4 @@
+<%@ page import="model.Accounts" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -34,15 +35,15 @@
 
     <%
         // Lấy tên người dùng từ session
-        String username = (String) session.getAttribute("username");
+        Accounts account = (Accounts) session.getAttribute("account");
     %>
 
 
     <div class="auth-buttons">
-        <% if (username != null) { %>
+        <% if (account != null) { %>
         <!-- Nếu người dùng đã đăng nhập, hiển thị tên và nút đăng xuất -->
-        <span>Xin chào, <%= username %>!</span>
-        <button class="btn-logout" onclick="location.href='<%= request.getContextPath() %>/logout.jsp'">Đăng xuất
+        <span style="color: red">Xin chào, <%=account.getFullName() %>!</span>
+        <button class="btn-logout" onclick="location.href='<%= request.getContextPath() %>/LogoutURL'">Đăng xuất
         </button>
         <% } else { %>
         <!-- Nếu người dùng chưa đăng nhập, hiển thị nút đăng nhập và đăng ký -->
