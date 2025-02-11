@@ -66,7 +66,7 @@
                 <a href="javascript:void(0)"><i class="uil uil-user me-2 d-inline-block"></i>Airlines Management</a>
                 <div class="sidebar-submenu">
                     <ul>
-                        <li><a href="doctors.html">List of airlines</a></li>
+                        <li><a href="viewListAirlines.jsp">List of airlines</a></li>
                         <li><a href="addAirline.jsp">Add airline</a></li>
 
                     </ul>

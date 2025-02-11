@@ -5,6 +5,8 @@
  Time: 2:52 PM
  To change this template use File | Settings | File Templates.
 --%>
+
+
 <%@ page import="model.News" %>
 <%@ page import="dal.NewsDAO" %>
 <%@ page import="java.util.List" %>
@@ -15,9 +17,6 @@
 <%@ page import="model.Airports" %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<div class="fixed-header" style=";top: 0;left: 0;right: 0;bottom: 0;">
-    <jsp:include page="/views/layout/Header.jsp"/>
-</div>
 
 
 <!DOCTYPE html>
@@ -170,9 +169,12 @@
         }
 
     </style>
-
 </head>
 <body>
+
+<div class="fixed-header" style=";top: 0;left: 0;right: 0;bottom: 0;">
+    <jsp:include page="/views/layout/Header.jsp"/>
+</div>
 
 <%
     LocationsDAO locate = new LocationsDAO();
@@ -347,7 +349,7 @@
 </div>
 
 
---
+
 <div class="main-container" id="body-2">
 
     <div style="display: ${empty param.id ? '' : 'none'};margin: 60px 0">
@@ -389,7 +391,6 @@
     </div>
 
 </div>
-
 
 <jsp:include page="/views/layout/Footer.jsp"/>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.js"></script>
