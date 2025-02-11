@@ -1,43 +1,32 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Administrator
-  Date: 2/10/2025
-  Time: 1:51 PM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8"/>
     <title>SkyTicket - Airlines management</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Premium Bootstrap 4 Landing Page Template" />
-    <meta name="keywords" content="Appointment, Booking, System, Dashboard, Health" />
-    <meta name="author" content="Shreethemes" />
-    <meta name="email" content="support@shreethemes.in" />
-    <meta name="website" content="../../../index.html" />
-    <meta name="Version" content="v1.2.0" />
+    <meta name="description" content="Premium Bootstrap 4 Landing Page Template"/>
+    <meta name="keywords" content="Appointment, Booking, System, Dashboard, Health"/>
+    <meta name="author" content="Shreethemes"/>
+    <meta name="email" content="support@shreethemes.in"/>
+    <meta name="website" content="${pageContext.request.contextPath}/views/admin/jsp/Dashboard.jsp"/>
+    <meta name="Version" content="v1.2.0"/>
     <!-- favicon -->
-    <link rel="shortcut icon" href="../assets/images/favicon.ico.png">
+    <link rel="shortcut icon" href="${pageContext.request.contextPath}/views/admin/assets/images/favicon.ico.png">
     <!-- Bootstrap -->
-    <link href="../assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="${pageContext.request.contextPath}/views/admin/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
     <!-- simplebar -->
-    <link href="../assets/css/simplebar.css" rel="stylesheet" type="text/css" />
-    <!-- Select2 -->
-    <link href="../assets/css/select2.min.css" rel="stylesheet" />
-    <!-- Date picker -->
-    <link rel="stylesheet" href="../assets/css/flatpickr.min.css">
-    <link href="../assets/css/jquery.timepicker.min.css" rel="stylesheet" type="text/css" />
+    <link href="${pageContext.request.contextPath}/views/admin/assets/css/simplebar.css" rel="stylesheet" type="text/css"/>
     <!-- Icons -->
-    <link href="../assets/css/materialdesignicons.min.css" rel="stylesheet" type="text/css" />
-    <link href="../assets/css/remixicon.css" rel="stylesheet" type="text/css" />
-    <link href="https://unicons.iconscout.com/release/v3.0.6/css/line.css"  rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/views/admin/assets/css/materialdesignicons.min.css" rel="stylesheet" type="text/css"/>
+    <link href="${pageContext.request.contextPath}/views/admin/assets/css/remixicon.css" rel="stylesheet" type="text/css"/>
+    <link href="https://unicons.iconscout.com/release/v3.0.6/css/line.css" rel="stylesheet">
     <!-- Css -->
-    <link href="../assets/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
+    <link href="${pageContext.request.contextPath}/views/admin/assets/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt"/>
 
 </head>
 
@@ -58,210 +47,186 @@
 
     <!-- Start Page Content -->
     <main class="page-content bg-light">
-        <%@ include file="top.jsp" %>
+        <%@include file="top.jsp" %>
+
 
         <div class="container-fluid">
             <div class="layout-specing">
+                <div class="d-md-flex justify-content-between">
+                    <h5 class="mb-0">Airports List</h5>
+
+                    <div class="search-bar p-0 d-none d-md-block ms-2">
+                        <div id="search" class="menu-search mb-0">
+                            <form role="search" method="get" id="searchform" class="searchform">
+                                <div>
+                                    <input type="text" class="form-control border rounded-pill" name="s" id="s"
+                                           placeholder="Search Airlines...">
+                                    <input type="submit" id="searchsubmit" value="Search">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="ms-2">
+                        <select id="statusFilter" class="form-select border rounded-pill">
+                            <option value="">All</option>
+                            <option value="1">Active</option>
+                            <option value="0">Deactive</option>
+                        </select>
+                    </div>
+
+                    <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
+                        <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
+                            <li class="breadcrumb-item"><a href="index.jsp">SkyTicket</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">List Airlines</li>
+                        </ul>
+                    </nav>
+                </div>
+
                 <div class="row">
-                    <div class="col-xl-9 col-md-6">
-                        <h5 class="mb-0">Airlines </h5>
+                    <div class="col-12 mt-4">
+                        <div class="table-responsive shadow rounded">
+                            <table class="table table-bordered bg-white mb-0 text-center align-middle">
+                                <thead>
+                                <tr>
+                                    <th class="border-bottom 1">ID</th>
+                                    <th class="border-bottom p-1">Airline image</th>
+                                    <th class="border-bottom p-1">Airline name</th>
+                                    <th class="border-bottom p-1">Status</th>
+                                    <th class="border-bottom p-1">Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <c:choose>
+                                    <c:when test="${not empty listAirlines}">
+                                        <c:forEach var="airline" items="${listAirlines}">
+                                            <tr>
+                                                <td class="p-1">${airline.airlineId}</td>
+                                                <td class="p-1">
+                                                    <img src="${pageContext.request.contextPath}/uploads/${airline.imageName}"
+                                                         alt="Airline Image" class="img-fluid rounded"
+                                                         style="width: 250px; height: 150px;">
 
-                        <nav aria-label="breadcrumb" class="d-inline-block mt-2">
-                            <ul class="breadcrumb breadcrumb-muted bg-transparent rounded mb-0 p-0">
-                                <li class="breadcrumb-item"><a href="index.html">SkyTicket</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Airlines</li>
-                            </ul>
-                        </nav>
-                    </div><!--end col-->
+                                                </td>
+                                                <td class="p-1">${airline.airlineName}</td>
+                                                <td class="p-1">
+                                                    <c:choose>
+                                                        <c:when test="${airline.status == 1}">
+                                                            <span class="text-success fw-bold">Active</span>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <span class="text-danger fw-bold">Deactive</span>
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </td>
+                                                <td class=" p-1">
+                                                    <a href="#" class="btn btn-icon btn-sm btn-soft-primary"><i
+                                                            class="uil uil-eye"></i></a>
+                                                    <a href="#" class="btn btn-icon btn-sm btn-soft-success"><i
+                                                            class="uil uil-pen"></i></a>
 
-                    <div class="col-xl-3 col-md-6 mt-4 mt-md-0 text-md-end">
-                        <a href="addAirline.jsp" class="btn btn-primary">Add New Airline</a>
-                    </div><!--end col-->
-                </div><!--end row-->
+                                                    <c:choose>
+                                                        <c:when test="${airline.status == 0}">
+                                                            <!-- Nút khôi phục -->
+                                                            <a href="javascript:void(0);"
+                                                               onclick="confirmRestore(${airline.airlineId})"
+                                                               class="btn btn-icon btn-sm btn-soft-success">
+                                                                <i class="uil uil-redo"></i> <!-- Icon hồi phục -->
+                                                            </a>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <!-- Nút xóa (vô hiệu hóa) -->
+                                                            <a href="javascript:void(0);"
+                                                               onclick="confirmDelete(${airline.airlineId})"
+                                                               class="btn btn-icon btn-sm btn-soft-danger">
+                                                                <i class="uil uil-trash"></i>
+                                                            </a>
+                                                        </c:otherwise>
+                                                    </c:choose>
 
-                <div class="row row-cols-md-2 row-cols-lg-5">
-                    <div class="col mt-4">
-                        <div class="card team border-0 rounded shadow overflow-hidden">
-                            <div class="team-img position-relative">
-                                <img src="../assets/images/doctors/01.jpg" class="img-fluid" alt="">
-                                <ul class="list-unstyled team-social mb-0">
-                                    <li><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="facebook" class="icons"></i></a></li>
-                                    <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="linkedin" class="icons"></i></a></li>
-                                    <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="instagram" class="icons"></i></a></li>
-                                    <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="twitter" class="icons"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="card-body content text-center">
-                                <a href="dr-profile.html" class="title text-dark h5 d-block mb-0">Calvin Carlo</a>
-                                <small class="text-muted speciality">Eye Care</small>
-                            </div>
+                                                    <script>
+                                                        function confirmDelete(id) {
+                                                            if (confirm("Are you sure you want to deactivate this airline?")) {
+
+                                                                let urlParams = new URLSearchParams(window.location.search);
+                                                                let currentPage = urlParams.get("page") || 1; // Nếu không có thì mặc định là trang 1
+
+                                                                fetch('${pageContext.request.contextPath}/deleteAirline', {
+                                                                    method: 'POST',
+                                                                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                                                                    body: 'action=deactivate&id=' + id
+                                                                }).then(response => {
+                                                                    if (response.ok) {
+                                                                        alert("Airline is deactivated!");
+                                                                        //location.reload();
+                                                                        window.location.href = "${pageContext.request.contextPath}/listAirlines?page=" + currentPage;
+                                                                    } else {
+                                                                        alert("Error! Try again!!!");
+                                                                    }
+                                                                }).catch(error => console.error("Error: ", error));
+                                                            }
+                                                        }
+
+                                                        function confirmRestore(id) {
+                                                            if (confirm("Are you sure you want to restore this airline?")) {
+
+                                                                let urlParams = new URLSearchParams(window.location.search);
+                                                                let currentPage = urlParams.get("page") || 1;
+
+                                                                fetch('${pageContext.request.contextPath}/deleteAirline', {
+                                                                    method: 'POST',
+                                                                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                                                                    body: 'action=restore&id=' + id
+                                                                }).then(response => {
+                                                                    if (response.ok) {
+                                                                        alert("Airline restore successfully!!");
+                                                                        window.location.href = "${pageContext.request.contextPath}/listAirlines?page=" + currentPage;
+                                                                    } else {
+                                                                        alert("Error! Try again!!!");
+                                                                    }
+                                                                }).catch(error => console.error("Error: ", error));
+                                                            }
+                                                        }
+                                                    </script>
+
+
+                                                </td>
+                                            </tr>
+                                        </c:forEach>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <tr>
+                                            <td colspan="5" class="text-center p-3">Airline is empty!</td>
+                                        </tr>
+                                    </c:otherwise>
+                                </c:choose>
+                                </tbody>
+                            </table>
+
                         </div>
-                    </div><!--end col-->
-
-                    <div class="col mt-4">
-                        <div class="card team border-0 rounded shadow overflow-hidden">
-                            <div class="team-img position-relative">
-                                <img src="../assets/images/doctors/02.jpg" class="img-fluid" alt="">
-                                <ul class="list-unstyled team-social mb-0">
-                                    <li><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="facebook" class="icons"></i></a></li>
-                                    <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="linkedin" class="icons"></i></a></li>
-                                    <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="instagram" class="icons"></i></a></li>
-                                    <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="twitter" class="icons"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="card-body content text-center">
-                                <a href="dr-profile.html" class="title text-dark h5 d-block mb-0">Cristino Murphy</a>
-                                <small class="text-muted speciality">Gynecology</small>
-                            </div>
-                        </div>
-                    </div><!--end col-->
-
-                    <div class="col mt-4">
-                        <div class="card team border-0 rounded shadow overflow-hidden">
-                            <div class="team-img position-relative">
-                                <img src="../assets/images/doctors/03.jpg" class="img-fluid" alt="">
-                                <ul class="list-unstyled team-social mb-0">
-                                    <li><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="facebook" class="icons"></i></a></li>
-                                    <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="linkedin" class="icons"></i></a></li>
-                                    <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="instagram" class="icons"></i></a></li>
-                                    <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="twitter" class="icons"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="card-body content text-center">
-                                <a href="dr-profile.html" class="title text-dark h5 d-block mb-0">Alia Reddy</a>
-                                <small class="text-muted speciality">Psychotherapy</small>
-                            </div>
-                        </div>
-                    </div><!--end col-->
-
-                    <div class="col mt-4">
-                        <div class="card team border-0 rounded shadow overflow-hidden">
-                            <div class="team-img position-relative">
-                                <img src="../assets/images/doctors/04.jpg" class="img-fluid" alt="">
-                                <ul class="list-unstyled team-social mb-0">
-                                    <li><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="facebook" class="icons"></i></a></li>
-                                    <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="linkedin" class="icons"></i></a></li>
-                                    <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="instagram" class="icons"></i></a></li>
-                                    <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="twitter" class="icons"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="card-body content text-center">
-                                <a href="dr-profile.html" class="title text-dark h5 d-block mb-0">Toni Kovar</a>
-                                <small class="text-muted speciality">Orthopedic</small>
-                            </div>
-                        </div>
-                    </div><!--end col-->
-
-                    <div class="col mt-4">
-                        <div class="card team border-0 rounded shadow overflow-hidden">
-                            <div class="team-img position-relative">
-                                <img src="../assets/images/doctors/05.jpg" class="img-fluid" alt="">
-                                <ul class="list-unstyled team-social mb-0">
-                                    <li><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="facebook" class="icons"></i></a></li>
-                                    <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="linkedin" class="icons"></i></a></li>
-                                    <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="instagram" class="icons"></i></a></li>
-                                    <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="twitter" class="icons"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="card-body content text-center">
-                                <a href="dr-profile.html" class="title text-dark h5 d-block mb-0">Jessica McFarlane</a>
-                                <small class="text-muted speciality">Dentist</small>
-                            </div>
-                        </div>
-                    </div><!--end col-->
-
-                    <div class="col mt-4">
-                        <div class="card team border-0 rounded shadow overflow-hidden">
-                            <div class="team-img position-relative">
-                                <img src="../assets/images/doctors/06.jpg" class="img-fluid" alt="">
-                                <ul class="list-unstyled team-social mb-0">
-                                    <li><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="facebook" class="icons"></i></a></li>
-                                    <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="linkedin" class="icons"></i></a></li>
-                                    <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="instagram" class="icons"></i></a></li>
-                                    <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="twitter" class="icons"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="card-body content text-center">
-                                <a href="dr-profile.html" class="title text-dark h5 d-block mb-0">Elsie Sherman</a>
-                                <small class="text-muted speciality">Gastrologist</small>
-                            </div>
-                        </div>
-                    </div><!--end col-->
-
-                    <div class="col mt-4">
-                        <div class="card team border-0 rounded shadow overflow-hidden">
-                            <div class="team-img position-relative">
-                                <img src="../assets/images/doctors/07.jpg" class="img-fluid" alt="">
-                                <ul class="list-unstyled team-social mb-0">
-                                    <li><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="facebook" class="icons"></i></a></li>
-                                    <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="linkedin" class="icons"></i></a></li>
-                                    <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="instagram" class="icons"></i></a></li>
-                                    <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="twitter" class="icons"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="card-body content text-center">
-                                <a href="dr-profile.html" class="title text-dark h5 d-block mb-0">Bertha Magers</a>
-                                <small class="text-muted speciality">Urologist</small>
-                            </div>
-                        </div>
-                    </div><!--end col-->
-
-                    <div class="col mt-4">
-                        <div class="card team border-0 rounded shadow overflow-hidden">
-                            <div class="team-img position-relative">
-                                <img src="../assets/images/doctors/08.jpg" class="img-fluid" alt="">
-                                <ul class="list-unstyled team-social mb-0">
-                                    <li><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="facebook" class="icons"></i></a></li>
-                                    <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="linkedin" class="icons"></i></a></li>
-                                    <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="instagram" class="icons"></i></a></li>
-                                    <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="twitter" class="icons"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="card-body content text-center">
-                                <a href="dr-profile.html" class="title text-dark h5 d-block mb-0">Louis Batey</a>
-                                <small class="text-muted speciality">Neurologist</small>
-                            </div>
-                        </div>
-                    </div><!--end col-->
-
-                    <div class="col mt-4">
-                        <div class="card team border-0 rounded shadow overflow-hidden">
-                            <div class="team-img position-relative">
-                                <img src="../assets/images/doctors/09.jpg" class="img-fluid" alt="">
-                                <ul class="list-unstyled team-social mb-0">
-                                    <li><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="facebook" class="icons"></i></a></li>
-                                    <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="linkedin" class="icons"></i></a></li>
-                                    <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="instagram" class="icons"></i></a></li>
-                                    <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="twitter" class="icons"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="card-body content text-center">
-                                <a href="dr-profile.html" class="title text-dark h5 d-block mb-0">Julie Rosario</a>
-                                <small class="text-muted speciality">Psychotherapy</small>
-                            </div>
-                        </div>
-                    </div><!--end col-->
-
-                    <div class="col mt-4">
-                        <div class="card team border-0 rounded shadow overflow-hidden">
-                            <div class="team-img position-relative">
-                                <img src="../assets/images/doctors/10.jpg" class="img-fluid" alt="">
-                                <ul class="list-unstyled team-social mb-0">
-                                    <li><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="facebook" class="icons"></i></a></li>
-                                    <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="linkedin" class="icons"></i></a></li>
-                                    <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="instagram" class="icons"></i></a></li>
-                                    <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="twitter" class="icons"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="card-body content text-center">
-                                <a href="dr-profile.html" class="title text-dark h5 d-block mb-0">Scott Guzman</a>
-                                <small class="text-muted speciality">Nutritionists</small>
-                            </div>
-                        </div>
-                    </div><!--end col-->
-                </div><!--end row-->
+                    </div>
+                </div>
             </div>
-        </div><!--end container-->
+        </div>
+        <!--end container-->
+
+        <!--phân trang-->
+        <div class="d-flex justify-content-center mt-3">
+            <div class="pagination">
+                <c:if test="${currentPage > 1}">
+                    <a href="${pageContext.request.contextPath}/listAirlines?page=1" class="btn btn-outline-primary">First</a>
+                    <a href="${pageContext.request.contextPath}/listAirlines?page=${currentPage - 1}" class="btn btn-outline-primary">Previous</a>
+                </c:if>
+
+                <span class="btn btn-primary">${currentPage} / ${totalPages}</span>
+
+                <c:if test="${currentPage < totalPages}">
+                    <a href="${pageContext.request.contextPath}/listAirlines?page=${currentPage + 1}" class="btn btn-outline-primary">Next</a>
+                    <a href="${pageContext.request.contextPath}/listAirlines?page=${totalPages}" class="btn btn-outline-primary">Last</a>
+                </c:if>
+            </div>
+        </div>
+
 
         <!-- Footer Start -->
         <%@include file="bottom.jsp" %>
@@ -271,60 +236,16 @@
 </div>
 <!-- page-wrapper -->
 
-<!-- Offcanvas Start -->
-<div class="offcanvas offcanvas-end bg-white shadow" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-    <div class="offcanvas-header p-4 border-bottom">
-        <h5 id="offcanvasRightLabel" class="mb-0">
-            <img src="../assets/images/logo-dark.png" height="24" class="light-version" alt="">
-            <img src="../assets/images/logo-light.png" height="24" class="dark-version" alt="">
-        </h5>
-        <button type="button" class="btn-close d-flex align-items-center text-dark" data-bs-dismiss="offcanvas" aria-label="Close"><i class="uil uil-times fs-4"></i></button>
-    </div>
-    <div class="offcanvas-body p-4 px-md-5">
-        <div class="row">
-            <div class="col-12">
-                <!-- Style switcher -->
-                <div id="style-switcher">
-                    <div>
-                        <ul class="text-center list-unstyled mb-0">
-                            <li class="d-grid"><a href="javascript:void(0)" class="rtl-version t-rtl-light" onclick="setTheme('style-rtl')"><img src="../assets/images/layouts/light-dash-rtl.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">RTL Version</span></a></li>
-                            <li class="d-grid"><a href="javascript:void(0)" class="ltr-version t-ltr-light" onclick="setTheme('style')"><img src="../assets/images/layouts/light-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">LTR Version</span></a></li>
-                            <li class="d-grid"><a href="javascript:void(0)" class="dark-rtl-version t-rtl-dark" onclick="setTheme('style-dark-rtl')"><img src="../assets/images/layouts/dark-dash-rtl.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">RTL Version</span></a></li>
-                            <li class="d-grid"><a href="javascript:void(0)" class="dark-ltr-version t-ltr-dark" onclick="setTheme('style-dark')"><img src="../assets/images/layouts/dark-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">LTR Version</span></a></li>
-                            <li class="d-grid"><a href="javascript:void(0)" class="dark-version t-dark mt-4" onclick="setTheme('style-dark')"><img src="../assets/images/layouts/dark-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">Dark Version</span></a></li>
-                            <li class="d-grid"><a href="javascript:void(0)" class="light-version t-light mt-4" onclick="setTheme('style')"><img src="../assets/images/layouts/light-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">Light Version</span></a></li>
-                            <li class="d-grid"><a href="../landing/index.html" target="_blank" class="mt-4"><img src="../assets/images/layouts/landing-light.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">Landing Demos</span></a></li>
-                        </ul>
-                    </div>
-                </div>
-                <!-- end Style switcher -->
-            </div><!--end col-->
-        </div><!--end row-->
-    </div>
-
-    <div class="offcanvas-footer p-4 border-top text-center">
-        <ul class="list-unstyled social-icon mb-0">
-            <li class="list-inline-item mb-0"><a href="https://1.envato.market/doctris-template" target="_blank" class="rounded"><i class="uil uil-shopping-cart align-middle" title="Buy Now"></i></a></li>
-            <li class="list-inline-item mb-0"><a href="https://dribbble.com/shreethemes" target="_blank" class="rounded"><i class="uil uil-dribbble align-middle" title="dribbble"></i></a></li>
-            <li class="list-inline-item mb-0"><a href="https://www.facebook.com/shreethemes" target="_blank" class="rounded"><i class="uil uil-facebook-f align-middle" title="facebook"></i></a></li>
-            <li class="list-inline-item mb-0"><a href="https://www.instagram.com/shreethemes/" target="_blank" class="rounded"><i class="uil uil-instagram align-middle" title="instagram"></i></a></li>
-            <li class="list-inline-item mb-0"><a href="https://twitter.com/shreethemes" target="_blank" class="rounded"><i class="uil uil-twitter align-middle" title="twitter"></i></a></li>
-            <li class="list-inline-item mb-0"><a href="mailto:support@shreethemes.in" class="rounded"><i class="uil uil-envelope align-middle" title="email"></i></a></li>
-            <li class="list-inline-item mb-0"><a href="../../../index.html" target="_blank" class="rounded"><i class="uil uil-globe align-middle" title="website"></i></a></li>
-        </ul><!--end icon-->
-    </div>
-</div>
-<!-- Offcanvas End -->
 
 <!-- javascript -->
-<script src="../assets/js/bootstrap.bundle.min.js"></script>
+<script src="${pageContext.request.contextPath}/views/admin/assets/js/bootstrap.bundle.min.js"></script>
 <!-- simplebar -->
-<script src="../assets/js/simplebar.min.js"></script>
+<script src="${pageContext.request.contextPath}/views/admin/assets/js/simplebar.min.js"></script>
 <!-- Icons -->
-<script src="../assets/js/feather.min.js"></script>
+<script src="${pageContext.request.contextPath}/views/admin/assets/js/feather.min.js"></script>
 <!-- Main Js -->
-<script src="../assets/js/app.js"></script>
-
+<script src="${pageContext.request.contextPath}/views/admin/assets/js/app.js"></script>
 
 </body>
+
 </html>

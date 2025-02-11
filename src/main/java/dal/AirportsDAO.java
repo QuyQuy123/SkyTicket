@@ -95,13 +95,16 @@ public class AirportsDAO extends DBConnect {
 //        }else
 //            System.out.println("Insertion failed");
         //  3. Test lấy danh sách tất cả sân bay
-//        List<Airports> airportList = dao.getAllAirports();
-//        System.out.println(" Danh sách sân bay:");
-//        for (Airports airport : airportList) {
-//            System.out.println("ID: " + airport.getAirportId() +
-//                    ", Name: " + airport.getAirportName() +
-//                    ", Location ID: " + airport.getLocationId() +
-//                    ", Status: " + airport.getStatus());
-//        }
+        List<Airports> airportList = dao.getAllAirports();
+        System.out.println(" Danh sách sân bay:");
+        for (Airports airport : airportList) {
+            System.out.println("ID: " + airport.getAirportId() +
+                    ", Name: " + airport.getAirportName() +
+                    ", Location ID: " + airport.getLocationId() +
+                    ", Status: " + airport.getStatus());
+        }
+
+
+
     }
 }
