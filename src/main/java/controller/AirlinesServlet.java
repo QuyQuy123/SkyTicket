@@ -56,7 +56,6 @@ public class AirlinesServlet extends HttpServlet {
         AirlinesDAO airlineDAO = new AirlinesDAO();
         boolean success = airlineDAO.addAirline(airline);
 
-        re
         if (success) {
             session.setAttribute("msg", "Airline added successfully");
             response.sendRedirect(request.getContextPath() +"/views/admin/jsp/addAirline.jsp");
