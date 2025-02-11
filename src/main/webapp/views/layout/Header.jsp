@@ -22,7 +22,7 @@
 
     <nav class="nav">
         <a href="<%= request.getContextPath() %>">TRANG CHỦ</a>
-        <a href="#">GIỚI THIỆU</a>
+        <a href="IntroURL">GIỚI THIỆU</a>
 <%--        <a href="#">VÉ NỘI ĐỊA</a>--%>
 <%--        <a href="#">VÉ QUỐC TẾ</a>--%>
         <a href="NewsURL">TIN TỨC</a>
