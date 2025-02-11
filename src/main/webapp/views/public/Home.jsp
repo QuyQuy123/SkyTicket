@@ -183,7 +183,7 @@
 
 <div class="background">
     <div class="flight-form ">
-    <form id="input-form" action="flightTickets" method="GET" class="row g-1" onsubmit="return validateLocations(event)">
+    <form id="input-form" action="SearchFlightsURL" method="GET" class="row g-1" onsubmit="return validateLocations(event)">
         <div class="form-container" style="margin: 0 auto">
             <div class="row form-input">
                 <div style="display: flex;">
@@ -210,26 +210,30 @@
                         <p style="color: black; margin: 0; font-size: 12px">FROM</p>
                         <input type="text" value="Hà Nội" readonly style="height: 100%;font-size: 18px" class="form-control" id="fromDisplay" onclick="showLocationList('from')" oninput="filterLocations('from')" placeholder="FROM" required >
                         <input type="hidden" value="1" id="from" name="departure">
-
-<%--                        --%><%--                        --%>
-
                         <div id="from-locations" class="location-list" style="margin-top: 88px;margin-left: 85px;width: 300px;height: 300px">
+                            <input type="text" id="searchLocation1" onkeyup="filterLocations(even)"
+                                   placeholder="Tìm kiếm địa điểm..."
+                                   style="width: 100%; padding: 8px; margin-bottom: 10px; font-size: 14px;">
+
                             <%
                                 for(Locations lo : locate.getAllLocation()) {
                                     for(Airports ai : airport.getAllAirports()){
                                         if(ai.getLocationId() == lo.getLocationId()){
                             %>
                             <div class="location-item" onclick="selectLocation('<%= ai.getAirportId() %>', '<%= lo.getLocationName() %>', 'from')">
-                                                <span style="font-weight: bold; font-size: 16px; color: black;">
-                                                    <%= lo.getLocationName() %>
-                                                </span></br>
-                                <span style="font-size: 14px; color: grey; filter: blur(1%);">
-                                                    <%= ai.getAirportName() %>
-                                                </span>
+                                <span class="location-name" style="font-weight: bold; font-size: 16px; color: black;">
+                                    <%= lo.getLocationName() %>
+                                </span></br>
+                                <span class="airport-name" style="font-size: 14px; color: grey; filter: blur(1%);">
+                                    <%= ai.getAirportName() %>
+                                </span>
                             </div>
                             <% } } } %>
                         </div>
+
                     </div>
+
+
 
                     <!-- To Field -->
                     <div class="col-md-2" style="padding-right: 0px">
@@ -237,18 +241,23 @@
                         <input type="text" value="TP. Hồ Chí Minh" readonly style="height: 100%;font-size: 18px" class="form-control" id="toDisplay" onclick="showLocationList('to')" oninput="filterLocations('to')" placeholder="TO" required>
                         <input type="hidden" value="2" id="to" name="destination">
                         <div id="to-locations" class="location-list" style="margin-top: 88px;margin-left: 260px;width: 300px;height: 300px">
+
+                            <input type="text" id="searchLocation2" onkeyup="filterLocations(even)"
+                                   placeholder="Tìm kiếm địa điểm..."
+                                   style="width: 100%; padding: 8px; margin-bottom: 10px; font-size: 14px;">
+
                             <%
                                 for(Locations lo : locate.getAllLocation()) {
                                     for(Airports ai : airport.getAllAirports()){
                                         if(ai.getLocationId() == lo.getLocationId()){
                             %>
                             <div class="location-item" onclick="selectLocation('<%= ai.getAirportId() %>', '<%= lo.getLocationName() %>', 'to')">
-                                                <span style="font-weight: bold; font-size: 16px; color: black;">
+                                <span class="location-name" style="font-weight: bold; font-size: 16px; color: black;">
                                                     <%= lo.getLocationName() %>
-                                                </span></br>
-                                <span style="font-size: 14px; color: grey; filter: blur(1%);">
+                                </span></br>
+                                <span class="airport-name" style="font-size: 14px; color: grey; filter: blur(1%);">
                                                     <%= ai.getAirportName() %>
-                                                </span>
+                                </span>
                             </div>
                             <% } } } %>
                         </div>
@@ -259,9 +268,9 @@
                         <p style="color: black; margin: 0; font-size: 12px">DEPART</p>
                         <input type="text" class="form-control" id="departureDate" name="departureDate" style="height: 100%;font-size: 18px;" placeholder="dd-mm-yyyy" onkeydown="return false;" required >
                     </div>
-                    <div class="col-md-2" id="returnDateField" style="display:none;padding-right: 0px">
+                    <div class="col-md-2" id="returnDateField" style="display:none;padding-right: 0px" >
                         <p style="color: black; margin: 0; font-size: 12px">RETURN</p>
-                        <input type="text" id="returnDate" class="form-control" name="returnDate" style="height: 100%;font-size: 18px;" placeholder="dd-mm-yyyy" onkeydown="return false;">
+                        <input type="text" id="returnDate" class="form-control" name="returnDate" style="height: 100%;font-size: 18px;" autocomplete="off" required  placeholder="dd-mm-yyyy" onkeydown="return false;">
                     </div>
 
                     <!-- Passengers Field -->
