@@ -13,9 +13,10 @@ body, html {
     position: relative;
     background-image: url('../img/anh_bia.png');
     margin-top: 0px;
-    /*animation: changeBackground 240s infinite;*/
+    /*animation: changeBackground 35s infinite;*/
     /*animation-play-state: running;*/
 }
+
 
 /**/
 #introduction {
@@ -84,10 +85,10 @@ body, html {
         background-image: url('../img/anh_bia2.png');
     }
     50% {
-        background-image: url('../img/anh_bia3.png');
+        background-image: url('../img/anh_bia.png');
     }
     75% {
-        background-image: url('../img/anh_bia4.png');
+        background-image: url('../img/anh_bia2.png');
     }
     100% {
         background-image: url('../img/anh_bia.png');

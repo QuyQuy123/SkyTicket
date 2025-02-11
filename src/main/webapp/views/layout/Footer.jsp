@@ -19,8 +19,8 @@
 <footer class="footer">
     <h3>Đặt vé máy bay, thật đơn giản.</h3>
     <p>Tải ngay ứng dụng để trải nghiệm đặt vé nhanh chóng và dễ dàng nhất chỉ trong 1 phút!</p>
-    <hr>
-    <div class="content">
+<hr style="margin-bottom: 5px ;margin-top: 15px ;opacity: 0.6">
+    <div class="content" id="contactSection">
         <div class="column">
             <h4>SKY TICKET</h4>
             <a href="#">Tin tức</a>

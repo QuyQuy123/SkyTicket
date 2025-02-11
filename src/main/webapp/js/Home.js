@@ -4,11 +4,18 @@
 function viewNews(newsId) {
     window.location.href = 'NewsURL?id=' + newsId;
 }
+
 const passengersInput = document.getElementById('passengers');
 const adultCountInput = document.getElementById('adult-count');
 const childCountInput = document.getElementById('child-count');
 const infantCountInput = document.getElementById('infant-count');
 const passengerOptionsDiv = document.getElementById('passenger-options');
+
+//
+
+
+
+
 
 // Function to update total passengers
 function updateTotalPassengers() {
@@ -17,86 +24,61 @@ function updateTotalPassengers() {
     const infants = parseInt(infantCountInput.value) || 0;
     const totalPassengers = adults + children + infants;
     passengersInput.value = totalPassengers;
-    // Validation checks
+
     if (infants > adults) {
         alert("The number of infants cannot exceed the number of adults.");
-        infantCountInput.value = adults; // Adjust infants to equal adults
+        infantCountInput.value = adults;
         passengersInput.value -= 1;
         return;
     }
 
     if (totalPassengers > 10) {
         alert("Total passengers cannot exceed 10.");
-        passengersInput.value = 10; // Set to max allowed
-        return; // Stop further processing
+        passengersInput.value = 10;
+        return;
     }
-
-    // If the total reaches 10, lock the ability to add more passengers
-    if (totalPassengers === 10) {
-        const remainingSpots = 10 - (adults + children + infants);
-        adultCountInput.max = adults; // Prevent increasing adults
-        childCountInput.max = children; // Prevent increasing children
-        infantCountInput.max = infants; // Prevent increasing infants
-    } else {
-        // Allow to increase if total passengers < 10
-        adultCountInput.max = Math.min(10 - (children + infants), 10);
-        childCountInput.max = Math.min(10 - (adults + infants), 9); // Assume max 9 children
-        infantCountInput.max = Math.min(10 - (adults + children), 5); // Assume max 5 infants
-    }
-
 }
 
 adultCountInput.addEventListener('input', updateTotalPassengers);
 childCountInput.addEventListener('input', updateTotalPassengers);
 infantCountInput.addEventListener('input', updateTotalPassengers);
 
-// Show passenger options when the main input is focused
-passengersInput.addEventListener('focus', () => {
+// Show passenger options when clicking on the input
+passengersInput.addEventListener('click', function (event) {
+    event.stopPropagation();
     passengerOptionsDiv.style.display = 'block';
 });
 
-
-// Show options when focusing on the main input
-passengersInput.addEventListener('focus', () => {
-    passengerOptionsDiv.style.display = "block";
+passengerOptionsDiv.addEventListener('click', function (event) {
+    event.stopPropagation();
 });
 
-// Hide options when clicking outside the input and options
-document.addEventListener('click', (event) => {
-    const isClickInsideOptions = passengerOptionsDiv.contains(event.target);
-    const isClickOnInput = event.target === passengersInput;
-
-    if (!isClickInsideOptions && !isClickOnInput) {
-        passengerOptionsDiv.style.display = "none"; // Hide if click is outside
+// Hide options when clicking outside
+document.addEventListener('click', function (event) {
+    if (!passengerOptionsDiv.contains(event.target) && event.target !== passengersInput) {
+        passengerOptionsDiv.style.display = 'none';
     }
 });
 
 function showLocationList(inputId) {
-    // Hide all location lists first
     hideAllLocationLists();
-
-    // Display the current location list for the clicked input
     document.getElementById(inputId + '-locations').style.display = 'block';
 }
 
 function hideAllLocationLists() {
-    // Get all location lists and hide them
-    const locationLists = document.querySelectorAll('.location-list');
-    locationLists.forEach(list => {
+    document.querySelectorAll('.location-list').forEach(list => {
         list.style.display = 'none';
     });
 }
 
 function selectLocation(locationId, displayText, inputId) {
-    // Set the visible input value to the selected location - airport text
     document.getElementById(inputId + 'Display').value = displayText;
-
-    // Set the hidden input value to the selected locationId
     document.getElementById(inputId).value = locationId;
-
-    // Hide the location list after selection
     document.getElementById(inputId + '-locations').style.display = 'none';
 }
+
+// Other existing functions remain unchanged...
+
 
 // Filter locations based on input value
 function filterLocations(type) {
@@ -179,7 +161,8 @@ $(document).ready(function () {
 
     // Initialize datepicker for departureDate
     $('#departureDate').datepicker({
-        format: 'yyyy-mm-dd', // Custom date format
+        format: 'dd-mm-yyyy',
+        // format: 'yyyy-mm-dd', // Custom date format
         autoclose: true, // Automatically close the calendar after picking a date
         todayHighlight: true, // Highlight today's date
         orientation: 'bottom auto', // Ensure the calendar pops up below the input
@@ -199,7 +182,7 @@ $(document).ready(function () {
 
     // Initialize datepicker for returnDate
     $('#returnDate').datepicker({
-        format: 'yyyy-mm-dd', // Custom date format
+        format: 'dd-mm-yyyy', // Custom date format
         autoclose: true, // Automatically close the calendar after picking a date
         todayHighlight: true, // Highlight today's date
         orientation: 'bottom auto', // Ensure the calendar pops up below the input
@@ -209,7 +192,12 @@ $(document).ready(function () {
 
 // Call toggleReturnDate on page load to handle default states
 document.addEventListener('DOMContentLoaded', toggleReturnDate);
-
+document.addEventListener("DOMContentLoaded", function () {
+    // Kiểm tra nếu URL có chứa "#contactSection"
+    if (window.location.hash === "#contactSection") {
+        document.getElementById("contactSection").scrollIntoView({ behavior: "smooth" });
+    }
+});
 // Ensure to bind the toggleReturnDate to the radio buttons' change event
 document.getElementById("oneWay").addEventListener('change', toggleReturnDate);
 document.getElementById("roundTrip").addEventListener('change', toggleReturnDate);

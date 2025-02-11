@@ -3,8 +3,12 @@
   <component name="WebContextManager">
     <option name="state">
       <map>
+<<<<<<< HEAD
         <entry key="file://$PROJECT_DIR$/src/main/webapp/views/admin/jsp/Dashboard.jsp" value="file://$PROJECT_DIR$/src/main/webapp/views/admin/jsp" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/views/public/News.jsp" value="file://$PROJECT_DIR$/src/main/webapp/views/public" />
+=======
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/views/public/Home.jsp" value="file://$PROJECT_DIR$/src/main/webapp/views/public" />
+>>>>>>> 9fd76d3 (update home)
       </map>
     </option>
   </component>
