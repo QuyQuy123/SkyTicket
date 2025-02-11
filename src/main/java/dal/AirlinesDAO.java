@@ -16,12 +16,13 @@ public class AirlinesDAO extends DBConnect {
             while (rs.next()) {
                 list.add(new Airlines(
                         rs.getInt("airlineId"),
-                        rs.getInt("ClassEconomyCapacity"),
-                        rs.getInt("ClassVipCapacity"),
-                        rs.getString("information"),
-                        rs.getString("image"),
                         rs.getString("airlineName"),
-                        rs.getInt("status")
+                        rs.getString("imageName"),
+                        rs.getString("imagePath"),
+                        rs.getString("information"),
+                        rs.getInt("status"),
+                        rs.getInt("ClassVipCapacity"),
+                        rs.getInt("ClassEconomyCapacity")
                 ));
             }
         } catch (SQLException e) {
@@ -39,12 +40,13 @@ public class AirlinesDAO extends DBConnect {
                 if (rs.next()) {
                     return new Airlines(
                             rs.getInt("airlineId"),
-                            rs.getInt("ClassEconomyCapacity"),
-                            rs.getInt("ClassVipCapacity"),
-                            rs.getString("information"),
-                            rs.getString("image"),
                             rs.getString("airlineName"),
-                            rs.getInt("status")
+                            rs.getString("imageName"),
+                            rs.getString("imagePath"),
+                            rs.getString("information"),
+                            rs.getInt("status"),
+                            rs.getInt("ClassVipCapacity"),
+                            rs.getInt("ClassEconomyCapacity")
                     );
                 }
             }
@@ -56,14 +58,15 @@ public class AirlinesDAO extends DBConnect {
 
     // Thêm hãng hàng không mới
     public boolean addAirline(Airlines airline) {
-        String query = "INSERT INTO Airlines (airlineName, image, information, status, ClassVipCapacity, ClassEconomyCapacity) VALUES (?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO Airlines (airlineName, imageName, imagePath, information, status, ClassVipCapacity, ClassEconomyCapacity) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setString(1, airline.getAirlineName());
-            ps.setString(2, airline.getImage());
-            ps.setString(3, airline.getInformation());
-            ps.setInt(4, airline.getStatus());
-            ps.setInt(5, airline.getClassVipCapacity());
-            ps.setInt(6, airline.getClassEconomyCapacity());
+            ps.setString(2, airline.getImageName());
+            ps.setString(3, airline.getImagePath());
+            ps.setString(4, airline.getInformation());
+            ps.setInt(5, airline.getStatus());
+            ps.setInt(6, airline.getClassVipCapacity());
+            ps.setInt(7, airline.getClassEconomyCapacity());
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -73,15 +76,16 @@ public class AirlinesDAO extends DBConnect {
 
     // Cập nhật thông tin hãng hàng không
     public boolean updateAirline(Airlines airline) {
-        String query = "UPDATE Airlines SET airlineName=?, image=?, information=?, status=?, ClassVipCapacity=?, ClassEconomyCapacity=? WHERE airlineId=?";
+        String query = "UPDATE Airlines SET airlineName=?, imageName=?, imagePath=?, information=?, status=?, ClassVipCapacity=?, ClassEconomyCapacity=? WHERE airlineId=?";
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setString(1, airline.getAirlineName());
-            ps.setString(2, airline.getImage());
-            ps.setString(3, airline.getInformation());
-            ps.setInt(4, airline.getStatus());
-            ps.setInt(5, airline.getClassVipCapacity());
-            ps.setInt(6, airline.getClassEconomyCapacity());
-            ps.setInt(7, airline.getAirlineId());
+            ps.setString(2, airline.getImageName());
+            ps.setString(3, airline.getImagePath());
+            ps.setString(4, airline.getInformation());
+            ps.setInt(5, airline.getStatus());
+            ps.setInt(6, airline.getClassVipCapacity());
+            ps.setInt(7, airline.getClassEconomyCapacity());
+            ps.setInt(8, airline.getAirlineId());
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();

@@ -7,6 +7,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import model.Airports;
 
 import java.io.IOException;
@@ -18,26 +19,25 @@ import java.util.List;
 public class AirportsController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession();
         resp.setContentType("text/html");
         AirportsDAO dao = new AirportsDAO();
         try(PrintWriter out = resp.getWriter()) {
-            String service = req.getParameter("service");
-            if(service == null) {
-                service = "listAll";
-            }
+            String service = "listAll";
+
             if(service.equals("listAll")) {
                     String submit = req.getParameter("submit");
                     String sql = "select * from airports";
                     if(submit != null) {
-                        String locate = req.getParameter("airport");
+                        String locate = req.getParameter("airportName");
                         sql = "SELECT * \n" +
-                                "FROM airports a \n" +
-                                "JOIN locations b ON a.LocationId = b.LocationId\n" +
+                                "FROM airports \n" +
                                 "WHERE b.LocationName LIKE '%" + locate + "%'";
                     }
-                    List<Airports> listAirports = dao.getAllAirports();
-                    req.setAttribute("airports", listAirports);
-                    req.getRequestDispatcher("views/public/ListAirports.jsp").forward(req, resp);
+                    List<Airports> listAirports = dao.getAllAirportsHieu(sql);
+                    session.setAttribute("airports", listAirports);
+                   resp.sendRedirect(req.getContextPath() + "/views/admin/jsp/viewListAirports.jsp");
+                   // req.getRequestDispatcher("/views/admin/jsp/viewListAirports.jsp").forward(req, resp);
 
             }
         }

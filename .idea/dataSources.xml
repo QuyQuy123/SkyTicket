@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="skyticket@localhost" uuid="78a204e4-b509-46a9-a408-865cd3ba7151">
+    <data-source source="LOCAL" name="skyticket@localhost" uuid="e2953981-00a5-45fe-b4ac-385eb233545d">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>

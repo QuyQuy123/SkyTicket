@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -35,7 +36,7 @@
     <!-- SLIDER -->
     <link href="../assets/css/tiny-slider.css" rel="stylesheet"/>
     <!-- Css -->
-    <link href="../assets/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt"/>
+    <link href="${pageContext.request.contextPath}/views/admin/assets/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt"/>
 
 </head>
 

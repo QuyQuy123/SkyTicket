@@ -3,34 +3,35 @@ package model;
 public class Airlines {
     private int airlineId;
     private String airlineName;
-    private String image;
+    private String imageName;
+    private String imagePath;
     private String information;
     private int status;
     private int ClassVipCapacity;
     private int ClassEconomyCapacity;
 
-
     public Airlines() {
     }
 
-    public Airlines(String airlineName, String image, String information, int status, int classVipCapacity, int classEconomyCapacity) {
+    public Airlines(String airlineName, String imageName, String imagePath, String information, int status, int classVipCapacity, int classEconomyCapacity) {
         this.airlineName = airlineName;
-        this.image = image;
+        this.imageName = imageName;
+        this.imagePath = imagePath;
         this.information = information;
         this.status = status;
         ClassVipCapacity = classVipCapacity;
         ClassEconomyCapacity = classEconomyCapacity;
     }
 
-
-    public Airlines(int airlineId, int classEconomyCapacity, int classVipCapacity, String information, String image, String airlineName, int status) {
+    public Airlines(int airlineId, String airlineName, String imageName, String imagePath, String information, int status, int classVipCapacity, int classEconomyCapacity) {
         this.airlineId = airlineId;
-        ClassEconomyCapacity = classEconomyCapacity;
-        ClassVipCapacity = classVipCapacity;
-        this.information = information;
-        this.image = image;
         this.airlineName = airlineName;
+        this.imageName = imageName;
+        this.imagePath = imagePath;
+        this.information = information;
         this.status = status;
+        ClassVipCapacity = classVipCapacity;
+        ClassEconomyCapacity = classEconomyCapacity;
     }
 
     public int getAirlineId() {
@@ -49,12 +50,20 @@ public class Airlines {
         this.airlineName = airlineName;
     }
 
-    public String getImage() {
-        return image;
+    public String getImageName() {
+        return imageName;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 
     public String getInformation() {
@@ -65,20 +74,20 @@ public class Airlines {
         this.information = information;
     }
 
-    public int getClassVipCapacity() {
-        return ClassVipCapacity;
-    }
-
-    public void setClassVipCapacity(int classVipCapacity) {
-        ClassVipCapacity = classVipCapacity;
-    }
-
     public int getStatus() {
         return status;
     }
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public int getClassVipCapacity() {
+        return ClassVipCapacity;
+    }
+
+    public void setClassVipCapacity(int classVipCapacity) {
+        ClassVipCapacity = classVipCapacity;
     }
 
     public int getClassEconomyCapacity() {
@@ -89,3 +98,5 @@ public class Airlines {
         ClassEconomyCapacity = classEconomyCapacity;
     }
 }
+
+
