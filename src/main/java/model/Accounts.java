@@ -97,4 +97,20 @@ public class Accounts {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    @Override
+    public String toString() {
+        return "Accounts{" +
+                "accountId=" + accountId +
+                ", fullName='" + fullName + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", address='" + address + '\'' +
+                ", img='" + img + '\'' +
+                ", dob=" + dob +
+                ", roleId=" + roleId +
+                ", status=" + status +
+                '}';
+    }
 }
