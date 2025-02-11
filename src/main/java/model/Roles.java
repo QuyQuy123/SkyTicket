@@ -29,4 +29,13 @@ public class Roles {
     public void setRoleName(String roleName) {
         this.roleName = roleName;
     }
+
+
+    @Override
+    public String toString() {
+        return "Roles{" +
+                "roleId=" + roleId +
+                ", roleName='" + roleName + '\'' +
+                '}';
+    }
 }

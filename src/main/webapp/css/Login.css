@@ -1,56 +1,102 @@
-body, html {
-    margin: 0;
+:root {
+    --flyezyMainColor: rgb(60, 110, 87);
+}
+
+* {
     padding: 0;
-    font-family: Arial, sans-serif;
-    height: 100%;
-    background-image: url('../img/anh_bia.png');
+    margin: 0;
+    box-sizing: border-box;
 }
 
-.login-box {
-    margin: 80px 0 80px 550px;
-    border: 1px solid gray;
-    border-radius: 10px;
-    height: 450px;
-    width: 400px;
-    backface-visibility: hidden;
-    text-align: center;
-    background-color: rgba(0, 0, 0, 0.3);
-}
-.login-content input {
-    margin: 10px 0;
-}
-.login-input {
-    width: 80%;
-}
-.login-submit {
-    border: 1px solid orange;
-    border-radius: 5px;
-    background: orange;
-    width: 120px;
-    height: 30px;
+body {
+    /*background-image: url("../img/logo.jpg");*/
+    font-family: "Reddit Sans", sans-serif;
 }
 
-.reset-code {
-    width: 268px;
-}
-.reset-submit {
-    background: orange;
-    width: 60px;
-    height: 25px;
-}
-.reset-email {
-    width: 250px;
-}
-.reset-label {
-    color: yellow;
-    font-size: 12px;
-}
-.toggle-password {
-    cursor: pointer;
+label {
     position: absolute;
-    margin-left: -30px;
-    margin-top: 10px;
+    padding: 0 5px;
+    left: 10px;
+    top: 50%;
+    pointer-events: none; /*not covered when focusing input*/
+    transform: translateY(-50%);
+    background-color: white;
+    transition: all 0.3s ease-in-out;
 }
 
+.container {
+    display: inline-block;
+    background-color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 50px;
+    border-radius: 3%;
+}
 
+.form-group {
+    position: relative;
+    margin-bottom: 15px;
+}
 
+.form-group input {
+    height: 50px;
+    width: 300px;
+    outline: none;
+    border: 1px solid #aaa;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: inherit;
+    color: black;
+}z
+
+ .form-group input:focus {
+     border: 2px solid var(--flyezyMainColor);
+ }
+
+.form-group input:focus + label,
+.form-group input:valid + label {
+    top: 0px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--flyezyMainColor);
+}
+
+#forgetPassword {
+    float: right;
+    text-decoration: none;
+    color: var(--flyezyMainColor);
+}
+
+.capslock-warning {
+    margin-bottom: 16px;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.button input {
+    padding: 15px 0;
+    width: 100%;
+    border-radius: 5px;
+    color: white;
+    background-color: var(--flyezyMainColor);
+    border: 1px solid white;
+    font-size: inherit;
+    cursor: pointer
+}
+
+.button input:hover{
+    opacity:0.7
+}
+
+.letDoIt {
+    text-decoration: none;
+    color: var(--flyezyMainColor);
+}
+
+#wrongAccount {
+    margin-bottom: 20px;
+    font-size: 15px;
+    font-weight: 600;
+}

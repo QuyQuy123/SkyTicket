@@ -328,24 +328,25 @@
 <div class="main-container">
     <div id="introduction">
         <h1 style="font-size: 30px">Welcome to SkyTicket!</h1>
-        <p style="font-size: 16px">New space, new feeling - Book your ticket now to start your journey.</p>
+        <p style="font-size: 16px">Embark on a new adventure – Book your ticket now and explore the world!</p>
     </div>
 
     <div id="promotion">
         <div class="promotion-item row">
             <div class="col-md-6">
-                <img src="<%= request.getContextPath() %>/img/news_bamboo_1.jpg" alt="">
+                <img style="transform: rotateY(180deg);" src="<%= request.getContextPath() %>/img/tong_dai.jpg" alt="">
             </div>
             <div class="col-md-6">
                 <h3>Attractive offers</h3>
                 <p>
-                    SkyTicket is committed to providing reasonable fares, many transportation options and attractive promotions. The 24/7 customer care team is always ready to support to bring the best experience to you.
+                    SkyTicket is committed to providing reasonable fares, many transportation options and attractive promotions.
+                    The 24/7 customer care team is always ready to support to bring the best experience to you.
                 </p>
             </div>
         </div>
         <div class="promotion-item row">
             <div class="col-md-6">
-                <img src="<%= request.getContextPath() %>/img/news_bamboo_1.jpg" alt="">
+                <img src="<%= request.getContextPath() %>/img/news_bamboo_2.jpg" alt="">
             </div>
             <div class="col-md-6">
                 <h3>Peaceful discovery</h3>

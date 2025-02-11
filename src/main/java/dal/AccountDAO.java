@@ -8,6 +8,66 @@ import java.sql.SQLException;
 import java.util.Date;
 
 public class AccountDAO extends DBConnect {
+
+
+    public Accounts getAccountsById(int id) {
+        String sql = "SELECT * FROM Accounts WHERE AccountId = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, id);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                Accounts a = new Accounts(rs.getInt("AccountId"),
+                        rs.getString("FullName"),
+                        rs.getString("Email"),
+                        rs.getString("Password"),
+                        rs.getString("Phone"),
+                        rs.getString("Address"),
+                        rs.getString("Img"),
+                        rs.getDate("Dob"),
+                        rs.getInt("Status"),
+                        rs.getInt("RoleId"));
+                return a;
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+
+
+    public int getIdByEmailOrPhoneNumber(String emailOrPhoneNumber) {
+        String sql = "SELECT AccountId FROM Accounts WHERE Email = ? OR Phone = ?";
+        int userId = -1;
+
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
+
+            st.setString(1, emailOrPhoneNumber);
+            st.setString(2, emailOrPhoneNumber);
+
+            ResultSet rs = st.executeQuery();
+
+            if (rs.next()) {
+                userId = rs.getInt("AccountId");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return userId;
+    }
+
+
+
+    //Test method
+    public static void main(String[] args) {
+        AccountDAO dao = new AccountDAO();
+        int a = dao.getIdByEmailOrPhoneNumber("admin@example.com");
+        System.out.println(a);
+    }
+
+
+    // Phần này nên tạo riêng 1 DAO lưu các method phía dưới
     public Accounts getLogin(String username, String password) throws SQLException {
         Accounts accounts = null;  // Để mặc định là null
         String sql = "SELECT * FROM accounts WHERE (Phone=? OR Email=?) AND Password=?";
@@ -73,7 +133,5 @@ public class AccountDAO extends DBConnect {
         }
     }
 
-    public static void main(String[] args) {
 
-    }
 }
