@@ -2,7 +2,6 @@ package controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Paths;
 
 import dal.AirlinesDAO;
 import jakarta.servlet.ServletException;
@@ -12,13 +11,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import model.Airlines;
 
-@WebServlet("/airlines")
+@WebServlet("/addAirline")
 @MultipartConfig(
         fileSizeThreshold = 1024 * 1024 * 2, // 2MB
         maxFileSize = 1024 * 1024 * 10,      // 10MB
         maxRequestSize = 1024 * 1024 * 50    // 50MB
 )
-public class AirlinesServlet extends HttpServlet {
+public class AirlinesAddServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private static final String UPLOAD_DIR = "uploads";
 
@@ -34,7 +33,7 @@ public class AirlinesServlet extends HttpServlet {
     // Giới hạn 16MB
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
+        //HttpSession session = request.getSession();
         String airlineName = request.getParameter("name");
         String information = request.getParameter("information");
         int classVip = Integer.parseInt(request.getParameter("classVip"));
@@ -57,9 +56,9 @@ public class AirlinesServlet extends HttpServlet {
         boolean success = airlineDAO.addAirline(airline);
 
         if (success) {
-            session.setAttribute("msg", "Airline added successfully");
-            response.sendRedirect(request.getContextPath() +"/views/admin/jsp/addAirline.jsp");
-            //request.getRequestDispatcher( "/views/admin/jsp/addAirline.jsp").forward(request, response);
+            request.setAttribute("msg", "Airline added successfully");
+            //response.sendRedirect(request.getContextPath() +"/views/admin/jsp/addAirline.jsp");
+            request.getRequestDispatcher( "/views/admin/jsp/addAirline.jsp").forward(request, response);
         } else {
             response.sendRedirect("error.jsp"); // Điều hướng nếu thất bại
         }
