@@ -52,7 +52,24 @@ public class AirportsDAO extends DBConnect {
         return n;
     }
 
-    public List<Airports> getAllAirports(String sql){
+    public List<Airports> getAllAirports(){
+        String sql = "select * from airports";
+        List<Airports> list = new ArrayList<>();
+        try(PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+            while(rs.next()){
+                Airports airports = new Airports();
+                airports.setAirportId(rs.getInt("AirportId"));
+                airports.setAirportName(rs.getString("AirportName"));
+                airports.setLocationId(rs.getInt("LocationId"));
+                airports.setStatus(rs.getInt("Status"));
+                list.add(airports);
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return list;
+    }
+    public List<Airports> getAllAirportsHieu(String sql){
         List<Airports> list = new ArrayList<>();
         try(PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
             while(rs.next()){
@@ -71,11 +88,20 @@ public class AirportsDAO extends DBConnect {
 
     public static void main(String[] args) {
         AirportsDAO dao = new AirportsDAO();
-        Airports ap = new Airports(7,1, 7, "Phú Quốc International Airports");
-        int n = dao.insertAirport(ap);
-        if(n > 0){
-            System.out.println("Inserted " + n + " airports");
-        }else
-            System.out.println("Insertion failed");
+//        Airports ap = new Airports(7,1, 7, "Phú Quốc International Airports");
+//        int n = dao.insertAirport(ap);
+//        if(n > 0){
+//            System.out.println("Inserted " + n + " airports");
+//        }else
+//            System.out.println("Insertion failed");
+        //  3. Test lấy danh sách tất cả sân bay
+//        List<Airports> airportList = dao.getAllAirports();
+//        System.out.println(" Danh sách sân bay:");
+//        for (Airports airport : airportList) {
+//            System.out.println("ID: " + airport.getAirportId() +
+//                    ", Name: " + airport.getAirportName() +
+//                    ", Location ID: " + airport.getLocationId() +
+//                    ", Status: " + airport.getStatus());
+//        }
     }
 }
