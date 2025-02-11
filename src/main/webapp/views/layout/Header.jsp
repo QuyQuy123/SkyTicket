@@ -46,8 +46,8 @@
         </button>
         <% } else { %>
         <!-- Nếu người dùng chưa đăng nhập, hiển thị nút đăng nhập và đăng ký -->
-        <button class="btn-login" onclick="location.href='<%= request.getContextPath() %>/views/public/Login.jsp'">Đăng nhập</button>
-        <button class="btn-register" onclick="location.href='<%= request.getContextPath() %>/views/public/Register.jsp'">Đăng ký
+        <button class="btn-login" onclick="location.href='<%= request.getContextPath() %>/LoginURL'">Đăng nhập</button>
+        <button class="btn-register" onclick="location.href='<%= request.getContextPath() %>/RegisterURL'">Đăng ký
         </button>
         <% } %>
     </div>
