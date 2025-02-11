@@ -13,10 +13,6 @@ const passengerOptionsDiv = document.getElementById('passenger-options');
 
 //
 
-
-
-
-
 // Function to update total passengers
 function updateTotalPassengers() {
     const adults = parseInt(adultCountInput.value) || 0;
@@ -104,6 +100,28 @@ function filterLocations(type) {
         locationList.style.display = 'none';
     }
 }
+
+
+//
+function filterLocations() {
+    var input = document.getElementById("searchLocation");
+    var filter = input.value.toLowerCase();
+    var items = document.getElementsByClassName("location-item");
+
+    for (var i = 0; i < items.length; i++) {
+        var locationName = items[i].getElementsByClassName("location-name")[0].innerText.toLowerCase();
+        var airportName = items[i].getElementsByClassName("airport-name")[0].innerText.toLowerCase();
+
+        if (locationName.includes(filter) || airportName.includes(filter)) {
+            items[i].style.display = "";
+        } else {
+            items[i].style.display = "none";
+        }
+    }
+}
+
+
+
 
 
 // Hide the list if the user clicks outside of the input or list

@@ -78,7 +78,7 @@
                     Management</a>
                 <div class="sidebar-submenu">
                     <ul>
-                        <li><a href="patients.html">List of airports</a></li>
+                        <li><a href="controller/AirportsController.java">List of airports</a></li>
                         <li><a href="add-patient.html">Add airport</a></li>
 
                     </ul>

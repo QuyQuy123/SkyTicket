@@ -1,3 +1,4 @@
+<%@ page import="model.Accounts" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -22,7 +23,7 @@
 
     <nav class="nav">
         <a href="<%= request.getContextPath() %>">TRANG CHỦ</a>
-        <a href="#">GIỚI THIỆU</a>
+        <a href="IntroURL">GIỚI THIỆU</a>
 <%--        <a href="#">VÉ NỘI ĐỊA</a>--%>
 <%--        <a href="#">VÉ QUỐC TẾ</a>--%>
         <a href="NewsURL">TIN TỨC</a>
@@ -34,20 +35,20 @@
 
     <%
         // Lấy tên người dùng từ session
-        String username = (String) session.getAttribute("username");
+        Accounts account = (Accounts) session.getAttribute("account");
     %>
 
 
     <div class="auth-buttons">
-        <% if (username != null) { %>
+        <% if (account != null) { %>
         <!-- Nếu người dùng đã đăng nhập, hiển thị tên và nút đăng xuất -->
-        <span>Xin chào, <%= username %>!</span>
-        <button class="btn-logout" onclick="location.href='<%= request.getContextPath() %>/logout.jsp'">Đăng xuất
+        <span style="color: red">Xin chào, <%=account.getFullName() %>!</span>
+        <button class="btn-logout" onclick="location.href='<%= request.getContextPath() %>/LogoutURL'">Đăng xuất
         </button>
         <% } else { %>
         <!-- Nếu người dùng chưa đăng nhập, hiển thị nút đăng nhập và đăng ký -->
-        <button class="btn-login" onclick="location.href='<%= request.getContextPath() %>/views/public/Login.jsp'">Đăng nhập</button>
-        <button class="btn-register" onclick="location.href='<%= request.getContextPath() %>/views/public/Register.jsp'">Đăng ký
+        <button class="btn-login" onclick="location.href='<%= request.getContextPath() %>/LoginURL'">Đăng nhập</button>
+        <button class="btn-register" onclick="location.href='<%= request.getContextPath() %>/RegisterURL'">Đăng ký
         </button>
         <% } %>
     </div>
