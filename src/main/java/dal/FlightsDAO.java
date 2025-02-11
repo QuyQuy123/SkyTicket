@@ -1,10 +1,13 @@
 package dal;
 
+import model.Airports;
 import model.Flights;
 
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -32,8 +35,52 @@ public class FlightsDAO extends DBConnect {
         return n;
     }
 
+//    public List<Airports> getAllAirports(String sql){
+//        List<Airports> list = new ArrayList<>();
+//        try(PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+//            while(rs.next()){
+//                Airports airports = new Airports();
+//                airports.setAirportId(rs.getInt("AirportId"));
+//                airports.setAirportName(rs.getString("AirportName"));
+//                airports.setLocationId(rs.getInt("LocationId"));
+//                airports.setStatus(rs.getInt("Status"));
+//                list.add(airports);
+//            }
+//        }catch (SQLException e){
+//            e.printStackTrace();
+//        }
+//        return list;
+//    }
+    public List<Flights> getAllFlights(String sql) {
+        List<Flights> list = new ArrayList<>();
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Flights flights1 = new Flights();
+                flights1.setFlightId(rs.getInt("FlightId"));
+                flights1.setArrivalTime(rs.getDate("ArrivalTime"));
+                flights1.setDepartureTime(rs.getDate("DepartureTime"));
+                flights1.setArrivalAirportId(rs.getInt("ArrivalAirportId"));
+                flights1.setDepartureAirportId(rs.getInt("DepartureAirportId"));
+                flights1.setStatus(rs.getString("Status"));
+                flights1.setAirlineId(rs.getInt("AirlineId"));
+                flights1.setClassVipPrice(rs.getDouble("ClassVipPrice"));
+                flights1.setClassEconomyPrice(rs.getDouble("ClassEconomyPrice"));
+                list.add(flights1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return list;
+    }
+
     public static void main(String[] args) {
         FlightsDAO dao = new FlightsDAO();
+//        List <Flights> fl = dao.getAllFlights("select * from flights");
+//        for (Flights fl1 : fl) {
+//            System.out.println(fl);
+//        }
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
         try {
