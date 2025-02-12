@@ -34,11 +34,10 @@
     <link href="${pageContext.request.contextPath}/views/admin/assets/css/materialdesignicons.min.css" rel="stylesheet" type="text/css"/>
     <link href="${pageContext.request.contextPath}/views/admin/assets/css/remixicon.css" rel="stylesheet" type="text/css"/>
     <link href="https://unicons.iconscout.com/release/v3.0.6/css/line.css" rel="stylesheet">
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
     <!-- Css -->
     <link href="${pageContext.request.contextPath}/views/admin/assets/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt"/>
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
     <style>
         .btn-gradient {
             background: linear-gradient(45deg, #ff416c, #ff4b2b);
@@ -74,16 +73,18 @@
     <main class="page-content bg-light">
         <%@ include file="top.jsp" %>
 
+        <c:set var="airl" value="${airline}" />
+
         <div class="container-fluid">
             <div class="layout-specing">
                 <div class="d-md-flex justify-content-between">
-                    <h5 class="mb-0">Add New Airline</h5>
+                    <h5 class="mb-0">Update Airline ID: ${airl.airlineId}</h5>
 
                     <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
                         <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
                             <li class="breadcrumb-item"><a href="Dashboard.jsp">SkyTicket</a></li>
-                            <li class="breadcrumb-item"><a href="viewListAirlines.jsp">Airlines</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Add Airline</li>
+                            <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/listAirlines">Airlines</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Update Airline</li>
                         </ul>
                     </nav>
                 </div>
@@ -91,17 +92,16 @@
                 <div class="row">
                     <div class="col-lg-8 mt-4">
                         <div class="card border-0 p-4 rounded shadow">
-
                             <c:if test="${not empty msg}">
                                 <div style="color: green; font-weight: bold;">
                                         ${msg}
                                 </div>
                             </c:if>
 
-                            <form class="mt-4" action="${pageContext.request.contextPath}/addAirline" method="post" enctype="multipart/form-data">
+                            <form class="mt-4" action="${pageContext.request.contextPath}/updateAirline" method="post" enctype="multipart/form-data">
                                 <div class="row align-items-center">
                                     <div class="col-lg-5 col-md-4">
-                                        <img id="previewImage" src="${pageContext.request.contextPath}/views/admin/assets/images/doctors/demo_img.jpg"
+                                        <img id="previewImage" src="${pageContext.request.contextPath}/img/${airl.image}"
                                              class="avatar rounded shadow mt-3" width="280" alt="Airline Image">
                                         <hr>
                                         <input type="file" name="airlineImage" id="airlineImage" class="form-control">
@@ -124,7 +124,7 @@
                                             <label class="form-label">Airline Name: </label>
                                             <label for="name"></label><input name="name" id="name" type="text"
                                                                              class="form-control"
-                                                                             placeholder="Airline name">
+                                                                             value="${airl.airlineName != null? airl.airlineName:''}">
                                         </div>
                                     </div><!--end col-->
 
@@ -133,11 +133,12 @@
                                         <div class="mb-3">
                                             <label class="form-label">Status</label>
                                             <select class="form-control gender-name select2input" name="status">
-                                                <option value="1">Active</option>
-                                                <option value="0" selected>Deactive</option>
+                                                <option value="1" ${airl.status == 1 ? 'selected' : ''}>Active</option>
+                                                <option value="0" ${airl.status == 0 ? 'selected' : ''}>Deactive</option>
                                             </select>
                                         </div>
                                     </div><!--end col-->
+
 
                                     <div class="col-md-6">
                                         <div class="mb-3">
@@ -145,7 +146,7 @@
                                             <label for="classVip"></label><input name="classVip" id="classVip"
                                                                                  type="number" min="10" max="50"
                                                                                  class="form-control"
-                                                                                 placeholder="Number of seat Vip">
+                                                                                 value="${airl.classVipCapacity != null? airl.classVipCapacity:''}">
                                         </div>
                                     </div>
 
@@ -156,7 +157,7 @@
                                                                                      id="classEconomy" type="number"
                                                                                      min="10" max="50"
                                                                                      class="form-control"
-                                                                                     placeholder="Number of seats economy">
+                                                                                     value="${airl.classEconomyCapacity != null? airl.classEconomyCapacity:''}">
                                         </div>
                                     </div>
 
@@ -164,16 +165,16 @@
                                     <div class="col-md-12">
                                         <div class="mb-3">
                                             <label class="form-label">Airline information</label>
-                                            <label for="information"></label><textarea name="information"
-                                                                                       id="information" rows="3"
-                                                                                       class="form-control"
-                                                                                       placeholder="Infor"></textarea>
+                                            <label for="information"></label>
+                                            <textarea name="information" id="information" rows="3" class="form-control">${airl.information != null ? airl.information : ''}</textarea>
+
                                         </div>
                                     </div>
                                 </div><!--end row-->
 
-                                <button type="submit" class="btn btn-primary">Add airline</button>
-                                <button type="reset" class="btn btn-primary">Reset</button>
+                                <button type="submit" class="btn btn-primary">Update airline</button>
+                                <a href="${pageContext.request.contextPath}/listAirlines" class="btn btn-danger">Cancel</a>
+
                             </form>
                         </div>
                     </div><!--end col-->
@@ -201,9 +202,6 @@
                                 </li>
                             </ul>
                         </div>
-
-
-
                     </div>
                 </div><!--end row-->
             </div>

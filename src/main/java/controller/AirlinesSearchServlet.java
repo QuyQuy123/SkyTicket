@@ -12,18 +12,28 @@ import model.Airlines;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/listAirlines")
-public class AirlinesListServlet extends HttpServlet {
 
-    private static final int RECORDS_PER_PAGE = 5; // Số lượng bản ghi mỗi trang
+@WebServlet("/searchAirlines") // Định danh Servlet tại URL "/template"
+public class AirlinesSearchServlet extends HttpServlet {
+
+    private static final int RECORDS_PER_PAGE = 5;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-
         AirlinesDAO airlinesDAO = new AirlinesDAO();
 
+        String searchKeyword = request.getParameter("search");
+        String statusParam = request.getParameter("status");
+
+        Integer status = null;
+        if (statusParam != null && !statusParam.isEmpty()) {
+            try {
+                status = Integer.parseInt(statusParam);
+            } catch (NumberFormatException e) {
+                status = null;
+            }
+        }
 
         // Xác định trang hiện tại
         int page = 1;
@@ -35,14 +45,17 @@ public class AirlinesListServlet extends HttpServlet {
         int start = (page - 1) * RECORDS_PER_PAGE;
 
         // Lấy danh sách airlines theo trang
-        List<Airlines> listAirlines = airlinesDAO.getAirlinesByPage(start, RECORDS_PER_PAGE);
-        int totalRecords = airlinesDAO.getTotalAirlines();
+        List<Airlines> listAirlines = airlinesDAO.searchAirlines(searchKeyword, status, start, RECORDS_PER_PAGE);
+        int totalRecords = airlinesDAO.countFilteredAirlines(searchKeyword, status);
         int totalPages = (int) Math.ceil((double) totalRecords / RECORDS_PER_PAGE);
 
-
+        // Gửi dữ liệu về JSP
         request.setAttribute("listAirlines", listAirlines);
         request.setAttribute("currentPage", page);
         request.setAttribute("totalPages", totalPages);
+        request.setAttribute("search", searchKeyword);
+        request.setAttribute("status", status);
+        request.setAttribute("searchpage", "page");
 
         request.getRequestDispatcher("/views/admin/jsp/viewListAirlines.jsp").forward(request, response);
     }
@@ -50,6 +63,7 @@ public class AirlinesListServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        response.setContentType("text/html");
+        response.getWriter().println("<h1>Xin chào từ TemplateServlet!</h1>");
     }
 }
