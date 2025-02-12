@@ -17,13 +17,13 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <link rel="shortcut icon" type="image/png" href="<%= request.getContextPath() %>/img/logo.png"/>
+  <link rel="shortcut icon" type="image/png" href="<%= request.getContextPath() %>/img/logo.jpg"/>
   <link rel="stylesheet" href="<%= request.getContextPath() %>/css/News.css"/>
   <title>News</title>
 </head>
 <body>
 
-<div class="container box" >
+<div class="container box" style="margin-bottom: 30px" >
   <div style="display: ${empty param.id ? '' : 'none'};margin: auto">
     <h1 style="margin-bottom: 20px; text-align: center;padding-top: 106px">NEWS</h1>
     <div class="news-container">
@@ -41,7 +41,6 @@
         <div class="news-content" style="display: none;">
           <p><%= n.getContent() %></p>
         </div>
-
       </div>
       <%
           }
@@ -62,11 +61,10 @@
             News selectedNews = nd.getNewsById(newsId);
             if (selectedNews != null) {
       %>
-      <div class="selected-news">
+      <div class="selected-news" style="padding: 120px">
         <h1><%= selectedNews.getTitle() %></h1>
         <img src="<%= selectedNews.getImg() %>" alt="<%= selectedNews.getTitle() %>">
         <p><%= selectedNews.getContent() %></p>
-
       </div>
 
       <%

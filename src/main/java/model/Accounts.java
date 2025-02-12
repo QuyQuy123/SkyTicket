@@ -5,17 +5,29 @@ import java.sql.Date;
 public class Accounts {
     private int accountId;
     private String fullName;
-    private String password;
     private String email;
+    private String password;
     private String phone;
     private String address;
     private String img;
     private Date dob;
-    private int roleId;
     private int status;
-
+    private int roleId;
 
     public Accounts() {
+    }
+
+    public Accounts(int accountId, String fullName, String email, String password, String phone, String address, String img, Date dob, int status, int roleId) {
+        this.accountId = accountId;
+        this.fullName = fullName;
+        this.email = email;
+        this.password = password;
+        this.phone = phone;
+        this.address = address;
+        this.img = img;
+        this.dob = dob;
+        this.status = status;
+        this.roleId = roleId;
     }
 
     public int getAccountId() {

@@ -20,11 +20,15 @@ public class LogoutController extends HttpServlet {
         if (session != null) {
             session.invalidate();
         }
+
+        // Chặn trình duyệt lưu cache
+        resp.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1
+        resp.setHeader("Pragma", "no-cache"); // HTTP 1.0
+        resp.setDateHeader("Expires", 0); // Ngăn cache trong quá khứ
+
         resp.sendRedirect("home");
-
-
-
     }
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

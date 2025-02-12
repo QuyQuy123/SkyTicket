@@ -1,5 +1,6 @@
 package controller;
 
+import dal.AccountDAO;
 import dal.NewsDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -7,6 +8,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import model.Accounts;
 
 import java.io.IOException;
 
@@ -15,14 +17,15 @@ import java.io.IOException;
 public class HomeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+        AccountDAO ad = new AccountDAO();
         NewsDAO nw = new NewsDAO();
         HttpSession session = req.getSession();
 
         Integer idd = (Integer) session.getAttribute("id");
         int i = (idd != null) ? idd : -1;
+        Accounts acc = ad.getAccountsById(i);
 
-
+        req.setAttribute("account", acc);
         req.setAttribute("listNew", nw.getNews());
         req.getRequestDispatcher("views/public/Home.jsp").forward(req, resp);
     }
