@@ -19,7 +19,7 @@ import model.Airlines;
 )
 public class AirlinesAddServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private static final String UPLOAD_DIR = "uploads";
+    private static final String UPLOAD_DIR = "img";
 
 
 
@@ -51,7 +51,7 @@ public class AirlinesAddServlet extends HttpServlet {
         filePart.write(filePath);
 
         // Lưu vào database
-        Airlines airline = new Airlines( airlineName, fileName, UPLOAD_DIR + "/" + fileName, information, status, classVip, classEconomy);
+        Airlines airline = new Airlines( airlineName, fileName, information, status, classVip, classEconomy);
         AirlinesDAO airlineDAO = new AirlinesDAO();
         boolean success = airlineDAO.addAirline(airline);
 
