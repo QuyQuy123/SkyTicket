@@ -30,6 +30,16 @@ public class Accounts {
         this.roleId = roleId;
     }
 
+    public Accounts(int accountId,String fullName, String email, String phone, String address, String img, Date dob) {
+        this.accountId = accountId;
+        this.fullName = fullName;
+        this.email = email;
+        this.phone = phone;
+        this.address = address;
+        this.img = img;
+        this.dob = dob;
+    }
+
     public int getAccountId() {
         return accountId;
     }

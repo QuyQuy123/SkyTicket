@@ -33,129 +33,61 @@
         <a href="home#contactSection">LIÊN HỆ</a>
 
     </nav>
-
-
     <div class="auth-buttons">
         <% if (account != null) { %>
-        <!-- Nếu người dùng đã đăng nhập, hiển thị tên và nút đăng xuất -->
-        <div class="account-header">
-            <div style="background-color: #0dcaf0" id="header-avatar" class="">
-<%--                <img class="" src="<%=account.getImg()%>" alt="">--%>
-
+        <div class="account-header" style="position: relative; right: 54px">
+            <img id="avatar-img" style="
+                    width: 40px;
+                    height: 38px;
+                    object-fit: cover;
+                    border-radius: 58px;
+                    cursor: pointer;
+                    margin-left: 92px;
+            " src="<%= request.getContextPath() %>/img/<%= account.getImg() %>" alt="User Image">
+            <div class="account-infor">
+                <ul id="header-subnav" style="
+                    display: none;
+                    position: absolute;
+                    top: 100%;
+                    left: 50px;
+                    background: white;
+                    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+                    border-radius: 8px;
+                    padding: 10px;
+                    min-width: 178px;
+                    z-index: 100;
+                    margin-top: 2px;
+            ">
+                    <li><a href="Infor">Account Information</a></li>
+                    <li><a href="changePaswordURL">Change Password</a></li>
+                    <li><a style="color: red;" href="LogoutURL">Log out</a></li>
+                </ul>
             </div>
-
-            <span style="color: red">Xin chào, <%=account.getFullName() %>!</span>
-            <button class="btn-logout" onclick="location.href='<%= request.getContextPath() %>/LogoutURL'">Đăng xuất
-            </button>
-
-            <ul id="header-subnav" style="display: none;">
-                <li><a href="#">Account Information</a></li>
-                <li><a href="#">Change Password</a></li>
-                <li><a style="color: red;" href="LogoutURL">Log out</a></li>
-            </ul>
-
-
-            <% } else { %>
-            <!-- Nếu người dùng chưa đăng nhập, hiển thị nút đăng nhập và đăng ký -->
-            <button class="btn-login" onclick="location.href='<%= request.getContextPath() %>/LoginURL'">Đăng nhập</button>
-            <button class="btn-register" onclick="location.href='<%= request.getContextPath() %>/RegisterURL'">Đăng ký
-            </button>
-
         </div>
+        <% } else { %>
+        <button class="btn-login" onclick="location.href='<%= request.getContextPath() %>/LoginURL'">Đăng nhập</button>
+        <button class="btn-register" onclick="location.href='<%= request.getContextPath() %>/RegisterURL'">Đăng ký</button>
         <% } %>
-
-
     </div>
 
 
+    <script>
+        document.getElementById("avatar-img").addEventListener("click", function (event) {
+            event.stopPropagation(); // Ngăn chặn sự kiện lan ra ngoài
+            var menu = document.getElementById("header-subnav");
+            menu.style.display = (menu.style.display === "none" || menu.style.display === "") ? "block" : "none";
+        });
+
+        // Ẩn menu khi click ra ngoài
+        document.addEventListener("click", function (event) {
+            var menu = document.getElementById("header-subnav");
+            if (menu.style.display === "block") {
+                menu.style.display = "none";
+            }
+        });
+    </script>
 
 
-
-
-
-
-    <style>
-        .auth-buttons {
-            /*display: flex;*/
-            gap: 10px; /* Khoảng cách giữa hai nút */
-        }
-        .auth-buttons span {
-            font-weight: bold;
-            color: #333;
-            font-size: 16px;
-        }
-
-
-        .auth-buttons .btn-login,
-        .auth-buttons .btn-register,.btn-logout
-        {
-            padding: 10px 20px; /* Kích thước nút */
-            font-size: 14px;
-            border: none;
-            border-radius: 25px; /* Bo tròn góc */
-            cursor: pointer;
-            transition: background-color 0.3s, transform 0.2s; /* Hiệu ứng mượt */;
-        }
-
-
-        .auth-buttons .btn-login {
-            background-color: #f0ad4e; /* Màu nền gốc cho nút Đăng nhập */
-            color: white;
-        }
-
-
-        .auth-buttons .btn-register {
-            background-color: #5bc0de; /* Màu nền gốc cho nút Đăng ký */
-            color: white;
-        }
-
-
-        /* Hiệu ứng khi rê chuột */
-        .auth-buttons .btn-login:hover {
-            background-color: #ec971f; /* Màu nền khi rê chuột vào nút Đăng nhập */
-            transform: scale(1.05); /* Phóng to nhẹ */
-        }
-
-
-        .auth-buttons .btn-register:hover {
-            background-color: #31b0d5; /* Màu nền khi rê chuột vào nút Đăng ký */
-            transform: scale(1.05); /* Phóng to nhẹ */
-        }
-
-        .auth-buttons {
-            display: flex;
-            align-items: center;
-            gap: 15px; /* Tăng khoảng cách giữa chữ và nút */
-        }
-
-        /* Chữ "Xin chào, ..." */
-        .auth-buttons span {
-            font-weight: bold;
-            color: #333;
-            font-size: 16px;
-        }
-
-        /* Nút Đăng xuất */
-        .auth-buttons .btn-logout {
-            padding: 8px 16px;
-            font-size: 14px;
-            border: none;
-            border-radius: 20px;
-            background-color: #d9534f; /* Màu đỏ nhẹ */
-            color: white;
-            cursor: pointer;
-            transition: background-color 0.3s, transform 0.2s;
-        }
-
-        /* Hiệu ứng hover */
-        .auth-buttons .btn-logout:hover {
-            background-color: #c9302c; /* Màu đậm hơn khi hover */
-            transform: scale(1.05); /* Phóng to nhẹ */
-        }
-
-
-
-    </style>
 </header>
 
 </body>
