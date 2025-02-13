@@ -113,8 +113,79 @@ public class AirportsDAO extends DBConnect {
         }
         return n;
     }
+//    public List<Airports> searchAirports(String airportName, Integer status){
+//
+//        List<Airports> list = new ArrayList<>();
+//        String sql = "select * from Airports where 1=1";
+//
+//        if(airportName != null && !airportName.trim().isEmpty()){
+//            sql += " and AirportName like ?";
+//        }
+//        if(status != null){
+//            sql += " and Status = ?";
+//        }
+//
+//        try(PreparedStatement ps = connection.prepareStatement(sql)) {
+//            ResultSet rs = ps.executeQuery();
+//            while (rs.next()) {
+//                list.add(new Airports(
+//                        rs.getInt("airportID"),
+//                        rs.getString("airportName"),
+//                        rs.getInt("locationID"),
+//                        rs.getInt("status")
+//                ));
+//            }
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+//        return list;
+//    }
+public List<Airports> searchAirports(String search, Integer status) {
+    List<Airports> list = new ArrayList<>();
+    String query = "SELECT * FROM Airports WHERE 1=1";
+
+    if (search != null && !search.trim().isEmpty()) {
+        query += " AND airportName LIKE ?";
+    }
+    if (status != null) {
+        query += " AND status = ?";
+    }
+
+    try (PreparedStatement ps = connection.prepareStatement(query)) {
+        int index = 1;
+        if (search != null && !search.trim().isEmpty()) {
+            ps.setString(index++, "%" + search + "%");
+        }
+        if (status != null) {
+            ps.setInt(index++, status);
+        }
+
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            list.add(new Airports(
+                    rs.getInt("airportID"),
+                    rs.getString("airportName"),
+                    rs.getInt("locationID"),
+                    rs.getInt("status")
+            ));
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return list;
+}
+
     public static void main(String[] args) {
         AirportsDAO dao = new AirportsDAO();
+//        // ✅ Test 1: Tìm kiếm theo tên sân bay
+//        System.out.println("🔎 Searching airports with name containing 'International'...");
+//        List<Airports> result1 = dao.searchAirports(null, 2);
+//        result1.forEach(a -> System.out.println(a.getAirportId() + " - " + a.getAirportName()));
+        // ✅ Test 2: Tìm kiếm theo trạng thái (1 = Active)
+//        System.out.println("\n🔎 Searching active airports...");
+//        List<Airports> result2 = dao.searchAirports(null, 1);
+//        result2.forEach(a -> System.out.println(a.getAirportId()+ " - " + a.getAirportName()));
+
 //        Airports ap = new Airports(7,1, 7, "Phú Quốc International Airports");
 //        int n = dao.insertAirport(ap);
 //        if(n > 0){
@@ -123,14 +194,14 @@ public class AirportsDAO extends DBConnect {
 //            System.out.println("Insertion failed");
 
         //  3. Test lấy danh sách tất cả sân bay
-        List<Airports> airportList = dao.getAllAirportsHieu("select * from airports");
-        System.out.println(" Danh sách sân bay:");
-        for (Airports airport : airportList) {
-            System.out.println("ID: " + airport.getAirportId() +
-                    ", Name: " + airport.getAirportName() +
-                    ", Location ID: " + airport.getLocationId() +
-                    ", Status: " + airport.getStatus());
-        }
+//        List<Airports> airportList = dao.getAllAirportsHieu("select * from airports");
+//        System.out.println(" Danh sách sân bay:");
+//        for (Airports airport : airportList) {
+//            System.out.println("ID: " + airport.getAirportId() +
+//                    ", Name: " + airport.getAirportName() +
+//                    ", Location ID: " + airport.getLocationId() +
+//                    ", Status: " + airport.getStatus());
+//        }
         // Tạo đối tượng Airports với dữ liệu mẫu
         //Airports airport = new Airports("Cần Thơ International Airport", 2 , 2);
 //

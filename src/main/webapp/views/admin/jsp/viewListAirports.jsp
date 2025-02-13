@@ -41,20 +41,6 @@
             if (listAirports == null) listAirports = new ArrayList<>();
             if (listLocations == null) listLocations = new ArrayList<>();
         %>
-        <%
-            String message = (String) session.getAttribute("message");
-            if (message != null) {
-        %>
-        <div id="alertMessage" class="alert alert-success" role="alert">
-            <%= message %>
-        </div>
-        <% session.removeAttribute("message"); %> <!-- Xóa session để không hiển thị lại -->
-        <%
-            }
-        %>
-
-
-
 
         <!-- Loader -->
 <div id="preloader">
@@ -79,6 +65,29 @@
             <div class="layout-specing">
                 <div class="d-md-flex justify-content-between">
                     <h5 class="mb-0">Airports List</h5>
+
+                    <div class="search-bar p-0 d-none d-md-block ms-2">
+                        <div id="search" class="menu-search mb-0">
+                            <form action="<%= request.getContextPath() %>/AirportSearch" method="get"
+                                  class="d-flex">
+                                <!-- Ô tìm kiếm -->
+                                <input type="text" name="search" class="form-control border rounded-pill me-2"
+                                       placeholder="Search Airport..." >
+
+                                <!-- Bộ lọc trạng thái -->
+                                <select name="status" class="form-select border rounded-pill me-2">
+                                    <option value="">All</option>
+                                    <option value="1">Active</option>
+                                    <option value="0">Deactive</option>
+                                </select>
+
+                                <!-- Nút tìm kiếm -->
+                                <button type="submit" class="btn btn-outline-primary rounded-pill me-2">Search</button>
+                            </form>
+
+                        </div>
+                    </div>
+
                     <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
                         <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
                             <li class="breadcrumb-item"><a href="Dashboard.jsp">Home</a></li>
@@ -141,15 +150,6 @@
 
 
 <!-- javascript -->
-        <script>
-            // Tự động ẩn thông báo sau 3 giây
-            setTimeout(function() {
-                let alertBox = document.getElementById("alertMessage");
-                if (alertBox) {
-                    alertBox.style.display = "none";
-                }
-            }, 3000);
-        </script>
 <script src="<%= request.getContextPath() %>/views/admin/assets/js/bootstrap.bundle.min.js"></script>
 <!-- simplebar -->
 <script src="<%= request.getContextPath() %>/views/admin/assets/js/simplebar.min.js"></script>
