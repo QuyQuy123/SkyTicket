@@ -34,7 +34,7 @@
     <c:set var="cookie" value="${pageContext.request.cookies}" />
     <form action="RegisterURL" method="post" onsubmit="validateNameInput()">
         <div class="form-group">
-            <input type="text" pattern="^[\p{L}\s]+$" name="name" id="name" required />
+            <input type="text" pattern="^[\p{L}\s]+$" name="fullname" id="name" required />
             <label >Your Name</label>
         </div>
         <div class="form-group">
@@ -42,7 +42,7 @@
             <label >Email</label>
         </div>
         <div class="form-group">
-            <input type="number" name="phoneNumber" id="phoneNumber" oninput="validatePhone(this)" required />
+            <input type="number" name="phone" id="phoneNumber" oninput="validatePhone(this)" required />
             <label >Phone Number</label>
         </div>
         <div class="form-group">

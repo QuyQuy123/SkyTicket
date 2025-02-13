@@ -6,6 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.Random;
+
+import static com.oracle.wls.shaded.org.apache.xalan.xsltc.compiler.Constants.CHARACTERS;
 
 public class AccountDAO extends DBConnect {
 
@@ -180,5 +183,46 @@ public class AccountDAO extends DBConnect {
         }
     }
 
+    public int findIdByEmail(String email) {
+        String sql = "select id from Accounts where email = ?";
+        int userId = -1;
+        try {
+            PreparedStatement pre = connection.prepareStatement(sql);
+            pre.setString(1, email);
+            ResultSet rs = pre.executeQuery();
+            if (rs.next()) {
+                userId = rs.getInt("id");
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return userId;
+    }
+
+    public boolean checkEmailExist(String email) {
+        String sql = "select * from Accounts where email = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+            if (!rs.next()) {
+                return false;
+            } else {
+                return true;
+            }
+        } catch (Exception e) {
+        }
+        return false;
+    }
+
+    public String generateRandomString() {
+        StringBuilder sb = new StringBuilder(8);
+        Random r = new Random();
+        for (int i = 0; i < 8; i++) {
+            int index = r.nextInt(CHARACTERS.length());
+            sb.append(CHARACTERS.charAt(index));
+        }
+        return sb.toString();
+    }
 
 }
