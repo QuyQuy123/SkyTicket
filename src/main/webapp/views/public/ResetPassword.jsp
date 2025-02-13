@@ -1,48 +1,67 @@
-
-<%@ page contentType="text/html;charset=UTF-8" %>
-
+<%-- Document : register Created on : May 12, 2024, 5:49:30 PM Author : Admin
+--%> <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="vi">
+<html>
 <head>
-    <title>Reset Password Page</title>
-    <link rel="stylesheet" href="<%= request.getContextPath() %>/css/Login.css">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Reset Password</title>
+    <link rel="shortcut icon" type="image/jpg" href="image/logo-icon.png" />
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/css/Login.css" type="text/css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="icon/themify-icons/themify-icons.css" />
 </head>
 <body>
-<!--Header Bar here-->
-<header>
-    <jsp:include page="/views/layout/Header.jsp" />
-</header>
+<div class="container">
+    <h1 style="margin-bottom: 30px">
+        Reset Password<a
+            style="
+                    float: right;
+                    font-size: 25px;
+                    margin-top: 8px;
+                    text-decoration: none;
+                    color: rgb(71, 143, 192);
+                    "
+            href="home"
+    ><i class="ti-home"></i
+    ></a>
+    </h1>
 
-<!--Reset Password Box here-->
-<div class="login-box">
-    <div class="login-content">
-        <h2>Đặt lại mật khẩu</h2>
-        <% String message = (String) request.getAttribute("message"); %>
-        <% if (message != null) { %>
-        <p style="color: green;"><%= message %></p>
-        <% } %>
-        <form action="<%= request.getContextPath() %>/ResetPassordURL" method="POST">
-            <input type="email" class="login-input, reset-email" name="email" autocomplete="off" placeholder="Email" required>
-            <input type="submit" class="reset-submit" value="Gửi mã" name="sendEmail" /> <br>
-            <h20 class="reset-label">(*) Hãy nhập email để chúng tôi sẽ gửi cho bạn một mã xác thực!</h20>
-        </form>
-
-        <% String error = (String) request.getAttribute("error"); %>
-        <% if (error != null) { %>
-        <p style="color: red;"><%= error %></p>
-        <% } %>
-        <form action="#" method="POST">
-            <br><br>
-            <input type="text" class="login-input" name="resetCode" autocomplete="off" placeholder="Mã xác thực" required> <br>
-            <input type="password" class="login-input" name="password" autocomplete="off" placeholder="Mật khẩu mới" required> <br>
-            <input type="password" class="login-input" name="repassword" autocomplete="off" placeholder="Nhập lại mật khẩu" required> <br>
-            <input type="submit" class="login-submit" value="Đặt lại mật khẩu"> <br>
-        </form>
-        <br><br>
-        <a href="<%= request.getContextPath() %>/LoginURL">Quay lại</a>
+    <div>
+        <a href="home" style="position: relative; left: -30px; top: -99px; transition: none; cursor: move;">
+            <i style="font-size: 20px;color: #3c6e57;" class="bi bi-arrow-90deg-left"></i>
+        </a>
     </div>
+    <form action="<%= request.getContextPath() %>/ResetPasswordURL" method="post">
+        <div class="form-group">
+            <input type="email" name="email" required />
+            <label for="">Your email:</label>
+
+        </div>
+        <p id="capslock-warning" style="display: none; margin-bottom: 30px">⚠️ Caps Lock is on</p>
+        <h5 style="color: red">${requestScope.error}</h5><br>
+        <div class="button">
+            <input id="submit" type="submit" value="Receive Email" /><br /><br />
+        </div>
+        Did you remember the password? <a class="letDoIt" href="login">Login</a>
+    </form>
 </div>
-<%--Footer here--%>
-<jsp:include page="/views/layout/Footer.jsp"/>
+<script>
+    var p = document.getElementById("password");
+    var cp = document.getElementById("confirmPassword");
+    var text = document.getElementById("capslock-warning");
+
+    function CapsCheck(event) {
+        if (event.getModifierState("CapsLock")) {
+            text.style.display = "block";
+        } else {
+            text.style.display = "none";
+        }
+    }
+
+    p.addEventListener("keyup", CapsCheck);
+    cp.addEventListener("keyup", CapsCheck);
+
+</script>
+
 </body>
 </html>

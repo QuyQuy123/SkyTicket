@@ -67,7 +67,7 @@ public class RegisterDAO extends DBConnect {
 
     public static void main(String[] args) {
         RegisterDAO rd = new RegisterDAO();
-        Accounts a = new Accounts("Nguyen Kien", "kiennt11", "123", "012345698");
+        Accounts a = new Accounts("Nguyen Kien", "nguyentrungkien11502@gmail.com", "123", "0862852423");
         if (rd.checkEmailExisted(a.getEmail())) {
             System.out.println("Email already exists!");
             return;
