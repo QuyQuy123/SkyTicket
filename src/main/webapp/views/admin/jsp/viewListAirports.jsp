@@ -60,6 +60,18 @@
     <!-- Start Page Content -->
     <main class="page-content bg-light">
         <%@include file="top.jsp"%>
+        <% String message = (String) session.getAttribute("message");
+            if (message != null) { %>
+        <div class="alert alert-success" role="alert">
+            <%= message %>
+        </div>
+        <script>
+            setTimeout(function () {
+                document.querySelector(".alert").style.display = "none";
+            }, 3000);
+        </script>
+        <% session.removeAttribute("message"); %>
+        <% } %>
 
         <div class="container-fluid">
             <div class="layout-specing">
@@ -127,7 +139,8 @@
                                     <td class="text-end p-3">
                                         <a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i class="uil uil-eye"></i></a>
                                         <a href="#" class="btn btn-icon btn-pills btn-soft-success"><i class="uil uil-pen"></i></a>
-                                        <a href="#" class="btn btn-icon btn-pills btn-soft-danger"><i class="uil uil-trash"></i></a>
+                                        <a href="javascript:void(0);" class="btn btn-icon btn-pills btn-soft-danger" onclick="confirmDelete(<%= airport.getAirportId() %>)">
+                                            <i class="uil uil-trash"></i>
                                     </td>
                                 </tr>
                                 <% } %>
@@ -150,6 +163,13 @@
 
 
 <!-- javascript -->
+        <script>
+            function confirmDelete(airportId) {
+                if (confirm("Are you sure to delete this airport?")) {
+                    window.location.href = "<%= request.getContextPath() %>/AirportDeleteServlet?airportId=" + airportId;
+                }
+            }
+        </script>
 <script src="<%= request.getContextPath() %>/views/admin/assets/js/bootstrap.bundle.min.js"></script>
 <!-- simplebar -->
 <script src="<%= request.getContextPath() %>/views/admin/assets/js/simplebar.min.js"></script>
