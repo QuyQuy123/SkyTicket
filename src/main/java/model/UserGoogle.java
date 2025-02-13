@@ -32,6 +32,16 @@ public class UserGoogle {
         Status = status;
     }
 
+    public UserGoogle(String name, String email, String password, String phoneNumber, String image, int roleId, int status) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+        this.image = image;
+        this.roleId = roleId;
+        Status = status;
+    }
+
     public String getId() {
         return id;
     }

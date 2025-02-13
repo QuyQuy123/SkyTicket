@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Random;
 
-@WebServlet(name = "ResetPassword", urlPatterns = {"/ResetPassordURL"})
+@WebServlet(name = "ResetPassword", urlPatterns = {"/ResetPasswordURL"})
 public class ResetPassword extends HttpServlet {
 
     private String generateVerificationCode() {
