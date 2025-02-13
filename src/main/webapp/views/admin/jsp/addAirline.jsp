@@ -102,7 +102,7 @@
                                 <div class="row align-items-center">
                                     <div class="col-lg-5 col-md-4">
                                         <img id="previewImage" src="${pageContext.request.contextPath}/views/admin/assets/images/airlines/demo_img.jpg"
-                                             class="avatar rounded shadow mt-3" width="280" alt="Airline Image">
+                                             class="avatar rounded shadow mt-3" width="280" alt="Airline">
                                         <hr>
                                         <input type="file" name="airlineImage" id="airlineImage" class="form-control">
                                     </div><!--end col-->
@@ -121,8 +121,8 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label">Airline Name: </label>
-                                            <label for="name"></label><input name="name" id="name" type="text"
+                                            <label class="form-label" for="name">Airline Name: </label>
+                                            <input name="name" id="name" type="text"
                                                                              class="form-control"
                                                                              placeholder="Airline name">
                                         </div>
@@ -141,33 +141,33 @@
 
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label">Capacity Class Vip: </label>
-                                            <label for="classVip"></label><input name="classVip" id="classVip"
-                                                                                 type="number" min="10" max="50"
-                                                                                 class="form-control"
-                                                                                 placeholder="Number of seat Vip">
+                                            <label class="form-label" for="classVip">Capacity Class Vip: </label>
+                                            <input name="classVip" id="classVip"
+                                                   type="number" min="10" max="50"
+                                                   class="form-control"
+                                                   placeholder="Number of seat Vip">
                                         </div>
                                     </div>
 
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label">Capacity Class Economy: </label>
-                                            <label for="classEconomy"></label><input name="classEconomy"
-                                                                                     id="classEconomy" type="number"
-                                                                                     min="10" max="50"
-                                                                                     class="form-control"
-                                                                                     placeholder="Number of seats economy">
+                                            <label class="form-label" for="classEconomy">Capacity Class Economy: </label>
+                                            <input name="classEconomy"
+                                                   id="classEconomy" type="number"
+                                                   min="10" max="50"
+                                                   class="form-control"
+                                                   placeholder="Number of seats economy">
                                         </div>
                                     </div>
 
 
                                     <div class="col-md-12">
                                         <div class="mb-3">
-                                            <label class="form-label">Airline information</label>
-                                            <label for="information"></label><textarea name="information"
-                                                                                       id="information" rows="3"
-                                                                                       class="form-control"
-                                                                                       placeholder="Infor"></textarea>
+                                            <label class="form-label" for="information">Airline information</label>
+                                            <textarea name="information"
+                                                      id="information" rows="3"
+                                                      class="form-control"
+                                                      placeholder="Infor"></textarea>
                                         </div>
                                     </div>
                                 </div><!--end row-->

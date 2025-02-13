@@ -47,16 +47,6 @@
 </head>
 
 <body>
-<!-- Loader -->
-<div id="preloader">
-    <div id="status">
-        <div class="spinner">
-            <div class="double-bounce1"></div>
-            <div class="double-bounce2"></div>
-        </div>
-    </div>
-</div>
-<!-- Loader -->
 
 <div class="page-wrapper doctris-theme toggled">
     <%@ include file="right.jsp"%>
@@ -73,7 +63,7 @@
                     <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
                         <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
                             <li class="breadcrumb-item"><a href="Dashboard.jsp">SkyTicket</a></li>
-                            <li class="breadcrumb-item"><a href="patients.html">Accounts</a></li>
+                            <li class="breadcrumb-item"><a href="#">Accounts</a></li>
                             <li class="breadcrumb-item active" aria-current="page">Add Account</li>
                         </ul>
                     </nav>
@@ -89,11 +79,11 @@
                                 </div>
                             </c:if>
 
-                            <form class="mt-4" action="${pageContext.request.contextPath}/addAirline" method="post" enctype="multipart/form-data">
+                            <form class="mt-4" action="${pageContext.request.contextPath}/addAccount" method="post" enctype="multipart/form-data">
                                 <div class="row align-items-center">
                                     <div class="col-lg-5 col-md-4">
                                         <img id="previewImage" src="${pageContext.request.contextPath}/views/admin/assets/images/client/demo.webp"
-                                             class="avatar rounded-circle shadow mt-3" width="250" alt="LyLy 2d image">
+                                             class="avatar rounded-circle shadow mt-3" width="250" alt="LyLy 2d ">
                                         <hr>
                                         <input type="file" name="airlineImage" id="airlineImage" class="form-control">
                                     </div><!--end col-->
@@ -112,8 +102,8 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label">Full Name: </label>
-                                            <label for="name"></label><input name="name" id="fullName" type="text"
+                                            <label class="form-label" for="fullName">Full Name: </label>
+                                            <input name="fullName" id="fullName" type="text"
                                                                              class="form-control"
                                                                              placeholder="Enter your name">
                                         </div>
@@ -122,17 +112,17 @@
 
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label">Date of birth: </label>
-                                            <label for="name"></label><input name="name" id="name" type="text"
+                                            <label class="form-label" for="dob">Date of birth: </label>
+                                            <input name="dob" id="dob" type="text"
                                                                              class="form-control"
-                                                                             placeholder="Airline name">
+                                                                             placeholder="Enter your birth">
                                         </div>
                                     </div>
 
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label">Email: </label>
-                                            <label for="name"></label><input name="name" id="email" type="text"
+                                            <label class="form-label" for="email">Email: </label>
+                                            <input name="email" id="email" type="text"
                                                                              class="form-control"
                                                                              placeholder="Enter your email">
                                         </div>
@@ -140,8 +130,8 @@
 
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label">Password: </label>
-                                            <label for="name"></label><input name="name" id="password" type="text"
+                                            <label class="form-label" for="password">Password: </label>
+                                            <input name="password" id="password" type="text"
                                                                              class="form-control"
                                                                              placeholder="Enter your password">
                                         </div>
@@ -149,8 +139,8 @@
 
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label">Phone: </label>
-                                            <label for="name"></label><input name="name" id="phone" type="text"
+                                            <label class="form-label" for="phone">Phone: </label>
+                                            <input name="phone" id="phone" type="text"
                                                                              class="form-control"
                                                                              placeholder="Phone number">
                                         </div>
@@ -158,8 +148,8 @@
 
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label">Address: </label>
-                                            <label for="name"></label><input name="name" id="address" type="text"
+                                            <label class="form-label" for="address">Address: </label>
+                                            <input name="address" id="address" type="text"
                                                                              class="form-control"
                                                                              placeholder="Enter your address">
                                         </div>
@@ -167,19 +157,20 @@
 
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label">Status: </label>
-                                            <label for="name"></label><input name="name" id="status" type="text"
-                                                                             class="form-control"
-                                                                             placeholder="Airline name">
+                                            <label class="form-label" for="status">Status</label>
+                                            <select class="form-control gender-name select2input" name="status" id="status">
+                                                <option value="1">Active</option>
+                                                <option value="0" selected>Deactive</option>
+                                            </select>
                                         </div>
                                     </div>
 
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label">Role: </label>
-                                            <label for="name"></label><input name="name" id="roleId" type="text"
+                                            <label class="form-label" for="roleId">Role: </label>
+                                            <input name="roleId" id="roleId" type="text"
                                                                              class="form-control"
-                                                                             placeholder="Airline name">
+                                                                             placeholder="Role">
                                         </div>
                                     </div>
 
