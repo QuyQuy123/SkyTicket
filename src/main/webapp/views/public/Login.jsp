@@ -77,7 +77,8 @@
         </p>
         <input type="checkbox" ${cookie.crem != null ? 'checked' : ''}
                name="rem" value="ON"/> Remember me
-        <a id="forgetPassword" href="ResetPasswordURL">Forget Password</a
+        <a id="forgetPassword" href="<%= request.getContextPath() %>/ResetPasswordURL">Forget Password</a
+
         ><br /><br />
         <div class="button" style="height: 60px">
             <input type="submit" value="Login" /><br /><br />

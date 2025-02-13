@@ -40,6 +40,13 @@ public class Accounts {
         this.dob = dob;
     }
 
+    public Accounts(String fullname, String email, String password, String phone) {
+        this.fullName = fullname;
+        this.email = email;
+        this.password = password;
+        this.phone = phone;
+    }
+
     public int getAccountId() {
         return accountId;
     }

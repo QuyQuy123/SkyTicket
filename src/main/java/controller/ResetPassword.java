@@ -1,87 +1,105 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
+ */
 package controller;
 
 import dal.AccountDAO;
+import java.io.IOException;
+import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.Random;
 
-@WebServlet(name = "ResetPassword", urlPatterns = {"/ResetPasswordURL"})
+/**
+ *
+ * @author user
+ */
+@WebServlet(name = "ResetPassword", urlPatterns = "/ResetPasswordURL")
 public class ResetPassword extends HttpServlet {
 
-    private String generateVerificationCode() {
-        Random random = new Random();
-        int code = 100000 + random.nextInt(900000); // 6 chữ số
-        return String.valueOf(code);
-    }
-
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("views/public/ResetPassword.jsp").forward(req, resp);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String email = req.getParameter("email");
-        String resetCode = req.getParameter("resetCode");
-        String newPassword = req.getParameter("password");
-        String rePassword = req.getParameter("repassword");
-
-        AccountDAO accountDAO = new AccountDAO();
-        HttpSession session = req.getSession();
-
-        try {
-            // Bước 1: Gửi mã xác thực
-            if (email != null) {
-                if (!accountDAO.checkEmailExists(email)) {
-                    req.setAttribute("error", "Email không tồn tại trong hệ thống!");
-                    req.getRequestDispatcher("views/public/ResetPassword.jsp").forward(req, resp);
-                    return;
-                }
-                String verificationCode = generateVerificationCode();
-                session.setAttribute("resetCode", verificationCode);
-                session.setAttribute("resetEmail", email);
-
-                // Gửi email (ở đây có thể tích hợp JavaMail API)
-                System.out.println("Mã xác thực: " + verificationCode); // Debug
-
-                req.setAttribute("message", "Mã xác thực đã được gửi đến email của bạn!");
-                req.getRequestDispatcher("views/public/ResetPassword.jsp").forward(req, resp);
-            }
-
-            // Bước 2: Xác minh mã và đặt lại mật khẩu
-            if (resetCode != null && newPassword != null && rePassword != null) {
-                String storedCode = (String) session.getAttribute("resetCode");
-                String storedEmail = (String) session.getAttribute("resetEmail");
-
-                if (storedCode == null || !storedCode.equals(resetCode)) {
-                    req.setAttribute("error", "Mã xác thực không đúng!");
-                    req.getRequestDispatcher("views/public/ResetPassword.jsp").forward(req, resp);
-                    return;
-                }
-                if (!newPassword.equals(rePassword)) {
-                    req.setAttribute("error", "Mật khẩu nhập lại không khớp!");
-                    req.getRequestDispatcher("views/public/ResetPassword.jsp").forward(req, resp);
-                    return;
-                }
-
-                boolean updated = accountDAO.updatePassword(storedEmail, newPassword);
-                if (updated) {
-                    session.removeAttribute("resetCode");
-                    session.removeAttribute("resetEmail");
-                    resp.sendRedirect("views/public/Login.jsp?message=Đặt lại mật khẩu thành công!");
-                } else {
-                    req.setAttribute("error", "Có lỗi xảy ra, vui lòng thử lại!");
-                    req.getRequestDispatcher("views/public/ResetPassword.jsp").forward(req, resp);
-                }
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet ForgetPasswordServlet</title>");
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet ForgetPasswordServlet at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
     }
+
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        request.getRequestDispatcher("views/public/ResetPassword.jsp").forward(request, response);
+    }
+
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        AccountDAO ad = new AccountDAO();
+        EmailServlet e = new EmailServlet();
+
+        //get parameter then check it
+        String email = request.getParameter("email");
+        //if email not exist show error 
+        if (!ad.checkEmailExist(email)) {
+            request.setAttribute("error", "Your email is not existed!");
+            request.getRequestDispatcher("views/public/ResetPassword.jsp").forward(request, response);
+        } else {
+            //get id from request to change password
+            int id = ad.findIdByEmail(email);
+            String idByEmail = String.valueOf(id);
+            //create new password random  
+            String newPassword = ad.generateRandomString();
+            //update this password in databse 
+            ad.changePassword(idByEmail, newPassword);
+            //send new password for user by email
+            e.sendPasswordEmail(email, newPassword);
+            request.setAttribute("notice", "New password is sent to your email!");
+            request.getRequestDispatcher("views/public/Login.jsp").forward(request, response);
+        }
+
+    }
+
+    @Override
+    public String getServletInfo() {
+        return "Short description";
+    }// </editor-fold>
+
 }
