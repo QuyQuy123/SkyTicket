@@ -6,6 +6,9 @@ body {
     max-width: 100%;
 
 }
+html {
+    overflow-y: scroll;
+}
 
 
 .header {
@@ -86,6 +89,7 @@ body {
 .auth-buttons {
     /*display: flex;*/
     gap: 10px; /* Khoảng cách giữa hai nút */
+    all: unset;
 }
 .auth-buttons span {
     font-weight: bold;
@@ -95,7 +99,7 @@ body {
 
 
 .auth-buttons .btn-login,
-.auth-buttons .btn-register,.btn-logout
+.auth-buttons .btn-register
 {
     padding: 10px 20px; /* Kích thước nút */
     font-size: 14px;
@@ -104,6 +108,18 @@ body {
     cursor: pointer;
     transition: background-color 0.3s, transform 0.2s; /* Hiệu ứng mượt */;
 }
+
+.auth-buttons .btn-login,
+.auth-buttons .btn-register {
+    width: 120px; /* Đặt chiều rộng cố định */
+    height: 40px; /* Đặt chiều cao cố định */
+    padding: 10px 20px;
+    font-size: 14px;
+    line-height: 1; /* Đảm bảo dòng chữ không làm thay đổi kích thước */
+    display: inline-block; /* Giữ nguyên dạng button */
+    vertical-align: middle; /* Canh giữa nội dung */
+}
+
 
 
 .auth-buttons .btn-login {
@@ -162,6 +178,64 @@ body {
 }
 
 
+/**/
+
+
+.account-header {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+#avatar-img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-left: 20px;
+    transition: transform 0.2s ease-in-out;
+}
+
+#avatar-img:hover {
+    transform: scale(1.1);
+}
+
+#header-subnav {
+    display: none;
+    position: absolute;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    padding: 8px 0;
+    min-width: 160px;
+    z-index: 100;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+#header-subnav li {
+    list-style: none;
+}
+
+#header-subnav li a {
+    display: block;
+    padding: 10px 15px;
+    color: #333;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background 0.2s;
+}
+
+#header-subnav li a:hover {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+#header-subnav li a[style="color: red;"] {
+    font-weight: bold;
+}
 
 
 

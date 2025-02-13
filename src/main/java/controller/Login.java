@@ -12,18 +12,23 @@ import java.sql.SQLException;
 
 @WebServlet(name = "Login", urlPatterns = {"/LoginURL"})
 public class Login extends HttpServlet {
+
+    private static final String LOGIN_VIEW = "views/public/Login.jsp";
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("views/public/Login.jsp").forward(req, resp);
+        req.getRequestDispatcher(LOGIN_VIEW).forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
+
             String u = request.getParameter("username").trim();
             String p = request.getParameter("password");
             String r = request.getParameter("rem");
-            //quanHT: encode password before checkpass
+
+
 //            String encode = ec.encryptAES(p, SECRET_KEY);
 
             LoginDAO ld = new LoginDAO();
@@ -31,10 +36,10 @@ public class Login extends HttpServlet {
             HttpSession session = request.getSession();
             if (!ld.checkUsername(u)) {
                 request.setAttribute("error", "Your account does not exist!");
-                request.getRequestDispatcher("views/public/Login.jsp").forward(request, response);
+                request.getRequestDispatcher(LOGIN_VIEW).forward(request, response);
             } else if (!ld.checkPassword(u, p)) {
                 request.setAttribute("error", "Your password is incorrect!");
-                request.getRequestDispatcher("views/public/Login.jsp").forward(request, response);
+                request.getRequestDispatcher(LOGIN_VIEW).forward(request, response);
 //            } else if (ld.checkStatus(u)) {
 //                request.setAttribute("error", "Your account has been deactivated!");
 //                request.getRequestDispatcher("views/public/Login.jsp").forward(request, response);

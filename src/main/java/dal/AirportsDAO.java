@@ -38,8 +38,7 @@ public class AirportsDAO extends DBConnect {
                 "`LocationId` = ?,\n" +
                 "`Status` = ?\n" +
                 "WHERE `AirportId` = ?;";
-        try {
-            PreparedStatement pre = connection.prepareStatement(sql);
+        try( PreparedStatement pre = connection.prepareStatement(sql)) {
             pre.setInt(1, ap.getAirportId());
             pre.setString(2, ap.getAirportName());
             pre.setInt(3, ap.getLocationId());

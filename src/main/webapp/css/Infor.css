@@ -1,0 +1,84 @@
+#info {
+    margin: 100px 0;
+    display: flex;
+    justify-content: center;
+}
+
+#info-banner {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#info-avatar {
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+#info-avatar-pic {
+    height: 220px;
+    width: 220px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid #ddd;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease-in-out;
+}
+
+#info-avatar-pic:hover {
+    transform: scale(1.05);
+}
+
+#info-in4 {
+    background: #fff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+
+#info-in4 strong {
+    display: block;
+    font-size: 16px;
+    margin-top: 15px;
+    color: #333;
+}
+
+#info-in4 p {
+    font-size: 16px;
+    color: #666;
+    margin: 5px 0;
+}
+
+.info-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.info-buttons button {
+    width: 48%;
+    height: 45px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+.info-buttons .btn-success {
+    background: #28a745;
+    border: none;
+}
+
+.info-buttons .btn-success:hover {
+    background: #218838;
+}
+
+.info-buttons .btn-danger {
+    background: #dc3545;
+    border: none;
+}
+
+.info-buttons .btn-danger:hover {
+    background: #c82333;
+}

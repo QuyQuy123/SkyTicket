@@ -58,6 +58,53 @@ public class AccountDAO extends DBConnect {
     }
 
 
+    public void infoUpdate(Accounts account) {
+        String sqlUpdate = "UPDATE Accounts\n"
+                + "SET\n"
+                + "`FullName` = ?,\n"
+                + "`dob` = ?,\n"
+                + "`email` = ?,\n"
+                + "`phone` = ?,\n"
+                + "`address` = ?,\n"
+                + "`img` = ?\n"
+                + "WHERE `AccountId` = ?";
+        try {
+            PreparedStatement pre = connection.prepareStatement(sqlUpdate);
+            pre.setString(1, account.getFullName());
+            pre.setDate(2, account.getDob());
+            pre.setString(3, account.getEmail());
+            pre.setString(4, account.getPhone());
+            pre.setString(5, account.getAddress());
+            pre.setString(6, account.getImg());
+            pre.setInt(7, account.getAccountId());
+            pre.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+    public void changePassword(String idAccount, String newPassword) {
+        String sqlupdate = "UPDATE `Accounts`\n"
+                + "SET\n"
+                + "`password` = ?\n"
+                + "WHERE `AccountId` = ?";
+        try {
+            PreparedStatement pre = connection.prepareStatement(sqlupdate);
+//            String encode = encryptAES(newPassword, SECRET_KEY);
+            pre.setString(1, newPassword);
+            pre.setString(2, idAccount);
+
+            pre.executeUpdate();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+
+
+
+
+
+
 
     //Test method
     public static void main(String[] args) {

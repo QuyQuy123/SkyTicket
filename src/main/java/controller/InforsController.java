@@ -22,6 +22,11 @@ public class InforsController extends HttpServlet {
         Integer id = (Integer) session.getAttribute("id");
         int i = (id != null) ? id : -1;
         Accounts acc = accountDao.getAccountsById(i);
+        String success = req.getParameter("success");
+        if (success != null) {
+            req.setAttribute("successMessage", "Profile updated successfully!");
+        }
+
         req.setAttribute("account", acc);
         req.getRequestDispatcher("views/customer/ViewProfile.jsp").forward(req, resp);
     }

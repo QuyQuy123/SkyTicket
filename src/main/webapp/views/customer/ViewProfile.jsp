@@ -30,48 +30,34 @@
 <body>
 <jsp:include page="/views/layout/Header.jsp"/>
 
-<div class="row" id="info" style="margin: 0; margin-top: 100px; margin-bottom: 100px;">
-    <div class="col-md-3"></div>
+<div class="row" id="info">
     <div class="col-md-6">
         <div id="info-banner">
-            <div id="info-avatar" style="display: flex; position: relative;">
-                <img id="info-avatar-pic" style="height: 220px; width: 216px; border-radius: 115px" src="${pageContext.request.contextPath}/img/${requestScope.account.img}" />
-<%--                <p>${requestScope.account.fullName}--%>
-                <p style="font-size: 20px; opacity: 0.6; margin-top: 165px;">#<%=rd.getNameById(a.getRoleId())%></p>
-                </p>
+            <div id="info-avatar">
+                <img id="info-avatar-pic" src="${pageContext.request.contextPath}/img/${requestScope.account.img}" />
             </div>
         </div>
 
-        <div id="info-in4" class="row">
-            <div class="info-in4-1 col-md-4">
-<%--                Khách hàng thân thiết--%>
-                <strong></strong>
-            </div>
-            <div class="col-md-1"></div>
-            <div class="info-in4-1 col-md-7">
+        <div id="info-in4">
+            <strong>Full Name:</strong>
+            <p>${requestScope.account.fullName}</p>
+            <strong>Day of birth:</strong>
+            <p>${requestScope.account.dob}</p>
+            <strong>Email:</strong>
+            <p>${requestScope.account.email}</p>
+            <strong>Phone Number:</strong>
+            <p>${requestScope.account.phone}</p>
+            <strong>Address:</strong>
+            <p>${requestScope.account.address}</p>
 
-                <strong>Full Name:</strong>
-                <p>${requestScope.account.fullName}</p>
-                <strong>Day of birth:</strong>
-                <p>${requestScope.account.dob}</p>
-                <strong>Email:</strong>
-                <p>${requestScope.account.email}</p>
-                <strong>Phone Number:</strong>
-                <p>${requestScope.account.phone}</p>
-                <strong>Address:</strong>
-                <p>${requestScope.account.address}</p>
-
-                <div style="width: 100%;
-                             display: flex;
-                             justify-content: space-around; ">
-                    <button style="width: 40%;height: 45px" class="btn btn-success" data-toggle="modal" data-target="#myModal-${requestScope.account.getAccountId()}" >Update profile</button>
-                    <button style="width: 40%" class="btn btn-danger" onclick="window.location.href = 'home'">Home</button>
-                </div>
+            <div class="info-buttons">
+                <button class="btn btn-success" data-toggle="modal" data-target="#myModal-${requestScope.account.getAccountId()}">Update profile</button>
+                <button class="btn btn-danger" onclick="window.location.href = 'home'">Home</button>
             </div>
         </div>
     </div>
-    <div class="col-md-3"></div>
 </div>
+
 
 
 <div id="myModal-${requestScope.account.getAccountId()}" class="modal fade" role="dialog">
@@ -83,7 +69,18 @@
                 <h4 class="modal-title" style="font-weight:bold;">Update profile</h4>
             </div>
             <div class="modal-body">
-                <form action="infoUpdateServlet" method="post" onsubmit="return validateNameInput()" >
+
+
+
+                <form action="updateURL" method="post" onsubmit="return validateNameInput()" >
+                    <% String successMessage = (String) request.getAttribute("successMessage"); %>
+                    <% if (successMessage != null) { %>
+                    <div class="alert alert-success" style="color: green;">
+                        <%= successMessage %>
+                    </div>
+                    <% } %>
+
+
                     <div class="row">
                         <div class="form-group col-md-6">
                             <label  class="control-label">Avatar</label>
@@ -136,6 +133,17 @@
     </div>
 </div>
 <script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('success')) {
+            const modalId = "myModal-${requestScope.account.accountId}";
+            $("#" + modalId).modal("show"); // Mở modal tự động
+        }
+    });
+
+
+
     function validateNameInput() {
         const nameInput = document.getElementById("nameInput").value.trim();
 
@@ -145,6 +153,7 @@
         }
         return true;
     }
+
     function validateImageInput(input, id) {
         const filePath = input.value;
         const allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
@@ -175,6 +184,7 @@
 
         reader.readAsDataURL(file);
     }
+
 </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>

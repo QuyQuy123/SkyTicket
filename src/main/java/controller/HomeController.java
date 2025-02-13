@@ -27,7 +27,13 @@ public class HomeController extends HttpServlet {
 
         req.setAttribute("account", acc);
         req.setAttribute("listNew", nw.getNews());
-        req.getRequestDispatcher("views/public/Home.jsp").forward(req, resp);
+        try {
+            req.getRequestDispatcher("views/public/Home.jsp").forward(req, resp);
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
+            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Lỗi khi chuyển tiếp trang");
+        }
+
     }
 
     @Override
