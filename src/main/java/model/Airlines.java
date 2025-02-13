@@ -22,7 +22,7 @@ public class Airlines {
         this.classEconomyCapacity = classEconomyCapacity;
     }
 
-    public Airlines(int airlineId, String airlineName, String information, String image, int status, int classVipCapacity, int classEconomyCapacity) {
+    public Airlines(int airlineId, String airlineName, String image, String information, int status, int classVipCapacity, int classEconomyCapacity) {
         this.airlineId = airlineId;
         this.airlineName = airlineName;
         this.information = information;

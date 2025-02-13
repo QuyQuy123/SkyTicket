@@ -101,7 +101,7 @@
                             <form class="mt-4" action="${pageContext.request.contextPath}/updateAirline" method="post" enctype="multipart/form-data">
                                 <div class="row align-items-center">
                                     <div class="col-lg-5 col-md-4">
-                                        <img id="previewImage" src="${pageContext.request.contextPath}/uploads/${airl.image}"
+                                        <img id="previewImage" src="${pageContext.request.contextPath}/img/${airl.image}"
                                              class="avatar rounded shadow mt-3" width="280" alt="Airline Image">
                                         <hr>
                                     </div><!--end col-->

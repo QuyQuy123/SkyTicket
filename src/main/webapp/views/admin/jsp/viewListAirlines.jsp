@@ -58,7 +58,7 @@
         <div class="container-fluid">
             <div class="layout-specing">
                 <div class="d-md-flex justify-content-between">
-                    <h5 class="mb-0">Airports List</h5>
+                    <h5 class="mb-0">Airlines List</h5>
 
                     <div class="search-bar p-0 d-none d-md-block ms-2">
                         <div id="search" class="menu-search mb-0">
@@ -110,7 +110,7 @@
                                             <tr>
                                                 <td class="p-1">${airline.airlineId}</td>
                                                 <td class="p-1">
-                                                    <img src="${pageContext.request.contextPath}/uploads/${airline.image}"
+                                                    <img src="${pageContext.request.contextPath}/img/${airline.image}"
                                                          alt="Airline Image" class="img-fluid rounded"
                                                          style="width: 250px; height: 150px;">
 

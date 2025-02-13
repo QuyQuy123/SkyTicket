@@ -3,16 +3,26 @@ package controller;
 
 import dal.AirlinesDAO;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
 import model.Airlines;
 
+import java.io.File;
 import java.io.IOException;
-
+@MultipartConfig(
+        fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+        maxFileSize = 1024 * 1024 * 10,      // 10MB
+        maxRequestSize = 1024 * 1024 * 50    // 50MB
+)
 @WebServlet("/updateAirline") //
 public class AirlinesUpdateServlet extends HttpServlet {
+
+    private static final long serialVersionUID = 1L;
+    private static final String UPLOAD_DIR = "img";
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -36,7 +46,50 @@ public class AirlinesUpdateServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html");
-        response.getWriter().println("<h1>Xin chào từ TemplateServlet!</h1>");
+
+        int id = Integer.parseInt(request.getParameter("airlineId"));
+        String airlineName = request.getParameter("name");
+        String information = request.getParameter("information");
+        int classVip = Integer.parseInt(request.getParameter("classVip"));
+        int classEconomy = Integer.parseInt(request.getParameter("classEconomy"));
+        int status = Integer.parseInt(request.getParameter("status"));
+
+
+        // Xử lý file upload
+        Part filePart = request.getPart("airlineImage");
+        String fileName = "";
+
+        if(filePart != null) {
+            fileName = filePart.getSubmittedFileName();
+        }else{
+            filePart = request.getPart("oldImage");
+            fileName = filePart.getSubmittedFileName();
+        }
+
+        String uploadPath = getServletContext().getRealPath("") + File.separator + UPLOAD_DIR;
+        File uploadDir = new File(uploadPath);
+        if (!uploadDir.exists()) uploadDir.mkdir();
+
+        String filePath = uploadPath + File.separator + fileName;
+        filePart.write(filePath);
+        // Lưu vào database
+
+        AirlinesDAO airlineDAO = new AirlinesDAO();
+        Airlines airline = airlineDAO.getAirlineById(id);
+        airline.setAirlineName(airlineName);
+        airline.setInformation(information);
+        airline.setImage(fileName);
+        airline.setClassVipCapacity(classVip);
+        airline.setClassEconomyCapacity(classEconomy);
+        airline.setStatus(status);
+        boolean success = airlineDAO.updateAirline(airline);
+
+        if (success) {
+            request.setAttribute("msg", "Airline update successfully");
+            request.setAttribute("airline", airline);
+            request.getRequestDispatcher( "/views/admin/jsp/updateAirline.jsp").forward(request, response);
+        } else {
+            response.sendRedirect("error.jsp"); // Điều hướng nếu thất bại
+        }
     }
 }
