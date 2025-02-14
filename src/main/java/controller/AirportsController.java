@@ -28,12 +28,6 @@ public class AirportsController extends HttpServlet {
             if(service.equals("listAll")) {
                     String submit = req.getParameter("submit");
                     String sql = "select * from airports";
-                    if(submit != null) {
-                        String locate = req.getParameter("airportName");
-                        sql = "SELECT * \n" +
-                                "FROM airports \n" +
-                                "WHERE b.LocationName LIKE '%" + locate + "%'";
-                    }
                     List<Airports> listAirports = dao.getAllAirportsHieu(sql);
                     session.setAttribute("airports", listAirports);
                    resp.sendRedirect(req.getContextPath() + "/views/admin/jsp/viewListAirports.jsp");

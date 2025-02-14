@@ -47,8 +47,8 @@
         </div>
 
         <ul class="sidebar-menu pt-3">
-            <li><a href="Dashboard.jsp"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
-            <li><a href="appointment.html"><i class="uil uil-stethoscope me-2 d-inline-block"></i>Updating</a>
+            <li><a href="<%= request.getContextPath() %>/views/admin/jsp/Dashboard.jsp"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
+            <li><a href="#"><i class="uil uil-stethoscope me-2 d-inline-block"></i>Updating</a>
             </li>
 
             <li class="sidebar-dropdown">
