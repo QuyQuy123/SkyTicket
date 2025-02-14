@@ -49,9 +49,17 @@ public class AirlinesAddServlet extends HttpServlet {
             String filePath = uploadPath + File.separator + fileName;
             filePart.write(filePath);
 
+
+
             // Lưu vào database
             Airlines airline = new Airlines(airlineName, fileName, information, status, classVip, classEconomy);
             AirlinesDAO airlineDAO = new AirlinesDAO();
+
+//            if(airlineDAO.isAirlineNameExists(airlineName)){
+//                request.setAttribute("msg", "Airline name already exists");
+//                request.getRequestDispatcher("/views/admin/jsp/addAirline.jsp").forward(request, response);
+//            }
+
             boolean success = airlineDAO.addAirline(airline);
 
             if (success) {

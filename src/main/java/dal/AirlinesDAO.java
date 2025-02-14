@@ -226,5 +226,21 @@ public class AirlinesDAO extends DBConnect {
         return 0;
     }
 
+    // Kiểm tra xem airlineName đã tồn tại chưa
+    public boolean isAirlineNameExists(String airlineName) {
+        String query = "SELECT COUNT(*) FROM Airlines WHERE airlineName = ?";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setString(1, airlineName);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
 
 }

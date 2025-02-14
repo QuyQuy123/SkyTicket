@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.Random;
 
-import static com.oracle.wls.shaded.org.apache.xalan.xsltc.compiler.Constants.CHARACTERS;
+// static com.oracle.wls.shaded.org.apache.xalan.xsltc.compiler.Constants.CHARACTERS;
 
 public class AccountDAO extends DBConnect {
 
@@ -215,14 +215,5 @@ public class AccountDAO extends DBConnect {
         return false;
     }
 
-    public String generateRandomString() {
-        StringBuilder sb = new StringBuilder(8);
-        Random r = new Random();
-        for (int i = 0; i < 8; i++) {
-            int index = r.nextInt(CHARACTERS.length());
-            sb.append(CHARACTERS.charAt(index));
-        }
-        return sb.toString();
-    }
 
 }
