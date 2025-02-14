@@ -4,6 +4,7 @@
     <option name="state">
       <map>
         <entry key="file://$PROJECT_DIR$/src/main/webapp/views/admin/jsp/addAirline.jsp" value="file://$PROJECT_DIR$/src/main/webapp/views/admin/jsp" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/views/admin/jsp/addAirport.jsp" value="file://$PROJECT_DIR$/src/main/webapp/views/admin/jsp" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/views/admin/jsp/updateAirline.jsp" value="file://$PROJECT_DIR$/src/main/webapp/views/admin/jsp" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/views/admin/jsp/viewListAirlines.jsp" value="file://$PROJECT_DIR$/src/main/webapp/views/admin/jsp" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/views/public/Home.jsp" value="file://$PROJECT_DIR$/src/main/webapp/views/public" />

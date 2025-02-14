@@ -15,11 +15,17 @@ public class Airports {
     // Alt + Ins
 
 
-    public Airports(int airportId, int status, int locationId, String airportName) {
+    public Airports(int airportId, String airportName,int locationId,  int status) {
         this.airportId = airportId;
         this.status = status;
         this.locationId = locationId;
         this.airportName = airportName;
+    }
+
+    public Airports(String airportName, int locationId,  int status) {
+        this.airportName = airportName;
+        this.locationId = locationId;
+        this.status = status;
     }
 
     public int getAirportId() {
