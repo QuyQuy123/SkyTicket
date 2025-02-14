@@ -84,7 +84,7 @@
             <input type="submit" value="Login" /><br /><br />
         </div>
         <div style="display: flex; justify-content: center;">
-            <a href="https://accounts.google.com/o/oauth2/auth?scope=email profile openid&redirect_uri=http://localhost:8080/SkyTicket/LoginGooglURL&response_type=code&client_id=567083027781-r2dqc8ursvogag062snkt50uhbtnh90r.apps.googleusercontent.com&approval_prompt=force"
+            <a href="https://accounts.google.com/o/oauth2/auth?scope=email profile openid&redirect_uri=http://localhost:8080/SkyTicket/LoginGoogle&response_type=code&client_id=681642137499-mundrf0s16dt26124arimgrp57v5qa7e.apps.googleusercontent.com&approval_prompt=force"
                style="display: inline-flex;
                        align-items: center;
                        justify-content: center;

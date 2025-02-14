@@ -9,15 +9,15 @@ import org.apache.http.client.ClientProtocolException;
 
 public class GoogleLogin {
 
-    public static final String GOOGLE_CLIENT_ID = "711194441943-82t3cf5qbb378s94houag69b5rfglhev.apps.googleusercontent.com";
+    public static final String GOOGLE_CLIENT_ID = "681642137499-mundrf0s16dt26124arimgrp57v5qa7e.apps.googleusercontent.com";
 
-    public static final String GOOGLE_CLIENT_SECRET = "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";
+    public static final String GOOGLE_CLIENT_SECRET = "GGOCSPX-utmtj3fGNwBkeqXUrbaXPn4_47uS";
 
     public static final String GOOGLE_REDIRECT_URI = "http://localhost:8080/SkyTicket/LoginGoogle";
 
     public static final String GOOGLE_GRANT_TYPE = "authorization_code";
 
-    public static final String GOOGLE_LINK_GET_TOKEN = "https://accounts.google.com/o/oauth2/token";
+    public static final String GOOGLE_LINK_GET_TOKEN = "https://oauth2.googleapis.com/token";
 
     public static final String GOOGLE_LINK_GET_USER_INFO = "https://www.googleapis.com/oauth2/v1/userinfo?access_token=";
 
@@ -54,4 +54,6 @@ public class GoogleLogin {
         return googlePojo;
 
     }
+
+
 }

@@ -282,8 +282,8 @@
 
                         <div id="passenger-options" class="passenger-options"
                              style="display: none; position: absolute; top: 50px; left: 15px; z-index: 1000;">
-                            <div class="options-container" style="border: 2px solid #ccc;margin-top: 46px;margin-left: -32px">
-                                <div class="passenger-selector">
+                            <div class="options-container" style="margin-top: 46px;margin-left: -32px">
+                                <div class="passenger-selector" style="    width: 350px;margin-left: -37px;">
                                     <div class="passenger-type">
                                         <div class="passenger-label">Adult</div>
                                         <div class="passenger-controls">

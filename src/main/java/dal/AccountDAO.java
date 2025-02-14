@@ -131,7 +131,7 @@ public class AccountDAO extends DBConnect {
             st.setString(3, a.getPassword());
             st.setString(4, a.getPhoneNumber());
             st.setInt(5, a.getRoleId());
-            st.setInt(8, a.getStatus());
+            st.setInt(6, a.getStatus());
             st.executeUpdate();
         } catch (Exception e) {
             System.out.println(e);
