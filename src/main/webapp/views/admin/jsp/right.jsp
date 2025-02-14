@@ -47,8 +47,8 @@
         </div>
 
         <ul class="sidebar-menu pt-3">
-            <li><a href="Dashboard.jsp"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
-            <li><a href="appointment.html"><i class="uil uil-stethoscope me-2 d-inline-block"></i>Updating</a>
+            <li><a href="<%= request.getContextPath() %>/views/admin/jsp/Dashboard.jsp"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
+            <li><a href="#"><i class="uil uil-stethoscope me-2 d-inline-block"></i>Updating</a>
             </li>
 
             <li class="sidebar-dropdown">
@@ -56,17 +56,18 @@
                 <div class="sidebar-submenu">
                     <ul>
                         <li><a href="chat.html">List of accounts</a></li>
-                        <li><a href="email.html">Add account</a></li>
-
+                        <li><a href="<%= request.getContextPath() %>/views/admin/jsp/addAccount.jsp">Add account</a></li>
                     </ul>
                 </div>
             </li>
+
             <li class="sidebar-dropdown">
                 <a href="javascript:void(0)"><i class="uil uil-user me-2 d-inline-block"></i>Airlines Management</a>
                 <div class="sidebar-submenu">
                     <ul>
                         <li><a href="<%= request.getContextPath() %>/listAirlines">List of airlines</a></li>
-                        <li><a href="<%= request.getContextPath() %>/addAirline">Add airline</a></li>
+                        <li><a href="<%= request.getContextPath() %>/views/admin/jsp/addAirline.jsp">Add airline</a></li>
+
                     </ul>
                 </div>
             </li>

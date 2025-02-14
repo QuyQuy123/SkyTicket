@@ -1,15 +1,8 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: Administrator
-  Date: 2/10/2025
-  Time: 1:03 AM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
@@ -55,35 +48,23 @@
 
 <body>
 
-<!-- Loader -->
-<div id="preloader">
-    <div id="status">
-        <div class="spinner">
-            <div class="double-bounce1"></div>
-            <div class="double-bounce2"></div>
-        </div>
-    </div>
-</div>
-<!-- Loader -->
-
 <div class="page-wrapper doctris-theme toggled">
-
-    <%@include file="right.jsp" %>
+    <%@ include file="right.jsp"%>
 
     <!-- Start Page Content -->
     <main class="page-content bg-light">
-        <%@ include file="top.jsp" %>
+       <%@include file="top.jsp"%>
 
         <div class="container-fluid">
             <div class="layout-specing">
                 <div class="d-md-flex justify-content-between">
-                    <h5 class="mb-0">Add New Airline</h5>
+                    <h5 class="mb-0">Add New Account</h5>
 
                     <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
                         <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
                             <li class="breadcrumb-item"><a href="Dashboard.jsp">SkyTicket</a></li>
-                            <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/listAirlines">Airlines</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Add Airline</li>
+                            <li class="breadcrumb-item"><a href="#">Accounts</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Add Account</li>
                         </ul>
                     </nav>
                 </div>
@@ -98,85 +79,110 @@
                                 </div>
                             </c:if>
 
-                            <form class="mt-4" action="${pageContext.request.contextPath}/addAirline" method="post" enctype="multipart/form-data">
+                            <form class="mt-4" action="${pageContext.request.contextPath}/addAccount" method="post" enctype="multipart/form-data">
                                 <div class="row align-items-center">
                                     <div class="col-lg-5 col-md-4">
-                                        <img id="previewImage" src="${pageContext.request.contextPath}/views/admin/assets/images/airlines/demo_img.jpg"
-                                             class="avatar rounded shadow mt-3" width="280" alt="Airline">
+                                        <img id="previewImage" src="${pageContext.request.contextPath}/views/admin/assets/images/client/demo.webp"
+                                             class="avatar rounded-circle shadow mt-3" width="250" alt="LyLy 2d ">
                                         <hr>
                                         <input type="file" name="airlineImage" id="airlineImage" class="form-control">
                                     </div><!--end col-->
 
                                     <div class="col-lg-7 col-md-8 text-center text-md-start mt-4 mt-sm-0">
                                         <h5 class="">Upload picture</h5>
-                                        <p class="text-muted mb-0">For best results, use an image at least 600px by
-                                            600px in either .jpg or .png format</p>
-                                    </div><!--end col-->
+                                        <p class="text-muted mb-0"> For best results, use an image at least 600px by
+                                            600px in either .jpg or .png format </p>
+                                    </div> <!--end col-->
 
 
-                                </div><!--end row-->
+                                </div> <!--end row-->
 
                                 <br>
 
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label" for="name">Airline Name: </label>
-                                            <input name="name" id="name" type="text"
+                                            <label class="form-label" for="fullName">Full Name: </label>
+                                            <input name="fullName" id="fullName" type="text"
                                                                              class="form-control"
-                                                                             placeholder="Airline name">
+                                                                             placeholder="Enter your name">
                                         </div>
-                                    </div><!--end col-->
+                                    </div>
 
 
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label">Status</label>
-                                            <select class="form-control gender-name select2input" name="status">
+                                            <label class="form-label" for="dob">Date of birth: </label>
+                                            <input name="dob" id="dob" type="text"
+                                                                             class="form-control"
+                                                                             placeholder="Enter your birth">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="email">Email: </label>
+                                            <input name="email" id="email" type="text"
+                                                                             class="form-control"
+                                                                             placeholder="Enter your email">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="password">Password: </label>
+                                            <input name="password" id="password" type="text"
+                                                                             class="form-control"
+                                                                             placeholder="Enter your password">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="phone">Phone: </label>
+                                            <input name="phone" id="phone" type="text"
+                                                                             class="form-control"
+                                                                             placeholder="Phone number">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="address">Address: </label>
+                                            <input name="address" id="address" type="text"
+                                                                             class="form-control"
+                                                                             placeholder="Enter your address">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="status">Status</label>
+                                            <select class="form-control gender-name select2input" name="status" id="status">
                                                 <option value="1">Active</option>
                                                 <option value="0" selected>Deactive</option>
                                             </select>
                                         </div>
-                                    </div><!--end col-->
-
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="classVip">Capacity Class Vip: </label>
-                                            <input name="classVip" id="classVip"
-                                                   type="number" min="10" max="50"
-                                                   class="form-control"
-                                                   placeholder="Number of seat Vip">
-                                        </div>
                                     </div>
 
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label" for="classEconomy">Capacity Class Economy: </label>
-                                            <input name="classEconomy"
-                                                   id="classEconomy" type="number"
-                                                   min="10" max="50"
-                                                   class="form-control"
-                                                   placeholder="Number of seats economy">
+                                            <label class="form-label" for="roleId">Role: </label>
+                                            <input name="roleId" id="roleId" type="text"
+                                                                             class="form-control"
+                                                                             placeholder="Role">
                                         </div>
                                     </div>
 
 
-                                    <div class="col-md-12">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="information">Airline information</label>
-                                            <textarea name="information"
-                                                      id="information" rows="3"
-                                                      class="form-control"
-                                                      placeholder="Infor"></textarea>
-                                        </div>
-                                    </div>
-                                </div><!--end row-->
+
+                                </div> <!--end row-->
 
                                 <button type="submit" class="btn btn-primary">Add airline</button>
                                 <button type="reset" class="btn btn-primary">Reset</button>
                             </form>
                         </div>
-                    </div><!--end col-->
+                    </div> <!--end col-->
 
                     <div class="col-lg-4 mt-4">
                         <div class="card rounded border-0 shadow">
@@ -196,7 +202,7 @@
 
                                 <li class="mt-4 text-center">
                                     <a href="#" class="btn btn-gradient px-4 py-2 rounded-pill shadow">
-                                        <i class="bi bi-heart-fill text-danger"></i> Thank you <3
+                                        <i class="bi bi-heart-fill text-danger"> </i> Thank you <3
                                     </a>
                                 </li>
                             </ul>
@@ -205,15 +211,18 @@
 
 
                     </div>
-                </div><!--end row-->
+                </div> <!--end row-->
             </div>
-        </div><!--end container-->
+        </div> <!--end container-->
 
-        <%@include file="bottom.jsp" %>
+        <!-- Footer Start -->
+        <%@ include file="bottom.jsp"%>
+        <!-- End -->
     </main>
     <!--End page-content" -->
 </div>
 <!-- page-wrapper -->
+
 
 
 <!-- javascript -->
@@ -229,15 +238,6 @@
 <!-- Main Js -->
 <script src="${pageContext.request.contextPath}/views/admin/assets/js/app.js"></script>
 
-<script>
-    document.getElementById('airlineImage').addEventListener('change', function (event) {
-        let reader = new FileReader();
-        reader.onload = function () {
-            document.getElementById('previewImage').src = reader.result;
-        };
-        reader.readAsDataURL(event.target.files[0]);
-    });
-</script>
-
 </body>
+
 </html>

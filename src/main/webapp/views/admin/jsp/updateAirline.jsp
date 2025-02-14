@@ -99,6 +99,9 @@
                             </c:if>
 
                             <form class="mt-4" action="${pageContext.request.contextPath}/updateAirline" method="post" enctype="multipart/form-data">
+                                <input type="hidden" name="airlineId" value="${airl.airlineId}">
+                                <input type="hidden" name="oldImage" value="${airl.image}">
+
                                 <div class="row align-items-center">
                                     <div class="col-lg-5 col-md-4">
                                         <img id="previewImage" src="${pageContext.request.contextPath}/img/${airl.image}"
@@ -174,7 +177,6 @@
 
                                 <button type="submit" class="btn btn-primary">Update airline</button>
                                 <a href="${pageContext.request.contextPath}/listAirlines" class="btn btn-danger">Cancel</a>
-
                             </form>
                         </div>
                     </div><!--end col-->
