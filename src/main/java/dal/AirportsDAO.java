@@ -174,6 +174,16 @@ public List<Airports> searchAirports(String search, Integer status) {
     }
     return list;
 }
+    public boolean deleteAirport(int airportId) {
+        String sql = "DELETE FROM Airports WHERE airportId = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, airportId);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
     public static void main(String[] args) {
         AirportsDAO dao = new AirportsDAO();
