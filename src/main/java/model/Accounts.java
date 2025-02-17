@@ -30,7 +30,17 @@ public class Accounts {
         this.roleId = roleId;
     }
 
-    public Accounts(int accountId,String fullName, String email, String phone, String address, String img, Date dob) {
+    public Accounts(String fullName, String email, String password, String phone, String img, int roleId) {
+        this.fullName = fullName;
+        this.email = email;
+        this.password = password;
+        this.phone = phone;
+        this.img = img;
+
+        this.roleId = roleId;
+    }
+
+    public Accounts(int accountId, String fullName, String email, String phone, String address, String img, Date dob) {
         this.accountId = accountId;
         this.fullName = fullName;
         this.email = email;

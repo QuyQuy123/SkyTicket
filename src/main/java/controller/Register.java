@@ -76,21 +76,27 @@ public class Register extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String fullname = request.getParameter("fullname");
-        String email = request.getParameter("email");
-        String phone = request.getParameter("phone");
-        String password = request.getParameter("password");
+        String name = request.getParameter("name").trim();
+        String email = request.getParameter("email").trim();
+        String phoneNumber = request.getParameter("phoneNumber").trim();
+        String pass = request.getParameter("pass");
         RegisterDAO d = new RegisterDAO();
-        if (d.checkPhoneNumberExisted(phone)) {
+        if (d.checkPhoneNumberExisted(phoneNumber)) {
             request.setAttribute("existedUsername", "Số điện thoại đã được đăng ký!");
             request.getRequestDispatcher("views/public/Register.jsp").forward(request, response);
         } else if (d.checkEmailExisted(email)) {
             request.setAttribute("existedUsername", "Gmail đã được đăng ký!");
             request.getRequestDispatcher("views/public/Register.jsp").forward(request, response);
         } else {
-            Accounts a = new Accounts(fullname, email, password, phone);
-            d.addNewAccount(a); // Thêm tài khoản vào database
-            request.getRequestDispatcher("views/public/Login.jsp").forward(request, response);
+            EmailServlet em = new EmailServlet();
+            String otp = em.generateOTP(6);
+            em.sendOTPEmail(email, otp);
+            request.setAttribute("otp", otp);
+            request.setAttribute("name", name);
+            request.setAttribute("email", email);
+            request.setAttribute("phoneNumber", phoneNumber);
+            request.setAttribute("pass", pass);
+            request.getRequestDispatcher("views/public/VerifyOTP.jsp").forward(request, response);
         }
     }
 
