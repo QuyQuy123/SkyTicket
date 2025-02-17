@@ -21,8 +21,30 @@ public class GoogleLogin {
 
     public static final String GOOGLE_LINK_GET_USER_INFO = "https://www.googleapis.com/oauth2/v1/userinfo?access_token=";
 
-    public String getToken(String code) throws ClientProtocolException, IOException {
+//    public String getToken(String code) throws ClientProtocolException, IOException {
+//
+//        String response = Request.Post(GOOGLE_LINK_GET_TOKEN)
+//                .bodyForm(
+//                        Form.form()
+//                                .add("client_id", GOOGLE_CLIENT_ID)
+//                                .add("client_secret", GOOGLE_CLIENT_SECRET)
+//                                .add("redirect_uri", GOOGLE_REDIRECT_URI)
+//                                .add("code", code)
+//                                .add("grant_type", GOOGLE_GRANT_TYPE)
+//                                .build()
+//                )
+//                .execute().returnContent().asString();
+//
+//        JsonObject jobj = new Gson().fromJson(response, JsonObject.class);
+//
+//        String accessToken = jobj.get("access_token").toString().replaceAll("\"", "");
+//
+//        return accessToken;
+//
+//    }
 
+
+    public String getToken(String code) throws ClientProtocolException, IOException {
         String response = Request.Post(GOOGLE_LINK_GET_TOKEN)
                 .bodyForm(
                         Form.form()
@@ -35,13 +57,20 @@ public class GoogleLogin {
                 )
                 .execute().returnContent().asString();
 
+        System.out.println("Google API Response: " + response); // In toàn bộ response
+
         JsonObject jobj = new Gson().fromJson(response, JsonObject.class);
 
-        String accessToken = jobj.get("access_token").toString().replaceAll("\"", "");
+        if (jobj.has("error")) {
+            throw new RuntimeException("Error from Google: " + jobj.toString());
+        }
 
-        return accessToken;
-
+        return jobj.get("access_token").getAsString();
     }
+
+
+
+
 
     public UserGoogle getUserInfo(final String accessToken) throws ClientProtocolException, IOException {
 
@@ -53,6 +82,13 @@ public class GoogleLogin {
 
         return googlePojo;
 
+    }
+
+    public static void main(String[] args) throws IOException {
+        String code = "4%2F0ASVgi3KDYg2gT3j-G-CRTWagIF6XLojw16yfqVXWElHuPPPRhTtnm2owGQZZjUsg0APxEg";
+        GoogleLogin googleLogin = new GoogleLogin();
+        String accessToken = googleLogin.getToken(code);
+        System.out.println(accessToken);
     }
 
 

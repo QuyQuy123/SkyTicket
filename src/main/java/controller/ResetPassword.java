@@ -69,33 +69,33 @@ public class ResetPassword extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-//    @Override
-//    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-//            throws ServletException, IOException {
-//        AccountDAO ad = new AccountDAO();
-//        EmailServlet e = new EmailServlet();
-//
-//        //get parameter then check it
-//        String email = request.getParameter("email");
-//        //if email not exist show error
-//        if (!ad.checkEmailExist(email)) {
-//            request.setAttribute("error", "Your email is not existed!");
-//            request.getRequestDispatcher("views/public/ResetPassword.jsp").forward(request, response);
-//        } else {
-//            //get id from request to change password
-//            int id = ad.findIdByEmail(email);
-//            String idByEmail = String.valueOf(id);
-//            //create new password random
-//            String newPassword = ad.generateRandomString();
-//            //update this password in databse
-//            ad.changePassword(idByEmail, newPassword);
-//            //send new password for user by email
-//            e.sendPasswordEmail(email, newPassword);
-//            request.setAttribute("notice", "New password is sent to your email!");
-//            request.getRequestDispatcher("views/public/Login.jsp").forward(request, response);
-//        }
-//
-//    }
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        AccountDAO ad = new AccountDAO();
+        EmailServlet e = new EmailServlet();
+
+        //get parameter then check it
+        String email = request.getParameter("email");
+        //if email not exist show error
+        if (!ad.checkEmailExist(email)) {
+            request.setAttribute("error", "Your email is not existed!");
+            request.getRequestDispatcher("views/public/ResetPassword.jsp").forward(request, response);
+        } else {
+            //get id from request to change password
+            int id = ad.findIdByEmail(email);
+            String idByEmail = String.valueOf(id);
+            //create new password random
+            String newPassword = ad.generateRandomString();
+            //update this password in databse
+            ad.changePassword(idByEmail, newPassword);
+            //send new password for user by email
+            e.sendPasswordEmail(email, newPassword);
+            request.setAttribute("notice", "New password is sent to your email!");
+            request.getRequestDispatcher("views/public/Login.jsp").forward(request, response);
+        }
+
+    }
 
     @Override
     public String getServletInfo() {

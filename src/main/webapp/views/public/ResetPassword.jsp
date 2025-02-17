@@ -27,14 +27,14 @@
     </h1>
 
     <div>
-        <a href="home" style="position: relative; left: -30px; top: -99px; transition: none; cursor: move;">
-            <i style="font-size: 20px;color: #3c6e57;" class="bi bi-arrow-90deg-left"></i>
+        <a href="home" style="position: relative; left: -30px; top: -99px; transition: none; cursor: pointer;">
+            <i style="font-size: 20px;color: #3c6e57;" class="bi bi-house"></i>
         </a>
     </div>
     <form action="<%= request.getContextPath() %>/ResetPasswordURL" method="post">
         <div class="form-group">
             <input type="email" name="email" required />
-            <label for="">Your email:</label>
+            <label >Your email:</label>
 
         </div>
         <p id="capslock-warning" style="display: none; margin-bottom: 30px">⚠️ Caps Lock is on</p>
@@ -42,7 +42,7 @@
         <div class="button">
             <input id="submit" type="submit" value="Receive Email" /><br /><br />
         </div>
-        Did you remember the password? <a class="letDoIt" href="login">Login</a>
+        Did you remember the password? <a class="letDoIt" href="LoginURL">Login</a>
     </form>
 </div>
 <script>

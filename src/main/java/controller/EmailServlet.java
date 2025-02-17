@@ -7,20 +7,20 @@ package controller;
 
 import java.util.Date;
 import java.util.Properties;
-import javax.mail.Authenticator;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
+import jakarta.mail.Authenticator;
+import jakarta.mail.Message;
+import jakarta.mail.MessagingException;
+import jakarta.mail.PasswordAuthentication;
+import jakarta.mail.Session;
+import jakarta.mail.Transport;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMessage;
 
 public class EmailServlet {
 
 
-    final String from = "...?";
-    final String passWord = "...?";
+    final String from = "skyticket.work@gmail.com";
+    final String passWord = "hzxd bxzv pmsm grut";
 
     public void sendPasswordEmail(String to, String newPassword) {
         //Properties: khai bao cac thuoc tinh
@@ -71,11 +71,8 @@ public class EmailServlet {
 
 
     public static void main(String[] args) {
-//        EmailServlet email = new EmailServlet();
-//        String otp = email.generateOTP(6);
-//        System.out.println(otp);
-//        email.sendOTPEmail("quanhthe187097@fpt.edu.vn", otp);
-//
-//        email.sendOrderEmail("duongnthe186310@fpt.edu.vn", null);
+            EmailServlet em = new EmailServlet();
+            em.sendPasswordEmail("quynvhe186703@fpt.edu.vn", "123456");
+
     }
 }

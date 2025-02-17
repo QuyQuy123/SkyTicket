@@ -9,6 +9,8 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.Random;
 
+import static com.oracle.wls.shaded.org.apache.xalan.xsltc.compiler.Constants.CHARACTERS;
+
 // static com.oracle.wls.shaded.org.apache.xalan.xsltc.compiler.Constants.CHARACTERS;
 
 public class AccountDAO extends DBConnect {
@@ -87,10 +89,10 @@ public class AccountDAO extends DBConnect {
         }
     }
     public void changePassword(String idAccount, String newPassword) {
-        String sqlupdate = "UPDATE `Accounts`\n"
+        String sqlupdate = "UPDATE Accounts \n"
                 + "SET\n"
-                + "`password` = ?\n"
-                + "WHERE `AccountId` = ?";
+                + "password = ?\n"
+                + "WHERE AccountId = ?";
         try {
             PreparedStatement pre = connection.prepareStatement(sqlupdate);
 //            String encode = encryptAES(newPassword, SECRET_KEY);
@@ -123,7 +125,7 @@ public class AccountDAO extends DBConnect {
     }
 
     public void addNewGoogleAccount(UserGoogle a) {
-        String sql = "INSERT INTO Accounts (FullName, email, password, Phone, RolesId, Status) VALUES (?,?,?,?,?,?)";
+        String sql = "INSERT INTO Accounts (FullName, email, password, Phone, RoleId, Status) VALUES (?,?,?,?,?,?)";
 
         try (PreparedStatement st = connection.prepareStatement(sql)) {
             st.setString(1, a.getName());
@@ -140,17 +142,31 @@ public class AccountDAO extends DBConnect {
 
 
 
-
-
-
-
-
-    //Test method
+    // Test method
     public static void main(String[] args) {
         AccountDAO dao = new AccountDAO();
-        int a = dao.getIdByEmailOrPhoneNumber("admin@example.com");
-        System.out.println(a);
+        int id = dao.findIdByEmail("quyhslc11@gmail.com");
+        System.out.println(id);
     }
+
+    public String generateRandomString() {
+        StringBuilder sb = new StringBuilder(8);
+        Random r = new Random();
+        for (int i = 0; i < 8; i++) {
+            int index = r.nextInt(CHARACTERS.length());
+            sb.append(CHARACTERS.charAt(index));
+        }
+        return sb.toString();
+    }
+
+
+
+
+
+
+
+
+
 
 
     // Phần này nên tạo riêng 1 DAO lưu các method phía dưới
@@ -222,20 +238,22 @@ public class AccountDAO extends DBConnect {
     }
 
     public int findIdByEmail(String email) {
-        String sql = "select id from Accounts where email = ?";
+        String sql = "select accountId from Accounts where email = ?";
         int userId = -1;
         try {
             PreparedStatement pre = connection.prepareStatement(sql);
             pre.setString(1, email);
             ResultSet rs = pre.executeQuery();
             if (rs.next()) {
-                userId = rs.getInt("id");
+                userId = rs.getInt("accountId");
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
         return userId;
     }
+
+
 
     public boolean checkEmailExist(String email) {
         String sql = "select * from Accounts where email = ?";
@@ -252,6 +270,9 @@ public class AccountDAO extends DBConnect {
         }
         return false;
     }
+
+
+
 
 
 }
