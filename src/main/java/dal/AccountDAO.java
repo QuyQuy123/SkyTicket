@@ -1,6 +1,7 @@
 package dal;
 
 import model.Accounts;
+import model.UserGoogle;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -103,6 +104,41 @@ public class AccountDAO extends DBConnect {
     }
 
 
+    public void addNewAccount(Accounts a) {
+        String sql = "INSERT INTO Accounts (FullName, email, password, Phone, RolesId, Status) VALUES (?,?,?,?,?,?)";
+
+
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
+            st.setString(1, a.getFullName());
+            st.setString(2, a.getEmail());
+//            String encode = encryptAES(a.getPassword(), SECRET_KEY);
+            st.setString(3, a.getPassword());
+            st.setString(4, a.getPhone());
+            st.setInt(5, a.getRoleId());
+            st.setInt(6, a.getStatus());
+            st.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    public void addNewGoogleAccount(UserGoogle a) {
+        String sql = "INSERT INTO Accounts (FullName, email, password, Phone, RolesId, Status) VALUES (?,?,?,?,?,?)";
+
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
+            st.setString(1, a.getName());
+            st.setString(2, a.getEmail());
+            st.setString(3, a.getPassword());
+            st.setString(4, a.getPhoneNumber());
+            st.setInt(5, a.getRoleId());
+            st.setInt(6, a.getStatus());
+            st.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+
 
 
 
@@ -170,6 +206,8 @@ public class AccountDAO extends DBConnect {
             try (ResultSet rs = st.executeQuery()) {
                 return rs.next(); // Trả về true nếu email tồn tại
             }
+        } catch (SQLException e) {
+            return false;
         }
     }
 

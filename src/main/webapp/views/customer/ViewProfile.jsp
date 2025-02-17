@@ -41,7 +41,7 @@
         <div id="info-in4">
             <strong>Full Name:</strong>
             <p>${requestScope.account.fullName}</p>
-            <strong>Day of birth:</strong>
+            <strong>Date of birth:</strong>
             <p>${requestScope.account.dob}</p>
             <strong>Email:</strong>
             <p>${requestScope.account.email}</p>

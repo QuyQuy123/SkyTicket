@@ -105,7 +105,7 @@
                                 <div class="row align-items-center">
                                     <div class="col-lg-5 col-md-4">
                                         <img id="previewImage" src="${pageContext.request.contextPath}/img/${airl.image}"
-                                             class="avatar rounded shadow mt-3" width="280" alt="Airline Image">
+                                             class="avatar rounded shadow mt-3" width="280" alt="Airline">
                                         <hr>
                                         <input type="file" name="airlineImage" id="airlineImage" class="form-control">
                                     </div><!--end col-->
@@ -124,8 +124,8 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label">Airline Name: </label>
-                                            <label for="name"></label><input name="name" id="name" type="text"
+                                            <label class="form-label" for="name">Airline Name: </label>
+                                            <input name="name" id="name" type="text"
                                                                              class="form-control"
                                                                              value="${airl.airlineName != null? airl.airlineName:''}">
                                         </div>
@@ -134,8 +134,8 @@
 
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label">Status</label>
-                                            <select class="form-control gender-name select2input" name="status">
+                                            <label class="form-label" for="we">Status</label>
+                                            <select class="form-control gender-name select2input" name="status" id="we">
                                                 <option value="1" ${airl.status == 1 ? 'selected' : ''}>Active</option>
                                                 <option value="0" ${airl.status == 0 ? 'selected' : ''}>Deactive</option>
                                             </select>
@@ -145,8 +145,8 @@
 
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label">Capacity Class Vip: </label>
-                                            <label for="classVip"></label><input name="classVip" id="classVip"
+                                            <label class="form-label" for="classVip">Capacity Class Vip: </label>
+                                            <input name="classVip" id="classVip"
                                                                                  type="number" min="10" max="50"
                                                                                  class="form-control"
                                                                                  value="${airl.classVipCapacity != null? airl.classVipCapacity:''}">
@@ -155,8 +155,8 @@
 
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label">Capacity Class Economy: </label>
-                                            <label for="classEconomy"></label><input name="classEconomy"
+                                            <label class="form-label" for="classEconomy">Capacity Class Economy: </label>
+                                            <input name="classEconomy"
                                                                                      id="classEconomy" type="number"
                                                                                      min="10" max="50"
                                                                                      class="form-control"
@@ -167,8 +167,7 @@
 
                                     <div class="col-md-12">
                                         <div class="mb-3">
-                                            <label class="form-label">Airline information</label>
-                                            <label for="information"></label>
+                                            <label class="form-label" for="information">Airline information</label>
                                             <textarea name="information" id="information" rows="3" class="form-control">${airl.information != null ? airl.information : ''}</textarea>
 
                                         </div>

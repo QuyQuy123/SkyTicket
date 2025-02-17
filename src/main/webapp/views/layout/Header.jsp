@@ -34,7 +34,7 @@
 
     </nav>
     <div class="auth-buttons">
-        <% if (account != null) { %>
+        <% if (account!= null) { %>
         <div class="account-header" style="position: relative; right: 54px">
             <img id="avatar-img" style="
                     width: 40px;
@@ -59,10 +59,15 @@
                     margin-top: 2px;
             ">
                     <li><a href="Infor">Account Information</a></li>
+                    <% if(account.getRoleId()==1){ %>
+                    <li><a href="admin">Manager</a></li>
+                    <%}%>
                     <li><a href="changePaswordURL">Change Password</a></li>
                     <li><a style="color: red;" href="LogoutURL">Log out</a></li>
                 </ul>
             </div>
+
+
         </div>
         <% } else { %>
         <button class="btn-login" onclick="location.href='<%= request.getContextPath() %>/LoginURL'">Đăng nhập</button>

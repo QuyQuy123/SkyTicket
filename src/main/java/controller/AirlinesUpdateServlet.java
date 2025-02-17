@@ -59,20 +59,18 @@ public class AirlinesUpdateServlet extends HttpServlet {
         Part filePart = request.getPart("airlineImage");
         String fileName = "";
 
-        if(filePart != null) {
+        if (filePart != null && filePart.getSize() > 0) {  // Chỉ xử lý nếu có file mới
             fileName = filePart.getSubmittedFileName();
-        }else{
-            filePart = request.getPart("oldImage");
-            fileName = filePart.getSubmittedFileName();
+            String uploadPath = getServletContext().getRealPath("") + File.separator + UPLOAD_DIR;
+            File uploadDir = new File(uploadPath);
+            if (!uploadDir.exists()) uploadDir.mkdirs(); // Tạo thư mục nếu chưa có
+
+            String filePath = uploadPath + File.separator + fileName;
+            filePart.write(filePath);
+        } else {
+            fileName = request.getParameter("oldImage"); // Lấy tên file cũ từ request
         }
 
-        String uploadPath = getServletContext().getRealPath("") + File.separator + UPLOAD_DIR;
-        File uploadDir = new File(uploadPath);
-        if (!uploadDir.exists()) uploadDir.mkdir();
-
-        String filePath = uploadPath + File.separator + fileName;
-        filePart.write(filePath);
-        // Lưu vào database
 
         AirlinesDAO airlineDAO = new AirlinesDAO();
         Airlines airline = airlineDAO.getAirlineById(id);
