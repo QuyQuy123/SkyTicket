@@ -24,14 +24,14 @@ public class GoogleLoginHandlerController extends HttpServlet {
         HttpSession session = request.getSession();
         String code = request.getParameter("code");
         GoogleLogin gg = new GoogleLogin();
-        //String accesstoken = gg.getToken(code);
-        String accesstoken = "ya29.a0AXeO80QXAbfi_SzrxdIwSDYiZHUq_hvOTUJKAz0CVY4FfoyK5HnfQXC8BtVq2bnGA9OD_cXfgRopGc5n4M48VMiOX8V1O9tRW_RLkJFDcBuhfQlQRmIeXXDWfzL1c6uWdIiENxJZJrzD9kdfAIvsNesvvLwdGnYkn1jiRGo3aCgYKAXoSAQ8SFQHGX2MiyoIjNZ9uCvSKYy4pl2_AIQ0175";
+        String accesstoken = gg.getToken(code);
+
 
 
 
         UserGoogle data = gg.getUserInfo(accesstoken);
         UserGoogle acc = new UserGoogle(data.getName(), data.getEmail(),"123456", data.getPhoneNumber(),
-                "img/member.jpg", 2, 1);
+                "defaultlogo.jpg", 2, 1);
 
         if (!dao.checkEmailExists(data.getEmail())) {
             dao.addNewGoogleAccount(acc);}

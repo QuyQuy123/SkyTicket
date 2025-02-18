@@ -125,15 +125,16 @@ public class AccountDAO extends DBConnect {
     }
 
     public void addNewGoogleAccount(UserGoogle a) {
-        String sql = "INSERT INTO Accounts (FullName, email, password, Phone, RoleId, Status) VALUES (?,?,?,?,?,?)";
+        String sql = "INSERT INTO Accounts (FullName, email, password, Phone,img, RoleId, Status) VALUES (?,?,?,?,?,?,?)";
 
         try (PreparedStatement st = connection.prepareStatement(sql)) {
             st.setString(1, a.getName());
             st.setString(2, a.getEmail());
             st.setString(3, a.getPassword());
             st.setString(4, a.getPhoneNumber());
-            st.setInt(5, a.getRoleId());
-            st.setInt(6, a.getStatus());
+            st.setString(5, a.getImage());
+            st.setInt(6, a.getRoleId());
+            st.setInt(7, a.getStatus());
             st.executeUpdate();
         } catch (Exception e) {
             System.out.println(e);

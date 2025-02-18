@@ -9,9 +9,9 @@ import org.apache.http.client.ClientProtocolException;
 
 public class GoogleLogin {
 
-    public static final String GOOGLE_CLIENT_ID = "681642137499-mundrf0s16dt26124arimgrp57v5qa7e.apps.googleusercontent.com";
+    public static final String GOOGLE_CLIENT_ID = "320434410566-roa3pt0l2daks98s6r9o32t9jn4akq79.apps.googleusercontent.com";
 
-    public static final String GOOGLE_CLIENT_SECRET = "GGOCSPX-utmtj3fGNwBkeqXUrbaXPn4_47uS";
+    public static final String GOOGLE_CLIENT_SECRET = "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";
 
     public static final String GOOGLE_REDIRECT_URI = "http://localhost:8080/SkyTicket/LoginGoogle";
 
@@ -21,30 +21,8 @@ public class GoogleLogin {
 
     public static final String GOOGLE_LINK_GET_USER_INFO = "https://www.googleapis.com/oauth2/v1/userinfo?access_token=";
 
-//    public String getToken(String code) throws ClientProtocolException, IOException {
-//
-//        String response = Request.Post(GOOGLE_LINK_GET_TOKEN)
-//                .bodyForm(
-//                        Form.form()
-//                                .add("client_id", GOOGLE_CLIENT_ID)
-//                                .add("client_secret", GOOGLE_CLIENT_SECRET)
-//                                .add("redirect_uri", GOOGLE_REDIRECT_URI)
-//                                .add("code", code)
-//                                .add("grant_type", GOOGLE_GRANT_TYPE)
-//                                .build()
-//                )
-//                .execute().returnContent().asString();
-//
-//        JsonObject jobj = new Gson().fromJson(response, JsonObject.class);
-//
-//        String accessToken = jobj.get("access_token").toString().replaceAll("\"", "");
-//
-//        return accessToken;
-//
-//    }
-
-
     public String getToken(String code) throws ClientProtocolException, IOException {
+
         String response = Request.Post(GOOGLE_LINK_GET_TOKEN)
                 .bodyForm(
                         Form.form()
@@ -57,18 +35,13 @@ public class GoogleLogin {
                 )
                 .execute().returnContent().asString();
 
-        System.out.println("Google API Response: " + response); // In toàn bộ response
-
         JsonObject jobj = new Gson().fromJson(response, JsonObject.class);
 
-        if (jobj.has("error")) {
-            throw new RuntimeException("Error from Google: " + jobj.toString());
-        }
+        String accessToken = jobj.get("access_token").toString().replaceAll("\"", "");
 
-        return jobj.get("access_token").getAsString();
+        return accessToken;
+
     }
-
-
 
 
 
