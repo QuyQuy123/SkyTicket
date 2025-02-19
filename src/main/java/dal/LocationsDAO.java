@@ -31,12 +31,13 @@ public class LocationsDAO extends  DBConnect{
         return list;
     }
 
-    public List<Locations> searchLocation(String name) {
+    public List<Locations> searchLocation(String name, int Status) {
         List<Locations> list = new ArrayList<>();
-        String sql = "select * from Locations where LocationName like ?";
+        String sql = "select * from Locations where LocationName like ? AND Status like ?";
         try {
             PreparedStatement prepare = connection.prepareStatement(sql);
             prepare.setString(1, "%" + name + "%");
+            prepare.setInt(2, Status);
             ResultSet rs = prepare.executeQuery();
             while (rs.next()) {
                 int id = rs.getInt("LocationId");
@@ -159,8 +160,11 @@ public class LocationsDAO extends  DBConnect{
     }
 
 
+
+
     public static void main(String[] args) {
         LocationsDAO dao = new LocationsDAO();
+        System.out.println(dao.searchLocation("Hà Nội", 1));
     }
 
 

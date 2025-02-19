@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebServlet(name = "LocationsAddServlet", urlPatterns = {"/LocationAdd"})
-public class LocationsAddServlet extends HttpServlet {
+public class LocationsAdd extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getRequestDispatcher("views/admin/jsp/addLocation.jsp").forward(req, resp);
