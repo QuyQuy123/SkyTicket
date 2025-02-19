@@ -3,7 +3,7 @@
 
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="vi">
 
 <head>
     <meta charset="utf-8"/>
@@ -79,13 +79,13 @@
                                 </div>
                             </c:if>
 
-                            <form class="mt-4" action="${pageContext.request.contextPath}/addAccount" method="post" enctype="multipart/form-data">
+                            <form class="mt-4" action="${pageContext.request.contextPath}/manageAccount" method="post" enctype="multipart/form-data">
                                 <div class="row align-items-center">
                                     <div class="col-lg-5 col-md-4">
                                         <img id="previewImage" src="${pageContext.request.contextPath}/views/admin/assets/images/client/demo.webp"
                                              class="avatar rounded-circle shadow mt-3" width="250" alt="LyLy 2d ">
                                         <hr>
-                                        <input type="file" name="airlineImage" id="airlineImage" class="form-control">
+                                        <input type="file" name="accountImg" id="accountImg" class="form-control">
                                     </div><!--end col-->
 
                                     <div class="col-lg-7 col-md-8 text-center text-md-start mt-4 mt-sm-0">
@@ -113,9 +113,8 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label class="form-label" for="dob">Date of birth: </label>
-                                            <input name="dob" id="dob" type="text"
-                                                                             class="form-control"
-                                                                             placeholder="Enter your birth">
+                                            <input name="dob" id="dob" type="date"
+                                                                             class="form-control">
                                         </div>
                                     </div>
 
@@ -168,9 +167,12 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label class="form-label" for="roleId">Role: </label>
-                                            <input name="roleId" id="roleId" type="text"
-                                                                             class="form-control"
-                                                                             placeholder="Role">
+
+                                            <select class="form-control gender-name select2input" name="roleId" id="roleId">
+                                                <c:forEach var="role" items="${rolesList}">
+                                                    <option value="${role.roleId}">${role.roleName}</option>
+                                                </c:forEach>
+                                            </select>
                                         </div>
                                     </div>
 

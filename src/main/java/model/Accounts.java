@@ -57,6 +57,18 @@ public class Accounts {
         this.phone = phone;
     }
 
+    public Accounts(String fullName, String email, String password, String phone, String address, String img, Date dob, int status, int roleId) {
+        this.fullName = fullName;
+        this.email = email;
+        this.password = password;
+        this.phone = phone;
+        this.address = address;
+        this.img = img;
+        this.dob = dob;
+        this.status = status;
+        this.roleId = roleId;
+    }
+
     public int getAccountId() {
         return accountId;
     }

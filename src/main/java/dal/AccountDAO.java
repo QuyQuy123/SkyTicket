@@ -273,6 +273,33 @@ public class AccountDAO extends DBConnect {
     }
 
 
+    //Code của Bộ cấm xóa
+    public boolean addAccount(Accounts account) {
+        // Kiểm tra xem email đã tồn tại chưa
+        if (checkEmailExist(account.getEmail())) {
+            return false; // Không thêm nếu email đã tồn tại
+        }
+
+        String sql = "INSERT INTO Accounts (FullName, Email, Password, Phone, Address, Img, Dob, Status, RoleId) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
+            st.setString(1, account.getFullName());
+            st.setString(2, account.getEmail());
+            st.setString(3, account.getPassword());
+            st.setString(4, account.getPhone());
+            st.setString(5, account.getAddress());
+            st.setString(6, account.getImg());
+            st.setDate(7, account.getDob());
+            st.setInt(8, account.getStatus());
+            st.setInt(9, account.getRoleId());
+
+            int rowsInserted = st.executeUpdate();
+            return rowsInserted > 0; // Trả về true nếu thêm thành công
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
 
 

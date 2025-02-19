@@ -56,7 +56,7 @@
                 <div class="sidebar-submenu">
                     <ul>
                         <li><a href="chat.html">List of accounts</a></li>
-                        <li><a href="<%= request.getContextPath() %>/views/admin/jsp/addAccount.jsp">Add account</a></li>
+                        <li><a href="<%= request.getContextPath() %>/manageAccount">Add account</a></li>
                     </ul>
                 </div>
             </li>
