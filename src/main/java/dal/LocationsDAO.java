@@ -158,25 +158,9 @@ public class LocationsDAO extends  DBConnect{
         return false;
     }
 
-    public boolean isLocationNameExists(String locationName) {
-        String sql = "SELECT COUNT(*) FROM Locations WHERE LocationName = ?";
-        try (Connection conn = this.connection;
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, locationName);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next() && rs.getInt(1) > 0) {
-                return true;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
 
     public static void main(String[] args) {
         LocationsDAO dao = new LocationsDAO();
-        System.out.println(dao.isLocationNameExists("Hà Nội"));
     }
 
 
