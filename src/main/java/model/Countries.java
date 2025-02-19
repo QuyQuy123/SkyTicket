@@ -38,4 +38,13 @@ public class Countries {
     public void setCountryName(String countryName) {
         this.countryName = countryName;
     }
+
+    @Override
+    public String toString() {
+        return "Countries{" +
+                "countryid=" + countryId +
+                ", countryname='" + countryName + '\'' +
+                ", status=" + status +
+                '}';
+    }
 }

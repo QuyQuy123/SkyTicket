@@ -10,6 +10,12 @@ public class Locations {
     public Locations() {
     }
 
+    public Locations(String locationName, int countryId, int status) {
+        this.locationName = locationName;
+        this.countryId = countryId;
+        this.status = status;
+    }
+
     public Locations(int locationId, String locationName, int countryId, int status) {
         this.locationId = locationId;
         this.locationName = locationName;

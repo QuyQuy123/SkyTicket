@@ -1,13 +1,13 @@
 package dal;
 
 
+import model.Airlines;
+import model.Airports;
 import model.Locations;
 
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.sql.SQLException;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 
 
 public class LocationsDAO extends  DBConnect{
@@ -108,9 +108,75 @@ public class LocationsDAO extends  DBConnect{
 
     // Đã test full
 
+    // Lấy danh sách hãng hàng không theo trang
+    public List<Locations> getLocationsByPage(int start, int total) {
+        List<Locations> list = new ArrayList<>();
+        String query = "SELECT * FROM Locations LIMIT ?, ?";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, start);
+            ps.setInt(2, total);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Locations(
+                        rs.getInt("LocationID"),
+                        rs.getString("LocationName"),
+                        rs.getInt("CountryID"),
+                        rs.getInt("Status")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    // Đếm tổng số location
+    public int getTotalLocations() {
+        String query = "SELECT COUNT(*) FROM Locations";
+        try (Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public boolean addLocation(Locations location) {
+        String sql = "INSERT INTO Locations (LocationName, CountryId, Status) VALUES (?, ?, ?)";
+        try (Connection conn = this.connection;
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, location.getLocationName());
+            ps.setInt(2, location.getCountryId());
+            ps.setInt(3, location.getStatus());
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean isLocationNameExists(String locationName) {
+        String sql = "SELECT COUNT(*) FROM Locations WHERE LocationName = ?";
+        try (Connection conn = this.connection;
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, locationName);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next() && rs.getInt(1) > 0) {
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
     public static void main(String[] args) {
         LocationsDAO dao = new LocationsDAO();
-        System.out.println(dao.getLocationsByCountryId(3));
+        System.out.println(dao.isLocationNameExists("Hà Nội"));
     }
 
 
