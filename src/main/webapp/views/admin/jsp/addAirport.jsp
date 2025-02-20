@@ -51,6 +51,14 @@
     </div>
 </div>
 <!-- Loader -->
+<%
+    String errorMsg = (String) session.getAttribute("error");
+    if (errorMsg != null) {
+%>
+<div class="alert alert-danger" role="alert">
+    <%= errorMsg %>
+</div>
+<% session.removeAttribute("errorMsg"); } %>
 
 <div class="page-wrapper doctris-theme toggled">
     <%@include file="right.jsp" %>

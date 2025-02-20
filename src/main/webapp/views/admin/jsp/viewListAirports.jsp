@@ -2,8 +2,6 @@
 <!DOCTYPE html>
 <%@ page import="java.util.List" %>
 <%@ page import="model.Airports" %>
-<%@ page import="dal.AirportsDAO" %>
-<%@ page import = "java.util.Vector" %>
 <%@ page import="model.Locations" %>
 <%@ page import="java.util.ArrayList" %>
 <html lang="en">
@@ -37,6 +35,9 @@
         <%
             List<Airports> listAirports = (List<Airports>) request.getAttribute("airports");
             List<Locations> listLocations = (List<Locations>) request.getAttribute("locations");
+
+            int currentPage = (Integer) request.getAttribute("currentPage");
+            int totalPages = (Integer) request.getAttribute("totalPage");
 
             if (listAirports == null) listAirports = new ArrayList<>();
             if (listLocations == null) listLocations = new ArrayList<>();
@@ -152,6 +153,31 @@
             </div>
         </div><!--end container-->
 
+        <!--phân trang-->
+        <c:choose>
+            <c:when test="${searchpage == 'page'}">
+                <div class="d-flex justify-content-center mt-3">
+                    <div class="pagination">
+                        <c:if test="${currentPage > 1}">
+                            <a href="${pageContext.request.contextPath}/AirportSearch?page=1&search=${search}&status=${status}"
+                               class="btn btn-outline-primary">First</a>
+                            <a href="${pageContext.request.contextPath}/AirportSearch?page=${currentPage - 1}&search=${search}&status=${status}"
+                               class="btn btn-outline-primary">Previous</a>
+                        </c:if>
+
+                        <span class="btn btn-primary">${currentPage} / ${totalPages}</span>
+
+                        <c:if test="${currentPage < totalPages}">
+                            <a href="${pageContext.request.contextPath}/AirportSearch?page=${currentPage + 1}&search=${search}&status=${status}"
+                               class="btn btn-outline-primary">Next</a>
+                            <a href="${pageContext.request.contextPath}/AirportSearch?page=${totalPages}&search=${search}&status=${status}"
+                               class="btn btn-outline-primary">Last</a>
+                        </c:if>
+                    </div>
+                </div>
+            </c:when>
+
+        </c:choose>
         <!-- Footer Start -->
         <%@include file="bottom.jsp"%>
         <!-- End -->
