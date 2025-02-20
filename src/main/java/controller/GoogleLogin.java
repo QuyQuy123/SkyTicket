@@ -9,9 +9,9 @@ import org.apache.http.client.ClientProtocolException;
 
 public class GoogleLogin {
 
-    public static final String GOOGLE_CLIENT_ID = "681642137499-mundrf0s16dt26124arimgrp57v5qa7e.apps.googleusercontent.com";
+    public static final String GOOGLE_CLIENT_ID = "320434410566-roa3pt0l2daks98s6r9o32t9jn4akq79.apps.googleusercontent.com";
 
-    public static final String GOOGLE_CLIENT_SECRET = "GGOCSPX-utmtj3fGNwBkeqXUrbaXPn4_47uS";
+    public static final String GOOGLE_CLIENT_SECRET = "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";
 
     public static final String GOOGLE_REDIRECT_URI = "http://localhost:8080/SkyTicket/LoginGoogle";
 
@@ -43,6 +43,8 @@ public class GoogleLogin {
 
     }
 
+
+
     public UserGoogle getUserInfo(final String accessToken) throws ClientProtocolException, IOException {
 
         String link = GOOGLE_LINK_GET_USER_INFO + accessToken;
@@ -53,6 +55,13 @@ public class GoogleLogin {
 
         return googlePojo;
 
+    }
+
+    public static void main(String[] args) throws IOException {
+        String code = "4%2F0ASVgi3KDYg2gT3j-G-CRTWagIF6XLojw16yfqVXWElHuPPPRhTtnm2owGQZZjUsg0APxEg";
+        GoogleLogin googleLogin = new GoogleLogin();
+        String accessToken = googleLogin.getToken(code);
+        System.out.println(accessToken);
     }
 
 

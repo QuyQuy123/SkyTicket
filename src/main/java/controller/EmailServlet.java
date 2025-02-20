@@ -7,20 +7,22 @@ package controller;
 
 import java.util.Date;
 import java.util.Properties;
-import javax.mail.Authenticator;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
+import java.util.Random;
+
+import jakarta.mail.Authenticator;
+import jakarta.mail.Message;
+import jakarta.mail.MessagingException;
+import jakarta.mail.PasswordAuthentication;
+import jakarta.mail.Session;
+import jakarta.mail.Transport;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMessage;
 
 public class EmailServlet {
 
 
-    final String from = "...?";
-    final String passWord = "...?";
+    final String from = "skyticket.work@gmail.com";
+    final String passWord = "hzxd bxzv pmsm grut";
 
     public void sendPasswordEmail(String to, String newPassword) {
         //Properties: khai bao cac thuoc tinh
@@ -69,13 +71,66 @@ public class EmailServlet {
         }
     }
 
+    public String generateOTP(int length) {
+        StringBuilder otp = new StringBuilder();
+        Random rand = new Random();
+        for (int i = 0; i < length; i++) {
+            otp.append(rand.nextInt(10)); // Thêm số ngẫu nhiên từ 0 đến 9
+        }
+        return otp.toString();
+    }
+
+    public void sendOTPEmail(String to, String otp) {
+        if (to == null || to.isEmpty()) {
+            throw new IllegalArgumentException("Email người nhận không thể là null hoặc rỗng.");
+        }
+        if (otp == null || otp.isEmpty()) {
+            throw new IllegalArgumentException("OTP không thể là null hoặc rỗng.");
+        }
+        if (from == null || from.isEmpty()) {
+            throw new IllegalArgumentException("Email người gửi không thể là null hoặc rỗng.");
+        }
+        if (passWord == null || passWord.isEmpty()) {
+            throw new IllegalArgumentException("Mật khẩu không thể là null hoặc rỗng.");
+        }
+
+        Properties pro = new Properties();
+        pro.put("mail.smtp.host", "smtp.gmail.com");
+        pro.put("mail.smtp.port", "587");
+        pro.put("mail.smtp.auth", "true");
+        pro.put("mail.smtp.starttls.enable", "true");
+
+        Authenticator authen = new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(from, passWord);
+            }
+        };
+
+        Session session = Session.getInstance(pro, authen);
+
+        MimeMessage msg = new MimeMessage(session);
+        try {
+            msg.addHeader("Content-type", "text/HTML");
+            msg.setFrom(from);
+            msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to, false));
+            msg.setSubject("Mã OTP Xác Thực Của Bạn", "UTF-8");
+            msg.setSentDate(new Date());
+
+            // Nội dung email bao gồm mã OTP
+            msg.setText("Mã OTP của bạn là: " + otp + "\nMã này có hiệu lực trong vòng 5 phút.", "UTF-8");
+
+            Transport.send(msg);
+            System.out.println("Email OTP đã được gửi thành công!");
+        } catch (MessagingException ex) {
+            ex.printStackTrace();
+        }
+    }
+
 
     public static void main(String[] args) {
-//        EmailServlet email = new EmailServlet();
-//        String otp = email.generateOTP(6);
-//        System.out.println(otp);
-//        email.sendOTPEmail("quanhthe187097@fpt.edu.vn", otp);
-//
-//        email.sendOrderEmail("duongnthe186310@fpt.edu.vn", null);
+            EmailServlet em = new EmailServlet();
+            em.sendOTPEmail("quyhslc11@gmail.com", "123456");
+
     }
 }

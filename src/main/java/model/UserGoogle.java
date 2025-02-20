@@ -29,7 +29,7 @@ public class UserGoogle {
         this.image = image;
         this.dob = dob;
         this.roleId = roleId;
-        Status = status;
+        this.Status = status;
     }
 
     public UserGoogle(String name, String email, String password, String phoneNumber, String image, int roleId, int status) {
@@ -39,7 +39,7 @@ public class UserGoogle {
         this.phoneNumber = phoneNumber;
         this.image = image;
         this.roleId = roleId;
-        Status = status;
+        this.Status = status;
     }
 
     public String getId() {

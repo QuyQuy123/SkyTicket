@@ -26,16 +26,19 @@ public class GoogleLoginHandlerController extends HttpServlet {
         GoogleLogin gg = new GoogleLogin();
         String accesstoken = gg.getToken(code);
 
+
+
+
         UserGoogle data = gg.getUserInfo(accesstoken);
-        UserGoogle acc = new UserGoogle(data.getName(), data.getEmail(), data.getPassword(), data.getPhoneNumber(),
-                "img/member.jpg", 2, 1);
+        UserGoogle acc = new UserGoogle(data.getName(), data.getEmail(),"123456", data.getPhoneNumber(),
+                "defaultlogo.jpg", 2, 1);
 
         if (!dao.checkEmailExists(data.getEmail())) {
-            dao.addNewGoogleAccount(acc);
-        } else if (ld.checkStatus(data.getEmail())) {
-            request.setAttribute("error", "Tài khoản của bạn đã bị khóa");
-            request.getRequestDispatcher("views/public/Login.jsp").forward(request, response);
-        }
+            dao.addNewGoogleAccount(acc);}
+//        } else if (ld.checkStatus(data.getEmail())) {
+//            request.setAttribute("error", "Tài khoản của bạn đã bị khóa");
+//            request.getRequestDispatcher("views/public/Login.jsp").forward(request, response);
+//        }
         int id = ad.getIdByEmailOrPhoneNumber(acc.getEmail());
         session.setAttribute("id", id);
         response.sendRedirect("home");

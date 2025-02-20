@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package dal;
 
 //import controller.GoogleLogin;
@@ -12,9 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import model.Accounts;
 
-import static controller.EncodeController.SECRET_KEY;
-import static controller.EncodeController.encryptAES;
-//import model.UserGoogleDto;
+
 
 public class RegisterDAO extends DBConnect {
 
@@ -43,14 +38,16 @@ public class RegisterDAO extends DBConnect {
     }
 
     public void addNewAccount(Accounts a) {
-        String sql = "INSERT INTO Accounts (fullname, email, password, phone, roleid) " +
-                "VALUES (?, ?, ?, ?, 2)";
+        String sql = "INSERT INTO Accounts (fullname, email, password, phone,img, roleid) " +
+                "VALUES (?, ?, ?, ?,?, 2)";
 
         try (PreparedStatement st = connection.prepareStatement(sql)) {
             st.setString(1, a.getFullName());
             st.setString(2, a.getEmail());
             st.setString(3, a.getPassword());
             st.setString(4, a.getPhone());
+            st.setString(5, a.getImg());
+
 
             int rowsAffected = st.executeUpdate();
             if (rowsAffected > 0) {
@@ -67,16 +64,8 @@ public class RegisterDAO extends DBConnect {
 
     public static void main(String[] args) {
         RegisterDAO rd = new RegisterDAO();
-        Accounts a = new Accounts("Nguyen Kien", "nguyentrungkien11502@gmail.com", "123", "0862852423");
-        if (rd.checkEmailExisted(a.getEmail())) {
-            System.out.println("Email already exists!");
-            return;
-        }
-        if (rd.checkPhoneNumberExisted(a.getPhone())) {
-            System.out.println("Phone number already exists!");
-            return;
-        }
+        Accounts a = new Accounts("quycoi","quynv123@gmail.com","1234567","0989148758","logo.jpg",2);
         rd.addNewAccount(a);
-        System.out.println("Account registered successfully!");
+
     }
 }
