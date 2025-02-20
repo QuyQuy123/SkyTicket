@@ -51,14 +51,7 @@
     </div>
 </div>
 <!-- Loader -->
-<%
-    String errorMsg = (String) session.getAttribute("error");
-    if (errorMsg != null) {
-%>
-<div class="alert alert-danger" role="alert">
-    <%= errorMsg %>
-</div>
-<% session.removeAttribute("errorMsg"); } %>
+
 
 <div class="page-wrapper doctris-theme toggled">
     <%@include file="right.jsp" %>
@@ -94,6 +87,17 @@
                     }
                 %>
 
+                <%
+                    String errorMsg = (String) session.getAttribute("errorMsg");
+                    if (errorMsg != null) {
+                %>
+                <div class="alert alert-success" role="alert">
+                    <%= errorMsg %>
+                </div>
+                <% session.removeAttribute("errorMsg"); %>
+                <%
+                    }
+                %>
 
                 <div>
                     <form action="<%= request.getContextPath() %>/AirportAddServlet" method="post">
@@ -114,7 +118,7 @@
                                             <div class="col-md-6">
                                                 <div class="mb-3">
                                                     <label class="form-label" for="airportName">Airport Name</label>
-                                                    <input name="name" id="airportName" type="text" class="form-control"
+                                                    <input name="airportName" id="airportName" type="text" class="form-control"
                                                            placeholder="Airport Name " required>
                                                 </div>
                                             </div><!--end col-->

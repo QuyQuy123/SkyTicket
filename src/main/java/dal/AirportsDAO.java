@@ -254,9 +254,9 @@ public class AirportsDAO extends DBConnect {
         }
     }
     public boolean isAirportExist(String airportName) {
-        String sql = "SELECT 1 FROM airport WHERE airportName = ?";
+        String sql = "SELECT 1 FROM airports WHERE airportName LIKE ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setString(1, airportName);
+            ps.setString(1, "%" + airportName + "%"); // Tìm kiếm một phần tên sân bay
             try (ResultSet rs = ps.executeQuery()) {
                 return rs.next(); // Nếu có kết quả, tức là đã tồn tại
             }
@@ -267,9 +267,19 @@ public class AirportsDAO extends DBConnect {
     }
 
 
+
     public static void main(String[] args) {
         AirportsDAO dao = new AirportsDAO();
 
+        // Test với chuỗi nhập không đầy đủ
+        String partialName = "Nội Bài"; // Người dùng chỉ nhập một phần tên
+        boolean exists = dao.isAirportExist(partialName);
+        System.out.println("Does airport contain '" + partialName + "'? " + exists);
+
+        // Test với một tên không tồn tại
+        String nonExisting = "Fake Airport";
+        boolean notExists = dao.isAirportExist(nonExisting);
+        System.out.println("Does airport contain '" + nonExisting + "'? " + notExists);
 //        // ✅ Test 1: Tìm kiếm theo tên sân bay
 //        System.out.println("🔎 Searching airports with name containing 'International'...");
 //        List<Airports> result1 = dao.searchAirports(null, 2);
