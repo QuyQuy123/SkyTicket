@@ -3,6 +3,7 @@ package controller;
 import dal.AccountDAO;
 import dal.RolesDAO;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,10 +14,14 @@ import model.Roles;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Date;
 import java.util.List;
 
+@MultipartConfig(
+        fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+        maxFileSize = 1024 * 1024 * 10,      // 10MB
+        maxRequestSize = 1024 * 1024 * 50    // 50MB
+)
 @WebServlet("/manageAccount")
 public class ManageAccountsServlet extends HttpServlet {
 
@@ -38,17 +43,21 @@ public class ManageAccountsServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        RolesDAO rolesDAO = new RolesDAO();
+        List<Roles> rolesList = rolesDAO.getAllRoles();
+
+
         // Nhận dữ liệu từ form
         String fullName = request.getParameter("fullName");
         String dobStr = request.getParameter("dob");
         Date dob = Date.valueOf(dobStr);
+
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String phone = request.getParameter("phone");
         String address = request.getParameter("address");
         int status = Integer.parseInt(request.getParameter("status"));
         int roleId = Integer.parseInt(request.getParameter("roleId"));
-
 
 
         // Xử lý file upload
@@ -69,17 +78,23 @@ public class ManageAccountsServlet extends HttpServlet {
 
         // Gọi DAO để lưu vào database
         AccountDAO accountDAO = new AccountDAO();
-        boolean isAdded = accountDAO.addAccount(new Accounts(fullName, email, password, phone, address, fileName, dob, status, roleId));
+        Accounts a = new Accounts(fullName, email, password, phone, address, fileName, dob, status, roleId);
+        boolean isAdded = accountDAO.addAccount(a);
+
+        System.out.println(a.toString());
 
         // Chuyển hướng hoặc hiển thị thông báo
         if (isAdded) {
-            request.setAttribute("msg", "Thêm tài khoản thành công!");
+            request.setAttribute("msg", "Add account successfully!");
         } else {
-            request.setAttribute("msg", "Thêm tài khoản thất bại!");
+            request.setAttribute("msg", "Add account failed!");
         }
 
+        request.setAttribute("rolesList", rolesList);
         // Quay lại trang Add Account
         request.getRequestDispatcher("/views/admin/jsp/addAccount.jsp").forward(request, response);
     }
 
+
 }
+

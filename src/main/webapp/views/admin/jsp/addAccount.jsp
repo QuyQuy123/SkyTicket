@@ -3,7 +3,7 @@
 
 <!DOCTYPE html>
 
-<html lang="vi">
+<html lang="en">
 
 <head>
     <meta charset="utf-8"/>
@@ -62,7 +62,7 @@
 
                     <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
                         <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
-                            <li class="breadcrumb-item"><a href="Dashboard.jsp">SkyTicket</a></li>
+                            <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/views/admin/jsp/Dashboard.jsp">SkyTicket</a></li>
                             <li class="breadcrumb-item"><a href="#">Accounts</a></li>
                             <li class="breadcrumb-item active" aria-current="page">Add Account</li>
                         </ul>
@@ -83,7 +83,7 @@
                                 <div class="row align-items-center">
                                     <div class="col-lg-5 col-md-4">
                                         <img id="previewImage" src="${pageContext.request.contextPath}/views/admin/assets/images/client/demo.webp"
-                                             class="avatar rounded-circle shadow mt-3" width="250" alt="LyLy 2d ">
+                                             class="avatar rounded-circle shadow mt-3" width="250" alt="Account Lyly ">
                                         <hr>
                                         <input type="file" name="accountImg" id="accountImg" class="form-control">
                                     </div><!--end col-->
@@ -113,7 +113,7 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label class="form-label" for="dob">Date of birth: </label>
-                                            <input name="dob" id="dob" type="date"
+                                            <input type="date" name="dob" id="dob"
                                                                              class="form-control">
                                         </div>
                                     </div>
@@ -239,6 +239,16 @@
 <script src="${pageContext.request.contextPath}/views/admin/assets/js/feather.min.js"></script>
 <!-- Main Js -->
 <script src="${pageContext.request.contextPath}/views/admin/assets/js/app.js"></script>
+
+<script>
+    document.getElementById('accountImg').addEventListener('change', function (event) {
+        let reader = new FileReader();
+        reader.onload = function () {
+            document.getElementById('previewImage').src = reader.result;
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    });
+</script>
 
 </body>
 
