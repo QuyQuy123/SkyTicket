@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="MyDB" uuid="9ed683a2-2e0b-45c2-9beb-ab38590fd966">
+    <data-source source="LOCAL" name="DB" uuid="5fdf4299-11b3-42ed-b072-30ec630c08c7">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/skytickets</jdbc-url>
+      <jdbc-url>jdbc:mysql://localhost:3306/skyticket</jdbc-url>
       <jdbc-additional-properties>
         <property name="com.intellij.clouds.kubernetes.db.host.port" />
         <property name="com.intellij.clouds.kubernetes.db.enabled" value="false" />
