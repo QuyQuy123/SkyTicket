@@ -1,12 +1,15 @@
 package dal;
 
 import model.Accounts;
+import model.Airlines;
 import model.UserGoogle;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 import static com.oracle.wls.shaded.org.apache.xalan.xsltc.compiler.Constants.CHARACTERS;
@@ -88,6 +91,7 @@ public class AccountDAO extends DBConnect {
             ex.printStackTrace();
         }
     }
+
     public void changePassword(String idAccount, String newPassword) {
         String sqlupdate = "UPDATE Accounts \n"
                 + "SET\n"
@@ -142,7 +146,6 @@ public class AccountDAO extends DBConnect {
     }
 
 
-
     // Test method
     public static void main(String[] args) {
         AccountDAO dao = new AccountDAO();
@@ -159,15 +162,6 @@ public class AccountDAO extends DBConnect {
         }
         return sb.toString();
     }
-
-
-
-
-
-
-
-
-
 
 
     // Phần này nên tạo riêng 1 DAO lưu các method phía dưới
@@ -255,7 +249,6 @@ public class AccountDAO extends DBConnect {
     }
 
 
-
     public boolean checkEmailExist(String email) {
         String sql = "select * from Accounts where email = ?";
         try {
@@ -273,16 +266,21 @@ public class AccountDAO extends DBConnect {
     }
 
 
-    //Code của Bộ cấm xóa
+    /*
+        This method add account create by Duy Bo
+     */
     public boolean addAccount(Accounts account) {
-        // Kiểm tra xem email đã tồn tại chưa
         if (checkEmailExist(account.getEmail())) {
-            return false; // Không thêm nếu email đã tồn tại
+            System.out.println("Email existed!!!: " + account.getEmail());
+            return false;
         }
 
         String sql = "INSERT INTO Accounts (FullName, Email, Password, Phone, Address, Img, Dob, Status, RoleId) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement st = connection.prepareStatement(sql)) {
+            System.out.println("Run SQL: " + sql);
+            System.out.println("Data: " + account.toString());
+
             st.setString(1, account.getFullName());
             st.setString(2, account.getEmail());
             st.setString(3, account.getPassword());
@@ -294,13 +292,210 @@ public class AccountDAO extends DBConnect {
             st.setInt(9, account.getRoleId());
 
             int rowsInserted = st.executeUpdate();
-            return rowsInserted > 0; // Trả về true nếu thêm thành công
+            System.out.println("Number of row effected: " + rowsInserted);
+
+            return rowsInserted > 0;
         } catch (SQLException e) {
+            System.out.println("Error: ");
             e.printStackTrace();
             return false;
         }
     }
 
+    /*
+        Get list Account create by Duy Bo
+     */
+    public List<Accounts> getAllAccounts() {
+        List<Accounts> list = new ArrayList<>();
+        String sql = "SELECT * FROM Accounts";
+        try (PreparedStatement ps = connection.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                list.add(new Accounts(
+                        rs.getInt("AccountId"),
+                        rs.getString("FullName"),
+                        rs.getString("Email"),
+                        rs.getString("Password"),
+                        rs.getString("Phone"),
+                        rs.getString("Address"),
+                        rs.getString("Img"),
+                        rs.getDate("Dob"),
+                        rs.getInt("Status"),
+                        rs.getInt("RoleId")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 
+
+    public boolean updateAccountStatus(int accountId, int status) {
+        String query = "UPDATE Accounts SET status = ? WHERE accountId = ?";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, status);
+            ps.setInt(2, accountId);
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean updateAccount(Accounts account) {
+        String sql = "UPDATE Accounts SET FullName = ?, Password = ?, Phone = ?, Address = ?, Img = ?, Dob = ?, Status = ?, RoleId = ? WHERE AccountId = ?";
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
+            st.setString(1, account.getFullName());
+            st.setString(2, account.getPassword());
+            st.setString(3, account.getPhone());
+            st.setString(4, account.getAddress());
+            st.setString(5, account.getImg());
+            st.setDate(6, account.getDob());
+            st.setInt(7, account.getStatus());
+            st.setInt(8, account.getRoleId());
+            st.setInt(9, account.getAccountId());
+
+
+            int rowsUpdated = st.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (SQLException e) {
+            System.err.println("Lỗi khi cập nhật tài khoản: " + e.getMessage());
+            return false;
+        }
+    }
+
+
+    // Lấy danh sách hãng hàng không theo trang
+    public List<Accounts> getAccountsByPage(int start, int total) {
+        List<Accounts> list = new ArrayList<>();
+        String query = "SELECT * FROM Accounts LIMIT ?, ?";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, start);
+            ps.setInt(2, total);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Accounts(
+                        rs.getInt("AccountId"),
+                        rs.getString("FullName"),
+                        rs.getString("Email"),
+                        rs.getString("Password"),
+                        rs.getString("Phone"),
+                        rs.getString("Address"),
+                        rs.getString("Img"),
+                        rs.getDate("Dob"),
+                        rs.getInt("Status"),
+                        rs.getInt("RoleId")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public int getTotalAccounts() {
+        String sql = "SELECT COUNT(*) AS total FROM Accounts";
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("total");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public List<Accounts> searchAccounts(String search, Integer roleId, Integer status, int start, int total) {
+        List<Accounts> list = new ArrayList<>();
+        String query = "SELECT * FROM Accounts WHERE 1=1";
+
+        if (search != null && !search.trim().isEmpty()) {
+            query += " AND (FullName LIKE ? OR email LIKE ? OR phone LIKE ?)";
+        }
+        if (roleId != null) {
+            query += " AND roleId = ?";
+        }
+        if (status != null) {
+            query += " AND status = ?";
+        }
+        query += " LIMIT ?, ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            int index = 1;
+            if (search != null && !search.trim().isEmpty()) {
+                ps.setString(index++, "%" + search + "%");
+                ps.setString(index++, "%" + search + "%");
+                ps.setString(index++, "%" + search + "%");
+            }
+            if (roleId != null) {
+                ps.setInt(index++, roleId);
+            }
+            if (status != null) {
+                ps.setInt(index++, status);
+            }
+            ps.setInt(index++, start);
+            ps.setInt(index++, total);
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Accounts(
+                        rs.getInt("AccountId"),
+                        rs.getString("FullName"),
+                        rs.getString("Email"),
+                        rs.getString("Password"),
+                        rs.getString("Phone"),
+                        rs.getString("Address"),
+                        rs.getString("Img"),
+                        rs.getDate("Dob"),
+                        rs.getInt("Status"),
+                        rs.getInt("RoleId")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    // Đếm số lượng tài khoản phù hợp
+    public int countFilteredAccounts(String search, Integer roleId, Integer status) {
+        String query = "SELECT COUNT(*) FROM Accounts WHERE 1=1";
+
+        if (search != null && !search.trim().isEmpty()) {
+            query += " AND (fullName LIKE ? OR email LIKE ? OR phone LIKE ?)";
+        }
+        if (roleId != null) {
+            query += " AND roleId = ?";
+        }
+        if (status != null) {
+            query += " AND status = ?";
+        }
+
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            int index = 1;
+            if (search != null && !search.trim().isEmpty()) {
+                ps.setString(index++, "%" + search + "%");
+                ps.setString(index++, "%" + search + "%");
+                ps.setString(index++, "%" + search + "%");
+            }
+            if (roleId != null) {
+                ps.setInt(index++, roleId);
+            }
+            if (status != null) {
+                ps.setInt(index++, status);
+            }
+
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 
 }

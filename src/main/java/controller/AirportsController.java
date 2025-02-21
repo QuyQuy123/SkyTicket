@@ -30,6 +30,8 @@ public class AirportsController extends HttpServlet {
                     String sql = "select * from airports";
                     List<Airports> listAirports = dao.getAllAirportsHieu(sql);
                     session.setAttribute("airports", listAirports);
+
+
                    resp.sendRedirect(req.getContextPath() + "/views/admin/jsp/viewListAirports.jsp");
                    // req.getRequestDispatcher("/views/admin/jsp/viewListAirports.jsp").forward(req, resp);
 

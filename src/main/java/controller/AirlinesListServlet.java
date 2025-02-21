@@ -21,9 +21,7 @@ public class AirlinesListServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-
         AirlinesDAO airlinesDAO = new AirlinesDAO();
-
 
         // Xác định trang hiện tại
         int page = 1;

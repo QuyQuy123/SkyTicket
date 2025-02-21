@@ -14,17 +14,34 @@ import java.util.List;
 
 @WebServlet(name = "AirportListServlet", urlPatterns = {"/AirportListURL"})
 public class AirportsListServlet extends HttpServlet {
+    private static final int Records_Per_Page = 5;
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");
-        AirportsDAO dao = new AirportsDAO();
+        int page = 1;
+        if (req.getParameter("page") != null) {
+            try {
+                page = Integer.parseInt(req.getParameter("page"));
+            } catch (NumberFormatException e) {
+                page = 1; // Nếu không phải là số hợp lệ, chọn trang mặc định là 1
+            }
+        }
+
+        int start = (page - 1) * Records_Per_Page;
+
+        AirportsDAO airportsDAO = new AirportsDAO();
         LocationsDAO locDao = new LocationsDAO();
-            String sql = "SELECT *  FROM airports";
-            List<Airports> listAirports = dao.getAllAirportsHieu(sql);
+            //String sql = "SELECT *  FROM airports";
+            List<Airports> listAirports = airportsDAO.getAirportsByPage(start, Records_Per_Page);
+            List<Locations> listLocations = locDao.getAllLocation();
+            int totalRecords = airportsDAO.getTotalAirports();
+            int totalPages = (int) Math.ceil((double) totalRecords / Records_Per_Page);
+
             req.setAttribute("airports", listAirports);
-        List<Locations> listLocations = locDao.getAllLocation();
-        req.setAttribute("locations", listLocations);
-        req.getRequestDispatcher("/views/admin/jsp/viewListAirports.jsp").forward(req, resp);
+            req.setAttribute("currentPage", page);
+            req.setAttribute("totalPage", totalPages);
+            req.setAttribute("locations", listLocations);
+            req.getRequestDispatcher("/views/admin/jsp/viewListAirports.jsp").forward(req, resp);
     }
 
     @Override

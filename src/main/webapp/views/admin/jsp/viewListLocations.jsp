@@ -2,13 +2,16 @@
 <!DOCTYPE html>
 <%@ page import="java.util.List" %>
 <%@ page import="model.Airports" %>
+<%@ page import="dal.AirportsDAO" %>
+<%@ page import = "java.util.Vector" %>
 <%@ page import="model.Locations" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="model.Countries" %>
 <html lang="en">
 
 <head>
     <meta charset="utf-8" />
-    <title>Skyticket - Airport mangement</title>
+    <title>Skyticket - Locations mangement</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Premium Bootstrap 4 Landing Page Template" />
     <meta name="keywords" content="Appointment, Booking, System, Dashboard, Health" />
@@ -32,18 +35,15 @@
 </head>
 
 <body>
-        <%
-            List<Airports> listAirports = (List<Airports>) request.getAttribute("airports");
-            List<Locations> listLocations = (List<Locations>) request.getAttribute("locations");
+<%
+    List<Locations> listLocations = (List<Locations>) request.getAttribute("locations");
+    List<Countries> listCountries = (List<Countries>) request.getAttribute("countries");
 
-            int currentPage = (Integer) request.getAttribute("currentPage");
-            int totalPages = (Integer) request.getAttribute("totalPage");
+    if (listLocations == null) listLocations = new ArrayList<>();
+    if (listCountries == null) listCountries = new ArrayList<>();
+%>
 
-            if (listAirports == null) listAirports = new ArrayList<>();
-            if (listLocations == null) listLocations = new ArrayList<>();
-        %>
-
-        <!-- Loader -->
+<!-- Loader -->
 <div id="preloader">
     <div id="status">
         <div class="spinner">
@@ -77,19 +77,18 @@
         <div class="container-fluid">
             <div class="layout-specing">
                 <div class="d-md-flex justify-content-between">
-                    <h5 class="mb-0">Airports List</h5>
+                    <h5 class="mb-0">Locations List</h5>
 
                     <div class="search-bar p-0 d-none d-md-block ms-2">
                         <div id="search" class="menu-search mb-0">
-                            <form action="<%= request.getContextPath() %>/AirportSearch" method="get"
+                            <form action="<%= request.getContextPath() %>/searchLocations" method="get"
                                   class="d-flex">
                                 <!-- Ô tìm kiếm -->
                                 <input type="text" name="search" class="form-control border rounded-pill me-2"
-                                       placeholder="Search Airport..." >
+                                       placeholder="Search Locations..." >
 
                                 <!-- Bộ lọc trạng thái -->
                                 <select name="status" class="form-select border rounded-pill me-2">
-                                    <option value="">All</option>
                                     <option value="1">Active</option>
                                     <option value="0">Deactive</option>
                                 </select>
@@ -104,7 +103,7 @@
                     <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
                         <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
                             <li class="breadcrumb-item"><a href="Dashboard.jsp">Home</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Airports</li>
+                            <li class="breadcrumb-item active" aria-current="page">Locations</li>
                         </ul>
                     </nav>
                 </div>
@@ -114,33 +113,33 @@
                         <div class="table-responsive shadow rounded">
                             <table class="table table-center bg-white mb-0">
                                 <thead>
-                                    <tr>
-                                        <th class="border-bottom p-3">ID</th>
-                                        <th class="border-bottom p-3">Name</th>
-                                        <th class="border-bottom p-3">Location Name</th>
-                                        <th class="border-bottom p-3">Status</th>
-                                        <th class="border-bottom p-3">Actions</th>
-                                    </tr>
+                                <tr>
+                                    <th class="border-bottom p-3">ID</th>
+                                    <th class="border-bottom p-3">Name</th>
+                                    <th class="border-bottom p-3">Country Name</th>
+                                    <th class="border-bottom p-3">Status</th>
+                                    <th class="border-bottom p-3">Actions</th>
+                                </tr>
                                 </thead>
                                 <tbody>
                                 <%
-                                    for (Airports airport: listAirports){
+                                    for (Locations locations: listLocations){
                                         String locationName = "unknown";
-                                        for(Locations locations : listLocations){
-                                            if(locations.getLocationId() == airport.getLocationId()){
-                                                locationName = locations.getLocationName();
+                                        for(Countries countries : listCountries){
+                                            if(countries.getCountryId() == locations.getCountryId()){
+                                                locationName = countries.getCountryName();
                                             }
                                         }
                                 %>
                                 <tr>
-                                    <td class="p-3"><%= airport.getAirportId() %></td>
-                                    <td class="p-3"><%= airport.getAirportName() %></td>
+                                    <td class="p-3"><%= locations.getLocationId() %></td>
+                                    <td class="p-3"><%= locations.getLocationName() %></td>
                                     <td class="p-3"><%= locationName %></td>
-                                    <td class="p-3"><span class="badge <%= airport.getStatus() == 1 ? "bg-soft-success" : "bg-soft-warning" %>"><%= airport.getStatus() == 1 ? "Active" : "Inactive" %></span></td>
+                                    <td class="p-3"><span class="badge <%= locations.getStatus() == 1 ? "bg-soft-success" : "bg-soft-warning" %>"><%= locations.getStatus() == 1 ? "Active" : "Inactive" %></span></td>
                                     <td class="text-end p-3">
                                         <a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i class="uil uil-eye"></i></a>
                                         <a href="#" class="btn btn-icon btn-pills btn-soft-success"><i class="uil uil-pen"></i></a>
-                                        <a href="javascript:void(0);" class="btn btn-icon btn-pills btn-soft-danger" onclick="confirmDelete(<%= airport.getAirportId() %>)">
+                                        <a href="javascript:void(0);" class="btn btn-icon btn-pills btn-soft-danger" onclick="confirmDelete(<%= locations.getLocationId() %>)">
                                             <i class="uil uil-trash"></i>
                                     </td>
                                 </tr>
@@ -153,31 +152,6 @@
             </div>
         </div><!--end container-->
 
-        <!--phân trang-->
-        <c:choose>
-            <c:when test="${searchpage == 'page'}">
-                <div class="d-flex justify-content-center mt-3">
-                    <div class="pagination">
-                        <c:if test="${currentPage > 1}">
-                            <a href="${pageContext.request.contextPath}/AirportSearch?page=1&search=${search}&status=${status}"
-                               class="btn btn-outline-primary">First</a>
-                            <a href="${pageContext.request.contextPath}/AirportSearch?page=${currentPage - 1}&search=${search}&status=${status}"
-                               class="btn btn-outline-primary">Previous</a>
-                        </c:if>
-
-                        <span class="btn btn-primary">${currentPage} / ${totalPages}</span>
-
-                        <c:if test="${currentPage < totalPages}">
-                            <a href="${pageContext.request.contextPath}/AirportSearch?page=${currentPage + 1}&search=${search}&status=${status}"
-                               class="btn btn-outline-primary">Next</a>
-                            <a href="${pageContext.request.contextPath}/AirportSearch?page=${totalPages}&search=${search}&status=${status}"
-                               class="btn btn-outline-primary">Last</a>
-                        </c:if>
-                    </div>
-                </div>
-            </c:when>
-
-        </c:choose>
         <!-- Footer Start -->
         <%@include file="bottom.jsp"%>
         <!-- End -->
@@ -189,13 +163,13 @@
 
 
 <!-- javascript -->
-        <script>
-            function confirmDelete(airportId) {
-                if (confirm("Are you sure to delete this airport?")) {
-                    window.location.href = "<%= request.getContextPath() %>/AirportDeleteServlet?airportId=" + airportId;
-                }
-            }
-        </script>
+<script>
+    function confirmDelete(locationid) {
+        if (confirm("Are you sure to delete this location?")) {
+            window.location.href = "<%= request.getContextPath() %>/AirportDeleteServlet?airportId=" + airportId;
+        }
+    }
+</script>
 <script src="<%= request.getContextPath() %>/views/admin/assets/js/bootstrap.bundle.min.js"></script>
 <!-- simplebar -->
 <script src="<%= request.getContextPath() %>/views/admin/assets/js/simplebar.min.js"></script>

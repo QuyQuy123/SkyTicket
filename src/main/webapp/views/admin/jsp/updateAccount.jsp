@@ -51,20 +51,22 @@
 <div class="page-wrapper doctris-theme toggled">
     <%@ include file="right.jsp"%>
 
+    <c:set var="ac" value="${account}" />
+
     <!-- Start Page Content -->
     <main class="page-content bg-light">
-       <%@include file="top.jsp"%>
+        <%@include file="top.jsp"%>
 
         <div class="container-fluid">
             <div class="layout-specing">
                 <div class="d-md-flex justify-content-between">
-                    <h5 class="mb-0">Add New Account</h5>
+                    <h5 class="mb-0">Update Account ID: ${ac.accountId}</h5>
 
                     <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
                         <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
                             <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/views/admin/jsp/Dashboard.jsp">SkyTicket</a></li>
-                            <li class="breadcrumb-item"><a href="#">Accounts</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Add Account</li>
+                            <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/manageAccount?action=view">List Accounts</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Update Account</li>
                         </ul>
                     </nav>
                 </div>
@@ -79,21 +81,16 @@
                                 </div>
                             </c:if>
 
-                            <form class="mt-4" action="${pageContext.request.contextPath}/manageAccount" method="post" enctype="multipart/form-data">
+                            <form class="mt-4" action="${pageContext.request.contextPath}/manageAccount?action=update" method="post" enctype="multipart/form-data">
+                                <input type="hidden" name="accountId" value="${ac.accountId}">
+                                <input type="hidden" name="oldImage" value="${ac.img}">
+
                                 <div class="row align-items-center">
                                     <div class="col-lg-5 col-md-4">
-                                        <img id="previewImage" src="${pageContext.request.contextPath}/views/admin/assets/images/client/demo.webp"
-                                             class="avatar rounded shadow mt-3" width="250" alt="Account Lyly ">
+                                        <img src="${pageContext.request.contextPath}/img/${ac.img!=null?ac.img:''}"
+                                             class="avatar rounded shadow mt-3" height="250" width="250" alt="Account Lyly " >
                                         <hr>
-                                        <input type="file" name="accountImg" id="accountImg" class="form-control">
                                     </div><!--end col-->
-
-                                    <div class="col-lg-7 col-md-8 text-center text-md-start mt-4 mt-sm-0">
-                                        <h5 class="">Upload picture</h5>
-                                        <p class="text-muted mb-0"> For best results, use an image at least 600px by
-                                            600px in either .jpg or .png format </p>
-                                    </div> <!--end col-->
-
 
                                 </div> <!--end row-->
 
@@ -104,8 +101,8 @@
                                         <div class="mb-3">
                                             <label class="form-label" for="fullName">Full Name: </label>
                                             <input name="fullName" id="fullName" type="text"
-                                                                             class="form-control"
-                                                                             placeholder="Enter your name">
+                                                   class="form-control"
+                                                   placeholder="Enter your name" value="${ac.fullName!=null?ac.fullName:''}" disabled>
                                         </div>
                                     </div>
 
@@ -114,7 +111,7 @@
                                         <div class="mb-3">
                                             <label class="form-label" for="dob">Date of birth: </label>
                                             <input type="date" name="dob" id="dob"
-                                                                             class="form-control">
+                                                   class="form-control" value="${ac.dob!=null?ac.dob:''}" disabled>
                                         </div>
                                     </div>
 
@@ -122,8 +119,8 @@
                                         <div class="mb-3">
                                             <label class="form-label" for="email">Email: </label>
                                             <input name="email" id="email" type="text"
-                                                                             class="form-control"
-                                                                             placeholder="Enter your email">
+                                                   class="form-control"
+                                                   placeholder="Enter your email" value="${ac.email!=null?ac.email:''}" disabled>
                                         </div>
                                     </div>
 
@@ -131,8 +128,8 @@
                                         <div class="mb-3">
                                             <label class="form-label" for="password">Password: </label>
                                             <input name="password" id="password" type="text"
-                                                                             class="form-control"
-                                                                             placeholder="Enter your password">
+                                                   class="form-control"
+                                                   placeholder="Enter your password" value="${ac.password!=null?ac.password:''}">
                                         </div>
                                     </div>
 
@@ -140,8 +137,8 @@
                                         <div class="mb-3">
                                             <label class="form-label" for="phone">Phone: </label>
                                             <input name="phone" id="phone" type="text"
-                                                                             class="form-control"
-                                                                             placeholder="Phone number">
+                                                   class="form-control"
+                                                   placeholder="Phone number" value="${ac.phone!=null?ac.phone:''}" disabled>
                                         </div>
                                     </div>
 
@@ -149,8 +146,8 @@
                                         <div class="mb-3">
                                             <label class="form-label" for="address">Address: </label>
                                             <input name="address" id="address" type="text"
-                                                                             class="form-control"
-                                                                             placeholder="Enter your address">
+                                                   class="form-control"
+                                                   placeholder="Enter your address" value="${ac.address!=null?ac.address:''}" disabled>
                                         </div>
                                     </div>
 
@@ -158,8 +155,8 @@
                                         <div class="mb-3">
                                             <label class="form-label" for="status">Status</label>
                                             <select class="form-control gender-name select2input" name="status" id="status">
-                                                <option value="1">Active</option>
-                                                <option value="0" selected>Deactive</option>
+                                                <option value="1" ${ac.status == 1 ? 'selected' : ''}>Active</option>
+                                                <option value="0" ${ac.status == 0 ? 'selected' : ''}>Deactive</option>
                                             </select>
                                         </div>
                                     </div>
@@ -170,7 +167,7 @@
 
                                             <select class="form-control gender-name select2input" name="roleId" id="roleId">
                                                 <c:forEach var="role" items="${rolesList}">
-                                                    <option value="${role.roleId}">${role.roleName}</option>
+                                                    <option value="${role.roleId}" ${param.roleId == role.roleId?'selected' : ''}>${role.roleName}</option>
                                                 </c:forEach>
                                             </select>
                                         </div>
@@ -180,8 +177,8 @@
 
                                 </div> <!--end row-->
 
-                                <button type="submit" class="btn btn-primary">Add Account</button>
-                                <button type="reset" class="btn btn-primary">Reset</button>
+                                <button type="submit" class="btn btn-primary">Update Account</button>
+                                <button type="button" class="btn btn-primary" onclick="window.location.reload();">Reset</button>
                             </form>
                         </div>
                     </div> <!--end col-->
@@ -240,15 +237,6 @@
 <!-- Main Js -->
 <script src="${pageContext.request.contextPath}/views/admin/assets/js/app.js"></script>
 
-<script>
-    document.getElementById('accountImg').addEventListener('change', function (event) {
-        let reader = new FileReader();
-        reader.onload = function () {
-            document.getElementById('previewImage').src = reader.result;
-        };
-        reader.readAsDataURL(event.target.files[0]);
-    });
-</script>
 
 </body>
 

@@ -54,11 +54,11 @@
             </li>
 
             <li class="sidebar-dropdown">
-                <a href="javascript:void(0)"><i class="uil uil-apps me-2 d-inline-block"></i>Accounts management</a>
+                <a href="javascript:void(0)"><i class="uil uil-apps me-2 d-inline-block"></i>Accounts Management</a>
                 <div class="sidebar-submenu">
                     <ul>
-                        <li><a href="chat.html">List of accounts</a></li>
-                        <li><a href="<%= request.getContextPath() %>/manageAccount">Add account</a></li>
+                        <li><a href="<%= request.getContextPath() %>/manageAccount?action=view">List of accounts</a></li>
+                        <li><a href="<%= request.getContextPath() %>/manageAccount?action=add">Add account</a></li>
                     </ul>
                 </div>
             </li>
@@ -87,7 +87,19 @@
                 </div>
             </li>
 
+<%--            Locations Managerment--%>
+            <li class="sidebar-dropdown">
+                <a href="javascript:void(0)"><i class="uil uil-wheelchair me-2 d-inline-block"></i>Locations
+                    Management</a>
+                <div class="sidebar-submenu">
+                    <ul>
+                        <li><a href="<%= request.getContextPath() %>/listLocationsURL">List of locations</a></li>
 
+                        <li><a href="<%= request.getContextPath() %>/views/admin/jsp/addLocation.jsp">Add locations</a></li>
+
+                    </ul>
+                </div>
+            </li>
 
             <li class="sidebar-dropdown">
                 <a href="javascript:void(0)"><i class="uil uil-shopping-cart me-2 d-inline-block"></i>Updating</a>

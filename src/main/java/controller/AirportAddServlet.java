@@ -1,47 +1,66 @@
 package controller;
 
 import dal.AirportsDAO;
+import model.Airports;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import model.Airports;
 
 import java.io.IOException;
 
-@WebServlet(name = "AirportAddServlet", value = "/AirportAddServlet")
+@WebServlet(name = "AirportAddServlet", urlPatterns = {"/AirportAddServlet"})
 public class AirportAddServlet extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.getRequestDispatcher("/views/admin/jsp/addAirport.jsp").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
         HttpSession session = request.getSession();
-        String submit = request.getParameter("submit");
+        AirportsDAO dao = new AirportsDAO();
 
-        if (submit != null) {
-            String airportName = request.getParameter("name");
-            int locationId = Integer.parseInt(request.getParameter("locationId"));
-            String statusStr = request.getParameter("status"); // active hoặc deactive
-            int status = statusStr.equals("active") ? 1 : 0; // Chuyển về số
+        String airportName = request.getParameter("airportName").trim();
+        String locationIdStr = request.getParameter("locationId");
+        String statusStr = request.getParameter("status");
 
-            Airports air = new Airports(airportName, locationId, status);
-            AirportsDAO dao = new AirportsDAO();
-            int n = dao.addAirport(air);
-
-            if (n > 0) {
-                session.setAttribute("message", "Airport added successfully");
-                response.sendRedirect(request.getContextPath() + "/AirportListURL");
-                // request.getRequestDispatcher("/views/admin/jsp/addAirdport.jsp").forward(request, response);
-                // request.getRequestDispatcher(request.getContextPath() + "/AirportAddServlet");
-            } else {
-                request.setAttribute("error", "Add failed!!! Try again");
-                request.getRequestDispatcher("/views/admin/jsp/addAirdport.jsp").forward(request, response);
-            }
+        // Validate input
+        if (airportName.isEmpty()) {
+            session.setAttribute("errorMsg", "Airport name cannot be empty.");
+            response.sendRedirect(request.getContextPath() + "/views/admin/jsp/addAirport.jsp");
+            return;
         }
+        if (dao.isAirportExist(airportName)) {
+            session.setAttribute("errorMsg", "Airport name already exists.");
+            response.sendRedirect(request.getContextPath() + "/views/admin/jsp/addAirport.jsp");
+            return;
+        }
+
+        int locationId;
+        try {
+            locationId = Integer.parseInt(locationIdStr);
+        } catch (NumberFormatException e) {
+            session.setAttribute("errorMsg", "Invalid location ID.");
+            response.sendRedirect(request.getContextPath() + "/views/admin/jsp/addAirport.jsp");
+            return;
+        }
+
+        int status = "active".equals(statusStr) ? 1 : 0;
+
+        Airports airport = new Airports(airportName, locationId, status);
+        boolean isAdded = dao.addAirport(airport) > 0;
+
+        if (isAdded) {
+            session.setAttribute("successMsg", "Airport added successfully!");
+        } else {
+            session.setAttribute("errorMsg", "Failed to add airport.");
+        }
+
+        response.sendRedirect(request.getContextPath() + "/views/admin/jsp/addAirport.jsp");
     }
 }
