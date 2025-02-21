@@ -51,25 +51,4 @@ public class FlightsDAO extends DBConnect {
     }
 
 
-    public static void main(String[] args) {
-        FlightsDAO dao = new FlightsDAO();
-        int depAirportId = 1;
-        int arrAirportId = 2;
-
-        // Chuyển đổi đúng định dạng ngày
-        LocalDate localDate = LocalDate.of(2025, 2, 20);
-        Date date = Date.valueOf(localDate);  // Chuyển thành java.sql.Date
-
-        List<Flights> flights = dao.getFlightsByAirportAndDate(depAirportId, arrAirportId, date);
-
-        if (flights.isEmpty()) {
-            System.out.println("Không tìm thấy chuyến bay nào.");
-        } else {
-            System.out.println("Danh sách chuyến bay:");
-            for (Flights flight : flights) {
-                System.out.println(flight);
-            }
-        }
-    }
-
 }
