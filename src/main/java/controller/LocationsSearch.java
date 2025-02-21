@@ -35,7 +35,7 @@ public class LocationsSearch extends HttpServlet {
         List<Locations> searchResults = dao.searchLocation(locationName, status);
 
         // Đưa kết quả tìm kiếm vào request attribute
-        List<Countries> listCountries = cdao.getAllLocation();
+        List<Countries> listCountries = cdao.getAllCountries();
         req.setAttribute("countries", listCountries);
         req.setAttribute("locations", searchResults);
         req.setAttribute("searchName", locationName);
