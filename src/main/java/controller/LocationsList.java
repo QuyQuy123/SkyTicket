@@ -20,14 +20,31 @@ public class LocationsList extends HttpServlet {
     private static final int RECORDS_PER_PAGE = 8;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("text/html");
-        LocationsDAO dao = new LocationsDAO();
-        CountriesDAO cdao = new CountriesDAO();
-        String sql = "SELECT *  FROM Locations";
-        List<Locations> listLocations = dao.getAllLocation();
+
+        LocationsDAO locationDAO = new LocationsDAO();
+        CountriesDAO countryDAO = new CountriesDAO();
+
+        // Lấy tham số trang hiện tại
+        int page = 1;
+        int recordsPerPage = 6; // Số lượng bản ghi trên mỗi trang
+
+        String pageStr = request.getParameter("page");
+        if (pageStr != null) {
+            page = Integer.parseInt(pageStr);
+        }
+
+        // Lấy danh sách location theo trang
+        List<Locations> listLocations = locationDAO.getLocationsByPage((page - 1) * recordsPerPage, recordsPerPage);
+        int totalRecords = locationDAO.getTotalRecords();
+        int totalPages = (int) Math.ceil((double) totalRecords / recordsPerPage);
+
         request.setAttribute("locations", listLocations);
-        List<Countries> listCountries = cdao.getAllLocation();
-        request.setAttribute("countries", listCountries);
+        request.setAttribute("countries", countryDAO.getAllCountries());
+
+        // Thêm thông tin phân trang vào request
+        request.setAttribute("currentPage", page);
+        request.setAttribute("totalPages", totalPages);
+
         request.getRequestDispatcher("/views/admin/jsp/viewListLocations.jsp").forward(request, response);
     }
 

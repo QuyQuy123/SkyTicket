@@ -5,6 +5,7 @@ public class Locations {
     private String locationName;
     private int countryId;
     private int status;
+    private Countries country;
 
 
     public Locations() {
@@ -16,10 +17,23 @@ public class Locations {
         this.status = status;
     }
 
+    public Locations(int locationId, String locationName, String countryName, int status) {
+        this.locationId = locationId;
+        this.locationName = locationName;
+        this.status = status;
+    }
+
     public Locations(int locationId, String locationName, int countryId, int status) {
         this.locationId = locationId;
         this.locationName = locationName;
         this.countryId = countryId;
+        this.status = status;
+    }
+
+    public Locations(int locationId, String locationName, Countries country, int status) {
+        this.locationId = locationId;
+        this.locationName = locationName;
+        this.country = country;
         this.status = status;
     }
 
@@ -53,6 +67,19 @@ public class Locations {
 
     public void setLocationName(String locationName) {
         this.locationName = locationName;
+    }
+
+    public Countries getCountry() {
+        return country;
+    }
+
+    public void setCountry(Countries country) {
+        this.country = country;
+    }
+
+    // Lấy tên quốc gia từ đối tượng Countries
+    public String getCountryName() {
+        return country != null ? country.getCountryName() : "Unknown";
     }
 
     @Override
