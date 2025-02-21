@@ -183,7 +183,7 @@
 
 <div class="background">
     <div class="flight-form ">
-    <form id="input-form" action="SearchFlightsURL" method="GET" class="row g-1" onsubmit="return validateLocations(event)">
+    <form id="input-form" action="SearchFlightsURL" method="POST" class="row g-1" onsubmit="return validateLocations(event)">
         <div class="form-container" style="margin: 0 auto">
             <div class="row form-input">
                 <div style="display: flex;">

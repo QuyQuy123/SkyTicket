@@ -139,7 +139,7 @@
 </head>
 <body>
 <div class="container">
-  <img src="<%= request.getContextPath() %>/img/verify.gif" alt="Loading Icon" class="icon">
+  <img style="border-radius: 45px;border: 1px solid #3c6e57" src="<%= request.getContextPath() %>/img/logo.jpg" alt="Loading Icon" class="icon">
   <h4 class="otp-title">Please enter your OTP</h4>
 
   <form action="VerifyURL" method="POST">
@@ -167,7 +167,7 @@
   </c:if>
   <div class="footcard">
 
-    You want to retry register? <a class="letDoIt" href="register">Register</a>
+    You want to retry register? <a class="letDoIt" href="RegisterURL">Register</a>
   </div>
 
 </div>
