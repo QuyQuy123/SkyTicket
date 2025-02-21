@@ -39,7 +39,7 @@
 
 <body>
 <%
-  List<Countries> countries = new CountriesDAO().getAllLocation();
+  List<Countries> countries = new CountriesDAO().getAllCountries();
   HttpSession session1 = request.getSession();
 
 %>

@@ -1,12 +1,13 @@
 package model;
 
-import java.util.Date;
+
+import java.sql.Timestamp;
 
 public class Flights {
 
     private int FlightId;
-    private Date ArrivalTime;
-    private Date DepartureTime;
+    private Timestamp ArrivalTime;
+    private Timestamp DepartureTime;
     private int ArrivalAirportId;
     private int DepartureAirportId;
     private String Status;
@@ -14,19 +15,19 @@ public class Flights {
     private double ClassVipPrice;
     private double ClassEconomyPrice;
 
-    public Flights(int flightId, Date arrivalTime, Date departureTime, int arrivalAirportId, int departureAirportId, String status, int airlineId, double classVipPrice, double classEconomyPrice) {
-        this.FlightId = flightId;
-        this.ArrivalTime = arrivalTime;
-        this.DepartureTime = departureTime;
-        this.ArrivalAirportId = arrivalAirportId;
-        this.DepartureAirportId = departureAirportId;
-        this.Status = status;
-        this.AirlineId = airlineId;
-        this.ClassVipPrice = classVipPrice;
-        this.ClassEconomyPrice = classEconomyPrice;
+    public Flights() {
     }
 
-    public Flights() {
+    public Flights(int flightId, Timestamp arrivalTime, Timestamp departureTime, int arrivalAirportId, int departureAirportId, String status, int airlineId, double classVipPrice, double classEconomyPrice) {
+        FlightId = flightId;
+        ArrivalTime = arrivalTime;
+        DepartureTime = departureTime;
+        ArrivalAirportId = arrivalAirportId;
+        DepartureAirportId = departureAirportId;
+        Status = status;
+        AirlineId = airlineId;
+        ClassVipPrice = classVipPrice;
+        ClassEconomyPrice = classEconomyPrice;
     }
 
     public int getFlightId() {
@@ -37,19 +38,19 @@ public class Flights {
         FlightId = flightId;
     }
 
-    public Date getArrivalTime() {
+    public Timestamp getArrivalTime() {
         return ArrivalTime;
     }
 
-    public void setArrivalTime(Date arrivalTime) {
+    public void setArrivalTime(Timestamp arrivalTime) {
         ArrivalTime = arrivalTime;
     }
 
-    public Date getDepartureTime() {
+    public Timestamp getDepartureTime() {
         return DepartureTime;
     }
 
-    public void setDepartureTime(Date departureTime) {
+    public void setDepartureTime(Timestamp departureTime) {
         DepartureTime = departureTime;
     }
 
@@ -99,20 +100,5 @@ public class Flights {
 
     public void setClassEconomyPrice(double classEconomyPrice) {
         ClassEconomyPrice = classEconomyPrice;
-    }
-
-    @Override
-    public String toString() {
-        return "Flights{" +
-                "FlightId=" + FlightId +
-                ", ArrivalTime=" + ArrivalTime +
-                ", DepartureTime=" + DepartureTime +
-                ", ArrivalAirportId=" + ArrivalAirportId +
-                ", DepartureAirportId=" + DepartureAirportId +
-                ", Status='" + Status + '\'' +
-                ", AirlineId=" + AirlineId +
-                ", ClassVipPrice=" + ClassVipPrice +
-                ", ClassEconomyPrice=" + ClassEconomyPrice +
-                '}';
     }
 }

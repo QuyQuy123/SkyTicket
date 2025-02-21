@@ -6,7 +6,9 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <title>Title</title>
     <style>
@@ -52,11 +54,11 @@
             </li>
 
             <li class="sidebar-dropdown">
-                <a href="javascript:void(0)"><i class="uil uil-apps me-2 d-inline-block"></i>Accounts management</a>
+                <a href="javascript:void(0)"><i class="uil uil-apps me-2 d-inline-block"></i>Accounts Management</a>
                 <div class="sidebar-submenu">
                     <ul>
-                        <li><a href="chat.html">List of accounts</a></li>
-                        <li><a href="<%= request.getContextPath() %>/views/admin/jsp/addAccount.jsp">Add account</a></li>
+                        <li><a href="<%= request.getContextPath() %>/manageAccount?action=view">List of accounts</a></li>
+                        <li><a href="<%= request.getContextPath() %>/manageAccount?action=add">Add account</a></li>
                     </ul>
                 </div>
             </li>
