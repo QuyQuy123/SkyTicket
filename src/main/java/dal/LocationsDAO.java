@@ -195,10 +195,32 @@ public class LocationsDAO extends  DBConnect{
         return false;
     }
 
+    public int getLocationIdByAirportId(Integer airportId) {
+        String sql = "SELECT l.LocationId FROM Locations l " +
+                "JOIN Airports a ON l.LocationId = a.LocationId " +
+                "WHERE a.AirportId = ?";
+
+        try (PreparedStatement pstmt = connection.prepareStatement(sql))
+              {
+            pstmt.setInt(1, airportId);
+
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("LocationId");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+            return 0;
+        }
+        return 0;
+    }
+
 
 
     public static void main(String[] args) {
         LocationsDAO dao = new LocationsDAO();
+        System.out.println(dao.getLocationIdByAirportId(1));
     }
 
 

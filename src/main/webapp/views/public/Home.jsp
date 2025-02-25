@@ -214,7 +214,6 @@
                             <input type="text" id="searchLocation1" onkeyup="filterLocations(even)"
                                    placeholder="Tìm kiếm địa điểm..."
                                    style="width: 100%; padding: 8px; margin-bottom: 10px; font-size: 14px;">
-
                             <%
                                 for(Locations lo : locate.getAllLocation()) {
                                     for(Airports ai : airport.getAllAirports()){
@@ -266,11 +265,11 @@
                     <!-- Departure Date Field -->
                     <div class="col-md-2" style="padding-right: 0px">
                         <p style="color: black; margin: 0; font-size: 12px">DEPART</p>
-                        <input type="text" class="form-control" id="departureDate" name="departureDate" style="height: 100%;font-size: 18px;" placeholder="dd-mm-yyyy" onkeydown="return false;" required >
+                        <input type="date" class="form-control" name="departureDate" style="height: 100%;font-size: 18px;" placeholder="dd-mm-yyyy" onkeydown="return false;" required >
                     </div>
                     <div class="col-md-2" id="returnDateField" style="display:none;padding-right: 0px" >
                         <p style="color: black; margin: 0; font-size: 12px">RETURN</p>
-                        <input type="text" id="returnDate" class="form-control" name="returnDate" style="height: 100%;font-size: 18px;" autocomplete="off" required  placeholder="dd-mm-yyyy" onkeydown="return false;">
+                        <input type="date" id="returnDate" class="form-control" name="returnDate" style="height: 100%;font-size: 18px;" autocomplete="off" required  placeholder="dd-mm-yyyy" onkeydown="return false;">
                     </div>
 
                     <!-- Passengers Field -->

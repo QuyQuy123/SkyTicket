@@ -170,43 +170,43 @@ function toggleReturnDate() {
         returnDateInput.removeAttribute("required");
     }
 }
-$(document).ready(function () {
-    // Get today's date
-    var today = new Date();
-    var formattedToday = today.getFullYear() + '-' +
-        ('0' + (today.getMonth() + 1)).slice(-2) + '-' +
-        ('0' + today.getDate()).slice(-2);
-
-    // Initialize datepicker for departureDate
-    $('#departureDate').datepicker({
-        format: 'dd-mm-yyyy',
-        // format: 'yyyy-mm-dd', // Custom date format
-        autoclose: true, // Automatically close the calendar after picking a date
-        todayHighlight: true, // Highlight today's date
-        orientation: 'bottom auto', // Ensure the calendar pops up below the input
-        startDate: formattedToday // Minimum date is 01/10/2024
-    }).on('changeDate', function (selected) {
-        // Get the selected departure date
-        var minReturnDate = new Date(selected.date.valueOf());
-        minReturnDate.setDate(minReturnDate.getDate()); // Set the return date to be at least one day after the departure
-
-        // Set the minimum date for returnDate
-        $('#returnDate').datepicker('setStartDate', minReturnDate);
-        // If return date is before the new minimum, clear it
-        if ($('#returnDate').datepicker('getDate') && $('#returnDate').datepicker('getDate') < minReturnDate) {
-            $('#returnDate').datepicker('clearDates');
-        }
-    });
-
-    // Initialize datepicker for returnDate
-    $('#returnDate').datepicker({
-        format: 'dd-mm-yyyy', // Custom date format
-        autoclose: true, // Automatically close the calendar after picking a date
-        todayHighlight: true, // Highlight today's date
-        orientation: 'bottom auto', // Ensure the calendar pops up below the input
-        startDate: formattedToday // Default minimum date for return (will change based on departure)
-    });
-});
+// $(document).ready(function () {
+//     // Get today's date
+//     var today = new Date();
+//     var formattedToday = today.getFullYear() + '-' +
+//         ('0' + (today.getMonth() + 1)).slice(-2) + '-' +
+//         ('0' + today.getDate()).slice(-2);
+//
+//     // Initialize datepicker for departureDate
+//     $('#departureDate').datepicker({
+//         format: 'dd-mm-yyyy',
+//         // format: 'yyyy-mm-dd', // Custom date format
+//         autoclose: true, // Automatically close the calendar after picking a date
+//         todayHighlight: true, // Highlight today's date
+//         orientation: 'bottom auto', // Ensure the calendar pops up below the input
+//         startDate: formattedToday // Minimum date is 01/10/2024
+//     }).on('changeDate', function (selected) {
+//         // Get the selected departure date
+//         var minReturnDate = new Date(selected.date.valueOf());
+//         minReturnDate.setDate(minReturnDate.getDate()); // Set the return date to be at least one day after the departure
+//
+//         // Set the minimum date for returnDate
+//         $('#returnDate').datepicker('setStartDate', minReturnDate);
+//         // If return date is before the new minimum, clear it
+//         if ($('#returnDate').datepicker('getDate') && $('#returnDate').datepicker('getDate') < minReturnDate) {
+//             $('#returnDate').datepicker('clearDates');
+//         }
+//     });
+//
+//     // Initialize datepicker for returnDate
+//     $('#returnDate').datepicker({
+//         format: 'dd-mm-yyyy', // Custom date format
+//         autoclose: true, // Automatically close the calendar after picking a date
+//         todayHighlight: true, // Highlight today's date
+//         orientation: 'bottom auto', // Ensure the calendar pops up below the input
+//         startDate: formattedToday // Default minimum date for return (will change based on departure)
+//     });
+// });
 
 // Call toggleReturnDate on page load to handle default states
 document.addEventListener('DOMContentLoaded', toggleReturnDate);

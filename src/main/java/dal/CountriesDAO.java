@@ -1,7 +1,7 @@
 package dal;
 
 import model.Countries;
-import model.Locations;
+
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CountriesDAO extends DBConnect {
-    public List<Countries> getAllLocation() {
+    public List<Countries> getAllCountries() {
         List<Countries> list = new ArrayList<>();
         String sql = "select * from Countries";
         try {
@@ -51,6 +51,6 @@ public class CountriesDAO extends DBConnect {
 
     public static void main(String[] args) {
         CountriesDAO dao = new CountriesDAO();
-        System.out.println(dao.getCountryById(1));
+        System.out.println(dao.getCountryById(2));
     }
 }

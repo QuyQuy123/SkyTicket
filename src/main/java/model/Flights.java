@@ -101,4 +101,20 @@ public class Flights {
     public void setClassEconomyPrice(double classEconomyPrice) {
         ClassEconomyPrice = classEconomyPrice;
     }
+
+
+    @Override
+    public String toString() {
+        return "Flights{" +
+                "FlightId=" + FlightId +
+                ", ArrivalTime=" + ArrivalTime +
+                ", DepartureTime=" + DepartureTime +
+                ", ArrivalAirportId=" + ArrivalAirportId +
+                ", DepartureAirportId=" + DepartureAirportId +
+                ", Status='" + Status + '\'' +
+                ", AirlineId=" + AirlineId +
+                ", ClassVipPrice=" + ClassVipPrice +
+                ", ClassEconomyPrice=" + ClassEconomyPrice +
+                '}';
+    }
 }

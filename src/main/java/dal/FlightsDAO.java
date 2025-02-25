@@ -1,14 +1,16 @@
 package dal;
 
-import dal.DBConnect;
 import model.Flights;
 
 import java.sql.*;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 public class FlightsDAO extends DBConnect {
-    private Connection connection;
+
 
     // Lấy tất cả các chuyến bay
     public List<Flights> getAllFlights() {
@@ -65,7 +67,7 @@ public class FlightsDAO extends DBConnect {
             e.printStackTrace();
         }
         return false;
-    }git add
+    }
 
     // Xóa chuyến bay
     public boolean deleteFlight(int flightId) {
@@ -105,4 +107,86 @@ public class FlightsDAO extends DBConnect {
         ps.setDouble(7, flight.getClassVipPrice());
         ps.setDouble(8, flight.getClassEconomyPrice());
     }
+
+    public List<Flights> getFlightsByAirportAndDate(int depAirportId, int arrAirportId, Date date) {
+        List<Flights> flights = new ArrayList<>();
+        String sql = "SELECT * FROM flights " +
+                "WHERE DepartureAirportId = ? " +
+                "AND ArrivalAirportId = ? " +
+                "AND DATE(DepartureTime) = ? " +  // Chỉ so sánh phần ngày
+                "ORDER BY DepartureTime ASC";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, depAirportId);
+            ps.setInt(2, arrAirportId);
+            ps.setDate(3,date); // Truyền java.sql.Date trực tiếp vào
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                flights.add(new Flights(
+                        rs.getInt("FlightId"),
+                        rs.getTimestamp("ArrivalTime"),
+                        rs.getTimestamp("DepartureTime"),
+                        rs.getInt("ArrivalAirportId"),
+                        rs.getInt("DepartureAirportId"),
+                        rs.getString("Status"),
+                        rs.getInt("AirlineId"),
+                        rs.getDouble("ClassVipPrice"),
+                        rs.getDouble("ClassEconomyPrice")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Cần logging thay vì in lỗi ra console
+        }
+        return flights;
+    }
+
+
+
+    public int getAirlineIdByFlightId(int flightId) {
+        String sql = "SELECT AirlineId FROM Flights WHERE FlightId = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, flightId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("AirlineId");
+            }
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        return -1; // Trả về -1 nếu không tìm thấy dữ liệu
+    }
+
+
+
+
+
+    public static void main(String[] args) {
+        FlightsDAO dao = new FlightsDAO();
+        int depAirportId = 5;
+        int arrAirportId = 1;
+        String depDateStr = "2025-02-22"; // Định dạng: dd-MM-yyyy
+
+        try {
+            Date parsedDate = Date.valueOf(depDateStr);
+
+            // Gọi method để lấy danh sách chuyến bay
+            List<Flights> flights = dao.getFlightsByAirportAndDate(depAirportId, arrAirportId, parsedDate);
+
+            // In kết quả
+            System.out.println("Danh sách chuyến bay:");
+            for (Flights flight : flights) {
+                System.out.println(flight);
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
 }
+
