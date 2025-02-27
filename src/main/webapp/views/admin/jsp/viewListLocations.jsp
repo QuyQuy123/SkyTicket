@@ -137,12 +137,21 @@
                                     <td class="p-3"><%= locationName %></td>
                                     <td class="p-3"><span class="badge <%= locations.getStatus() == 1 ? "bg-soft-success" : "bg-soft-warning" %>"><%= locations.getStatus() == 1 ? "Active" : "Inactive" %></span></td>
                                     <td class="text-end p-3">
-                                        <a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i class="uil uil-eye"></i></a>
-                                        <a href="#" class="btn btn-icon btn-pills btn-soft-success"><i class="uil uil-pen"></i></a>
-                                        <a href="javascript:void(0);" class="btn btn-icon btn-pills btn-soft-danger" onclick="confirmDelete(<%= locations.getLocationId() %>)">
-                                            <i class="uil uil-trash"></i>
+                                        <a href="${pageContext.request.contextPath}/viewLocation?id=<%= locations.getLocationId() %>" class="btn btn-icon btn-sm btn-soft-primary"><i
+                                                class="uil uil-eye"></i></a>
+                                        <a href="${pageContext.request.contextPath}/updateLocation?id=<%= locations.getLocationId() %>" class="btn btn-icon btn-sm btn-soft-success"><i
+                                                class="uil uil-pen"></i></a>
+                                            <% if (locations.getStatus() == 0) {
+                                                %>
+                                            <a href="javascript:void(0);" class="btn btn-icon btn-pills btn-soft-danger" onclick="confirmRestore(<%= locations.getLocationId() %>)">
+                                                <i class="uil uil-redo"></i>
+                                            <%
+                                            } else { %>
+                                                <a href="javascript:void(0);" class="btn btn-icon btn-pills btn-soft-danger" onclick="confirmDelete(<%= locations.getLocationId() %>)">
+                                                    <i class="uil uil-trash"></i>
+                                                    <% } %>
+
                                     </td>
-                                </tr>
                                 <% } %>
                                 </tbody>
                             </table>
@@ -151,6 +160,29 @@
                 </div>
             </div>
         </div><!--end container-->
+
+        <!-- Hiển thị phân trang -->
+        <div class="d-flex justify-content-center mt-3">
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    <c:if test="${currentPage > 1}">
+                        <li class="page-item">
+                            <a class="page-link" href="${pageContext.request.contextPath}/listLocationsURL?page=${currentPage - 1}">Previous</a>
+                        </li>
+                    </c:if>
+
+                    <li class="page-item disabled">
+                        <span class="page-link">${currentPage} / ${totalPages}</span>
+                    </li>
+
+                    <c:if test="${currentPage < totalPages}">
+                        <li class="page-item">
+                            <a class="page-link" href="${pageContext.request.contextPath}/listLocationsURL?page=${currentPage + 1}">Next</a>
+                        </li>
+                    </c:if>
+                </ul>
+            </nav>
+        </div>
 
         <!-- Footer Start -->
         <%@include file="bottom.jsp"%>
@@ -164,12 +196,20 @@
 
 <!-- javascript -->
 <script>
-    function confirmDelete(locationid) {
-        if (confirm("Are you sure to delete this location?")) {
-            window.location.href = "<%= request.getContextPath() %>/AirportDeleteServlet?airportId=" + airportId;
+    function confirmDelete(locationId) {
+        if (confirm("Are you sure to deactivate this location?")) {
+            window.location.href = "<%= request.getContextPath() %>/deleteLocation?action=deactivate&id=" + locationId;
+        }
+    }
+
+    function confirmRestore(locationId) {
+        if (confirm("Do you want to restore this location?")) {
+            window.location.href = "<%= request.getContextPath() %>/deleteLocation?action=restore&id=" + locationId;
         }
     }
 </script>
+
+
 <script src="<%= request.getContextPath() %>/views/admin/assets/js/bootstrap.bundle.min.js"></script>
 <!-- simplebar -->
 <script src="<%= request.getContextPath() %>/views/admin/assets/js/simplebar.min.js"></script>

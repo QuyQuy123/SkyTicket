@@ -241,6 +241,38 @@ public class AirlinesDAO extends DBConnect {
         return false;
     }
 
+    public String getImageById(int id) {
+        String sql = "select image from airlines where AirlineId =?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getString("image");
+            }
+        } catch (Exception e) {
+        }
+        return null;
+    }
+    public String getNameById(int id) {
+        String sql = "select AirlineName from airlines where AirlineId = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getString("AirlineName");
+            }
+        } catch (Exception e) {
+        }
+        return null;
+    }
+
+    public static void main(String[] args) {
+        AirlinesDAO airlinesDAO = new AirlinesDAO();
+        System.out.println(airlinesDAO.getNameById(4));
+    }
+
 
 
 }

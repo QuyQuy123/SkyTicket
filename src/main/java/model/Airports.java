@@ -22,10 +22,26 @@ public class Airports {
         this.airportName = airportName;
     }
 
-    public Airports(String airportName, int locationId,  int status) {
+    public Airports(int airportId, String airportName, int locationId) {
+        this.airportId = airportId;
+        this.airportName = airportName;
+        this.locationId = locationId;
+    }
+
+    public Airports(String airportName, int locationId, int status) {
         this.airportName = airportName;
         this.locationId = locationId;
         this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "Airports{" +
+                "airportId=" + airportId +
+                ", airportName='" + airportName + '\'' +
+                ", locationId=" + locationId +
+                ", status=" + status +
+                '}';
     }
 
     public int getAirportId() {
@@ -59,6 +75,8 @@ public class Airports {
     public void setAirportName(String airportName) {
         this.airportName = airportName;
     }
+
+
 }
 
 
