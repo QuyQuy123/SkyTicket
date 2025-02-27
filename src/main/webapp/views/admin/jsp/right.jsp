@@ -6,7 +6,9 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <title>Title</title>
     <style>
@@ -52,11 +54,11 @@
             </li>
 
             <li class="sidebar-dropdown">
-                <a href="javascript:void(0)"><i class="uil uil-apps me-2 d-inline-block"></i>Accounts management</a>
+                <a href="javascript:void(0)"><i class="uil uil-apps me-2 d-inline-block"></i>Accounts Management</a>
                 <div class="sidebar-submenu">
                     <ul>
-                        <li><a href="chat.html">List of accounts</a></li>
-                        <li><a href="<%= request.getContextPath() %>/views/admin/jsp/addAccount.jsp">Add account</a></li>
+                        <li><a href="<%= request.getContextPath() %>/manageAccount?action=view">List of accounts</a></li>
+                        <li><a href="<%= request.getContextPath() %>/manageAccount?action=add">Add account</a></li>
                     </ul>
                 </div>
             </li>
@@ -85,7 +87,7 @@
                 </div>
             </li>
 
-<%--            Locations Managerment--%>
+            <%--            Locations Managerment--%>
             <li class="sidebar-dropdown">
                 <a href="javascript:void(0)"><i class="uil uil-wheelchair me-2 d-inline-block"></i>Locations
                     Management</a>
@@ -100,13 +102,11 @@
             </li>
 
             <li class="sidebar-dropdown">
-                <a href="javascript:void(0)"><i class="uil uil-shopping-cart me-2 d-inline-block"></i>Updating</a>
+                <a href="javascript:void(0)"><i class="uil uil-shopping-cart me-2 d-inline-block"></i>Flights Management</a>
                 <div class="sidebar-submenu">
                     <ul>
-                        <li><a href="shop.html">Shop</a></li>
-                        <li><a href="product-detail.html">Shop Detail</a></li>
-                        <li><a href="shopcart.html">Shopcart</a></li>
-                        <li><a href="checkout.html">Checkout</a></li>
+                        <li><a href="<%= request.getContextPath() %>/listFlights">Lists of flights</a></li>
+                        <li><a href="<%= request.getContextPath() %>/manageFlights?action=add">Add Flight</a></li>
                     </ul>
                 </div>
             </li>
