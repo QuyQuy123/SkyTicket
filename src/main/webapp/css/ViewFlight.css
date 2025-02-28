@@ -1,0 +1,234 @@
+
+.flight-detail {
+    border: 1px solid #ddd;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    padding: 0 20px;
+}
+
+.flight-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px 0;
+}
+.flight-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+}
+.airport-info {
+    flex: 1;
+}
+.flight-icon {
+    font-size: 30px;
+    color: #3C6E57;
+    margin-bottom: 10px;
+}
+.airport-name {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+.location {
+    color: #666;
+    font-size: 14px;
+}
+.flight-details {
+    flex: 1;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    padding: 0 20px;
+}
+.flight-type {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+.flight-time {
+    font-size: 14px;
+    color: #666;
+}
+.airline-logo-container {
+    width: 12%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+}
+
+.airline-logo-container img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+    transition: transform 0.3s;
+}
+
+.airline-logo-container img:hover {
+    transform: scale(1.05);
+}
+
+.time {
+    font-size: 25px;
+    font-weight: 600;
+    text-align: center;
+    margin: 0;
+}
+
+.location {
+    text-align: center;
+    color: #A9A9A9;
+}
+
+.price {
+    font-size: 20px;
+    color: #D32F2F;
+    font-weight: bold;
+    text-align: right;
+}
+
+.old-price {
+    font-size: 14px;
+    color: #A9A9A9;
+    text-decoration: line-through;
+    margin-right: 5px;
+    display: block;
+}
+
+.ticket-category-head{
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
+    text-align: center;
+    padding:10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px
+}
+
+.ticket-category-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 2px solid;
+    padding: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    min-height: 300px;
+}
+
+.ticket-category-info {
+    flex-grow: 1;
+    margin-bottom: 20px;
+    padding: 0 18px
+}
+.ticket-category-list{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 25px 90px;
+}
+
+.ticket-category-form {
+    display: flex;
+    justify-content: center;
+}
+
+.ticket-category-form button {
+    color: white;
+    font-size: 15px;
+    width: 50%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.ticket-category-form button:hover {
+    opacity: 85%
+}
+
+.arrow:hover{
+    opacity: 60%
+}
+
+.modal-body {
+    border-radius: 5px;
+}
+.modal-body p{
+    margin: 0 0 5px;
+}
+
+.modal-body span {
+    color: #3C6E57;
+}
+
+.modal-body .departure-time,
+.modal-body .destination-time {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.modal-body .location{
+    font-style: italic;
+}
+.modal-body .airport {
+    color: #aaa;
+}
+
+.modal-body .total-time {
+    font-size: 14px;
+    font-weight: normal;
+    color: #3C6E57;
+}
+
+.sorting-options {
+    margin: 20px 0;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: white;
+}
+
+.sorting-options h5 {
+    margin:0;
+    color: #333;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.sorting-options label {
+    margin:0;
+    color: #333;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.sorting-options label img {
+    width: 35px;
+    height: 35px;
+    border-radius: 20px
+}
+
+.sorting-options div {
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+}
+
+.sorting-options input[type="radio"] {
+    margin-right: 5px;
+    cursor: pointer;
+    width: 17px;
+    height: 17px;
+    margin: 0;
+    margin-right: 5px
+}
+
+.sorting-options input[type="radio"]:checked {
+    accent-color:#3C6E57;
+}

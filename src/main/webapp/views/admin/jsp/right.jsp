@@ -87,7 +87,7 @@
                 </div>
             </li>
 
-<%--            Locations Managerment--%>
+            <%--            Locations Managerment--%>
             <li class="sidebar-dropdown">
                 <a href="javascript:void(0)"><i class="uil uil-wheelchair me-2 d-inline-block"></i>Locations
                     Management</a>

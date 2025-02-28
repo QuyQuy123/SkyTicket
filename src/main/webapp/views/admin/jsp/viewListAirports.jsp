@@ -137,9 +137,9 @@
                                     <td class="p-3"><%= airport.getAirportName() %></td>
                                     <td class="p-3"><%= locationName %></td>
                                     <td class="p-3"><span class="badge <%= airport.getStatus() == 1 ? "bg-soft-success" : "bg-soft-warning" %>"><%= airport.getStatus() == 1 ? "Active" : "Inactive" %></span></td>
-                                    <td class="text-end p-3">
-                                        <a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i class="uil uil-eye"></i></a>
-                                        <a href="#" class="btn btn-icon btn-pills btn-soft-success"><i class="uil uil-pen"></i></a>
+                                    <td class="text-end p-2">
+
+                                        <a href="<%= request.getContextPath() %>/AirportUpdateURL?airportId=<%=airport.getAirportId()%>" class="btn btn-icon btn-pills btn-soft-success"><i class="uil uil-pen"></i></a>
                                         <a href="javascript:void(0);" class="btn btn-icon btn-pills btn-soft-danger" onclick="confirmDelete(<%= airport.getAirportId() %>)">
                                             <i class="uil uil-trash"></i>
                                     </td>
@@ -159,8 +159,7 @@
                 <div class="d-flex justify-content-center mt-3">
                     <div class="pagination">
                         <c:if test="${currentPage > 1}">
-                            <a href="${pageContext.request.contextPath}/AirportSearch?page=1&search=${search}&status=${status}"
-                               class="btn btn-outline-primary">First</a>
+
                             <a href="${pageContext.request.contextPath}/AirportSearch?page=${currentPage - 1}&search=${search}&status=${status}"
                                class="btn btn-outline-primary">Previous</a>
                         </c:if>
@@ -170,8 +169,7 @@
                         <c:if test="${currentPage < totalPages}">
                             <a href="${pageContext.request.contextPath}/AirportSearch?page=${currentPage + 1}&search=${search}&status=${status}"
                                class="btn btn-outline-primary">Next</a>
-                            <a href="${pageContext.request.contextPath}/AirportSearch?page=${totalPages}&search=${search}&status=${status}"
-                               class="btn btn-outline-primary">Last</a>
+
                         </c:if>
                     </div>
                 </div>

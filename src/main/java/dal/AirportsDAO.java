@@ -147,33 +147,7 @@ public class AirportsDAO extends DBConnect {
         }
         return n;
     }
-//    public List<Airports> searchAirports(String airportName, Integer status){
-//
-//        List<Airports> list = new ArrayList<>();
-//        String sql = "select * from Airports where 1=1";
-//
-//        if(airportName != null && !airportName.trim().isEmpty()){
-//            sql += " and AirportName like ?";
-//        }
-//        if(status != null){
-//            sql += " and Status = ?";
-//        }
-//
-//        try(PreparedStatement ps = connection.prepareStatement(sql)) {
-//            ResultSet rs = ps.executeQuery();
-//            while (rs.next()) {
-//                list.add(new Airports(
-//                        rs.getInt("airportID"),
-//                        rs.getString("airportName"),
-//                        rs.getInt("locationID"),
-//                        rs.getInt("status")
-//                ));
-//            }
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-//        return list;
-//    }
+
     public List<Airports> searchAirports(String search, Integer status, int start, int total) {
         List<Airports> list = new ArrayList<>();
         String query = "SELECT * FROM Airports WHERE 1=1";
@@ -265,21 +239,42 @@ public class AirportsDAO extends DBConnect {
         }
         return false;
     }
+    public Airports getAirportById(int id) {
+        String query = "SELECT * FROM Airports WHERE airportId = ?";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return new Airports(
+                            rs.getInt("airportId"),
+                            rs.getString("airportName"),
+                            rs.getInt("LocationId"),
+                            rs.getInt("Status")
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 
 
     public static void main(String[] args) {
         AirportsDAO dao = new AirportsDAO();
-
+        int test = 1;
+        Airports ap = dao.getAirportById(test);
+        System.out.println(ap.getAirportName());
         // Test với chuỗi nhập không đầy đủ
-        String partialName = "Nội Bài"; // Người dùng chỉ nhập một phần tên
-        boolean exists = dao.isAirportExist(partialName);
-        System.out.println("Does airport contain '" + partialName + "'? " + exists);
-
-        // Test với một tên không tồn tại
-        String nonExisting = "Fake Airport";
-        boolean notExists = dao.isAirportExist(nonExisting);
-        System.out.println("Does airport contain '" + nonExisting + "'? " + notExists);
+//        String partialName = "Nội Bài"; // Người dùng chỉ nhập một phần tên
+//        boolean exists = dao.isAirportExist(partialName);
+//        System.out.println("Does airport contain '" + partialName + "'? " + exists);
+//
+//        // Test với một tên không tồn tại
+//        String nonExisting = "Fake Airport";
+//        boolean notExists = dao.isAirportExist(nonExisting);
+//        System.out.println("Does airport contain '" + nonExisting + "'? " + notExists);
 //        // ✅ Test 1: Tìm kiếm theo tên sân bay
 //        System.out.println("🔎 Searching airports with name containing 'International'...");
 //        List<Airports> result1 = dao.searchAirports(null, 2);
