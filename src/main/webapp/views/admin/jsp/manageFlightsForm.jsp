@@ -45,6 +45,7 @@
           type="text/css" id="theme-opt"/>
 
     <style>
+
         .btn-gradient {
             background: linear-gradient(45deg, #ff416c, #ff4b2b);
             color: white;
@@ -85,15 +86,21 @@
         <div class="container-fluid">
             <div class="layout-specing">
                 <div class="d-md-flex justify-content-between">
-                    <h5 class="mb-0">${isView?'Flight ID: '+ f.flightId :isUpdate?'Update Flight ID: '+ f.flightId :'Add New Flight'}</h5>
+                    <h5 class="mb-0">
+                        <c:choose>
+                            <c:when test="${isUpdate}">Update Flight ID: ${f.flightId}</c:when>
+                            <c:otherwise>Add New Flight</c:otherwise>
+                        </c:choose>
+                    </h5>
+
 
                     <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
                         <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
-                            <li class="breadcrumb-item"><a href="Dashboard.jsp">SkyTicket</a></li>
+                            <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/views/admin/jsp/Dashboard.jsp">SkyTicket</a></li>
                             <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/#">List Flights</a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">
-                                ${isView ? 'Flight Details' : isUpdate ? 'Update Flight' : 'Add Flight'}
+                                ${ isUpdate ? 'Update Flight' : 'Add Flight'}
                             </li>
                         </ul>
                     </nav>
@@ -109,85 +116,140 @@
                                 </div>
                             </c:if>
 
-                            <form class="mt-4" action="${pageContext.request.contextPath}/addAirline" method="post"
-                                  enctype="multipart/form-data">
+                            <form class="mt-4" action="${pageContext.request.contextPath}/manageFlights" method="post" >
 
                                 <br>
 
                                 <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="arrivalA">Arrival Airport: : </label>
-                                            <input name='arrivalA' id="arrivalA" type="text"
-                                                   class="form-control"
-                                                   placeholder="Airline name">
-                                        </div>
-                                    </div><!--end col-->
 
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label" for="departureA">Departure Airport: : </label>
-                                            <input name="departureA" id="departureA" type="text"
-                                                   class="form-control"
-                                                   placeholder="Airline name">
-                                        </div>
-                                    </div><!--end col-->
-
-
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label class="form-label">Status</label>
-                                            <select class="form-control gender-name select2input" name="status">
-                                                <option value="1">Active</option>
-                                                <option value="0" selected>Deactive</option>
+                                            <label class="form-label" for="departureA">Departure Airport:</label>
+                                            <select name="departureA" id="departureA" class="form-control gender-name select2input">
+                                                <option value="" disabled ${empty f ? 'selected' : ''}>Select Departure Airport</option>
+                                                <c:forEach var="airport" items="${airportsList}">
+                                                    <option value="${airport.airportId}" ${airport.airportId == f.departureAirportId ? 'selected' : ''}>
+                                                            ${airport.airportName}
+                                                    </option>
+                                                </c:forEach>
                                             </select>
                                         </div>
+                                    </div>
+
+
+
+
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="arrivalA">Arrival Airport:</label>
+                                            <select name="arrivalA" id="arrivalA" class="form-control gender-name select2input">
+                                                <option value="" disabled ${empty f ? 'selected' : ''}>Select Arrival Airport</option>
+                                                <c:forEach var="airport" items="${airportsList}">
+                                                    <option value="${airport.airportId}" ${airport.airportId == f.arrivalAirportId ? 'selected' : ''}>
+                                                            ${airport.airportName}
+                                                    </option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="departureT">Departure Time:</label>
+                                            <input name="departureT" id="departureT" type="datetime-local"
+                                                   class="form-control"
+                                                   value="${not empty f ? f.departureTime : ''}">
+                                        </div>
                                     </div><!--end col-->
 
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label" for="classVip">Capacity Class Vip: </label>
-                                            <input name="classVip" id="classVip"
-                                                   type="number" min="10" max="50"
+                                            <label class="form-label" for="arrivalT">Arrival Time:</label>
+                                            <input name="arrivalT" id="arrivalT" type="datetime-local"
                                                    class="form-control"
-                                                   placeholder="Number of seat Vip">
+                                                   value="${not empty f ? f.arrivalTime : ''}">
+                                        </div>
+                                    </div><!--end col-->
+
+
+
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="classVip">Price of Class Vip (VND): </label>
+                                            <input name="classVip" id="classVip"
+                                                   type="number" min="0" step="1"
+                                                   class="form-control"
+                                                   placeholder="Price of seat Vip "
+                                                   value="${not empty f ? f.classVipPrice : ''}">
                                         </div>
                                     </div>
 
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label" for="classEconomy">Capacity Class
-                                                Economy: </label>
+                                            <label class="form-label" for="classEconomy">Price of Class
+                                                Economy (VND): </label>
                                             <input name="classEconomy"
                                                    id="classEconomy" type="number"
-                                                   min="10" max="50"
+                                                   min="0" step="1"
                                                    class="form-control"
-                                                   placeholder="Number of seats economy">
+                                                   placeholder="Price of seat economy (VND)"
+                                                   value="${not empty f ? f.classEconomyPrice : ''}">
                                         </div>
                                     </div>
 
-
-                                    <div class="col-md-12">
+                                    <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label" for="information">Airline information</label>
-                                            <textarea name="information"
-                                                      id="information" rows="3"
-                                                      class="form-control"
-                                                      placeholder="Infor"></textarea>
+                                            <label class="form-label" for="airline">Airline</label>
+                                            <select name="airline" id="airline" class="form-control gender-name select2input">
+                                                <option value="" disabled ${empty f ? 'selected' : ''}>-- Select Airline --</option>
+                                                <c:forEach var="airline" items="${airlinesList}">
+                                                    <option value="${airline.airlineId}" ${airline.airlineId == f.airlineId ? 'selected' : ''}>
+                                                            ${airline.airlineName}
+                                                    </option>
+                                                </c:forEach>
+                                            </select>
                                         </div>
                                     </div>
-                                </div><!--end row-->
 
-                                <button type="submit" class="btn btn-primary">Add airline</button>
+
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="sts">Status</label>
+                                            <select class="form-control gender-name select2input" name="status" id="sts">
+                                                <option value="" disabled ${empty f ? 'selected' : ''}> --Select Status-- </option>
+                                                <option value="1" ${f.status == 1 ? 'selected' : ''}>Active</option>
+                                                <option value="0" ${f.status == 0 ? 'selected' : ''}>Deactive</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+
+                                <c:choose>
+                                    <c:when test="${isAdd}">
+                                        <input type="hidden" name="action" value="add">
+                                        <button type="submit" class="btn btn-primary">Add Flight</button>
+                                    </c:when>
+                                    <c:when test="${isUpdate}">
+                                        <input type="hidden" name="action" value="update">
+                                        <input type="hidden" name="id" value="${f.flightId}">
+                                        <button type="submit" class="btn btn-primary">Update Flight</button>
+                                    </c:when>
+                                </c:choose>
+
                                 <button type="reset" class="btn btn-primary">Reset</button>
                             </form>
                         </div>
-                    </div><!--end col-->
+                    </div>
 
                     <div class="col-lg-4 mt-4">
                         <div class="card rounded border-0 shadow">
                             <div class="p-4 border-bottom d-flex align-items-center">
-                                <i class="bi bi-pin-angle-fill text-danger me-2"></i> <!-- Biểu tượng Note -->
+                                <i class="bi bi-pin-angle-fill text-danger me-2"></i>
                                 <h5 class="mb-0">Note</h5>
                             </div>
 
@@ -212,7 +274,7 @@
                     </div>
                 </div><!--end row-->
             </div>
-        </div><!--end container-->
+        </div>
 
         <%@include file="bottom.jsp" %>
     </main>
@@ -233,6 +295,9 @@
 <script src="${pageContext.request.contextPath}/views/admin/assets/js/feather.min.js"></script>
 <!-- Main Js -->
 <script src="${pageContext.request.contextPath}/views/admin/assets/js/app.js"></script>
+
+
+
 
 </body>
 </html>
