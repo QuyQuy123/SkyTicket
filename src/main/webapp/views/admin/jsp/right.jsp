@@ -87,7 +87,7 @@
                 </div>
             </li>
 
-<%--            Locations Managerment--%>
+            <%--            Locations Managerment--%>
             <li class="sidebar-dropdown">
                 <a href="javascript:void(0)"><i class="uil uil-wheelchair me-2 d-inline-block"></i>Locations
                     Management</a>
@@ -102,13 +102,11 @@
             </li>
 
             <li class="sidebar-dropdown">
-                <a href="javascript:void(0)"><i class="uil uil-shopping-cart me-2 d-inline-block"></i>Updating</a>
+                <a href="javascript:void(0)"><i class="uil uil-shopping-cart me-2 d-inline-block"></i>Flights Management</a>
                 <div class="sidebar-submenu">
                     <ul>
-                        <li><a href="shop.html">Shop</a></li>
-                        <li><a href="product-detail.html">Shop Detail</a></li>
-                        <li><a href="shopcart.html">Shopcart</a></li>
-                        <li><a href="checkout.html">Checkout</a></li>
+                        <li><a href="<%= request.getContextPath() %>/listFlights">Lists of flights</a></li>
+                        <li><a href="<%= request.getContextPath() %>/manageFlights?action=add">Add Flight</a></li>
                     </ul>
                 </div>
             </li>
