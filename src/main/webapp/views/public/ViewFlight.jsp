@@ -59,13 +59,12 @@
 
             if (depParam != null && !depParam.isEmpty() && desParam != null && !desParam.isEmpty()) {
                 depAirport = (Airports) apd.getAirportById(Integer.parseInt(depParam));
-                depLocation = (Locations) ld.getLocationById(depAirport.getLocationId());
-                depCountry = (Countries) cd.getCountryById(depLocation.getLocationId());
+                depLocation = (Locations) ld.getLocationByLId(depAirport.getLocationId());
+                depCountry = (Countries) cd.getCountryById(depLocation.getCountryId());
 
                 desAirport = (Airports) apd.getAirportById(Integer.parseInt(desParam));
-                desLocation = (Locations) ld.getLocationById(desAirport.getLocationId());
-                desCountry = (Countries) cd.getCountryById(desLocation.getLocationId());
-
+                desLocation = (Locations) ld.getLocationByLId(desAirport.getLocationId());
+                desCountry = (Countries) cd.getCountryById(desLocation.getCountryId());
                 // Kiểm tra giá trị trước khi parse
                 adultNumber = (adultParam != null && !adultParam.isEmpty()) ? Integer.parseInt(adultParam) : 0;
                 childNumber = (childParam != null && !childParam.isEmpty()) ? Integer.parseInt(childParam) : 0;

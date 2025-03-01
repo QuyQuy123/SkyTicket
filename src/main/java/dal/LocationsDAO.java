@@ -56,7 +56,7 @@ public class LocationsDAO extends  DBConnect{
     public Locations getLocationById(int id) {
         String sql = "SELECT l.LocationId, l.LocationName, l.CountryId, c.CountryName, l.Status " +
                 "FROM Locations l " +
-                "JOIN Countries c ON l.CountryId = c.CountryId " +
+                "left JOIN Countries c ON l.CountryId = c.CountryId " +
                 "WHERE l.LocationId = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, id);
@@ -68,7 +68,7 @@ public class LocationsDAO extends  DBConnect{
                     String countryName = rs.getString("CountryName");
                     int status = rs.getInt("Status");
 
-                    Countries country = new Countries(countryId, status, countryName);
+                   Countries country = new Countries(countryId, status, countryName);
                     return new Locations(locationId, locationName, country, status);
                 }
             }
@@ -76,6 +76,36 @@ public class LocationsDAO extends  DBConnect{
             e.printStackTrace();
         }
         return null;
+    }
+    public Locations getLocationByLId(int id) {
+        String sql = "SELECT * FROM Locations WHERE LocationId = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    int locationId = rs.getInt("LocationId");
+                    String locationName = rs.getString("LocationName");
+                    int countryId = rs.getInt("CountryId"); // Lấy CountryId
+                    int status = rs.getInt("Status");
+
+                    return new Locations(locationId, locationName, countryId, status);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+
+
+
+    public static void main(String[] args) {
+        LocationsDAO dao = new LocationsDAO();
+        Locations list = dao.getLocationByLId(1);
+        System.out.println(list);
+
     }
 
 
@@ -218,10 +248,7 @@ public class LocationsDAO extends  DBConnect{
 
 
 
-    public static void main(String[] args) {
-        LocationsDAO dao = new LocationsDAO();
-        System.out.println(dao.getLocationIdByAirportId(1));
-    }
+
 
 
 
