@@ -38,6 +38,7 @@ public class SearchFlightsController extends HttpServlet {
         int i = (idd != null) ? idd : -1;
         Accounts acc = ad.getAccountsById(i);
         request.setAttribute("account", acc);
+
         try {
             int adultTickets = Integer.parseInt(request.getParameter("adult"));
             int childTickets = Integer.parseInt(request.getParameter("child"));
@@ -46,7 +47,8 @@ public class SearchFlightsController extends HttpServlet {
         } catch (Exception e) {
             System.out.println(e);
         }
-        String depAStr = request.getParameter("departure");//nó là airport Id
+
+        String depAStr = request.getParameter("departure"); // airport ID
         String desAStr = request.getParameter("destination");
         String depDateStr = request.getParameter("departureDate");
 
@@ -54,10 +56,32 @@ public class SearchFlightsController extends HttpServlet {
         int desAStrs = Integer.parseInt(desAStr);
         Date parsedDate = Date.valueOf(depDateStr);
 
-        List<Flights> f = fldao.getFlightsByAirportAndDate(depAStrs, desAStrs,parsedDate );
-        request.setAttribute("flightTickets", f);
+        List<Flights> flightList = fldao.getFlightsByAirportAndDate(depAStrs, desAStrs, parsedDate);
+
+        // Số chuyến bay mỗi trang
+        int flightsPerPage = 3;
+
+        // Lấy trang hiện tại từ request, mặc định là trang 1 nếu không có
+        int currentPage = 1;
+        if (request.getParameter("page") != null) {
+            currentPage = Integer.parseInt(request.getParameter("page"));
+        }
+
+        // Tính toán vị trí bắt đầu và kết thúc của trang hiện tại
+        int startIndex = (currentPage - 1) * flightsPerPage;
+        int endIndex = Math.min(startIndex + flightsPerPage, flightList.size());
+
+        // Lấy danh sách chuyến bay thuộc trang hiện tại
+        List<Flights> paginatedFlights = flightList.subList(startIndex, endIndex);
+
+        // Tổng số trang
+        int totalPages = (int) Math.ceil((double) flightList.size() / flightsPerPage);
+
+        request.setAttribute("flightTickets", paginatedFlights);
+        request.setAttribute("currentPage", currentPage);
+        request.setAttribute("totalPages", totalPages);
+
         request.getRequestDispatcher("views/public/ViewFlight.jsp").forward(request, resp);
-
-
     }
+
 }

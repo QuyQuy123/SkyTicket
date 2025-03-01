@@ -12,6 +12,8 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.util.HashSet" %>
+<%@ page import="java.util.Set" %>
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -34,6 +36,7 @@
     AirportsDAO apd = new AirportsDAO();
     AirlinesDAO ald = new AirlinesDAO();
     FlightsDAO fld = new FlightsDAO();
+    SeatsDAO sd = new SeatsDAO();
 
   %>
 <div style="margin: 100px 0" class="row">
@@ -42,20 +45,34 @@
   </div>
   <div class="col-md-10">
     <div class="flight-detail" style="display: block">
-      <%
-        Airports depAirport = (Airports) apd.getAirportById(Integer.parseInt(request.getParameter("departure")));
-        Locations depLocation = (Locations) ld.getLocationById(depAirport.getLocationId());
-        Countries depCountry = (Countries) cd.getCountryById(depLocation.getLocationId());
+        <%
+            Airports depAirport = null, desAirport = null;
+            Locations depLocation = null, desLocation = null;
+            Countries depCountry = null, desCountry = null;
+            int adultNumber = 0, childNumber = 0, infantNumber = 0, totalPassengers = 0;
 
-        Airports desAirport = (Airports) apd.getAirportById(Integer.parseInt(request.getParameter("destination")));
-        Locations desLocation = (Locations) ld.getLocationById(desAirport.getLocationId());
-        Countries desCountry = (Countries) cd.getCountryById(desLocation.getLocationId());
+            String depParam = request.getParameter("departure");
+            String desParam = request.getParameter("destination");
+            String adultParam = request.getParameter("adult");
+            String childParam = request.getParameter("child");
+            String infantParam = request.getParameter("infant");
 
-        int adultNumber = Integer.parseInt(request.getParameter("adult"));
-        int childNumber = Integer.parseInt(request.getParameter("child"));
-        int infantNumber = Integer.parseInt(request.getParameter("infant"));
-        int totalPassengers = adultNumber+ childNumber+infantNumber;
+            if (depParam != null && !depParam.isEmpty() && desParam != null && !desParam.isEmpty()) {
+                depAirport = (Airports) apd.getAirportById(Integer.parseInt(depParam));
+                depLocation = (Locations) ld.getLocationById(depAirport.getLocationId());
+                depCountry = (Countries) cd.getCountryById(depLocation.getLocationId());
 
+                desAirport = (Airports) apd.getAirportById(Integer.parseInt(desParam));
+                desLocation = (Locations) ld.getLocationById(desAirport.getLocationId());
+                desCountry = (Countries) cd.getCountryById(desLocation.getLocationId());
+
+                // Kiểm tra giá trị trước khi parse
+                adultNumber = (adultParam != null && !adultParam.isEmpty()) ? Integer.parseInt(adultParam) : 0;
+                childNumber = (childParam != null && !childParam.isEmpty()) ? Integer.parseInt(childParam) : 0;
+                infantNumber = (infantParam != null && !infantParam.isEmpty()) ? Integer.parseInt(infantParam) : 0;
+
+                totalPassengers = adultNumber + childNumber + infantNumber;
+            }
         if(request.getParameter("flightDetailId")==null){
       %>
       <div style="width: 100%; color:#3C6E57; text-align: center; "><h3>SELECT FLIGHT</h3></div>
@@ -122,13 +139,14 @@
 
               <%
                   List<Flights> flightTickets = (List<Flights>) request.getAttribute("flightTickets");
-                  for ( Flights f : flightTickets) {
-                      int airlineId = fld.getAirlineIdByFlightId(f.getFlightId());
-                      System.out.println(f.getFlightId());
-                      String airlineImage = ald.getImageById(airlineId);
-                      String airlineName = ald.getNameById(airlineId);
-                      Flights flight = fld.getFlightById(f.getFlightId());
-
+                  if (flightTickets != null && !flightTickets.isEmpty()) {
+                      for (Flights f : flightTickets) {
+                          int airlineId = fld.getAirlineIdByFlightId(f.getFlightId());
+                          System.out.println(f.getFlightId());
+                          String airlineImage = ald.getImageById(airlineId);
+                          String airlineName = ald.getNameById(airlineId);
+                          Flights flight = fld.getFlightById(f.getFlightId());
+                          List<Seats> seats = sd.getAllSeatByFlightId(flight.getFlightId());
               %>
               <div class="flight-detail" style="display: block">
                   <div class="flight-info" style="display: flex">
@@ -168,7 +186,8 @@
                                   <span class="old-price"><%= NumberFormat.getInstance().format(f.getClassEconomyPrice()) %> ₫</span>
                                   <span><span style="font-size: 17px">only from</span> <%= NumberFormat.getInstance().format(f.getClassVipPrice())%> ₫</span>
                               </div>
-                              <div style="display: flex; margin-left: 20px" onclick="showTicketCategory(<%=f.getFlightId()%>">
+                              <div style="display: flex; margin-left: 20px" onclick="showTicketCategory(<%=f.getFlightId()%>)"
+                              >
                                   <svg class="arrow" id="arrow<%=f.getFlightId()%>" xmlns="http://www.w3.org/2000/svg" height="25" width="25" viewBox="0 0 512 512" style="transition: transform 0.3s ease;">
                                       <path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/>
                                   </svg>
@@ -177,6 +196,133 @@
                       </div>
                   </div>
 
+
+
+                  <div id="ticket-category-container<%=f.getFlightId()%>" style="max-height: 0px; overflow: hidden; transition: max-height 0.5s ease, opacity 0.5s ease; opacity: 0;">
+                      <div style="text-align: center; font-size: 20px">Select Ticket Class</div>
+                      <div class="ticket-category-list" style="display: flex; flex-wrap: wrap;display: flex;
+                                                                    justify-content: center;
+                                                                    gap: 90px;">
+                          <%
+                              int activated = 0;
+                              for (int i = 0; i < seats.size(); i++) {
+                                  if (seats.get(i).getStatus() == 1) {
+                                      activated += 1;
+                                  }
+                              }
+
+                              // Dùng HashSet để kiểm tra loại ghế đã hiển thị chưa
+                              Set<String> displayedClasses = new HashSet<>();
+
+                              for (int i = 0; i < seats.size(); i++) {
+                                  String seatClass = seats.get(i).getSeatClass();
+                                  if (!"Economy".equals(seatClass) && !"Business".equals(seatClass)) {
+                                      continue;
+                                  }
+
+                                  if (displayedClasses.contains(seatClass)) {
+                                      continue;
+                                  }
+
+                                  displayedClasses.add(seatClass);
+                                  if (seats.get(i).getIsBooked() == 0) {
+                          %>
+
+
+                          <div class="ticket-category-box" style="width:30%;margin-bottom: 50px">
+                              <div class="ticket-category-head" style="background-color:cadetblue;">
+
+                                  <%= seatClass%>
+                                  <div style="font-size: 25px"><%= NumberFormat.getInstance().format(f.getClassEconomyPrice())%> ₫</div>
+                              </div>
+                              <div class="ticket-category-body" style="border: 2px solid <% %>; padding: 12px 12px;; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;min-height: 85%">
+                                  <div>
+                                      <img style="width: 100%; display: block; border-radius: 10px; transition: transform 0.3s ease; "
+                                           src="<%= request.getContextPath() + "/img/" + airlineImage %>" alt="alt"
+                                           onmouseover="this.style.transform = 'scale(1.05)'"
+                                           onmouseout="this.style.transform = 'scale(1)'"/>
+                                  </div>
+                                  <div class="ticket-category-info" style="font-size: 13px; margin-top: 12px">
+                                      <%=seats.get(i).getSeatClass()%>
+
+
+                                  </div>
+                                  <% if ("oneWay".equals(request.getParameter("flightType"))) { %>
+                                  <form class="ticket-category-form" action="bookingFlightTicketsURL" style="display: flex; justify-content: center; ">
+                                      <input type="hidden" name="seatCategory" value="<%=seats.get(i).getSeatClass()%>"/>
+                                      <input type="hidden" name="flightDetailId" value="<%=f.getFlightId()%>"/>
+                                      <input type="hidden" name="adult" value="${param.adult}"/>
+                                      <input type="hidden" name="child" value="${param.child}"/>
+                                      <input type="hidden" name="infant" value="${param.infant}"/>
+                                      <%
+                                          if(totalPassengers<= 10){
+                                      %>
+                                      <button style="background-color: cadetblue;" type="submit">Buy Ticket</button>
+                                      <%
+                                      } else {
+                                      %>
+                                      <button style="background-color: #aaa" disabled >SOLD OUT</button>
+                                      <%
+                                          }
+                                      %>
+
+                                  </form>
+                                  <% } else if("roundTrip".equals(request.getParameter("flightType")) && request.getParameter("flightDetailId")==null){
+                                  %>
+                                  <form class="ticket-category-form" action="bookingFlightTicketsURL" style="display: flex; justify-content: center; ">
+                                      <input type="hidden" name="flightType" value="${param.flightType}"/>
+                                      <input type="hidden" name="seatCategory" value="<%=seats.get(i).getSeatId()%>"/>
+                                      <input type="hidden" name="flightDetailId" value="<%=f.getFlightId()%>"/>
+                                      <input type="hidden" name="departure" value="${param.departure}"/>
+                                      <input type="hidden" name="destination" value="${param.destination}"/>
+                                      <input type="hidden" name="returnDate" value="${param.returnDate}"/>
+                                      <input type="hidden" name="adult" value="${param.adult}"/>
+                                      <input type="hidden" name="child" value="${param.child}"/>
+                                      <input type="hidden" name="infant" value="${param.infant}"/>
+                                      <%
+                                          if(totalPassengers<= 10){
+                                      %>
+                                      <button style="background-color:cadetblue;" type="submit">Select Departure Ticket</button>
+                                      <%
+                                      } else {
+                                      %>
+                                      <button style="background-color: #aaa" disabled >SOLD OUT</button>
+                                      <%
+                                          }
+                                      %>
+
+                                  </form>
+                                  <% } else if("roundTrip".equals(request.getParameter("flightType")) && request.getParameter("flightDetailId")!=null){ %>
+                                  <form class="ticket-category-form" action="bookingFlightTicketsURL" style="display: flex; justify-content: center; ">
+                                      <input type="hidden" name="seatCategory" value="${param.seatCategory}"/>
+                                      <input type="hidden" name="flightDetailId" value="${param.flightDetailId}"/>
+                                      <input type="hidden" name="seatCategory2" value="<%=seats.get(i).getSeatId()%>"/>
+                                      <input type="hidden" name="flightDetailId2" value="<%=f.getFlightId()%>"/>
+                                      <input type="hidden" name="adult" value="${param.adult}"/>
+                                      <input type="hidden" name="child" value="${param.child}"/>
+                                      <input type="hidden" name="infant" value="${param.infant}"/>
+                                      <%
+                                          if(totalPassengers<= 10){
+                                      %>
+                                      <button style="background-color: cadetblue;" type="submit">Select Return Ticket</button>
+                                      <%
+                                      } else {
+                                      %>
+                                      <button style="background-color: #aaa" disabled >SOLD OUT</button>
+                                      <%
+                                          }
+                                      %>
+                                  </form>
+                                  <%}%>
+                              </div>
+                          </div>
+                          <%
+                                  }
+                              }
+                          %>
+                      </div>
+
+                  </div>
                   <div class="container">
                       <!-- Modal Detail Information -->
                       <div class="modal fade" id="detail<%=f.getFlightId()%>" role="dialog">
@@ -192,15 +338,20 @@
                                   </div>
                                   <div class="modal-body row" style="padding:18px 50px;">
                                       <div class="col-md-4">
-                                          <p>Departs: <span class="departure-time">2h</span></p>
-                                          <p>Total time: <span class="total-time">3 minutes</span></p>
+                                          <p>Departs: <span class="departure-time"><%= timeFormat.format(f.getDepartureTime()) %></span></p>
+                                          <%
+                                              long totalTime = f.getArrivalTime().getTime()-f.getDepartureTime().getTime();
+                                              long hours = totalTime / (1000 * 60 * 60);
+                                              long minutes = (totalTime / (1000 * 60)) % 60;
+                                          %>
+                                          <p>Total time: <span class="total-time"><%= hours %> h <%= minutes %> m</span></p>
                                           <div>
                                               <div class="airline-logo-container" style="width: 65%; margin: 15px 0">
                                                   <img src="<%= request.getContextPath() + "/img/" + airlineImage %>"
                                                        alt="Logo">
                                               </div>
                                               <p class="airline-name"><strong>Airline: </strong><%= ald.getNameById(airlineId) %></p>
-                                              <p class="aircraft"><strong>Plane: </strong>Siuuu</p>
+                                              <p class="aircraft"><strong>Plane: </strong>Siu nhân gao</p>
                                           </div>
                                       </div>
                                       <div class="col-md-1"></div>
@@ -214,17 +365,17 @@
                                           <div style="position: relative; width: 100%">
                                               <div>
                                                   <p>
-                                                                <span class="departure-time">2h -
+                                                                <span class="departure-time"><%= timeFormat.format(f.getDepartureTime()) %>
                                                                     <span class="location"><%= depLocation.getLocationName() %>, <%=depCountry.getCountryName()%></span>
                                                                 </span>
                                                   </p>
                                                   <p><span class="airport"><%= depAirport.getAirportName() %></span></p>
                                               </div>
-                                              <p style="position: absolute; top: 41%; color: #aaa">2h  minutes</p>
+                                              <p style="position: absolute; top: 41%; color: #aaa"><%= hours %> h <%= minutes %> m</p>
 
                                               <div style="position: absolute; bottom: 0">
                                                   <p>
-                                                                <span class="destination-time">3h -
+                                                                <span class="destination-time"><%= timeFormat.format(f.getArrivalTime()) %>
                                                                     <span class="location"><%= desLocation.getLocationName() %>, <%=desCountry.getCountryName()%></span>
                                                                 </span>
                                                   </p>
@@ -241,14 +392,52 @@
                           </div>
                       </div>
                   </div>
-
-
               </div>
               <%
                   }
-
+                  }
               %>
           </div>
+
+          <div style="margin-top: 20px; text-align: center;margin-left: 310px">
+              <% Integer currentPageObj = (Integer) request.getAttribute("currentPage");
+                  int currentPage = (currentPageObj != null) ? currentPageObj : 1;
+
+                  Integer totalPagesObj = (Integer) request.getAttribute("totalPages");
+                  int totalPages = (totalPagesObj != null) ? totalPagesObj : 1;
+              %>
+
+              <% if (currentPage > 1) { %>
+              <form method="post" action="SearchFlightsURL">
+                  <input type="hidden" name="page" value="<%= currentPage - 1 %>">
+                  <input type="hidden" name="departure" value="<%= request.getParameter("departure") %>">
+                  <input type="hidden" name="destination" value="<%= request.getParameter("destination") %>">
+                  <input type="hidden" name="departureDate" value="<%= request.getParameter("departureDate") %>">
+                  <input type="hidden" name="adult" value="${param.adult}"/>
+                  <input type="hidden" name="child" value="${param.child}"/>
+                  <input type="hidden" name="infant" value="${param.infant}"/>
+                  <input type="hidden" name="flightType" value="<%= request.getParameter("flightType") %>">
+                  <button type="submit">Trang trước</button>
+              </form>
+              <% } %>
+
+              Trang <%= currentPage %> / <%= totalPages %>
+
+              <% if (currentPage < totalPages) { %>
+              <form method="post" action="SearchFlightsURL">
+                  <input type="hidden" name="page" value="<%= currentPage + 1 %>">
+                  <input type="hidden" name="departure" value="<%= request.getParameter("departure") %>">
+                  <input type="hidden" name="destination" value="<%= request.getParameter("destination") %>">
+                  <input type="hidden" name="departureDate" value="<%= request.getParameter("departureDate") %>">
+                  <input type="hidden" name="adult" value="${param.adult}"/>
+                  <input type="hidden" name="child" value="${param.child}"/>
+                  <input type="hidden" name="infant" value="${param.infant}"/>
+                  <input type="hidden" name="flightType" value="<%= request.getParameter("flightType") %>">
+                  <button  type="submit">Trang sau</button>
+              </form>
+              <% } %>
+          </div>
+
 
 
 
