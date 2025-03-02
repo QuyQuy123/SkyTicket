@@ -112,11 +112,11 @@
             </li>
 
             <li class="sidebar-dropdown">
-                <a href="javascript:void(0)"><i class="uil uil-flip-h me-2 d-inline-block"></i>Updating</a>
+                <a href="javascript:void(0)"><i class="uil uil-flip-h me-2 d-inline-block"></i>Seats Management</a>
                 <div class="sidebar-submenu">
                     <ul>
-                        <li><a href="blogs.html">Blogs</a></li>
-                        <li><a href="blog-detail.html">Blog Detail</a></li>
+                        <li><a href="<%= request.getContextPath() %>/listSeats">Lists of Seats</a></li>
+                        <li><a href="blog-detail.html">Add Seat</a></li>
                     </ul>
                 </div>
             </li>
