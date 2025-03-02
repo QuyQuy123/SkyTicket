@@ -1,8 +1,10 @@
 package dal;
 
 import model.Countries;
+import model.Locations;
 
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -48,9 +50,37 @@ public class CountriesDAO extends DBConnect {
         return null;
     }
 
+    public int getIdByCountryName(String name) {
+        String sql = "Select * from Countries where CountryName = ?";
+        try {
+            PreparedStatement prepare = connection.prepareStatement(sql);
+            prepare.setString(1, name);
+            ResultSet resultSet = prepare.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt("CountryId");
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return -1;
+    }
+
+    public boolean addCountry(Countries country) {
+        String sql = "INSERT INTO Countries (CountryName, Status) VALUES (?, ?)";
+        try (Connection conn = this.connection;
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, country.getCountryName());
+            ps.setInt(2, country.getStatus());
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
     public static void main(String[] args) {
         CountriesDAO dao = new CountriesDAO();
-        System.out.println(dao.getCountryById(2));
+        Countries countries = new Countries("Hong Kong", 1);
+        System.out.println(dao.addCountry(countries));
     }
 }

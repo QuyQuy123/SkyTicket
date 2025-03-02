@@ -20,6 +20,11 @@ public class Countries {
         this.countryName = countryName;
     }
 
+    public Countries(String countryName, int status) {
+        this.countryName = countryName;
+        this.status = status;
+    }
+
     public int getCountryId() {
         return countryId;
     }
