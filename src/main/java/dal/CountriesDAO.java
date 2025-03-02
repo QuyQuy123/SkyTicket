@@ -78,6 +78,110 @@ public class CountriesDAO extends DBConnect {
         return false;
     }
 
+    public List<Countries> getCountriesByPage(int start, int total) {
+        List<Countries> list = new ArrayList<>();
+        try {
+            String query = "SELECT * FROM Countries LIMIT ?, ?";
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setInt(1, start);
+            ps.setInt(2, total);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Countries(
+                        rs.getInt("countryid"),
+                        rs.getInt("status"),
+                        rs.getString("countryname")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public int getTotalRecords() {
+        int total = 0;
+        try {
+            String query = "SELECT COUNT(*) FROM Countries";
+            PreparedStatement ps = connection.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                total = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return total;
+    }
+
+    public List<Countries> searchCountryByPage(String name, Integer status, int offset, int limit) {
+        List<Countries> list = new ArrayList<>();
+        String sql = "SELECT * FROM Countries WHERE 1=1";
+
+        if (name != null && !name.trim().isEmpty()) {
+            sql += " AND countryName LIKE ?";
+        }
+        if (status != null) {
+            sql += " AND status = ?";
+        }
+        sql += " LIMIT ?, ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            int index = 1;
+            if (name != null && !name.trim().isEmpty()) {
+                ps.setString(index++, "%" + name + "%");
+            }
+            if (status != null) {
+                ps.setInt(index++, status);
+            }
+            ps.setInt(index++, offset);
+            ps.setInt(index, limit);
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Countries(
+                        rs.getInt("countryId"),
+                        rs.getInt("status"),
+                        rs.getString("countryName")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public int getTotalSearchRecords(String name, Integer status) {
+        String sql = "SELECT COUNT(*) FROM Countries WHERE 1=1";
+
+        if (name != null && !name.trim().isEmpty()) {
+            sql += " AND countryName LIKE ?";
+        }
+        if (status != null) {
+            sql += " AND status = ?";
+        }
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            int index = 1;
+            if (name != null && !name.trim().isEmpty()) {
+                ps.setString(index++, "%" + name + "%");
+            }
+            if (status != null) {
+                ps.setInt(index++, status);
+            }
+
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
     public static void main(String[] args) {
         CountriesDAO dao = new CountriesDAO();
         Countries countries = new Countries("Hong Kong", 1);

@@ -1,9 +1,7 @@
 package controller;
 
 import dal.CountriesDAO;
-import dal.LocationsDAO;
 import model.Countries;
-import model.Locations;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -15,7 +13,7 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebServlet(urlPatterns = {"/CountryAdd"})
-public class CountryAdd extends HttpServlet {
+public class CountriesAdd extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getRequestDispatcher("views/admin/jsp/addCountry.jsp").forward(req, resp);
