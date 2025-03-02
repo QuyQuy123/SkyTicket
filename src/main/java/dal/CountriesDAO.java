@@ -65,6 +65,22 @@ public class CountriesDAO extends DBConnect {
         return -1;
     }
 
+    public int getStatus(int countryId) {
+        String sql = "SELECT status FROM Countries WHERE countryId = ?";
+        int status = 0;
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, countryId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                status = rs.getInt("status");
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error fetching status: " + ex.getMessage());
+        }
+        return status;
+    }
+
+
     public boolean addCountry(Countries country) {
         String sql = "INSERT INTO Countries (CountryName, Status) VALUES (?, ?)";
         try (Connection conn = this.connection;
@@ -182,9 +198,21 @@ public class CountriesDAO extends DBConnect {
         return 0;
     }
 
+    public boolean updateCountry(Countries country) {
+        String query = "UPDATE Countries SET countryName=?, status=? WHERE countryId=?";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setString(1, country.getCountryName());
+            ps.setInt(2, country.getStatus());
+            ps.setInt(3, country.getCountryId());
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public static void main(String[] args) {
         CountriesDAO dao = new CountriesDAO();
-        Countries countries = new Countries("Hong Kong", 1);
-        System.out.println(dao.addCountry(countries));
+        System.out.println("Hello" + dao.getStatus(1));
     }
 }

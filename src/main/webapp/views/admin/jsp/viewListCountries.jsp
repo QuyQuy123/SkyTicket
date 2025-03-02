@@ -126,7 +126,7 @@
                                 <tr>
                                     <td class="p-3"><%= countries.getCountryId() %></td>
                                     <td class="p-3"><%= countries.getCountryName() %></td>
-                                    <td class="p-3"><span class="badge <%= countries.getStatus() == 1 ? "bg-soft-success" : "bg-soft-warning" %>"><%= countries.getStatus() == 1 ? "Active" : "Inactive" %></span></td>
+                                    <td class="p-3"><span class="badge <%= countries.getStatus() == 1 ? "bg-soft-success" : "bg-soft-warning" %>"><%= countries.getStatus() == 1 ? "Active" : "Deactive" %></span></td>
                                     <td class="p-3">
                                         <a href="${pageContext.request.contextPath}/viewCountry?id=<%= countries.getCountryId() %>" class="btn btn-icon btn-sm btn-soft-primary"><i
                                                 class="uil uil-eye"></i></a>

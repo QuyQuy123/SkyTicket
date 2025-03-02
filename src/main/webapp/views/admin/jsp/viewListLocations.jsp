@@ -135,7 +135,7 @@
                                     <td class="p-3"><%= locations.getLocationId() %></td>
                                     <td class="p-3"><%= locations.getLocationName() %></td>
                                     <td class="p-3"><%= locationName %></td>
-                                    <td class="p-3"><span class="badge <%= locations.getStatus() == 1 ? "bg-soft-success" : "bg-soft-warning" %>"><%= locations.getStatus() == 1 ? "Active" : "Inactive" %></span></td>
+                                    <td class="p-3"><span class="badge <%= locations.getStatus() == 1 ? "bg-soft-success" : "bg-soft-warning" %>"><%= locations.getStatus() == 1 ? "Active" : "Deactive" %></span></td>
                                     <td class="p-3">
                                         <a href="${pageContext.request.contextPath}/viewLocation?id=<%= locations.getLocationId() %>" class="btn btn-icon btn-sm btn-soft-primary"><i
                                                 class="uil uil-eye"></i></a>
