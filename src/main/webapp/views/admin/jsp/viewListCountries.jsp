@@ -87,6 +87,7 @@
 
                                 <!-- Bộ lọc trạng thái -->
                                 <select name="status" class="form-select border rounded-pill me-2">
+                                    <option value="">All</option>
                                     <option value="1">Active</option>
                                     <option value="0">Deactive</option>
                                 </select>

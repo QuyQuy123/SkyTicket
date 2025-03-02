@@ -211,6 +211,19 @@ public class CountriesDAO extends DBConnect {
         return false;
     }
 
+    public boolean updateCountryStatus(int id, int status) {
+        String query = "UPDATE Countries SET status = ? WHERE countryId = ?";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, status);
+            ps.setInt(2, id);
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public static void main(String[] args) {
         CountriesDAO dao = new CountriesDAO();
         System.out.println("Hello" + dao.getStatus(1));

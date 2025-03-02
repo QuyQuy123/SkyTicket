@@ -55,7 +55,7 @@ public class LocationsUpdate extends HttpServlet {
             req.setAttribute("locations", locations);
             req.getRequestDispatcher("/views/admin/jsp/updateLocation.jsp").forward(req, resp);
             return;
-        } else if (locationsDAO.getIdByLocationName(locationName) != -1) {
+        } else if (locationsDAO.getIdByLocationName(locationName) != -1 && locationsDAO.getStatus(id) == status) {
             req.setAttribute("error", "Location already exists!");
             req.setAttribute("locations", locations);
             req.getRequestDispatcher("/views/admin/jsp/updateLocation.jsp").forward(req, resp);

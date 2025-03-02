@@ -282,6 +282,21 @@ public class LocationsDAO extends  DBConnect{
         return false;
     }
 
+    public int getStatus(int loactionId) {
+        String sql = "SELECT status FROM Locations WHERE locationId = ?";
+        int status = 0;
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, loactionId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                status = rs.getInt("status");
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error fetching status: " + ex.getMessage());
+        }
+        return status;
+    }
+
     public boolean updateLocation(Locations location) {
         String query = "UPDATE Locations SET locationName=?, status=? WHERE locationId=?";
         try (PreparedStatement ps = connection.prepareStatement(query)) {
