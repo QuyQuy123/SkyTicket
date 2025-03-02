@@ -17,38 +17,43 @@ import java.util.List;
 
 @WebServlet(urlPatterns = "/listLocationsURL")
 public class LocationsList extends HttpServlet {
-    private static final int RECORDS_PER_PAGE = 8;
+    private static final int RECORDS_PER_PAGE = 6;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         LocationsDAO locationDAO = new LocationsDAO();
         CountriesDAO countryDAO = new CountriesDAO();
 
-        // Lấy tham số trang hiện tại
         int page = 1;
-        int recordsPerPage = 6; // Số lượng bản ghi trên mỗi trang
-
         String pageStr = request.getParameter("page");
+
         if (pageStr != null) {
-            page = Integer.parseInt(pageStr);
+            try {
+                page = Integer.parseInt(pageStr);
+                if (page < 1) page = 1; // Không cho phép trang nhỏ hơn 1
+            } catch (NumberFormatException e) {
+                page = 1; // Nếu có lỗi thì về trang 1
+            }
         }
 
-        // Lấy danh sách location theo trang
-        List<Locations> listLocations = locationDAO.getLocationsByPage((page - 1) * recordsPerPage, recordsPerPage);
         int totalRecords = locationDAO.getTotalRecords();
-        int totalPages = (int) Math.ceil((double) totalRecords / recordsPerPage);
+        int totalPages = (int) Math.ceil((double) totalRecords / RECORDS_PER_PAGE);
+
+        // Nếu page lớn hơn totalPages nhưng không có dữ liệu, đưa về trang cuối cùng có dữ liệu
+        if (page > totalPages) page = totalPages;
+
+        List<Locations> listLocations = locationDAO.getLocationsByPage((page - 1) * RECORDS_PER_PAGE, RECORDS_PER_PAGE);
+
+        // Nếu danh sách lấy về rỗng mà page > 1, quay lại trang trước
+        if (listLocations.isEmpty() && page > 1) {
+            page--;
+            listLocations = locationDAO.getLocationsByPage((page - 1) * RECORDS_PER_PAGE, RECORDS_PER_PAGE);
+        }
 
         request.setAttribute("locations", listLocations);
         request.setAttribute("countries", countryDAO.getAllCountries());
-
-        // Thêm thông tin phân trang vào request
         request.setAttribute("currentPage", page);
         request.setAttribute("totalPages", totalPages);
 
         request.getRequestDispatcher("/views/admin/jsp/viewListLocations.jsp").forward(request, response);
-    }
-
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
     }
 }

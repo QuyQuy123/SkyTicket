@@ -162,12 +162,14 @@
         </div><!--end container-->
 
         <!-- Hiển thị phân trang -->
+        <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
         <div class="d-flex justify-content-center mt-3">
             <nav aria-label="Page navigation">
                 <ul class="pagination">
                     <c:if test="${currentPage > 1}">
                         <li class="page-item">
-                            <a class="page-link" href="${pageContext.request.contextPath}/listLocationsURL?page=${currentPage - 1}">Previous</a>
+                            <a class="page-link" href="${pageContext.request.contextPath}/searchLocations?search=${searchName}&status=${searchStatus}&page=${currentPage - 1}">Previous</a>
                         </li>
                     </c:if>
 
@@ -177,12 +179,13 @@
 
                     <c:if test="${currentPage < totalPages}">
                         <li class="page-item">
-                            <a class="page-link" href="${pageContext.request.contextPath}/listLocationsURL?page=${currentPage + 1}">Next</a>
+                            <a class="page-link" href="${pageContext.request.contextPath}/searchLocations?search=${searchName}&status=${searchStatus}&page=${currentPage + 1}">Next</a>
                         </li>
                     </c:if>
                 </ul>
             </nav>
         </div>
+
 
         <!-- Footer Start -->
         <%@include file="bottom.jsp"%>
