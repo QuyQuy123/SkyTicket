@@ -25,7 +25,7 @@ public class CountriesAdd extends HttpServlet {
         CountriesDAO countriesDAO = new CountriesDAO();
 
         String countryName = request.getParameter("name").trim();
-        int status = request.getParameter("status").equals("active") ? 1 : 2;
+        int status = request.getParameter("status").equals("active") ? 1 : 0;
 
         if (countryName.isEmpty()) {
             session.setAttribute("errorMsg", "Country name cannot be empty.");
