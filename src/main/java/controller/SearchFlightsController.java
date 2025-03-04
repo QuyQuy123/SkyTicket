@@ -54,9 +54,9 @@ public class SearchFlightsController extends HttpServlet {
         int desAStrs = Integer.parseInt(desAStr);
         Date parsedDate = Date.valueOf(depDateStr);
 
-        List<Flights> f = fldao.getFlightsByAirportAndDate(depAStrs, desAStrs,parsedDate );
-        request.setAttribute("flightTickets", f);
-        request.getRequestDispatcher("views/public/ViewFlight.jsp").forward(request, resp);
+        //List<Flights> f = fldao.getFlightsByAirportAndDate(depAStrs, desAStrs,parsedDate );
+        //request.setAttribute("flightTickets", f);
+        //request.getRequestDispatcher("views/public/ViewFlight.jsp").forward(request, resp);
 
 
     }

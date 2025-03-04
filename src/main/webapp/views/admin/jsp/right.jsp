@@ -54,7 +54,7 @@
             </li>
 
             <li class="sidebar-dropdown">
-                <a href="javascript:void(0)"><i class="uil uil-apps me-2 d-inline-block"></i>Accounts Management</a>
+                <a href="javascript:void(0)"><i class="uil uil-apps me-2 d-inline-block"></i>Accounts</a>
                 <div class="sidebar-submenu">
                     <ul>
                         <li><a href="<%= request.getContextPath() %>/manageAccount?action=view">List of accounts</a></li>
@@ -64,7 +64,7 @@
             </li>
 
             <li class="sidebar-dropdown">
-                <a href="javascript:void(0)"><i class="uil uil-user me-2 d-inline-block"></i>Airlines Management</a>
+                <a href="javascript:void(0)"><i class="uil uil-user me-2 d-inline-block"></i>Airlines</a>
                 <div class="sidebar-submenu">
                     <ul>
                         <li><a href="<%= request.getContextPath() %>/listAirlines">List of airlines</a></li>
@@ -76,7 +76,7 @@
 
             <li class="sidebar-dropdown">
                 <a href="javascript:void(0)"><i class="uil uil-wheelchair me-2 d-inline-block"></i>Airports
-                    Management</a>
+                   </a>
                 <div class="sidebar-submenu">
                     <ul>
                         <li><a href="<%= request.getContextPath() %>/AirportListURL">List of airports</a></li>
@@ -90,7 +90,7 @@
             <%--            Locations Managerment--%>
             <li class="sidebar-dropdown">
                 <a href="javascript:void(0)"><i class="uil uil-wheelchair me-2 d-inline-block"></i>Locations
-                    Management</a>
+                </a>
                 <div class="sidebar-submenu">
                     <ul>
                         <li><a href="<%= request.getContextPath() %>/listLocationsURL">List of locations</a></li>
@@ -102,7 +102,7 @@
             </li>
 
             <li class="sidebar-dropdown">
-                <a href="javascript:void(0)"><i class="uil uil-shopping-cart me-2 d-inline-block"></i>Flights Management</a>
+                <a href="javascript:void(0)"><i class="uil uil-shopping-cart me-2 d-inline-block"></i>Flights</a>
                 <div class="sidebar-submenu">
                     <ul>
                         <li><a href="<%= request.getContextPath() %>/listFlights">Lists of flights</a></li>
@@ -112,11 +112,11 @@
             </li>
 
             <li class="sidebar-dropdown">
-                <a href="javascript:void(0)"><i class="uil uil-flip-h me-2 d-inline-block"></i>Updating</a>
+                <a href="javascript:void(0)"><i class="uil uil-flip-h me-2 d-inline-block"></i>News</a>
                 <div class="sidebar-submenu">
                     <ul>
-                        <li><a href="blogs.html">Blogs</a></li>
-                        <li><a href="blog-detail.html">Blog Detail</a></li>
+                        <li><a href="<%= request.getContextPath() %>/viewNews">List of news</a></li>
+                        <li><a href="<%= request.getContextPath() %>/manageNews?action=add">Add news</a></li>
                     </ul>
                 </div>
             </li>
