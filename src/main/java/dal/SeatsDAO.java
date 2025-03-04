@@ -56,10 +56,35 @@ public class SeatsDAO extends DBConnect{
     }
 
 
+    public Seats getSeatById(int seatId) {
+        String sql = "SELECT * FROM Seats WHERE SeatId = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, seatId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    int id = rs.getInt("SeatId");
+                    int flightId = rs.getInt("FlightId");
+                    int status = rs.getInt("Status");
+                    int seatNumber = rs.getInt("SeatNumber");
+                    String seatClass = rs.getString("SeatClass");
+                    int isBooked = rs.getInt("IsBooked");
+
+                    return new Seats(id, flightId, status, seatNumber, seatClass, isBooked);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+
+
 
     public static void main(String[] args) {
         SeatsDAO seatsDAO = new SeatsDAO();
-        List<Seats> s = seatsDAO.getAllSeatByFlightId(16);
+        Seats s = seatsDAO.getSeatById(1);
 
         System.out.println(s);
     }

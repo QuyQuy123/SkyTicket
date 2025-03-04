@@ -70,13 +70,42 @@ function selectLocation(locationId, displayText, inputId) {
     document.getElementById(inputId + '-locations').style.display = 'none';
 }
 
-function filterLocations(type) {
-    const input = document.getElementById(type + 'Display');
-    const filter = input.value.toLowerCase();
-    const locationList = document.getElementById(type + '-locations');
-    const items = locationList.getElementsByClassName('location-item');
+function filterLocations(eventOrType) {
+    let input, filter, locationList, items, type;
 
+    // Xác định nguồn sự kiện
+    if (typeof eventOrType === 'object' && eventOrType.target) {
+        // Gọi từ onkeyup (ô tìm kiếm)
+        input = eventOrType.target;
+        if (input.id === 'searchLocation1') {
+            type = 'from';
+        } else if (input.id === 'searchLocation2') {
+            type = 'to';
+        }
+    } else {
+        // Gọi từ oninput (fromDisplay hoặc toDisplay)
+        type = eventOrType; // 'from' hoặc 'to'
+        input = document.getElementById(type + 'Display');
+    }
 
+    // Kiểm tra nếu input tồn tại
+    if (!input) {
+        console.error('Input element not found for type: ' + type);
+        return;
+    }
+
+    filter = input.value.toLowerCase();
+    locationList = document.getElementById(type + '-locations');
+
+    // Kiểm tra nếu locationList tồn tại
+    if (!locationList) {
+        console.error('Location list not found for type: ' + type);
+        return;
+    }
+
+    items = locationList.getElementsByClassName('location-item');
+
+    // Lọc danh sách
     for (let i = 0; i < items.length; i++) {
         const txtValue = items[i].textContent || items[i].innerText;
         if (txtValue.toLowerCase().indexOf(filter) > -1) {
@@ -85,6 +114,8 @@ function filterLocations(type) {
             items[i].style.display = "none";
         }
     }
+
+    // Hiển thị hoặc ẩn danh sách
     if (filter.length > 0) {
         locationList.style.display = 'block';
     } else {
@@ -93,7 +124,7 @@ function filterLocations(type) {
 }
 
 
-Document.addEventListener('click', function (event) {
+document.addEventListener('click', function (event) {
        if (!event.target.closest('.location-list') && !event.target.closest('#fromDisplay') && !event.target.closest('#toDisplay')) {
         document.querySelectorAll('.location-list').forEach(list => {
             list.style.display = 'none';
