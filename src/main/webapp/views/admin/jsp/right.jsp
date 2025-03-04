@@ -111,15 +111,7 @@
                 </div>
             </li>
 
-            <li class="sidebar-dropdown">
-                <a href="javascript:void(0)"><i class="uil uil-flip-h me-2 d-inline-block"></i>Seats Management</a>
-                <div class="sidebar-submenu">
-                    <ul>
-                        <li><a href="<%= request.getContextPath() %>/listSeats">Lists of Seats</a></li>
-                        <li><a href="blog-detail.html">Add Seat</a></li>
-                    </ul>
-                </div>
-            </li>
+
 
             <li class="sidebar-dropdown">
                 <a href="javascript:void(0)"><i class="uil uil-file me-2 d-inline-block"></i>Updating</a>
@@ -137,6 +129,8 @@
                 </div>
             </li>
 
+
+
             <li class="sidebar-dropdown">
                 <a href="javascript:void(0)"><i
                         class="uil uil-sign-in-alt me-2 d-inline-block"></i>Updating</a>
@@ -147,6 +141,16 @@
                         <li><a href="forgot-password.html">Forgot Password</a></li>
                         <li><a href="lock-screen.html">Lock Screen</a></li>
                         <li><a href="thankyou.html">Thank you...!</a></li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="sidebar-dropdown">
+                <a href="javascript:void(0)"><i class="uil uil-flip-h me-2 d-inline-block"></i>Seats Management</a>
+                <div class="sidebar-submenu">
+                    <ul>
+                        <li><a href="<%= request.getContextPath() %>/listSeats">Lists of Seats</a></li>
+                        <li><a href="<%= request.getContextPath() %>/addSeats">Add Seat</a></li>
                     </ul>
                 </div>
             </li>

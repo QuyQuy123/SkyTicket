@@ -14,7 +14,7 @@ import java.util.List;
 
 @WebServlet(name = "AirportListServlet", urlPatterns = {"/AirportListURL"})
 public class AirportsListServlet extends HttpServlet {
-    private static final int Records_Per_Page = 5;
+    private static final int Records_Per_Page = 10;
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");

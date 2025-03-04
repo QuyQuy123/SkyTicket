@@ -15,7 +15,7 @@ import java.util.List;
 
 @WebServlet(name = "AirportSearchServlet", value = "/AirportSearch")
 public class AirportSearchServlet extends HttpServlet {
-    private static final int RECORDS_PER_PAGE = 5;
+    private static final int RECORDS_PER_PAGE = 10;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

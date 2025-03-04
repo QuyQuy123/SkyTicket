@@ -103,7 +103,8 @@ public class SeatsDAO extends DBConnect{
     }
 
     // Thêm ghế mới
-    public boolean addSeat(Seats seat) {
+    public int addSeat(Seats seat) {
+        int n = 0;
         String query = "INSERT INTO Seats (FlightId, Status, SeatNumber, SeatClass, IsBooked) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setInt(1, seat.getFlightId());
@@ -111,14 +112,15 @@ public class SeatsDAO extends DBConnect{
             ps.setInt(3, seat.getSeatNumber());
             ps.setString(4, seat.getSeatClass());
             ps.setInt(5, seat.getIsBooked());
-            return ps.executeUpdate() > 0;
+            n = ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
+        return n;
     }
     // Cập nhật thông tin ghế
-    public boolean updateSeat(Seats seat) {
+    public int updateSeat(Seats seat) {
+        int n = 0;
         String query = "UPDATE Seats SET FlightId=?, Status=?, SeatNumber=?, SeatClass=?, IsBooked=? WHERE SeatId=?";
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setInt(1, seat.getFlightId());
@@ -127,11 +129,11 @@ public class SeatsDAO extends DBConnect{
             ps.setString(4, seat.getSeatClass());
             ps.setInt(5, seat.getIsBooked());
             ps.setInt(6, seat.getSeatId());
-            return ps.executeUpdate() > 0;
+            n = ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
+        return n;
     }
 
     // Xóa ghế theo ID
@@ -253,33 +255,53 @@ public class SeatsDAO extends DBConnect{
         }
         return 0;
     }
+    public List<String> getSeatsByFlightId(String flightId) {
+        List<String> seats = new ArrayList<>();
+        String sql = "SELECT seat_number FROM Seats WHERE flight_id = ?";
 
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, flightId);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                seats.add(rs.getString("seat_number"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return seats;
+    }
+    public boolean isSeatNumberExists(int seatNumber, int flightId) {
+        try {
+            String sql = "SELECT COUNT(*) FROM Seats WHERE seatNumber = ? AND flightId = ?";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, seatNumber);
+            ps.setInt(2, flightId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
 
     public static void main(String[] args) {
         SeatsDAO seatsDAO = new SeatsDAO();
-        // Lấy tất cả ghế
-        System.out.println("Danh sách ghế:");
-        for (Seats seat : seatsDAO.getAllSeats()) {
-            System.out.println(seat);
-        }
-
-        // Lấy ghế theo ID
-        System.out.println("Thông tin ghế có ID 1: " + seatsDAO.getSeatById(1));
-
-        // Thêm ghế mới
-        Seats newSeat = new Seats(0, 2, 1, 15, "Business", 0);
-        System.out.println("Thêm ghế mới: " + seatsDAO.addSeat(newSeat));
-
-        // Cập nhật ghế
-        Seats updatedSeat = new Seats(1, 2, 1, 16, "Economy", 1);
-        System.out.println("Cập nhật ghế: " + seatsDAO.updateSeat(updatedSeat));
-
-        // Xóa ghế
-        System.out.println("Xóa ghế có ID 3: " + seatsDAO.deleteSeat(3));
-
-        // Cập nhật trạng thái đặt chỗ
-        System.out.println("Cập nhật trạng thái đặt chỗ của ghế ID 2: " + seatsDAO.updateSeatBookingStatus(2, 1));
+//
+//        // Tạo đối tượng Seat với dữ liệu cần update
+//        Seats seat = new Seats(1, 1, 1, 1, "Business", 0); // Giả sử SeatId = 1
+//
+//        // Gọi phương thức updateSeat và in kết quả
+//        boolean result = seatsDAO.updateSeat(seat);
+//
+//        if (result) {
+//            System.out.println("Cập nhật ghế thành công!");
+//        } else {
+//            System.out.println("Cập nhật ghế thất bại!");
+//        }
     }
 
 

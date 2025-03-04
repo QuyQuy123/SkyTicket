@@ -109,7 +109,7 @@
 
                     <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
                         <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
-                            <li class="breadcrumb-item"><a href="Dashboard.jsp">Home</a></li>
+                            <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/views/admin/jsp/Dashboard.jsp">SkyTicket</a></li>
                             <li class="breadcrumb-item active" aria-current="page">Seats</li>
                         </ul>
                     </nav>
@@ -142,8 +142,8 @@
                                     <td class="p-3"><%= seat.getSeatClass() %></td>
                                     <td class="p-3"><span class="badge <%= seat.getIsBooked() == 1 ? "bg-soft-success" : "bg-soft-warning" %>"><%= seat.getIsBooked() == 1 ? "Yes" : "No" %></span></td>
                                     <td class="text-end p-2">
-                                        <a href="#" class="btn btn-icon btn-pills btn-soft-success"><i class="uil uil-pen"></i></a>
-                                        <a href="#" class="btn btn-icon btn-pills btn-soft-danger">
+                                        <a href="<%= request.getContextPath() %>/updateSeatURL?SeatId=<%=seat.getSeatId()%>" class="btn btn-icon btn-pills btn-soft-success"><i class="uil uil-pen"></i></a>
+                                        <a href="javascript:void(0);" class="btn btn-icon btn-pills btn-soft-danger" onclick="confirmDelete(<%= seat.getSeatId() %>)">
                                             <i class="uil uil-trash"></i>
                                     </td>
                                 </tr>
@@ -159,21 +159,35 @@
         <!--phân trang-->
         <c:choose>
             <c:when test="${searchpage == 'page'}">
-                <div class="d-flex justify-content-center mt-3">
+                <div class="d-flex justify-content-center mt-3 margin-bottom">
                     <div class="pagination">
+                        <!-- Nút First -->
                         <c:if test="${currentPage > 1}">
+                            <a href="${pageContext.request.contextPath}/seatsSearch?page=1&search=${search}&status=${status}"
+                               class="btn btn-outline-primary">First</a>
+                        </c:if>
 
+                        <!-- Nút Previous -->
+                        <c:if test="${currentPage > 1}">
                             <a href="${pageContext.request.contextPath}/seatsSearch?page=${currentPage - 1}&search=${search}&status=${status}"
                                class="btn btn-outline-primary">Previous</a>
                         </c:if>
 
+                        <!-- Hiển thị trang hiện tại -->
                         <span class="btn btn-primary">${currentPage} / ${totalPages}</span>
 
+                        <!-- Nút Next -->
                         <c:if test="${currentPage < totalPages}">
                             <a href="${pageContext.request.contextPath}/seatsSearch?page=${currentPage + 1}&search=${search}&status=${status}"
                                class="btn btn-outline-primary">Next</a>
-
                         </c:if>
+
+                        <!-- Nút Last -->
+                        <c:if test="${currentPage < totalPages}">
+                            <a href="${pageContext.request.contextPath}/seatsSearch?page=${totalPages}&search=${search}&status=${status}"
+                               class="btn btn-outline-primary">Last</a>
+                        </c:if>
+
                     </div>
                 </div>
             </c:when>
@@ -191,9 +205,9 @@
 
 <!-- javascript -->
 <script>
-    function confirmDelete(airportId) {
-        if (confirm("Are you sure to delete this airport?")) {
-            window.location.href = "<%= request.getContextPath() %>/AirportDeleteServlet?airportId=" + airportId;
+    function confirmDelete(seatId) {
+        if (confirm("Are you sure to delete this seat?")) {
+            window.location.href = "<%= request.getContextPath() %>/SeatDelete?seatId=" + seatId;
         }
     }
 </script>
