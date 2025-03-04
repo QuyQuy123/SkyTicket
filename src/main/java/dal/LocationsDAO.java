@@ -97,6 +97,76 @@ public class LocationsDAO extends  DBConnect{
         return null;
     }
 
+    public List<Locations> searchLocationByPage(String name, Integer status, int offset, int limit) {
+        List<Locations> list = new ArrayList<>();
+        String sql = "SELECT * FROM Locations WHERE 1=1";
+
+        if (name != null && !name.trim().isEmpty()) {
+            sql += " AND locationName LIKE ?";
+        }
+        if (status != null) {
+            sql += " AND status = ?";
+        }
+        sql += " LIMIT ?, ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            int index = 1;
+            if (name != null && !name.trim().isEmpty()) {
+                ps.setString(index++, "%" + name + "%");
+            }
+            if (status != null) {
+                ps.setInt(index++, status);
+            }
+            ps.setInt(index++, offset);
+            ps.setInt(index, limit);
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Locations(
+                        rs.getInt("locationId"),
+                        rs.getString("locationName"),
+                        rs.getInt("countryId"),
+                        rs.getInt("status")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public int getTotalSearchRecords(String name, Integer status) {
+        String sql = "SELECT COUNT(*) FROM Locations WHERE 1=1";
+
+        if (name != null && !name.trim().isEmpty()) {
+            sql += " AND locationName LIKE ?";
+        }
+        if (status != null) {
+            sql += " AND status = ?";
+        }
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            int index = 1;
+            if (name != null && !name.trim().isEmpty()) {
+                ps.setString(index++, "%" + name + "%");
+            }
+            if (status != null) {
+                ps.setInt(index++, status);
+            }
+
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+
 
 
 
@@ -210,6 +280,21 @@ public class LocationsDAO extends  DBConnect{
             e.printStackTrace();
         }
         return false;
+    }
+
+    public int getStatus(int loactionId) {
+        String sql = "SELECT status FROM Locations WHERE locationId = ?";
+        int status = 0;
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, loactionId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                status = rs.getInt("status");
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error fetching status: " + ex.getMessage());
+        }
+        return status;
     }
 
     public boolean updateLocation(Locations location) {

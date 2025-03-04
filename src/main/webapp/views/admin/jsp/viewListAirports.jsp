@@ -137,7 +137,7 @@
                                     <td class="p-3"><%= airport.getAirportName() %></td>
                                     <td class="p-3"><%= locationName %></td>
                                     <td class="p-3"><span class="badge <%= airport.getStatus() == 1 ? "bg-soft-success" : "bg-soft-warning" %>"><%= airport.getStatus() == 1 ? "Active" : "Inactive" %></span></td>
-                                    <td class="text-end p-2">
+                                    <td class="p-2">
 
                                         <a href="<%= request.getContextPath() %>/AirportUpdateURL?airportId=<%=airport.getAirportId()%>" class="btn btn-icon btn-pills btn-soft-success"><i class="uil uil-pen"></i></a>
                                         <a href="javascript:void(0);" class="btn btn-icon btn-pills btn-soft-danger" onclick="confirmDelete(<%= airport.getAirportId() %>)">

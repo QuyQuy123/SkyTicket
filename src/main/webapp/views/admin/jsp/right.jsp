@@ -89,13 +89,25 @@
 
             <%--            Locations Managerment--%>
             <li class="sidebar-dropdown">
-                <a href="javascript:void(0)"><i class="uil uil-wheelchair me-2 d-inline-block"></i>Locations
-                    Management</a>
+                <a href="javascript:void(0)"><i class="uil uil-wheelchair me-2 d-inline-block"></i>Locations Management</a>
                 <div class="sidebar-submenu">
                     <ul>
                         <li><a href="<%= request.getContextPath() %>/listLocationsURL">List of locations</a></li>
 
                         <li><a href="<%= request.getContextPath() %>/views/admin/jsp/addLocation.jsp">Add locations</a></li>
+
+                    </ul>
+                </div>
+            </li>
+
+            <%--            Countries Managerment--%>
+            <li class="sidebar-dropdown">
+                <a href="javascript:void(0)"><i class="uil uil-wheelchair me-2 d-inline-block"></i>Countries Management</a>
+                <div class="sidebar-submenu">
+                    <ul>
+                        <li><a href="<%= request.getContextPath() %>/listCountriesURL">List of countries</a></li>
+
+                        <li><a href="<%= request.getContextPath() %>/views/admin/jsp/addCountry.jsp">Add countries</a></li>
 
                     </ul>
                 </div>
