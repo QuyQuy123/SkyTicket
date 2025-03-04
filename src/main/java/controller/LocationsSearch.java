@@ -24,6 +24,7 @@ public class LocationsSearch extends HttpServlet {
 
         // Chuyển đổi status từ String → Integer
         Integer status = (statusStr != null && !statusStr.isEmpty()) ? Integer.parseInt(statusStr) : null;
+        System.out.println("Giá trị:"+status);
 
         // Xác định số trang hiện tại
         int page = 1;

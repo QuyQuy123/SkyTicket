@@ -18,6 +18,13 @@ public class Seats {
         this.isBooked = isBooked;
     }
 
+    public Seats(int flightId, int status, int seatNumber, String seatClass, int isBooked) {
+        this.flightId = flightId;
+        this.status = status;
+        this.seatNumber = seatNumber;
+        this.seatClass = seatClass;
+        this.isBooked = isBooked;
+    }
     public Seats() {
 
     }
