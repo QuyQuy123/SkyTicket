@@ -49,6 +49,8 @@
         }
 
 
+
+
         #input-form {
             position: relative;
             z-index: 10;
@@ -183,7 +185,7 @@
 
 <div class="background">
     <div class="flight-form ">
-    <form id="input-form" action="SearchFlightsURL" method="POST" class="row g-1" onsubmit="return validateLocations(event)">
+    <form id="input-form" action="SearchFlightsURL" method="GET" class="row g-1" onsubmit="return validateLocations(event)">
         <div class="form-container" style="margin: 0 auto">
             <div class="row form-input">
                 <div style="display: flex;">
@@ -196,8 +198,8 @@
                         <label for="roundTrip" style="color: black;margin: 0; margin-left: 10px">Round-trip</label>
                     </div>
                 </div>
-<%--                <p id="errorMessage" style="font-size: 16px; color: red;"></p>--%>
-<%--                <%if(request.getAttribute("account") != null && ((Accounts)request.getAttribute("account")).getRoleId() != 3){--%>
+                <p id="errorMessage" style="font-size: 16px; color: red;"></p>
+<%--                <%if(request.getAttribute("account") != null && ((Accounts)request.getAttribute("account")).getRoleId() != 2){--%>
 <%--                %>--%>
 <%--                <p style="font-size: 16px;color: red;">Please use customer account to use the service.</p>--%>
 <%--                <%--%>
@@ -211,9 +213,11 @@
                         <input type="text" value="Hà Nội" readonly style="height: 100%;font-size: 18px" class="form-control" id="fromDisplay" onclick="showLocationList('from')" oninput="filterLocations('from')" placeholder="FROM" required >
                         <input type="hidden" value="1" id="from" name="departure">
                         <div id="from-locations" class="location-list" style="margin-top: 88px;margin-left: 85px;width: 300px;height: 300px">
-                            <input type="text" id="searchLocation1" onkeyup="filterLocations(even)"
+
+                            <input type="text" id="searchLocation1" onkeyup="filterLocations(event)"
                                    placeholder="Tìm kiếm địa điểm..."
                                    style="width: 100%; padding: 8px; margin-bottom: 10px; font-size: 14px;">
+
                             <%
                                 for(Locations lo : locate.getAllLocation()) {
                                     for(Airports ai : airport.getAllAirports()){
@@ -241,10 +245,9 @@
                         <input type="hidden" value="2" id="to" name="destination">
                         <div id="to-locations" class="location-list" style="margin-top: 88px;margin-left: 260px;width: 300px;height: 300px">
 
-                            <input type="text" id="searchLocation2" onkeyup="filterLocations(even)"
+                            <input type="text" id="searchLocation2" onkeyup="filterLocations(event)"
                                    placeholder="Tìm kiếm địa điểm..."
                                    style="width: 100%; padding: 8px; margin-bottom: 10px; font-size: 14px;">
-
                             <%
                                 for(Locations lo : locate.getAllLocation()) {
                                     for(Airports ai : airport.getAllAirports()){
@@ -265,11 +268,11 @@
                     <!-- Departure Date Field -->
                     <div class="col-md-2" style="padding-right: 0px">
                         <p style="color: black; margin: 0; font-size: 12px">DEPART</p>
-                        <input type="date" class="form-control" name="departureDate" style="height: 100%;font-size: 18px;" placeholder="dd-mm-yyyy" onkeydown="return false;" required >
+                        <input type="date" id="departureDate" class="form-control" name="departureDate" style="height: 100%;font-size: 18px;" placeholder="dd-mm-yyyy" onkeydown="return false;" required >
                     </div>
                     <div class="col-md-2" id="returnDateField" style="display:none;padding-right: 0px" >
                         <p style="color: black; margin: 0; font-size: 12px">RETURN</p>
-                        <input type="date" id="returnDate" class="form-control" name="returnDate" style="height: 100%;font-size: 18px;" autocomplete="off" required  placeholder="dd-mm-yyyy" onkeydown="return false;">
+                        <input type="date" id="returnDate" class="form-control" name="returnDate" style="height: 100%;font-size: 18px;" autocomplete="off"   placeholder="dd-mm-yyyy" onkeydown="return false;">
                     </div>
 
                     <!-- Passengers Field -->

@@ -1,5 +1,5 @@
 -- Tạo database
- -- CREATE DATABASE SkyTicket;
+-- CREATE DATABASE SkyTickets;
 USE SkyTickets;
 
 -- Bảng Roles
@@ -110,10 +110,10 @@ CREATE TABLE Airlines (
 
 INSERT INTO Airlines (AirlineId, AirlineName, Image, Information, Status, ClassVipCapacity, ClassEconomyCapacity) 
 VALUES 
-(1, 'Bamboo Airways', 'bamboo_1.jpg', 'Hãng hàng không tư nhân đầu tiên tại Việt Nam.', 1, 20, 180),
-(2, 'Bamboo Airlines', 'bamboo_1.jpg', 'Hãng hàng không quốc gia Việt Nam với dịch vụ chất lượng cao.', 1, 30, 250),
-(3, 'Bamboo Airways', 'bamboo_1.jpg', 'Hãng hàng không tư nhân đầu tiên tại Việt Nam.', 1, 20, 180),
-(4, 'Bamboo Airlines', 'bamboo_1.jpg', 'Hãng hàng không quốc gia Việt Nam với dịch vụ chất lượng cao.', 1, 30, 250);
+(1, 'Bamboo Airways', 'new_bamboo_1.jpg', 'Hãng hàng không tư nhân đầu tiên tại Việt Nam.', 1, 20, 180),
+(2, 'Bamboo Airlines', 'new_bamboo_1.jpg', 'Hãng hàng không quốc gia Việt Nam với dịch vụ chất lượng cao.', 1, 30, 250),
+(3, 'Bamboo Airways', 'new_bamboo_1.jpg', 'Hãng hàng không tư nhân đầu tiên tại Việt Nam.', 1, 20, 180),
+(4, 'Bamboo Airlines', 'new_bamboo_1.jpg', 'Hãng hàng không quốc gia Việt Nam với dịch vụ chất lượng cao.', 1, 30, 250);
 
 -- Bảng Flights
 CREATE TABLE Flights (
@@ -137,23 +137,68 @@ VALUES
 ('2025-02-21 08:45:00', '2025-02-21 06:20:00', 2, 4, 1, 4, 300.00, 170.00),
 ('2025-02-21 12:15:00', '2025-02-21 09:45:00', 1, 4, 1, 2, 220.00, 110.00),
 ('2025-02-21 17:00:00', '2025-02-21 14:30:00', 3, 1, 1, 1, 260.00, 130.00),
-('2025-02-21 22:10:00', '2025-02-21 19:45:00', 4, 2, 1, 2, 290.00, 140.00),
-('2025-02-22 05:30:00', '2025-02-22 03:00:00', 2, 3, 1, 3, 310.00, 180.00),
-('2025-02-22 09:20:00', '2025-02-22 06:50:00', 1, 4, 1, 4, 240.00, 115.00);
+('2025-02-21 22:10:00', '2025-02-22 19:45:00', 5, 1, 1, 2, 2900000.00, 1400000.00),
+('2025-02-22 05:30:00', '2025-02-22 03:00:00', 5, 1, 1, 3, 3100000.00, 1800000.00),
+('2025-02-22 09:20:00', '2025-02-22 06:50:00', 5, 1, 1, 4, 2400000.00, 1150000.00),
+('2025-02-22 14:00:00', '2025-02-22 11:30:00', 7, 2, 1, 1, 230.00, 115.00),
+('2025-02-22 19:00:00', '2025-02-22 16:15:00', 8, 3, 1, 2, 270.00, 135.00),
+('2025-02-23 09:30:00', '2025-02-23 07:00:00', 9, 5, 1, 3, 300.00, 150.00),
+('2025-02-23 15:45:00', '2025-02-23 13:00:00', 10, 4, 1, 4, 320.00, 160.00),
+('2025-02-23 21:00:00', '2025-02-23 18:30:00', 11, 6, 1, 1, 350.00, 175.00),
+('2025-02-24 06:00:00', '2025-02-24 03:30:00', 12, 7, 1, 2, 400.00, 200.00),
+('2025-02-22 23:30:00', '2025-02-22 21:00:00', 5, 1, 1, 2, 2900000.00, 1400000.00),
+('2025-02-22 01:45:00', '2025-02-22 23:15:00', 5, 1, 1, 3, 3100000.00, 1800000.00),
+('2025-02-22 03:50:00', '2025-02-22 01:20:00', 5, 1, 1, 4, 2400000.00, 1150000.00),
+('2025-02-22 11:00:00', '2025-02-22 08:30:00', 5, 1, 1, 2, 2900000.00, 1400000.00),
+('2025-02-22 13:15:00', '2025-02-22 10:45:00', 5, 1, 1, 3, 3100000.00, 1800000.00),
+('2025-02-22 15:30:00', '2025-02-22 13:00:00', 5, 1, 1, 4, 2400000.00, 1150000.00),
 
-
+('2025-02-23 11:00:00', '2025-02-23 9:30:00', 1, 5, 1, 1, 2900000.00, 1400000.00),
+('2025-02-23 14:00:00', '2025-02-23 12:30:00', 1, 5, 1, 2, 3100000.00, 1800000.00),
+('2025-02-23 17:00:00', '2025-02-23 15:30:00', 1, 5, 1, 3, 2400000.00, 1150000.00),
+('2025-02-23 20:00:00', '2025-02-23 18:30:00', 1, 5, 1, 4, 2900000.00, 1400000.00),
+('2025-02-23 23:00:00', '2025-02-23 21:30:00', 1, 5, 1, 1, 3100000.00, 1800000.00),
+('2025-02-23 09:00:00', '2025-02-23 07:30:00', 1, 5, 1,1, 2400000.00, 1150000.00);
 
 
 -- Bảng Seats
 CREATE TABLE Seats (
     SeatId INT PRIMARY KEY AUTO_INCREMENT,
     FlightId INT NOT NULL,
-    Status VARCHAR(50),
-    SeatNumber VARCHAR(10) NOT NULL,
-    SeatClass ENUM('Economy', 'VIP') NOT NULL,
-    IsBooked BOOLEAN DEFAULT FALSE,
+    Status int default 1 ,
+    SeatNumber int NOT NULL,
+    SeatClass VARCHAR(80) NOT NULL,
+    IsBooked int default 0,
     FOREIGN KEY (FlightId) REFERENCES Flights(FlightId)
 );
+INSERT INTO Seats (FlightId, SeatNumber, SeatClass) VALUES
+(1, 1, 'Economy'), (1, 2, 'Economy'), (1, 3, 'Business'), (1, 4, 'Business'), (1, 5, 'Economy'),
+(2, 1, 'Economy'), (2, 2, 'Business'), (2, 3, 'Business'), (2, 4, 'Economy'), (2, 5, 'Economy'),
+(3, 1, 'Business'), (3, 2, 'Economy'), (3, 3, 'Economy'), (3, 4, 'Business'), (3, 5, 'Economy'),
+(4, 1, 'Business'), (4, 2, 'Business'), (4, 3, 'Economy'), (4, 4, 'Economy'), (4, 5, 'Economy'),
+(5, 1, 'Economy'), (5, 2, 'Economy'), (5, 3, 'Business'), (5, 4, 'Business'), (5, 5, 'Economy'),
+(6, 1, 'Business'), (6, 2, 'Economy'), (6, 3, 'Economy'), (6, 4, 'Business'), (6, 5, 'Economy'),
+(7, 1, 'Business'), (7, 2, 'Business'), (7, 3, 'Economy'), (7, 4, 'Economy'), (7, 5, 'Economy'),
+(8, 1, 'Economy'), (8, 2, 'Business'), (8, 3, 'Business'), (8, 4, 'Economy'), (8, 5, 'Economy'),
+(9, 1, 'Business'), (9, 2, 'Economy'), (9, 3, 'Economy'), (9, 4, 'Business'), (9, 5, 'Economy'),
+(10, 1, 'Economy'), (10, 2, 'Business'), (10, 3, 'Economy'), (10, 4, 'Business'), (10, 5, 'Economy'),
+(11, 1, 'Business'), (11, 2, 'Economy'), (11, 3, 'Business'), (11, 4, 'Economy'), (11, 5, 'Economy'),
+(12, 1, 'Economy'), (12, 2, 'Business'), (12, 3, 'Economy'), (12, 4, 'Economy'), (12, 5, 'Business'),
+(13, 1, 'Business'), (13, 2, 'Economy'), (13, 3, 'Economy'), (13, 4, 'Business'), (13, 5, 'Economy'),
+(14, 1, 'Economy'), (14, 2, 'Business'), (14, 3, 'Business'), (14, 4, 'Economy'), (14, 5, 'Economy'),
+(15, 1, 'Business'), (15, 2, 'Economy'), (15, 3, 'Economy'), (15, 4, 'Business'), (15, 5, 'Economy'),
+
+(16, 1, 'Economy'), (16, 2, 'Business'), (16, 3, 'Economy'), (16, 4, 'Business'), (16, 5, 'Economy'),
+(17, 1, 'Business'), (17, 2, 'Economy'), (17, 3, 'Economy'), (17, 4, 'Business'), (17, 5, 'Economy'),
+(18, 1, 'Economy'), (18, 2, 'Economy'), (18, 3, 'Business'), (18, 4, 'Economy'), (18, 5, 'Business'),
+(19, 1, 'Business'), (19, 2, 'Economy'), (19, 3, 'Economy'), (19, 4, 'Business'), (19, 5, 'Economy'),
+(20, 1, 'Economy'), (20, 2, 'Business'), (20, 3, 'Business'), (20, 4, 'Economy'), (20, 5, 'Economy'),
+(21, 1, 'Business'), (21, 2, 'Economy'), (21, 3, 'Economy'), (21, 4, 'Economy'), (21, 5, 'Business'),
+(23, 1, 'Economy'), (23, 2, 'Economy'), (23, 3, 'Business'), (23, 4, 'Business'), (23, 5, 'Economy'),
+(24, 1, 'Economy'), (24, 2, 'Business'), (24, 3, 'Business'), (24, 4, 'Economy'), (24, 5, 'Economy'),
+(25, 1, 'Economy'), (25, 2, 'Economy'), (25, 3, 'Business'), (25, 4, 'Business'), (25, 5, 'Economy'),
+(26, 1, 'Economy'), (26, 2, 'Business'), (26, 3, 'Economy'), (26, 4, 'Business'), (26, 5, 'Economy'),
+(27, 1, 'Economy'), (27, 2, 'Economy'), (27, 3, 'Business'), (27, 4, 'Economy'), (27, 5, 'Business');
 
 -- Bảng Tickets
 CREATE TABLE Tickets (
@@ -180,7 +225,19 @@ INSERT INTO Countries (CountryId,CountryName)
 VALUES
     (1,'Việt Nam'),
     (2,'Nhật Bản'),
-    (3,'Hàn Quốc');
+    (3,'Hàn Quốc'),
+    (4, 'Thái Lan'),
+    (5, 'Singapore'),
+    (6, 'Malaysia'),
+    (7, 'Trung Quốc'),
+    (8, 'Ấn Độ'),
+    (9, 'Úc'),
+    (10, 'Mỹ'),
+    (11, 'Anh'),
+    (12, 'Pháp'),
+    (13, 'Đức'),
+    (14, 'Canada'),
+    (15, 'Indonesia');
 
 
 -- Bảng Locations
@@ -198,7 +255,16 @@ VALUES
     (3,'Tokyo', 2),
     (4,'Osaka', 2),
     (5,'Seoul', 3),
-    (6,'Busan', 3);
+    (6,'Busan', 3),
+    (7, 'Bangkok', 4),
+    (8, 'Singapore City', 5),
+    (9, 'Kuala Lumpur', 6),
+    (10, 'Bắc Kinh', 7),
+    (11, 'Mumbai', 8),
+    (12, 'Sydney', 9),
+    (13, 'New York', 10),
+    (14, 'London', 11),
+    (15, 'Paris', 12);
 
 
 -- Bảng Airports
@@ -217,7 +283,16 @@ VALUES
     (3,'Narita International Airport', 3),
     (4,'Kansai International Airport', 4),
     (5,'Incheon International Airport', 5),
-    (6,'Gimhae International Airport', 6);
+    (6,'Gimhae International Airport', 6),
+    (7, 'Suvarnabhumi Airport', 7),
+    (8, 'Changi Airport', 8),
+    (9, 'Kuala Lumpur International Airport', 9),
+    (10, 'Beijing Capital International Airport', 10),
+    (11, 'Chhatrapati Shivaji International Airport', 11),
+    (12, 'Sydney Kingsford Smith Airport', 12),
+    (13, 'John F. Kennedy International Airport', 13),
+    (14, 'Heathrow Airport', 14),
+    (15, 'Charles de Gaulle Airport', 15);
 
 
 -- Chỉnh lại khóa ngoại của Flights sau khi tạo Airports

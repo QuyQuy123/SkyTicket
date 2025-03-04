@@ -263,54 +263,9 @@ public class AirportsDAO extends DBConnect {
 
     public static void main(String[] args) {
         AirportsDAO dao = new AirportsDAO();
-        int test = 1;
+        int test = 2;
         Airports ap = dao.getAirportById(test);
         System.out.println(ap.getAirportName());
-        // Test với chuỗi nhập không đầy đủ
-//        String partialName = "Nội Bài"; // Người dùng chỉ nhập một phần tên
-//        boolean exists = dao.isAirportExist(partialName);
-//        System.out.println("Does airport contain '" + partialName + "'? " + exists);
-//
-//        // Test với một tên không tồn tại
-//        String nonExisting = "Fake Airport";
-//        boolean notExists = dao.isAirportExist(nonExisting);
-//        System.out.println("Does airport contain '" + nonExisting + "'? " + notExists);
-//        // ✅ Test 1: Tìm kiếm theo tên sân bay
-//        System.out.println("🔎 Searching airports with name containing 'International'...");
-//        List<Airports> result1 = dao.searchAirports(null, 2);
-//        result1.forEach(a -> System.out.println(a.getAirportId() + " - " + a.getAirportName()));
-        // ✅ Test 2: Tìm kiếm theo trạng thái (1 = Active)
-//        System.out.println("\n🔎 Searching active airports...");
-//        List<Airports> result2 = dao.searchAirports(null, 1);
-//        result2.forEach(a -> System.out.println(a.getAirportId()+ " - " + a.getAirportName()));
 
-//        Airports ap = new Airports(7,1, 7, "Phú Quốc International Airports");
-//        int n = dao.insertAirport(ap);
-//        if(n > 0){
-//            System.out.println("Inserted " + n + " airports");
-//        }else
-//            System.out.println("Insertion failed");
-
-        //  3. Test lấy danh sách tất cả sân bay
-//        List<Airports> airportList = dao.getAllAirportsHieu("select * from airports");
-//        System.out.println(" Danh sách sân bay:");
-//        for (Airports airport : airportList) {
-//            System.out.println("ID: " + airport.getAirportId() +
-//                    ", Name: " + airport.getAirportName() +
-//                    ", Location ID: " + airport.getLocationId() +
-//                    ", Status: " + airport.getStatus());
-//        }
-        // Tạo đối tượng Airports với dữ liệu mẫu
-        //Airports airport = new Airports("Cần Thơ International Airport", 2 , 2);
-//
-//            // Gọi phương thức addAirport để thêm dữ liệu
-        //int result = dao.addAirport(airport);
-//
-//            // Kiểm tra kết quả
-//            if (result > 0) {
-//                System.out.println("Thêm sân bay thành công!");
-//            } else {
-//                System.out.println("Thêm sân bay thất bại!");
-//            }
     }
 }

@@ -8,18 +8,17 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.Countries;
-import model.Locations;
 
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/searchLocations")
-public class LocationsSearch extends HttpServlet {
+@WebServlet("/searchCountries")
+public class CountriesSearch extends HttpServlet {
     private static final int RECORDS_PER_PAGE = 6;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String locationName = req.getParameter("search");
+        String countryName = req.getParameter("search");
         String statusStr = req.getParameter("status");
 
         // Chuyển đổi status từ String → Integer
@@ -37,12 +36,11 @@ public class LocationsSearch extends HttpServlet {
             }
         }
 
-        LocationsDAO dao = new LocationsDAO();
         CountriesDAO cdao = new CountriesDAO();
 
         // Lấy danh sách kết quả tìm kiếm theo trang
-        List<Locations> searchResults = dao.searchLocationByPage(locationName, status, (page - 1) * RECORDS_PER_PAGE, RECORDS_PER_PAGE);
-        int totalRecords = dao.getTotalSearchRecords(locationName, status);
+        List<Countries> searchResults = cdao.searchCountryByPage(countryName, status, (page - 1) * RECORDS_PER_PAGE, RECORDS_PER_PAGE);
+        int totalRecords = cdao.getTotalSearchRecords(countryName, status);
         int totalPages = (int) Math.ceil((double) totalRecords / RECORDS_PER_PAGE);
 
         // Nếu page lớn hơn totalPages nhưng không có dữ liệu, đưa về trang cuối cùng có dữ liệu
@@ -51,18 +49,16 @@ public class LocationsSearch extends HttpServlet {
         // Nếu danh sách tìm kiếm rỗng mà page > 1, quay lại trang trước
         if (searchResults.isEmpty() && page > 1) {
             page--;
-            searchResults = dao.searchLocationByPage(locationName, status, (page - 1) * RECORDS_PER_PAGE, RECORDS_PER_PAGE);
+            searchResults = cdao.searchCountryByPage(countryName, status, (page - 1) * RECORDS_PER_PAGE, RECORDS_PER_PAGE);
         }
 
         // Đưa dữ liệu vào request attribute
-        List<Countries> listCountries = cdao.getAllCountries();
-        req.setAttribute("countries", listCountries);
-        req.setAttribute("locations", searchResults);
-        req.setAttribute("searchName", locationName);
+        req.setAttribute("countries", searchResults);
+        req.setAttribute("searchName", countryName);
         req.setAttribute("searchStatus", statusStr);
         req.setAttribute("currentPage", page);
         req.setAttribute("totalPages", totalPages);
 
-        req.getRequestDispatcher("/views/admin/jsp/viewListLocations.jsp").forward(req, resp);
+        req.getRequestDispatcher("/views/admin/jsp/viewListCountries.jsp").forward(req, resp);
     }
 }

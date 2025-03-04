@@ -1,4 +1,5 @@
 <%@ page import="model.Locations" %>
+<%@ page import="model.Countries" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -9,7 +10,7 @@
 
 <head>
     <meta charset="utf-8"/>
-    <title>SkyTicket - Locations management</title>
+    <title>SkyTicket - Countries management</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Premium Bootstrap 4 Landing Page Template"/>
     <meta name="keywords" content="Appointment, Booking, System, Dashboard, Health"/>
@@ -68,18 +69,18 @@
     <main class="page-content bg-light">
         <%@ include file="top.jsp" %>
 
-        <% Locations locations = (Locations) request.getAttribute("locations"); %>
+        <% Countries countries = (Countries) request.getAttribute("country");%>
 
         <div class="container-fluid">
             <div class="layout-specing">
                 <div class="d-md-flex justify-content-between">
-                    <h5 class="mb-0">Update Location ID: <%=locations.getLocationId()%></h5>
+                    <h5 class="mb-0">Country ID: <%= countries.getCountryId()%> </h5>
 
                     <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
                         <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
                             <li class="breadcrumb-item"><a href="Dashboard.jsp">SkyTicket</a></li>
-                            <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/listLocationsURL">Locations</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Update Locations</li>
+                            <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/listCountriesURL">Countries</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">View Country</li>
                         </ul>
                     </nav>
                 </div>
@@ -87,65 +88,45 @@
                 <div class="row">
                     <div class="col-lg-8 mt-4">
                         <div class="card border-0 p-4 rounded shadow">
-                            <c:if test="${not empty error}">
-                                <div style="color: red; font-weight: bold;">
-                                        ${error}
-                                </div>
-                            </c:if>
                             <c:if test="${not empty msg}">
                                 <div style="color: green; font-weight: bold;">
                                         ${msg}
                                 </div>
                             </c:if>
-                            <c:if test="${not empty error1}">
-                                <div style="color: green; font-weight: bold;">
-                                        ${error1}
-                                </div>
-                            </c:if>
 
+                            <form class="mt-4" action="${pageContext.request.contextPath}/updateCountry" method="post" enctype="multipart/form-data">
 
-                            <form class="mt-4" action="${pageContext.request.contextPath}/updateLocation" method="post">
-
-                            <input type="hidden" name="locationId" value="<%=locations.getLocationId()%>">
 
                                 <br>
 
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label" for="name">Location Name: </label>
-                                            <input name="name" id="name" type="text"
-                                                   class="form-control" required
-                                                   value="<%=locations.getLocationName() != null ? locations.getLocationName():""%>">
+                                            <label class="form-label">Country Name: </label>
+                                            <label for="name"></label><input name="name" id="name" type="text" disabled
+                                                                             class="form-control"
+                                                                             value="<%=countries.getCountryName() != null ? countries.getCountryName(): ""%>">
                                         </div>
                                     </div><!--end col-->
 
 
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label" for="we">Status</label>
-                                            <select class="form-control gender-name select2input" name="status" id="we">
-                                                <option value="1" <%=locations.getStatus() == 1 ? "selected" : ""%>>Active</option>
-                                                <option value="0" <%=locations.getStatus() == 0 ? "selected" : ""%>>Deactive</option>
+                                            <label class="form-label">Status:</label>
+                                            <select class="form-control gender-name select2input" name="status" disabled>
+                                                <option value="1" <%= countries.getStatus() == 1 ? "selected" : ""%>>Active</option>
+                                                <option value="2" <%= countries.getStatus() == 2 ? "selected" : ""%>>Deactive</option>
                                             </select>
                                         </div>
                                     </div><!--end col-->
 
 
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label class="form-label">Country Name: </label>
-                                            <input name="countryName" id="countryName" readonly
-                                                   type="text" class="form-control"
-                                                   value="<%= locations.getCountryName() != null ? locations.getCountryName() : "Unknown" %>">
-                                        </div>
-                                    </div>
+                                    <a href="${pageContext.request.contextPath}/listCountriesURL" class="btn btn-primary">Back</a>
 
-                                <button type="submit" class="btn btn-primary">Update Location</button>
-                                <a href="${pageContext.request.contextPath}/listLocationsURL" class="btn btn-danger">Cancel</a>
                             </form>
                         </div>
                     </div><!--end col-->
+
                 </div><!--end row-->
                 <div class="col-lg-4 mt-4">
                     <div class="card rounded border-0 shadow">
@@ -156,7 +137,7 @@
 
                         <ul class="list-unstyled mb-0 p-4" data-simplebar style="height: 664px;">
                             <div>
-                                Location name must be ...
+                                Country name must be ...
                             </div>
 
                             <li class="mt-4 text-center">

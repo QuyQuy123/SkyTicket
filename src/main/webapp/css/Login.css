@@ -43,7 +43,7 @@ label {
 
 .form-group input {
     height: 50px;
-    width: 300px;
+    width: 100%;
     outline: none;
     border: 1px solid #aaa;
     padding: 10px;
