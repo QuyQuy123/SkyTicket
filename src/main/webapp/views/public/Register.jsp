@@ -17,8 +17,8 @@
     <script src="<%= request.getContextPath() %>js/validation.js"></script>
 </head>
 <body>
-<div class="container">
-    <div style="display: flex">
+<div class="container" style="width: 30%">
+    <div style="display: flex;">
         <h1 style="margin-bottom: 30px">
             Register
         </h1>

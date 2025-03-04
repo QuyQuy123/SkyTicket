@@ -40,7 +40,7 @@
         <p id="capslock-warning" style="display: none; margin-bottom: 30px">⚠️ Caps Lock is on</p>
         <h5 style="color: red">${requestScope.error}</h5><br>
         <div class="button">
-            <input id="submit" type="submit" value="Receive Email" /><br /><br />
+            <input id="submit" type="submit" value="Continue" /><br /><br />
         </div>
         Did you remember the password? <a class="letDoIt" href="LoginURL">Login</a>
     </form>
