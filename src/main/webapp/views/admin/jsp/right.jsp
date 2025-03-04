@@ -122,7 +122,17 @@
             </li>
 
             <li class="sidebar-dropdown">
-                <a href="javascript:void(0)"><i class="uil uil-file me-2 d-inline-block"></i>Updating</a>
+                <a href="javascript:void(0)"><i class="uil uil-flip-h me-2 d-inline-block"></i>Countries</a>
+                <div class="sidebar-submenu">
+                    <ul>
+                        <li><a href="<%= request.getContextPath() %>/listCountriesURL">List of countries</a></li>
+                        <li><a href="<%= request.getContextPath() %>/views/admin/jsp/addCountry.jsp">Add country</a></li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="sidebar-dropdown">
+                <a href="javascript:void(0)"><i class="uil uil-file me-2 d-inline-block"></i>Update</a>
                 <div class="sidebar-submenu">
                     <ul>
                         <li><a href="faqs.html">FAQs</a></li>

@@ -26,7 +26,7 @@ public class LocationsAdd extends HttpServlet {
 
         String locationName = request.getParameter("name").trim();
         int countryId = Integer.parseInt(request.getParameter("countryID"));
-        int status = request.getParameter("status").equals("active") ? 1 : 2;
+        int status = request.getParameter("status").equals("active") ? 1 : 0;
 
         if (locationName.isEmpty()) {
             session.setAttribute("errorMsg", "Location name cannot be empty.");

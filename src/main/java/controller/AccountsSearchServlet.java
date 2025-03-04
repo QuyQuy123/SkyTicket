@@ -13,7 +13,7 @@ import model.Roles;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/searchAccount") // Định danh Servlet tại URL "/template"
+@WebServlet("/searchAccount")
 public class AccountsSearchServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
