@@ -157,6 +157,26 @@
                   </div>
                 </div>
               </div>
+              <div class="col-lg-4 mt-4">
+                <div class="card rounded border-0 shadow">
+                  <div class="p-4 border-bottom d-flex align-items-center">
+                    <i class="bi bi-pin-angle-fill text-danger me-2"></i> <!-- Biểu tượng Note -->
+                    <h5 class="mb-0">Note</h5>
+                  </div>
+
+                  <ul class="list-unstyled mb-0 p-4" data-simplebar style="height: 664px;">
+                    <div>
+                      Location name must be ...
+                    </div>
+
+                    <li class="mt-4 text-center">
+                      <a style="color: red" href="#" class="btn btn-gradient px-4 py-2 rounded-pill shadow">
+                        <i class="bi bi-heart-fill text-danger"></i> Thank you <3
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </div>
           </form>
         </div><!--end row-->

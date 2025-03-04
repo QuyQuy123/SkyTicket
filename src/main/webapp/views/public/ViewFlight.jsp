@@ -17,7 +17,7 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title>JSP</title>
+  <title>Search Flights</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <link rel="stylesheet" href="<%= request.getContextPath() %>/css/ViewFlight.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -73,14 +73,16 @@
                 totalPassengers = adultNumber + childNumber + infantNumber;
             }
         if(request.getParameter("flightDetailId")==null){
+
       %>
-      <div style="width: 100%; color:#3C6E57; text-align: center; "><h3>SELECT FLIGHT</h3></div>
+      <div style="width: 100%; color:#3C6E57; text-align: center; "><h3>SELECT OUTBOUND FLIGHT</h3></div>
       <%} else {
         Airports tmpA = depAirport; depAirport = desAirport; desAirport = tmpA;
         Locations tmpL = depLocation; depLocation = desLocation; desLocation = tmpL;
         Countries tmpC = depCountry; depCountry = desCountry; desCountry = tmpC;
+//          System.out.println(request.getParameter("flightDetailId"));
       %>
-      <div style="width: 100%; color:#3C6E57; text-align: center "><h3>SELECT  FLIGHT</h3></div>
+      <div style="width: 100%; color:#3C6E57; text-align: center "><h3>SELECT REBOUND FLIGHT</h3></div>
       <% }%>
       <div class="flight-info" style="width: 100%">
         <div class="airport-info">
@@ -141,7 +143,7 @@
                   if (flightTickets != null && !flightTickets.isEmpty()) {
                       for (Flights f : flightTickets) {
                           int airlineId = fld.getAirlineIdByFlightId(f.getFlightId());
-                          System.out.println(f.getFlightId());
+
                           String airlineImage = ald.getImageById(airlineId);
                           String airlineName = ald.getNameById(airlineId);
                           Flights flight = fld.getFlightById(f.getFlightId());
@@ -182,8 +184,8 @@
                           </div>
                           <div style="display: flex; align-items: center; width: 38%; justify-content: end">
                               <div class="price">
-                                  <span class="old-price"><%= NumberFormat.getInstance().format(f.getClassEconomyPrice()) %> ₫</span>
-                                  <span><span style="font-size: 17px">only from</span> <%= NumberFormat.getInstance().format(f.getClassVipPrice())%> ₫</span>
+                                  <span class="old-price"><%= NumberFormat.getInstance().format(f.getClassVipPrice()) %> ₫</span>
+                                  <span><span style="font-size: 17px">only from</span> <%= NumberFormat.getInstance().format(f.getClassEconomyPrice())%> ₫</span>
                               </div>
                               <div style="display: flex; margin-left: 20px" onclick="showTicketCategory(<%=f.getFlightId()%>)"
                               >
@@ -196,12 +198,9 @@
                   </div>
 
 
-
                   <div id="ticket-category-container<%=f.getFlightId()%>" style="max-height: 0px; overflow: hidden; transition: max-height 0.5s ease, opacity 0.5s ease; opacity: 0;">
                       <div style="text-align: center; font-size: 20px">Select Ticket Class</div>
-                      <div class="ticket-category-list" style="display: flex; flex-wrap: wrap;display: flex;
-                                                                    justify-content: center;
-                                                                    gap: 90px;">
+                      <div class="ticket-category-list" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 90px;">
                           <%
                               int activated = 0;
                               for (int i = 0; i < seats.size(); i++) {
@@ -213,115 +212,130 @@
                               // Dùng HashSet để kiểm tra loại ghế đã hiển thị chưa
                               Set<String> displayedClasses = new HashSet<>();
 
-                              for (int i = 0; i < seats.size(); i++) {
-                                  String seatClass = seats.get(i).getSeatClass();
-                                  if (!"Economy".equals(seatClass) && !"Business".equals(seatClass)) {
-                                      continue;
-                                  }
+                              // Lặp qua các hạng ghế muốn hiển thị (Business và Economy)
+                              String[] targetClasses = {"Business", "Economy"};
+                              for (String targetClass : targetClasses) {
+                                  // Tìm seat đầu tiên của từng hạng ghế
+                                  for (int i = 0; i < seats.size(); i++) {
+                                      String seatClass = seats.get(i).getSeatClass();
+                                      if (!targetClass.equals(seatClass)) {
+                                          continue;
+                                      }
 
-                                  if (displayedClasses.contains(seatClass)) {
-                                      continue;
-                                  }
+                                      if (displayedClasses.contains(seatClass)) {
+                                          continue;
+                                      }
 
-                                  displayedClasses.add(seatClass);
-                                  if (seats.get(i).getIsBooked() == 0) {
+                                      displayedClasses.add(seatClass);
+                                      if (seats.get(i).getIsBooked() == 0) {
+                                          // Lấy giá vé dựa trên seatClass
+                                          double price = 0;
+                                          if ("Business".equals(seatClass)) {
+                                              // Giả định giá Business là 1.5 lần giá Economy, hoặc lấy từ seats.get(i).getPrice()
+                                              price = (long) (f.getClassVipPrice()); // Điều chỉnh tỷ lệ hoặc dùng seats.get(i).getPrice()
+                                          } else if ("Economy".equals(seatClass)) {
+                                              price = f.getClassEconomyPrice(); // Giá gốc cho Economy
+                                          }
                           %>
-
 
                           <div class="ticket-category-box" style="width:30%;margin-bottom: 50px">
                               <div class="ticket-category-head" style="background-color:cadetblue;">
-
-                                  <%= seatClass%>
-                                  <div style="font-size: 25px"><%= NumberFormat.getInstance().format(f.getClassEconomyPrice())%> ₫</div>
+                                  <%= seatClass %>
+                                  <div style="font-size: 25px"><%= NumberFormat.getInstance().format(price) %> ₫</div>
                               </div>
-                              <div class="ticket-category-body" style="border: 2px solid <% %>; padding: 12px 12px;; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;min-height: 85%">
+                              <div class="ticket-category-body" style="border: 2px solid <% %>; padding: 12px 12px; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; min-height: 85%">
                                   <div>
-                                      <img style="width: 100%; display: block; border-radius: 10px; transition: transform 0.3s ease; "
+                                      <img style="width: 100%; display: block; border-radius: 10px; transition: transform 0.3s ease;"
                                            src="<%= request.getContextPath() + "/img/" + airlineImage %>" alt="alt"
                                            onmouseover="this.style.transform = 'scale(1.05)'"
                                            onmouseout="this.style.transform = 'scale(1)'"/>
                                   </div>
-                                  <div class="ticket-category-info" style="font-size: 13px; margin-top: 12px">
-                                      <%=seats.get(i).getSeatClass()%>
-
-
+                                  <div class="ticket-category-info" style="font-size: 13px; margin-top: 12px; margin-left: 42px;">
+                                      <%= seats.get(i).getSeatClass() %>
                                   </div>
                                   <% if ("oneWay".equals(request.getParameter("flightType"))) { %>
-                                  <form class="ticket-category-form" action="bookingFlightTicketsURL" style="display: flex; justify-content: center; ">
-                                      <input type="hidden" name="seatCategory" value="<%=seats.get(i).getSeatClass()%>"/>
-                                      <input type="hidden" name="flightDetailId" value="<%=f.getFlightId()%>"/>
+                                  <form class="ticket-category-form" action="bookingFlightTicketsURL" style="display: flex; justify-content: center;">
+                                      <input type="hidden" name="seatCategory" value="<%= seats.get(i).getSeatId() %>"/>
+                                      <input type="hidden" name="flightDetailId" value="<%= f.getFlightId() %>"/>
                                       <input type="hidden" name="adult" value="${param.adult}"/>
                                       <input type="hidden" name="child" value="${param.child}"/>
                                       <input type="hidden" name="infant" value="${param.infant}"/>
                                       <%
-                                          if(totalPassengers<= 10){
+                                          if (totalPassengers <= 10) {
                                       %>
                                       <button style="background-color: cadetblue;" type="submit">Buy Ticket</button>
                                       <%
                                       } else {
                                       %>
-                                      <button style="background-color: #aaa" disabled >SOLD OUT</button>
+                                      <button style="background-color: #aaa" disabled>SOLD OUT</button>
                                       <%
                                           }
                                       %>
-
                                   </form>
-                                  <% } else if("roundTrip".equals(request.getParameter("flightType")) && request.getParameter("flightDetailId")==null){
-                                  %>
-                                  <form class="ticket-category-form" action="bookingFlightTicketsURL" style="display: flex; justify-content: center; ">
-                                      <input type="hidden" name="flightType" value="${param.flightType}"/>
-                                      <input type="hidden" name="seatCategory" value="<%=seats.get(i).getSeatId()%>"/>
-                                      <input type="hidden" name="flightDetailId" value="<%=f.getFlightId()%>"/>
+                                  <% } else if ("roundTrip".equals(request.getParameter("flightType")) && request.getParameter("flightDetailId") == null) { %>
+                                  <form class="ticket-category-form" action="SearchFlightsURL" style="display: flex; justify-content: center;">
+
+                                      <input type="hidden" name="seatCategory" value="<%= seats.get(i).getSeatId() %>"/>
+                                      <input type="hidden" name="flightDetailId" value="<%= f.getFlightId() %>"/>
+
                                       <input type="hidden" name="departure" value="${param.departure}"/>
                                       <input type="hidden" name="destination" value="${param.destination}"/>
+                                      <input type="hidden" name="departureDate" value="${param.departureDate}"/>
                                       <input type="hidden" name="returnDate" value="${param.returnDate}"/>
                                       <input type="hidden" name="adult" value="${param.adult}"/>
                                       <input type="hidden" name="child" value="${param.child}"/>
                                       <input type="hidden" name="infant" value="${param.infant}"/>
+                                      <input type="hidden" name="flightType" value="roundTrip"/>
                                       <%
-                                          if(totalPassengers<= 10){
+                                          if (totalPassengers <= 10) {
                                       %>
-                                      <button style="background-color:cadetblue;" type="submit">Select Departure Ticket</button>
+                                      <button style="background-color:cadetblue;width: 83%" type="submit">Select Departure Ticket</button>
                                       <%
                                       } else {
                                       %>
-                                      <button style="background-color: #aaa" disabled >SOLD OUT</button>
+                                      <button style="background-color: #aaa" disabled>SOLD OUT</button>
                                       <%
                                           }
                                       %>
-
                                   </form>
-                                  <% } else if("roundTrip".equals(request.getParameter("flightType")) && request.getParameter("flightDetailId")!=null){ %>
-                                  <form class="ticket-category-form" action="bookingFlightTicketsURL" style="display: flex; justify-content: center; ">
+                                  <% } else if ("roundTrip".equals(request.getParameter("flightType")) && request.getParameter("flightDetailId") != null) { %>
+                                  <form class="ticket-category-form" action="bookingFlightTicketsURL" style="display: flex; justify-content: center;">
                                       <input type="hidden" name="seatCategory" value="${param.seatCategory}"/>
                                       <input type="hidden" name="flightDetailId" value="${param.flightDetailId}"/>
-                                      <input type="hidden" name="seatCategory2" value="<%=seats.get(i).getSeatId()%>"/>
-                                      <input type="hidden" name="flightDetailId2" value="<%=f.getFlightId()%>"/>
+                                      <input type="hidden" name="seatCategory2" value="<%= seats.get(i).getSeatId() %>"/>
+                                      <input type="hidden" name="flightDetailId2" value="<%= f.getFlightId() %>"/>
                                       <input type="hidden" name="adult" value="${param.adult}"/>
                                       <input type="hidden" name="child" value="${param.child}"/>
                                       <input type="hidden" name="infant" value="${param.infant}"/>
                                       <%
-                                          if(totalPassengers<= 10){
+                                          if (totalPassengers <= 10) {
                                       %>
-                                      <button style="background-color: cadetblue;" type="submit">Select Return Ticket</button>
+                                      <button style="background-color: cadetblue;width: 75%" type="submit">Select Return Ticket</button>
                                       <%
                                       } else {
                                       %>
-                                      <button style="background-color: #aaa" disabled >SOLD OUT</button>
+                                      <button style="background-color: #aaa" disabled>SOLD OUT</button>
                                       <%
                                           }
                                       %>
                                   </form>
-                                  <%}%>
+                                  <% } %>
                               </div>
                           </div>
                           <%
+                                          break; // Chỉ lấy seat đầu tiên của từng hạng ghế
+                                      }
                                   }
                               }
                           %>
                       </div>
-
                   </div>
+
+
+
+
+
+
                   <div class="container">
                       <!-- Modal Detail Information -->
                       <div class="modal fade" id="detail<%=f.getFlightId()%>" role="dialog">
@@ -398,45 +412,64 @@
               %>
           </div>
 
-          <div style="margin-top: 20px; text-align: center;margin-left: 310px">
-              <% Integer currentPageObj = (Integer) request.getAttribute("currentPage");
+          <div style="margin-top: 20px; text-align: center; margin-left: 310px">
+              <%
+                  Integer currentPageObj = (Integer) request.getAttribute("currentPage");
                   int currentPage = (currentPageObj != null) ? currentPageObj : 1;
 
                   Integer totalPagesObj = (Integer) request.getAttribute("totalPages");
                   int totalPages = (totalPagesObj != null) ? totalPagesObj : 1;
+
+                   flightTickets = (List<Flights>) request.getAttribute("flightTickets");
+                  boolean hasFlights = flightTickets != null && !flightTickets.isEmpty();
+
+                  String flightDetailId = request.getParameter("flightDetailId"); // Lấy flightDetailId từ request
               %>
 
-              <% if (currentPage > 1) { %>
-              <form method="post" action="SearchFlightsURL">
+              <% if (hasFlights && currentPage > 1) { %>
+              <form method="get" action="SearchFlightsURL">
                   <input type="hidden" name="page" value="<%= currentPage - 1 %>">
                   <input type="hidden" name="departure" value="<%= request.getParameter("departure") %>">
                   <input type="hidden" name="destination" value="<%= request.getParameter("destination") %>">
                   <input type="hidden" name="departureDate" value="<%= request.getParameter("departureDate") %>">
-                  <input type="hidden" name="adult" value="${param.adult}"/>
-                  <input type="hidden" name="child" value="${param.child}"/>
-                  <input type="hidden" name="infant" value="${param.infant}"/>
-                  <input type="hidden" name="flightType" value="<%= request.getParameter("flightType") %>">
+                  <input type="hidden" name="returnDate" value="<%= request.getParameter("returnDate") %>">
+                  <input type="hidden" name="adult" value="${param.adult}">
+                  <input type="hidden" name="child" value="${param.child}">
+                  <input type="hidden" name="infant" value="${param.infant}">
+                  <input type="hidden" name="seatCategory" value="${param.seatCategory}"/>
+                  <input type="hidden" name="flightType" value="<%= (flightDetailId != null && request.getParameter("flightType") == null) ? "roundTrip" : request.getParameter("flightType") %>">
+                  <% if (flightDetailId != null) { %>
+                  <input type="hidden" name="flightDetailId" value="<%= flightDetailId %>">
+                  <% } %>
                   <button type="submit">Trang trước</button>
               </form>
               <% } %>
 
+              <% if (hasFlights) { %>
               Trang <%= currentPage %> / <%= totalPages %>
+              <% } else { %>
+              Không có chuyến bay nào được tìm thấy
+              <% } %>
 
-              <% if (currentPage < totalPages) { %>
-              <form method="post" action="SearchFlightsURL">
+              <% if (hasFlights && currentPage < totalPages) { %>
+              <form method="get" action="SearchFlightsURL">
                   <input type="hidden" name="page" value="<%= currentPage + 1 %>">
                   <input type="hidden" name="departure" value="<%= request.getParameter("departure") %>">
                   <input type="hidden" name="destination" value="<%= request.getParameter("destination") %>">
                   <input type="hidden" name="departureDate" value="<%= request.getParameter("departureDate") %>">
-                  <input type="hidden" name="adult" value="${param.adult}"/>
-                  <input type="hidden" name="child" value="${param.child}"/>
-                  <input type="hidden" name="infant" value="${param.infant}"/>
-                  <input type="hidden" name="flightType" value="<%= request.getParameter("flightType") %>">
-                  <button  type="submit">Trang sau</button>
+                  <input type="hidden" name="returnDate" value="<%= request.getParameter("returnDate") %>">
+                  <input type="hidden" name="adult" value="${param.adult}">
+                  <input type="hidden" name="child" value="${param.child}">
+                  <input type="hidden" name="infant" value="${param.infant}">
+                  <input type="hidden" name="seatCategory" value="${param.seatCategory}"/>
+                  <input type="hidden" name="flightType" value="<%= (flightDetailId != null && request.getParameter("flightType") == null) ? "roundTrip" : request.getParameter("flightType") %>">
+                  <% if (flightDetailId != null) { %>
+                  <input type="hidden" name="flightDetailId" value="<%= flightDetailId %>">
+                  <% } %>
+                  <button type="submit">Trang sau</button>
               </form>
               <% } %>
           </div>
-
 
 
 

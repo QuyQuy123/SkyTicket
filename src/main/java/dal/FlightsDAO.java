@@ -196,7 +196,7 @@ public class FlightsDAO extends DBConnect {
         FlightsDAO dao = new FlightsDAO();
         int depAirportId = 5;
         int arrAirportId = 1;
-        String depDateStr = "2025-02-22"; // Định dạng: dd-MM-yyyy
+        String depDateStr = "2025-02-23"; // Định dạng: dd-MM-yyyy
 
         try {
             Date parsedDate = Date.valueOf(depDateStr);
@@ -206,11 +206,10 @@ public class FlightsDAO extends DBConnect {
 
             // In kết quả
             System.out.println("Danh sách chuyến bay:");
+            System.out.println(flights);
             for (Flights flight : flights) {
                 System.out.println(flight);
             }
-
-
         } catch (Exception e) {
             e.printStackTrace();
         }

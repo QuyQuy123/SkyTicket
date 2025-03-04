@@ -1,5 +1,7 @@
 package model;
 
+import java.sql.Timestamp;
+
 public class News {
     private int newId;
     private String title;
@@ -7,6 +9,7 @@ public class News {
     private String content;
     private int airlineId;
     private int status;
+    private Timestamp createAt;
 
 
     public News() {
@@ -19,6 +22,24 @@ public class News {
         this.content = content;
         this.airlineId = airlineId;
         this.status = status;
+    }
+
+    public News(String title, String img, String content, int airlineId, int status) {
+        this.title = title;
+        this.img = img;
+        this.content = content;
+        this.airlineId = airlineId;
+        this.status = status;
+    }
+
+    public News(int newId, String img, String title, String content, int airlineId, int status, Timestamp createAt) {
+        this.newId = newId;
+        this.img = img;
+        this.title = title;
+        this.content = content;
+        this.airlineId = airlineId;
+        this.status = status;
+        this.createAt = createAt;
     }
 
     public int getNewId() {
@@ -69,15 +90,11 @@ public class News {
         this.title = title;
     }
 
-    @Override
-    public String toString() {
-        return "News{" +
-                "newId=" + newId +
-                ", title='" + title + '\'' +
-                ", img='" + img + '\'' +
-                ", content='" + content + '\'' +
-                ", airlineId=" + airlineId +
-                ", status=" + status +
-                '}';
+    public Timestamp getCreateAt() {
+        return createAt;
+    }
+
+    public void setCreateAt(Timestamp createAt) {
+        this.createAt = createAt;
     }
 }

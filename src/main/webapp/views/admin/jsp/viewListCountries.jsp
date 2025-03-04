@@ -11,7 +11,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Skyticket - Locations mangement</title>
+    <title>Skyticket - Countries mangement</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Premium Bootstrap 4 Landing Page Template" />
     <meta name="keywords" content="Appointment, Booking, System, Dashboard, Health" />
@@ -36,10 +36,8 @@
 
 <body>
 <%
-    List<Locations> listLocations = (List<Locations>) request.getAttribute("locations");
     List<Countries> listCountries = (List<Countries>) request.getAttribute("countries");
 
-    if (listLocations == null) listLocations = new ArrayList<>();
     if (listCountries == null) listCountries = new ArrayList<>();
 %>
 
@@ -77,15 +75,15 @@
         <div class="container-fluid">
             <div class="layout-specing">
                 <div class="d-md-flex justify-content-between">
-                    <h5 class="mb-0">Locations List</h5>
+                    <h5 class="mb-0">Countries List</h5>
 
                     <div class="search-bar p-0 d-none d-md-block ms-2">
                         <div id="search" class="menu-search mb-0">
-                            <form action="<%= request.getContextPath() %>/searchLocations" method="get"
+                            <form action="<%= request.getContextPath() %>/searchCountries" method="get"
                                   class="d-flex">
                                 <!-- Ô tìm kiếm -->
                                 <input type="text" name="search" class="form-control border rounded-pill me-2"
-                                       placeholder="Search Locations..." >
+                                       placeholder="Search Countries..." >
 
                                 <!-- Bộ lọc trạng thái -->
                                 <select name="status" class="form-select border rounded-pill me-2">
@@ -104,7 +102,7 @@
                     <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
                         <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
                             <li class="breadcrumb-item"><a href="Dashboard.jsp">Home</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Locations</li>
+                            <li class="breadcrumb-item active" aria-current="page">Countries</li>
                         </ul>
                     </nav>
                 </div>
@@ -117,43 +115,36 @@
                                 <tr>
                                     <th class="border-bottom p-3">ID</th>
                                     <th class="border-bottom p-3">Name</th>
-                                    <th class="border-bottom p-3">Country Name</th>
                                     <th class="border-bottom p-3">Status</th>
                                     <th class="border-bottom p-3">Actions</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <%
-                                    for (Locations locations: listLocations){
-                                        String locationName = "unknown";
                                         for(Countries countries : listCountries){
-                                            if(countries.getCountryId() == locations.getCountryId()){
-                                                locationName = countries.getCountryName();
-                                            }
-                                        }
+
                                 %>
                                 <tr>
-                                    <td class="p-3"><%= locations.getLocationId() %></td>
-                                    <td class="p-3"><%= locations.getLocationName() %></td>
-                                    <td class="p-3"><%= locationName %></td>
-                                    <td class="p-3"><span class="badge <%= locations.getStatus() == 1 ? "bg-soft-success" : "bg-soft-warning" %>"><%= locations.getStatus() == 1 ? "Active" : "Deactive" %></span></td>
+                                    <td class="p-3"><%= countries.getCountryId() %></td>
+                                    <td class="p-3"><%= countries.getCountryName() %></td>
+                                    <td class="p-3"><span class="badge <%= countries.getStatus() == 1 ? "bg-soft-success" : "bg-soft-warning" %>"><%= countries.getStatus() == 1 ? "Active" : "Deactive" %></span></td>
                                     <td class="p-3">
-                                        <a href="${pageContext.request.contextPath}/viewLocation?id=<%= locations.getLocationId() %>" class="btn btn-icon btn-sm btn-soft-primary"><i
+                                        <a href="${pageContext.request.contextPath}/viewCountry?id=<%= countries.getCountryId() %>" class="btn btn-icon btn-sm btn-soft-primary"><i
                                                 class="uil uil-eye"></i></a>
-                                        <a href="${pageContext.request.contextPath}/updateLocation?id=<%= locations.getLocationId() %>" class="btn btn-icon btn-sm btn-soft-success"><i
+                                        <a href="${pageContext.request.contextPath}/updateCountry?id=<%= countries.getCountryId() %>" class="btn btn-icon btn-sm btn-soft-success"><i
                                                 class="uil uil-pen"></i></a>
-                                            <% if (locations.getStatus() == 0) {
-                                                %>
-                                            <a href="javascript:void(0);" class="btn btn-icon btn-pills btn-soft-danger" onclick="confirmRestore(<%= locations.getLocationId() %>)">
-                                                <i class="uil uil-redo"></i>
-                                            <%
+                                        <% if (countries.getStatus() == 0) {
+                                        %>
+                                        <a href="javascript:void(0);" class="btn btn-icon btn-pills btn-soft-danger" onclick="confirmRestore(<%= countries.getCountryId() %>)">
+                                            <i class="uil uil-redo"></i>
+                                                <%
                                             } else { %>
-                                                <a href="javascript:void(0);" class="btn btn-icon btn-pills btn-soft-danger" onclick="confirmDelete(<%= locations.getLocationId() %>)">
-                                                    <i class="uil uil-trash"></i>
+                                            <a href="javascript:void(0);" class="btn btn-icon btn-pills btn-soft-danger" onclick="confirmDelete(<%= countries.getCountryId() %>)">
+                                                <i class="uil uil-trash"></i>
                                                     <% } %>
 
                                     </td>
-                                <% } %>
+                                        <% } %>
                                 </tbody>
                             </table>
                         </div>
@@ -170,7 +161,7 @@
                 <ul class="pagination">
                     <c:if test="${currentPage > 1}">
                         <li class="page-item">
-                            <a class="page-link" href="${pageContext.request.contextPath}/searchLocations?search=${searchName}&status=${searchStatus}&page=${currentPage - 1}">Previous</a>
+                            <a class="page-link" href="${pageContext.request.contextPath}/searchCountries?search=${searchName}&status=${searchStatus}&page=${currentPage - 1}">Previous</a>
                         </li>
                     </c:if>
 
@@ -180,7 +171,7 @@
 
                     <c:if test="${currentPage < totalPages}">
                         <li class="page-item">
-                            <a class="page-link" href="${pageContext.request.contextPath}/searchLocations?search=${searchName}&status=${searchStatus}&page=${currentPage + 1}">Next</a>
+                            <a class="page-link" href="${pageContext.request.contextPath}/searchCountries?search=${searchName}&status=${searchStatus}&page=${currentPage + 1}">Next</a>
                         </li>
                     </c:if>
                 </ul>
@@ -200,15 +191,15 @@
 
 <!-- javascript -->
 <script>
-    function confirmDelete(locationId) {
-        if (confirm("Are you sure to deactivate this location?")) {
-            window.location.href = "<%= request.getContextPath() %>/deleteLocation?action=deactivate&id=" + locationId;
+    function confirmDelete(countryid) {
+        if (confirm("Are you sure to deactivate this country?")) {
+            window.location.href = "<%= request.getContextPath() %>/deleteCountry?action=deactivate&id=" + countryid;
         }
     }
 
-    function confirmRestore(locationId) {
-        if (confirm("Do you want to restore this location?")) {
-            window.location.href = "<%= request.getContextPath() %>/deleteLocation?action=restore&id=" + locationId;
+    function confirmRestore(countryid) {
+        if (confirm("Do you want to restore this country?")) {
+            window.location.href = "<%= request.getContextPath() %>/deleteCountry?action=restore&id=" + countryid;
         }
     }
 </script>
