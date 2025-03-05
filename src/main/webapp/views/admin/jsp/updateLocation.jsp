@@ -139,10 +139,9 @@
                                                    type="text" class="form-control"
                                                    value="<%= locations.getCountryName() != null ? locations.getCountryName() : "Unknown" %>">
                                         </div>
+                                        <button type="submit" class="btn btn-primary">Update Location</button>
+                                        <a href="${pageContext.request.contextPath}/listLocationsURL" class="btn btn-danger">Cancel</a>
                                     </div>
-
-                                <button type="submit" class="btn btn-primary">Update Location</button>
-                                <a href="${pageContext.request.contextPath}/listLocationsURL" class="btn btn-danger">Cancel</a>
                             </form>
                         </div>
                     </div><!--end col-->

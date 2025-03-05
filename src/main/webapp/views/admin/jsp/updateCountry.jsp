@@ -119,6 +119,8 @@
                                                    class="form-control" required
                                                    value="<%=countries.getCountryName() != null ? countries.getCountryName():""%>">
                                         </div>
+                                        <button type="submit" class="btn btn-primary">Update Country</button>
+                                        <a href="${pageContext.request.contextPath}/listCountriesURL" class="btn btn-danger">Cancel</a>
                                     </div><!--end col-->
 
 
@@ -127,14 +129,10 @@
                                             <label class="form-label" for="we">Status</label>
                                             <select class="form-control gender-name select2input" name="status" id="we">
                                                 <option value="1" <%=countries.getStatus() == 1 ? "selected" : ""%>>Active</option>
-                                                <option value="2" <%=countries.getStatus() == 2 ? "selected" : ""%>>Deactive</option>
+                                                <option value="0" <%=countries.getStatus() == 0 ? "selected" : ""%>>Deactive</option>
                                             </select>
                                         </div>
                                     </div><!--end col-->
-
-
-                                    <button type="submit" class="btn btn-primary">Update Country</button>
-                                    <a href="${pageContext.request.contextPath}/listCountriesURL" class="btn btn-danger">Cancel</a>
                             </form>
                         </div>
                     </div><!--end col-->

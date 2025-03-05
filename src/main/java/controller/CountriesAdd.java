@@ -31,7 +31,11 @@ public class CountriesAdd extends HttpServlet {
             session.setAttribute("errorMsg", "Country name cannot be empty.");
             response.sendRedirect(request.getContextPath() + "/views/admin/jsp/addCountry.jsp");
             return;
-        } else if (countriesDAO.getIdByCountryName(countryName) != -1) {
+        } else if (!countryName.matches("[a-zA-Z ]+")) {
+            session.setAttribute("errorMsg", "Country name cannot be digits.");
+            response.sendRedirect(request.getContextPath() + "/views/admin/jsp/addCountry.jsp");
+            return;
+        }else if (countriesDAO.getIdByCountryName(countryName) != -1) {
             session.setAttribute("errorMsg", "Country name already exists.");
             response.sendRedirect(request.getContextPath() + "/views/admin/jsp/addCountry.jsp");
             return;
