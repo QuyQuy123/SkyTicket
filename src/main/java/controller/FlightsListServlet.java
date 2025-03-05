@@ -78,19 +78,31 @@ public class FlightsListServlet extends HttpServlet {
             e.printStackTrace(); // Ghi log lỗi để debug
         }
 
-        Double priceFrom = null;
-        Double priceTo = null;
+        Double priceVipFrom = null;
+        Double priceVipTo = null;
+        Double priceEcoFrom = null;
+        Double priceEcoTo = null;
         Integer status = null;
 
         try {
-            String priceFromStr = request.getParameter("priceFrom");
-            if (priceFromStr != null && !priceFromStr.isEmpty()) {
-                priceFrom = Double.valueOf(priceFromStr);
+            String priceVipFromStr = request.getParameter("priceVipFrom");
+            if (priceVipFromStr != null && !priceVipFromStr.isEmpty()) {
+                priceVipFrom = Double.valueOf(priceVipFromStr);
             }
 
-            String priceToStr = request.getParameter("priceTo");
-            if (priceToStr != null && !priceToStr.isEmpty()) {
-                priceTo = Double.valueOf(priceToStr);
+            String priceVipToStr = request.getParameter("priceVipTo");
+            if (priceVipToStr != null && !priceVipToStr.isEmpty()) {
+                priceVipTo = Double.valueOf(priceVipToStr);
+            }
+
+            String priceEcoFromStr = request.getParameter("priceEcoFrom");
+            if (priceEcoFromStr != null && !priceEcoFromStr.isEmpty()) {
+                priceEcoFrom = Double.valueOf(priceEcoFromStr);
+            }
+
+            String priceEcoToStr = request.getParameter("priceEcoTo");
+            if (priceEcoToStr != null && !priceEcoToStr.isEmpty()) {
+                priceEcoTo = Double.valueOf(priceEcoToStr);
             }
 
             String statusStr = request.getParameter("status");
@@ -113,7 +125,7 @@ public class FlightsListServlet extends HttpServlet {
         request.setAttribute("airportList", airportList);
 
         FlightsDAO flightsDAO = new FlightsDAO();
-        List<Flights> flightsList = flightsDAO.searchFlights(deA, arA, dateFrom, dateTo, priceFrom, priceTo, airlineName, status);
+        List<Flights> flightsList = flightsDAO.searchFlights(deA, arA, dateFrom, dateTo, priceVipFrom, priceVipTo,priceEcoFrom, priceEcoTo, airlineName, status);
 //        request.setAttribute("listFlights", flightsList);
 
         // Nhận tham số trang hiện tại từ request (nếu không có thì mặc định là 1)
