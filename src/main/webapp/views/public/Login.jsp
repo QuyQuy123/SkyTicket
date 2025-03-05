@@ -17,7 +17,7 @@
 
 </head>
 <body>
-<div class="container">
+<div class="container" style="width: 24%;">
     <div style="display: flex">
         <h1 style="margin-bottom: 30px">
             Login

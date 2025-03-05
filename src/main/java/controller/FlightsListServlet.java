@@ -13,6 +13,8 @@ import model.Airports;
 import model.Flights;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet("/listFlights")
@@ -58,6 +60,61 @@ public class FlightsListServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Xử lý logic nếu cần
+        String deA = request.getParameter("deA");
+        String arA = request.getParameter("arA");
+        String dateFromStr = request.getParameter("dateFrom");
+        String dateToStr = request.getParameter("dateTo");
+        Date dateFrom = null;
+        Date dateTo = null;
+
+        try {
+            if (dateFromStr != null && !dateFromStr.isEmpty()) {
+                dateFrom = Date.valueOf(dateFromStr);
+            }
+            if (dateToStr != null && !dateToStr.isEmpty()) {
+                dateTo = Date.valueOf(dateToStr);
+            }
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace(); // Ghi log lỗi để debug
+        }
+
+        Double priceFrom = null;
+        Double priceTo = null;
+        Integer status = null;
+
+        try {
+            String priceFromStr = request.getParameter("priceFrom");
+            if (priceFromStr != null && !priceFromStr.isEmpty()) {
+                priceFrom = Double.valueOf(priceFromStr);
+            }
+
+            String priceToStr = request.getParameter("priceTo");
+            if (priceToStr != null && !priceToStr.isEmpty()) {
+                priceTo = Double.valueOf(priceToStr);
+            }
+
+            String statusStr = request.getParameter("status");
+            if (statusStr != null && !statusStr.isEmpty()) {
+                status = Integer.parseInt(statusStr);
+            }
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+
+        String airlineName = request.getParameter("airlineName");
+
+
+        AirlinesDAO airlinesDAO = new AirlinesDAO();
+        AirportsDAO airportsDAO = new AirportsDAO();
+
+        List<Airlines> airlineList = airlinesDAO.getAllAirlines();
+        List<Airports> airportList = airportsDAO.getAllAirports();
+        request.setAttribute("airlineList", airlineList);
+        request.setAttribute("airportList", airportList);
+
+        FlightsDAO flightsDAO = new FlightsDAO();
+        List<Flights> flightsList = flightsDAO.searchFlights(deA, arA, dateFrom, dateTo, priceFrom, priceTo, airlineName, status);
+        request.setAttribute("listFlights", flightsList);
+
     }
 }

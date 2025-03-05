@@ -88,7 +88,7 @@
                                 <tr>
                                     <th class="border-bottom 1">ID</th>
                                     <th class="border-bottom p-1">Title</th>
-                                    <th class="border-bottom p-1">Airline</th>
+                                    <th class="border-bottom p-1">AirlineID</th>
                                     <th class="border-bottom p-1">Status</th>
                                     <th class="border-bottom p-1">Actions</th>
                                 </tr>

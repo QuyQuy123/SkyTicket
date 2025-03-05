@@ -1,8 +1,6 @@
 <%@ page import="java.util.List" %>
 <%@ page import="model.*" %>
 <%@ page import="dal.*" %>
-<%@ page import="java.util.Calendar" %>
-<%@ page import="java.sql.Date" %>
 <%@ page import="java.text.NumberFormat" %><%--
   Created by IntelliJ IDEA.
   User: 84968
@@ -22,7 +20,62 @@
   <link rel="stylesheet" href="<%= request.getContextPath() %>/css/ViewFlight.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+   <style>
+       .flight-container {
+           min-height: 90vh;
+           position: relative;
+           padding-bottom: 60px;
+       }
 
+       .flight-content {
+           flex: 1;
+           padding: 20px;
+       }
+
+       .pagination-container {
+           display: flex;
+           justify-content: center;
+           align-items: center;
+           gap: 10px;
+           margin: 20px 0;
+           padding: 20px;
+           font-family: Arial, sans-serif;
+           position: absolute;
+           bottom: -100px;
+           width: 100%;
+           text-align: center;
+       }
+
+       .pagination-button {
+           padding: 8px 16px;
+           background-color: #007bff;
+           color: white;
+           border: none;
+           border-radius: 4px;
+           cursor: pointer;
+           font-size: 14px;
+           transition: background-color 0.3s;
+       }
+
+       .pagination-button:disabled {
+           background-color: #cccccc;
+           cursor: not-allowed;
+       }
+
+       .pagination-button:hover:not(:disabled) {
+           background-color: #0056b3;
+       }
+
+       .pagination-current {
+           font-size: 16px;
+           color: #333;
+           font-weight: bold;
+       }
+
+       .pagination-button, .pagination-current {
+           z-index: 10;
+       }
+   </style>
 </head>
 <body>
 <jsp:include page="/views/layout/Header.jsp"/>
@@ -83,7 +136,8 @@
 //          System.out.println(request.getParameter("flightDetailId"));
       %>
       <div style="width: 100%; color:#3C6E57; text-align: center "><h3>SELECT REBOUND FLIGHT</h3></div>
-      <% }%>
+      <% }
+          assert depCountry != null;%>
       <div class="flight-info" style="width: 100%">
         <div class="airport-info">
           <div class="flight-icon">✈️</div>
@@ -169,11 +223,11 @@
                                   <p class="location"><%=depLocation.getLocationName()%></p>
                               </div>
                               <svg width="150" height="30" xmlns="http://www.w3.org/2000/svg">
-                                  <line x1="12" y1="15" x2="65" y2="15" stroke="#B1B9CB" stroke-width="2" stroke-dasharray="5,5" />
+                                  <line x1="12" y1="15" x2="65" y2="15" stroke="#B1B9CB" stroke-width="2" stroke-dasharray="5,5"></line>
                                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" x="70" y="5" viewBox="0 0 576 512">
-                                      <path fill="#B1B9CB" d="M482.3 192c34.2 0 93.7 29 93.7 64c0 36-59.5 64-93.7 64l-116.6 0L265.2 495.9c-5.7 10-16.3 16.1-27.8 16.1l-56.2 0c-10.6 0-18.3-10.2-15.4-20.4l49-171.6L112 320 68.8 377.6c-3 4-7.8 6.4-12.8 6.4l-42 0c-7.8 0-14-6.3-14-14c0-1.3 .2-2.6 .5-3.9L32 256 .5 145.9c-.4-1.3-.5-2.6-.5-3.9c0-7.8 6.3-14 14-14l42 0c5 0 9.8 2.4 12.8 6.4L112 192l102.9 0-49-171.6C162.9 10.2 170.6 0 181.2 0l56.2 0c11.5 0 22.1 6.2 27.8 16.1L365.7 192l116.6 0z"/>
+                                      <path fill="#B1B9CB" d="M482.3 192c34.2 0 93.7 29 93.7 64c0 36-59.5 64-93.7 64l-116.6 0L265.2 495.9c-5.7 10-16.3 16.1-27.8 16.1l-56.2 0c-10.6 0-18.3-10.2-15.4-20.4l49-171.6L112 320 68.8 377.6c-3 4-7.8 6.4-12.8 6.4l-42 0c-7.8 0-14-6.3-14-14c0-1.3 .2-2.6 .5-3.9L32 256 .5 145.9c-.4-1.3-.5-2.6-.5-3.9c0-7.8 6.3-14 14-14l42 0c5 0 9.8 2.4 12.8 6.4L112 192l102.9 0-49-171.6C162.9 10.2 170.6 0 181.2 0l56.2 0c11.5 0 22.1 6.2 27.8 16.1L365.7 192l116.6 0z"></path>
                                   </svg>
-                                  <line x1="90" y1="15" x2="150" y2="15" stroke="#B1B9CB" stroke-width="2" stroke-dasharray="5,5" />
+                                  <line x1="90" y1="15" x2="150" y2="15" stroke="#B1B9CB" stroke-width="2" stroke-dasharray="5,5"></line>
                               </svg>
 
 
@@ -187,10 +241,10 @@
                                   <span class="old-price"><%= NumberFormat.getInstance().format(f.getClassVipPrice()) %> ₫</span>
                                   <span><span style="font-size: 17px">only from</span> <%= NumberFormat.getInstance().format(f.getClassEconomyPrice())%> ₫</span>
                               </div>
-                              <div style="display: flex; margin-left: 20px" onclick="showTicketCategory(<%=f.getFlightId()%>)"
-                              >
+                              <div style="display: flex; margin-left: 20px" onclick="showTicketCategory(<%=f.getFlightId()%>)">
+
                                   <svg class="arrow" id="arrow<%=f.getFlightId()%>" xmlns="http://www.w3.org/2000/svg" height="25" width="25" viewBox="0 0 512 512" style="transition: transform 0.3s ease;">
-                                      <path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/>
+                                      <path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"></path>
                                   </svg>
                               </div>
                           </div>
@@ -198,7 +252,7 @@
                   </div>
 
 
-                  <div id="ticket-category-container<%=f.getFlightId()%>" style="max-height: 0px; overflow: hidden; transition: max-height 0.5s ease, opacity 0.5s ease; opacity: 0;">
+                  <div id="ticket-category-container<%=f.getFlightId()%>" style="max-height: 0; overflow: hidden; transition: max-height 0.5s ease, opacity 0.5s ease; opacity: 0;">
                       <div style="text-align: center; font-size: 20px">Select Ticket Class</div>
                       <div class="ticket-category-list" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 90px;">
                           <%
@@ -246,9 +300,8 @@
                               <div class="ticket-category-body" style="border: 2px solid <% %>; padding: 12px 12px; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; min-height: 85%">
                                   <div>
                                       <img style="width: 100%; display: block; border-radius: 10px; transition: transform 0.3s ease;"
-                                           src="<%= request.getContextPath() + "/img/" + airlineImage %>" alt="alt"
-                                           onmouseover="this.style.transform = 'scale(1.05)'"
-                                           onmouseout="this.style.transform = 'scale(1)'"/>
+                                           src="<%= request.getContextPath() + "/img/" + airlineImage %>" alt="alt"/>
+
                                   </div>
                                   <div class="ticket-category-info" style="font-size: 13px; margin-top: 12px; margin-left: 42px;">
                                       <%= seats.get(i).getSeatClass() %>
@@ -323,7 +376,7 @@
                               </div>
                           </div>
                           <%
-                                          break; // Chỉ lấy seat đầu tiên của từng hạng ghế
+                                          break;
                                       }
                                   }
                               }
@@ -333,7 +386,9 @@
 
 
 
-
+                  <%
+                      SimpleDateFormat dateTimeFormat = new SimpleDateFormat("HH:mm dd/MM/yyyy");
+                  %>
 
 
                   <div class="container">
@@ -350,7 +405,7 @@
                                       </h3>
                                   </div>
                                   <div class="modal-body row" style="padding:18px 50px;">
-                                      <div class="col-md-4">
+                                      <div class="col-md-4" style="width: 41%">
                                           <p>Departs: <span class="departure-time"><%= timeFormat.format(f.getDepartureTime()) %></span></p>
                                           <%
                                               long totalTime = f.getArrivalTime().getTime()-f.getDepartureTime().getTime();
@@ -364,21 +419,21 @@
                                                        alt="Logo">
                                               </div>
                                               <p class="airline-name"><strong>Airline: </strong><%= ald.getNameById(airlineId) %></p>
-                                              <p class="aircraft"><strong>Plane: </strong>Siu nhân gao</p>
+
                                           </div>
                                       </div>
                                       <div class="col-md-1"></div>
                                       <div class="col-md-7" style="display: flex">
                                           <div>
                                               <svg height="200" width="10" xmlns="http://www.w3.org/2000/svg">
-                                                  <line x1="0" y1="0" x2="0" y2="200" style="stroke:black;stroke-width:5px; stroke-dasharray:10,5" />
+                                                  <line x1="0" y1="0" x2="0" y2="200" style="stroke:black;stroke-width:5px; stroke-dasharray:10,5"></line>
                                                   Sorry, your browser does not support inline SVG.
                                               </svg>
                                           </div>
                                           <div style="position: relative; width: 100%">
                                               <div>
                                                   <p>
-                                                                <span class="departure-time"><%= timeFormat.format(f.getDepartureTime()) %>
+                                                                <span class="departure-time"><%= dateTimeFormat.format(f.getDepartureTime()) %>
                                                                     <span class="location"><%= depLocation.getLocationName() %>, <%=depCountry.getCountryName()%></span>
                                                                 </span>
                                                   </p>
@@ -388,7 +443,7 @@
 
                                               <div style="position: absolute; bottom: 0">
                                                   <p>
-                                                                <span class="destination-time"><%= timeFormat.format(f.getArrivalTime()) %>
+                                                                <span class="destination-time"><%= dateTimeFormat.format(f.getArrivalTime()) %>
                                                                     <span class="location"><%= desLocation.getLocationName() %>, <%=desCountry.getCountryName()%></span>
                                                                 </span>
                                                   </p>
@@ -410,66 +465,71 @@
                   }
                   }
               %>
+
+              <div class="pagination-container">
+                  <%
+                      Integer currentPageObj = (Integer) request.getAttribute("currentPage");
+                      int currentPage = (currentPageObj != null) ? currentPageObj : 1;
+
+                      Integer totalPagesObj = (Integer) request.getAttribute("totalPages");
+                      int totalPages = (totalPagesObj != null) ? totalPagesObj : 1;
+
+                      // flightTickets = (List<Flights>) request.getAttribute("flightTickets");
+                      boolean hasFlights = flightTickets != null && !flightTickets.isEmpty();
+
+                      String flightDetailId = request.getParameter("flightDetailId"); // Lấy flightDetailId từ request
+                  %>
+
+                  <% if (hasFlights && currentPage > 1) { %>
+                  <form method="get" action="SearchFlightsURL">
+                      <input type="hidden" name="page" value="<%= currentPage - 1 %>">
+                      <input type="hidden" name="departure" value="<%= request.getParameter("departure") %>">
+                      <input type="hidden" name="destination" value="<%= request.getParameter("destination") %>">
+                      <input type="hidden" name="departureDate" value="<%= request.getParameter("departureDate") %>">
+                      <input type="hidden" name="returnDate" value="<%= request.getParameter("returnDate") %>">
+                      <input type="hidden" name="adult" value="${param.adult}">
+                      <input type="hidden" name="child" value="${param.child}">
+                      <input type="hidden" name="infant" value="${param.infant}">
+                      <input type="hidden" name="seatCategory" value="${param.seatCategory}"/>
+                      <input type="hidden" name="flightType" value="<%= (flightDetailId != null && request.getParameter("flightType") == null) ? "roundTrip" : request.getParameter("flightType") %>">
+                      <% if (flightDetailId != null) { %>
+                      <input type="hidden" name="flightDetailId" value="<%= flightDetailId %>">
+                      <% } %>
+                      <button type="submit" class="pagination-button">Previous</button>
+                  </form>
+                  <% } %>
+
+                  <% if (hasFlights) { %>
+                  <span class="pagination-current">Page <%= currentPage %> / <%= totalPages %></span>
+                  <% } else { %>
+                  <span class="pagination-current">Không có chuyến bay nào được tìm thấy</span>
+                  <% } %>
+
+                  <% if (hasFlights && currentPage < totalPages) { %>
+                  <form method="get" action="SearchFlightsURL">
+                      <input type="hidden" name="page" value="<%= currentPage + 1 %>">
+                      <input type="hidden" name="departure" value="<%= request.getParameter("departure") %>">
+                      <input type="hidden" name="destination" value="<%= request.getParameter("destination") %>">
+                      <input type="hidden" name="departureDate" value="<%= request.getParameter("departureDate") %>">
+                      <input type="hidden" name="returnDate" value="<%= request.getParameter("returnDate") %>">
+                      <input type="hidden" name="adult" value="${param.adult}">
+                      <input type="hidden" name="child" value="${param.child}">
+                      <input type="hidden" name="infant" value="${param.infant}">
+                      <input type="hidden" name="seatCategory" value="${param.seatCategory}"/>
+                      <input type="hidden" name="flightType" value="<%= (flightDetailId != null && request.getParameter("flightType") == null) ? "roundTrip" : request.getParameter("flightType") %>">
+                      <% if (flightDetailId != null) { %>
+                      <input type="hidden" name="flightDetailId" value="<%= flightDetailId %>">
+                      <% } %>
+                      <button type="submit" class="pagination-button">Next</button>
+                  </form>
+                  <% } %>
+              </div>
+
+
+
           </div>
 
-          <div style="margin-top: 20px; text-align: center; margin-left: 310px">
-              <%
-                  Integer currentPageObj = (Integer) request.getAttribute("currentPage");
-                  int currentPage = (currentPageObj != null) ? currentPageObj : 1;
 
-                  Integer totalPagesObj = (Integer) request.getAttribute("totalPages");
-                  int totalPages = (totalPagesObj != null) ? totalPagesObj : 1;
-
-                   flightTickets = (List<Flights>) request.getAttribute("flightTickets");
-                  boolean hasFlights = flightTickets != null && !flightTickets.isEmpty();
-
-                  String flightDetailId = request.getParameter("flightDetailId"); // Lấy flightDetailId từ request
-              %>
-
-              <% if (hasFlights && currentPage > 1) { %>
-              <form method="get" action="SearchFlightsURL">
-                  <input type="hidden" name="page" value="<%= currentPage - 1 %>">
-                  <input type="hidden" name="departure" value="<%= request.getParameter("departure") %>">
-                  <input type="hidden" name="destination" value="<%= request.getParameter("destination") %>">
-                  <input type="hidden" name="departureDate" value="<%= request.getParameter("departureDate") %>">
-                  <input type="hidden" name="returnDate" value="<%= request.getParameter("returnDate") %>">
-                  <input type="hidden" name="adult" value="${param.adult}">
-                  <input type="hidden" name="child" value="${param.child}">
-                  <input type="hidden" name="infant" value="${param.infant}">
-                  <input type="hidden" name="seatCategory" value="${param.seatCategory}"/>
-                  <input type="hidden" name="flightType" value="<%= (flightDetailId != null && request.getParameter("flightType") == null) ? "roundTrip" : request.getParameter("flightType") %>">
-                  <% if (flightDetailId != null) { %>
-                  <input type="hidden" name="flightDetailId" value="<%= flightDetailId %>">
-                  <% } %>
-                  <button type="submit">Trang trước</button>
-              </form>
-              <% } %>
-
-              <% if (hasFlights) { %>
-              Trang <%= currentPage %> / <%= totalPages %>
-              <% } else { %>
-              Không có chuyến bay nào được tìm thấy
-              <% } %>
-
-              <% if (hasFlights && currentPage < totalPages) { %>
-              <form method="get" action="SearchFlightsURL">
-                  <input type="hidden" name="page" value="<%= currentPage + 1 %>">
-                  <input type="hidden" name="departure" value="<%= request.getParameter("departure") %>">
-                  <input type="hidden" name="destination" value="<%= request.getParameter("destination") %>">
-                  <input type="hidden" name="departureDate" value="<%= request.getParameter("departureDate") %>">
-                  <input type="hidden" name="returnDate" value="<%= request.getParameter("returnDate") %>">
-                  <input type="hidden" name="adult" value="${param.adult}">
-                  <input type="hidden" name="child" value="${param.child}">
-                  <input type="hidden" name="infant" value="${param.infant}">
-                  <input type="hidden" name="seatCategory" value="${param.seatCategory}"/>
-                  <input type="hidden" name="flightType" value="<%= (flightDetailId != null && request.getParameter("flightType") == null) ? "roundTrip" : request.getParameter("flightType") %>">
-                  <% if (flightDetailId != null) { %>
-                  <input type="hidden" name="flightDetailId" value="<%= flightDetailId %>">
-                  <% } %>
-                  <button type="submit">Trang sau</button>
-              </form>
-              <% } %>
-          </div>
 
 
 
@@ -512,13 +572,32 @@
 
     function sortFlights(sortBy) {
         const flightsContainer = document.querySelector('.flights-container');
-        let flights = Array.from(flightsContainer.children);
+        if (!flightsContainer) {
+            console.error("Không tìm thấy flights-container!");
+            return;
+        }
+
+        // Lưu pagination-container
+        const pagination = flightsContainer.querySelector('.pagination-container');
+        let paginationClone = pagination ? pagination.cloneNode(true) : null;
+
+        // Chỉ lấy các phần tử có class 'flight-detail'
+        let flights = Array.from(flightsContainer.querySelectorAll('.flight-detail'));
 
         flights.sort((a, b) => {
-            const priceA = parseInt(a.querySelector('.price span:last-child').innerText.replace(/[^0-9]/g, ''));
-            const priceB = parseInt(b.querySelector('.price span:last-child').innerText.replace(/[^0-9]/g, ''));
-            const timeA = parseTime(a.querySelector('.depTime').innerText);
-            const timeB = parseTime(b.querySelector('.depTime').innerText);
+            const priceAEl = a.querySelector('.price span:last-child');
+            const priceBEl = b.querySelector('.price span:last-child');
+            const timeAEl = a.querySelector('.depTime');
+            const timeBEl = b.querySelector('.depTime');
+
+            const priceA = priceAEl ? parseInt(priceAEl.innerText.replace(/[^0-9]/g, '')) || 0 : 0;
+            const priceB = priceBEl ? parseInt(priceBEl.innerText.replace(/[^0-9]/g, '')) || 0 : 0;
+            const timeA = timeAEl ? parseTime(timeAEl.innerText) : new Date(0);
+            const timeB = timeBEl ? parseTime(timeBEl.innerText) : new Date(0);
+
+            if (!priceAEl || !priceBEl || !timeAEl || !timeBEl) {
+                console.log("Phần tử lỗi:", a, b);
+            }
 
             switch (sortBy) {
                 case 'priceAsc':
@@ -533,8 +612,15 @@
                     return 0;
             }
         });
+
+        // Xóa nội dung hiện tại và thêm lại các chuyến bay
         flightsContainer.innerHTML = '';
         flights.forEach(flight => flightsContainer.appendChild(flight));
+
+        // Thêm lại pagination-container nếu có
+        if (paginationClone) {
+            flightsContainer.appendChild(paginationClone);
+        }
     }
 
     function parseTime(timeString) {

@@ -97,6 +97,48 @@ public class NewsDAO extends DBConnect{
         return false;
     }
 
+    public List<News> searchNews(String keyword, Integer airlineId, Integer status) {
+        List<News> list = new ArrayList<>();
+        StringBuilder sql = new StringBuilder("SELECT * FROM News WHERE 1=1");
+
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            sql.append(" AND Title LIKE ?");
+        }
+        if (airlineId != null) {
+            sql.append(" AND airlineId = ?");
+        }
+        if (status != null) {
+            sql.append(" AND status = ?");
+        }
+
+        try (PreparedStatement ps = connection.prepareStatement(sql.toString())) {
+            int paramIndex = 1;
+
+            if (keyword != null && !keyword.trim().isEmpty()) {
+                ps.setString(paramIndex++, "%" + keyword + "%");
+            }
+            if (airlineId != null) {
+                ps.setInt(paramIndex++, airlineId);
+            }
+            if (status != null) {
+                ps.setInt(paramIndex++, status);
+            }
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                News a = new News(
+                        rs.getInt("NewId"), rs.getString("Title"),
+                        rs.getString("img"), rs.getString("content"),
+                        rs.getInt("airlineId"), rs.getInt("status"),
+                        rs.getTimestamp("CreateAt")
+                );
+                list.add(a);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return list;
+    }
 
 
     // test

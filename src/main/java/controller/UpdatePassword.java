@@ -29,7 +29,7 @@ public class UpdatePassword extends HttpServlet {
             int id = ad.findIdByEmail(email);
             ad.changePassword(String.valueOf(id), newPassword);
             session.invalidate(); // Xóa session sau khi hoàn tất
-            request.setAttribute("notice", "Password updated successfully!");
+            request.setAttribute("notice", "Enter New Password to Login ");
             request.getRequestDispatcher("views/public/Login.jsp").forward(request, response);
         }
     }

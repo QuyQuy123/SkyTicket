@@ -1,11 +1,13 @@
 package controller;
 
+import dal.AirlinesDAO;
 import dal.NewsDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import model.Airlines;
 import model.News;
 
 import java.io.IOException;

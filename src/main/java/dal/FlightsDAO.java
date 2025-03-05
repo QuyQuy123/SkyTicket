@@ -69,6 +69,20 @@ public class FlightsDAO extends DBConnect {
         return false;
     }
 
+    public boolean updateFlightStatus(int flightId, int status) {
+        String query = "UPDATE Flights SET Status = ? WHERE FlightId = ?";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, status);
+            ps.setInt(2, flightId);
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
     // Xóa chuyến bay
     public boolean deleteFlight(int flightId) {
         String sql = "DELETE FROM Flights WHERE FlightId = ?";
@@ -188,6 +202,72 @@ public class FlightsDAO extends DBConnect {
 
 
 
+    public List<Flights> searchFlights(String deA, String arA, Date dateFrom, Date dateTo, Double priceFrom, Double priceTo, String airlineName, Integer status) {
+        List<Flights> flights = new ArrayList<>();
+        StringBuilder sql = new StringBuilder("SELECT * FROM Flights WHERE 1=1");
+
+        if (deA != null && !deA.isEmpty()) {
+            sql.append(" AND DepartureAirportId IN (SELECT AirportId FROM Airports WHERE airportName like ?)");
+        }
+        if (arA != null && !arA.isEmpty()) {
+            sql.append(" AND ArrivalAirportId IN (SELECT AirportId FROM Airports WHERE airportName like ?)");
+        }
+        if (dateFrom != null) {
+            sql.append(" AND DATE(DepartureTime) >= ?");
+        }
+        if (dateTo != null) {
+            sql.append(" AND DATE(DepartureTime) <= ?");
+        }
+        if (priceFrom != null) {
+            sql.append(" AND ClassEconomyPrice >= ?");
+        }
+        if (priceTo != null) {
+            sql.append(" AND ClassEconomyPrice <= ?");
+        }
+        if (airlineName != null && !airlineName.isEmpty()) {
+            sql.append(" AND AirlineId IN (SELECT AirlineId FROM Airlines WHERE airlineName like ?)");
+        }
+        if (status != null) {
+            sql.append(" AND Status = ?");
+        }
+
+        try (PreparedStatement ps = connection.prepareStatement(sql.toString())) {
+            int index = 1;
+            if (deA != null && !deA.isEmpty()) {
+                ps.setString(index++, "%" + deA.trim() + "%");
+            }
+            if (arA != null && !arA.isEmpty()) {
+                ps.setString(index++, "%" + arA.trim() + "%");
+            }
+            if (dateFrom != null) {
+                ps.setDate(index++, dateFrom);
+            }
+            if (dateTo != null) {
+                ps.setDate(index++, dateTo);
+            }
+            if (priceFrom != null) {
+                ps.setDouble(index++, priceFrom);
+            }
+            if (priceTo != null) {
+                ps.setDouble(index++, priceTo);
+            }
+            if (airlineName != null && !airlineName.isEmpty()) {
+                ps.setString(index++, "%" + airlineName.trim() + "%");
+            }
+            if (status != null) {
+                ps.setInt(index++, status);
+            }
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    flights.add(mapResultSetToFlight(rs));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return flights;
+    }
 
 
 
