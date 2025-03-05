@@ -114,7 +114,40 @@ public class FlightsListServlet extends HttpServlet {
 
         FlightsDAO flightsDAO = new FlightsDAO();
         List<Flights> flightsList = flightsDAO.searchFlights(deA, arA, dateFrom, dateTo, priceFrom, priceTo, airlineName, status);
-        request.setAttribute("listFlights", flightsList);
+//        request.setAttribute("listFlights", flightsList);
+
+        // Nhận tham số trang hiện tại từ request (nếu không có thì mặc định là 1)
+        int page = 1;
+        int pageSize = 5; // Số lượng chuyến bay mỗi trang
+
+        String pageStr = request.getParameter("page");
+        if (pageStr != null && !pageStr.isEmpty()) {
+            try {
+                page = Integer.parseInt(pageStr);
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+// Xác định phạm vi dữ liệu hiển thị trên trang hiện tại
+        int totalFlights = flightsList.size();
+        int totalPages = (int) Math.ceil((double) totalFlights / pageSize);
+        int fromIndex = (page - 1) * pageSize;
+        int toIndex = Math.min(fromIndex + pageSize, totalFlights);
+
+// Lấy danh sách chuyến bay cho trang hiện tại
+        List<Flights> paginatedFlights = new ArrayList<>();
+        if (fromIndex < totalFlights) {
+            paginatedFlights = flightsList.subList(fromIndex, toIndex);
+        }
+
+// Gửi dữ liệu đến JSP
+        request.setAttribute("listFlights", paginatedFlights);
+        request.setAttribute("currentPage", page);
+        request.setAttribute("totalPages", totalPages);
+
+        request.getRequestDispatcher("/views/admin/jsp/viewListFlights.jsp").forward(request, response);
 
     }
 }
