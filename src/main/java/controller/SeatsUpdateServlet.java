@@ -62,11 +62,12 @@ public class SeatsUpdateServlet extends HttpServlet {
             request.setAttribute("msg", "Seat successfully updated");
             request.setAttribute("seat", updatedSeat);
             request.getRequestDispatcher("/views/admin/jsp/updateSeats.jsp").forward(request, response);
-
+            return;
         }else{
             request.setAttribute("error", "Seat not found");
+            request.getRequestDispatcher("/views/admin/jsp/updateSeats.jsp").forward(request, response);
+            return;
         }
-        response.sendRedirect(request.getContextPath() + "/updateSeatURL");
 
     }
 

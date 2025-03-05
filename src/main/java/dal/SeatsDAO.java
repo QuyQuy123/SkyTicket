@@ -271,15 +271,30 @@ public class SeatsDAO extends DBConnect{
         }
         return seats;
     }
-    public boolean isSeatNumberExists(int seatNumber, int flightId) {
-        try {
-            String sql = "SELECT COUNT(*) FROM Seats WHERE seatNumber = ? AND flightId = ?";
-            PreparedStatement ps = connection.prepareStatement(sql);
+//    public boolean isSeatNumberExists(int seatNumber, int flightId) {
+//        try {
+//            String sql = "SELECT COUNT(*) FROM Seats WHERE seatNumber = ? AND flightId = ?";
+//            PreparedStatement ps = connection.prepareStatement(sql);
+//            ps.setInt(1, seatNumber);
+//            ps.setInt(2, flightId);
+//            ResultSet rs = ps.executeQuery();
+//            if (rs.next()) {
+//                return rs.getInt(1) > 0;
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return false;
+//    }
+
+    public boolean isSeatNumberExists(int seatNumber, int currentSeatId) {
+        String query = "SELECT COUNT(*) FROM Seats WHERE SeatNumber = ? AND SeatId != ?";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setInt(1, seatNumber);
-            ps.setInt(2, flightId);
+            ps.setInt(2, currentSeatId);
             ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                return rs.getInt(1) > 0;
+            if (rs.next() && rs.getInt(1) > 0) {
+                return true; // Đã tồn tại
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -303,8 +318,6 @@ public class SeatsDAO extends DBConnect{
 //            System.out.println("Cập nhật ghế thất bại!");
 //        }
     }
-
-
 
 
 }
