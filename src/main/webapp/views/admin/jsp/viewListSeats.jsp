@@ -89,7 +89,7 @@
 
                                 <!-- Bộ lọc trạng thái -->
                                 <select name="status" class="form-select border rounded-pill me-2">
-                                    <option value="">Status</option>
+                                    <option value="">All Status</option>
                                     <option value="1">Active</option>
                                     <option value="0">Deactive</option>
                                 </select>
@@ -137,7 +137,7 @@
                                 <tr>
                                     <td class="p-3"><%= seat.getSeatId() %></td>
                                     <td class="p-3"><%= seat.getFlightId()%></td>
-                                    <td class="p-3"><span class="badge <%= seat.getStatus() == 1 ? "bg-soft-success" : "bg-soft-warning" %>"><%= seat.getStatus() == 1 ? "Active" : "Inactive" %></span></td>
+                                    <td class="p-3"><span class="badge <%= seat.getStatus() == 1 ? "bg-soft-success" : "bg-soft-warning" %>"><%= seat.getStatus() == 1 ? "Active" : "Deactive" %></span></td>
                                     <td class="p-3"><%= seat.getSeatNumber() %></td>
                                     <td class="p-3"><%= seat.getSeatClass() %></td>
                                     <td class="p-3"><span class="badge <%= seat.getIsBooked() == 1 ? "bg-soft-success" : "bg-soft-warning" %>"><%= seat.getIsBooked() == 1 ? "Yes" : "No" %></span></td>
