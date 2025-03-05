@@ -40,15 +40,14 @@ public class TicketsDAO extends DBConnect{
                 + "WHERE t.Code = ? AND s.FlightId = ? "
                 + "AND (t.Status = 10 OR t.Status = 12) AND s.SeatId = ?";
 
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+        try (PreparedStatement ps = connection.prepareStatement(sql);){
             ps.setString(1, code);
             ps.setInt(2, flightId);
             ps.setInt(3, seatId);
 
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                Tickets t = new Tickets(
+                 return new Tickets(
                         rs.getInt("ticketId"),
                         rs.getInt("seatId"),
                         rs.getString("code"),
@@ -57,7 +56,7 @@ public class TicketsDAO extends DBConnect{
                         rs.getInt("status"),
                         rs.getTimestamp("createAt")
                 );
-                return t;
+
             }
         } catch (SQLException e) {
             e.printStackTrace();

@@ -32,8 +32,8 @@ public class SearchFlightsController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse resp) throws ServletException, IOException {
         AccountDAO ad = new AccountDAO();
         FlightsDAO fldao = new FlightsDAO();
-        AirlinesDAO aidao = new AirlinesDAO();
-        LocationsDAO locdao = new LocationsDAO();
+//        AirlinesDAO aidao = new AirlinesDAO();
+//        LocationsDAO locdao = new LocationsDAO();
         HttpSession session = request.getSession();
         Integer idd = (Integer) session.getAttribute("id");
         int i = (idd != null) ? idd : -1;

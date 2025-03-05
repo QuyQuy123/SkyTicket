@@ -5,10 +5,10 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Reset Password</title>
-    <link rel="shortcut icon" type="image/jpg" href="image/logo-icon.png" />
+    <link rel="shortcut icon" type="image/jpg" href="<%= request.getContextPath() %>/img/logo.jpg" />
     <link rel="stylesheet" href="<%= request.getContextPath() %>/css/Login.css" type="text/css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="icon/themify-icons/themify-icons.css" />
+
 </head>
 <body>
 <div class="container">
