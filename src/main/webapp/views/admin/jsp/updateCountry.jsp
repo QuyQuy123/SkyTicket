@@ -127,7 +127,7 @@
                                             <label class="form-label" for="we">Status</label>
                                             <select class="form-control gender-name select2input" name="status" id="we">
                                                 <option value="1" <%=countries.getStatus() == 1 ? "selected" : ""%>>Active</option>
-                                                <option value="2" <%=countries.getStatus() == 2 ? "selected" : ""%>>Deactive</option>
+                                                <option value="0" <%=countries.getStatus() == 0 ? "selected" : ""%>>Deactive</option>
                                             </select>
                                         </div>
                                     </div><!--end col-->
