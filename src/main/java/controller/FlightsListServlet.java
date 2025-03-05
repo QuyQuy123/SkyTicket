@@ -78,19 +78,31 @@ public class FlightsListServlet extends HttpServlet {
             e.printStackTrace(); // Ghi log lỗi để debug
         }
 
-        Double priceFrom = null;
-        Double priceTo = null;
+        Double priceVipFrom = null;
+        Double priceVipTo = null;
+        Double priceEcoFrom = null;
+        Double priceEcoTo = null;
         Integer status = null;
 
         try {
-            String priceFromStr = request.getParameter("priceFrom");
-            if (priceFromStr != null && !priceFromStr.isEmpty()) {
-                priceFrom = Double.valueOf(priceFromStr);
+            String priceVipFromStr = request.getParameter("priceVipFrom");
+            if (priceVipFromStr != null && !priceVipFromStr.isEmpty()) {
+                priceVipFrom = Double.valueOf(priceVipFromStr);
             }
 
-            String priceToStr = request.getParameter("priceTo");
-            if (priceToStr != null && !priceToStr.isEmpty()) {
-                priceTo = Double.valueOf(priceToStr);
+            String priceVipToStr = request.getParameter("priceVipTo");
+            if (priceVipToStr != null && !priceVipToStr.isEmpty()) {
+                priceVipTo = Double.valueOf(priceVipToStr);
+            }
+
+            String priceEcoFromStr = request.getParameter("priceEcoFrom");
+            if (priceEcoFromStr != null && !priceEcoFromStr.isEmpty()) {
+                priceEcoFrom = Double.valueOf(priceEcoFromStr);
+            }
+
+            String priceEcoToStr = request.getParameter("priceEcoTo");
+            if (priceEcoToStr != null && !priceEcoToStr.isEmpty()) {
+                priceEcoTo = Double.valueOf(priceEcoToStr);
             }
 
             String statusStr = request.getParameter("status");
@@ -113,8 +125,41 @@ public class FlightsListServlet extends HttpServlet {
         request.setAttribute("airportList", airportList);
 
         FlightsDAO flightsDAO = new FlightsDAO();
-        List<Flights> flightsList = flightsDAO.searchFlights(deA, arA, dateFrom, dateTo, priceFrom, priceTo, airlineName, status);
-        request.setAttribute("listFlights", flightsList);
+        List<Flights> flightsList = flightsDAO.searchFlights(deA, arA, dateFrom, dateTo, priceVipFrom, priceVipTo,priceEcoFrom, priceEcoTo, airlineName, status);
+//        request.setAttribute("listFlights", flightsList);
+
+        // Nhận tham số trang hiện tại từ request (nếu không có thì mặc định là 1)
+        int page = 1;
+        int pageSize = 5; // Số lượng chuyến bay mỗi trang
+
+        String pageStr = request.getParameter("page");
+        if (pageStr != null && !pageStr.isEmpty()) {
+            try {
+                page = Integer.parseInt(pageStr);
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+// Xác định phạm vi dữ liệu hiển thị trên trang hiện tại
+        int totalFlights = flightsList.size();
+        int totalPages = (int) Math.ceil((double) totalFlights / pageSize);
+        int fromIndex = (page - 1) * pageSize;
+        int toIndex = Math.min(fromIndex + pageSize, totalFlights);
+
+// Lấy danh sách chuyến bay cho trang hiện tại
+        List<Flights> paginatedFlights = new ArrayList<>();
+        if (fromIndex < totalFlights) {
+            paginatedFlights = flightsList.subList(fromIndex, toIndex);
+        }
+
+// Gửi dữ liệu đến JSP
+        request.setAttribute("listFlights", paginatedFlights);
+        request.setAttribute("currentPage", page);
+        request.setAttribute("totalPages", totalPages);
+
+        request.getRequestDispatcher("/views/admin/jsp/viewListFlights.jsp").forward(request, response);
 
     }
 }

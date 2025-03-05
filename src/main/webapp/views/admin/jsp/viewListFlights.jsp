@@ -137,12 +137,12 @@
                                             <input type="date" class="form-control" name="dateTo" value="${param.dateTo}">
                                         </th>
                                         <th scope="col" class="border-bottom p-1">
-                                            <input type="number" class="form-control" placeholder="From: " name="priceVipFrom" value="${param.priceFrom}">
-                                            <input type="number" class="form-control" placeholder="To: " name="priceVipTo" value="${param.priceTo}">
+                                            <input type="number" class="form-control" placeholder="From: " name="priceVipFrom" value="${param.priceVipFrom}">
+                                            <input type="number" class="form-control" placeholder="To: " name="priceVipTo" value="${param.priceVipTo}">
                                         </th>
                                         <th scope="col" class="border-bottom p-1">
-                                            <input type="number" class="form-control" placeholder="From: " name="priceEcoFrom" value="${param.priceFrom}">
-                                            <input type="number" class="form-control" placeholder="To: " name="priceVipTo" value="${param.priceTo}">
+                                            <input type="number" class="form-control" placeholder="From: " name="priceEcoFrom" value="${param.priceEcoFrom}">
+                                            <input type="number" class="form-control" placeholder="To: " name="priceEcoTo" value="${param.priceEcoTo}">
                                         </th>
                                         <th scope="col" class="border-bottom p-1">
                                             <input type="text" class="form-control" name="airlineName" value="${param.airlineName}" placeholder="...">
