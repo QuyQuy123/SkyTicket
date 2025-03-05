@@ -1,5 +1,6 @@
 <%@ page import="model.Flights" %>
 <%@ page import="java.util.List" %>
+<%@ page import="dal.FlightsDAO" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
@@ -50,6 +51,7 @@
 
 <body>
 
+
 <!-- Loader -->
 <div id="preloader">
     <div id="status">
@@ -92,8 +94,13 @@
                                         ${msg}
                                 </div>
                             </c:if>
+                            <c:if test="${not empty error}">
+                                <div style="color: red; font-weight: bold;">
+                                        ${error}
+                                </div>
+                            </c:if>
 
-                            <form class="mt-4" action="<%= request.getContextPath() %>/addSeats" method="post" enctype="multipart/form-data">
+                            <form class="mt-4" action="<%= request.getContextPath() %>/addSeats" method="post" >
 
                                 <div class="row">
                                     <div class="col-lg-8 mt-4">
@@ -141,8 +148,8 @@
 
                                                 <div class="col-md-6">
                                                     <div class="mb-3">
-                                                        <label class="form-label" for="SeatNumber">Seat Number</label>
-                                                        <input name="SeatNumber" id="SeatNumber" type="Text" class="form-control"
+                                                        <label class="form-label" for="SeatNumber">Seat Number </label> <label style="color: red">(only digits)</label>
+                                                        <input name="SeatNumber" id="SeatNumber" type="number" class="form-control"
                                                                placeholder="Seat Number" >
                                                     </div>
                                                 </div>
