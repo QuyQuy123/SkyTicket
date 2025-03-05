@@ -74,7 +74,9 @@
 
                     <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
                         <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
-                            <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/views/admin/jsp/Dashboard.jsp">SkyTicket</a></li>
+                            <li class="breadcrumb-item"><a
+                                    href="${pageContext.request.contextPath}/views/admin/jsp/Dashboard.jsp">SkyTicket</a>
+                            </li>
                             <li class="breadcrumb-item active" aria-current="page">List News</li>
                         </ul>
                     </nav>
@@ -87,7 +89,7 @@
                                 <thead>
                                 <tr>
                                     <th class="border-bottom 1">ID</th>
-                                    <th class="border-bottom p-1">Title</th>
+                                    <th class="border-bottom p-1 col-md-6">Title</th>
                                     <th class="border-bottom p-1">AirlineID</th>
                                     <th class="border-bottom p-1">Status</th>
                                     <th class="border-bottom p-1">Actions</th>
@@ -99,7 +101,7 @@
                                         <c:forEach var="ln" items="${listNews}">
                                             <tr>
                                                 <td class="p-1">${ln.newId}</td>
-                                                <td class="p-1">${ln.title}</td>
+                                                <td class="p-1 col-md-6">${ln.title}</td>
                                                 <td class="p-1">${ln.airlineId}</td>
                                                 <td class="p-1">
                                                     <c:choose>
@@ -112,9 +114,11 @@
                                                     </c:choose>
                                                 </td>
                                                 <td class=" p-1">
-                                                    <a href="${pageContext.request.contextPath}/manageNews?id=${ln.newId}&action=view" class="btn btn-icon btn-sm btn-soft-primary"><i
+                                                    <a href="${pageContext.request.contextPath}/manageNews?id=${ln.newId}&action=view"
+                                                       class="btn btn-icon btn-sm btn-soft-primary"><i
                                                             class="uil uil-eye"></i></a>
-                                                    <a href="${pageContext.request.contextPath}/manageNews?id=${ln.newId}&action=update" class="btn btn-icon btn-sm btn-soft-success"><i
+                                                    <a href="${pageContext.request.contextPath}/manageNews?id=${ln.newId}&action=update"
+                                                       class="btn btn-icon btn-sm btn-soft-success"><i
                                                             class="uil uil-pen"></i></a>
 
                                                     <c:choose>
@@ -129,8 +133,8 @@
                                                         <c:otherwise>
                                                             <!-- Nút xóa (vô hiệu hóa) -->
                                                             <button href="javascript:void(0);"
-                                                               onclick="confirmDelete(${ln.newId})"
-                                                               class="btn btn-icon btn-sm btn-soft-danger">
+                                                                    onclick="confirmDelete(${ln.newId})"
+                                                                    class="btn btn-icon btn-sm btn-soft-danger">
                                                                 <i class="uil uil-trash"></i>
                                                             </button>
                                                         </c:otherwise>
@@ -162,7 +166,7 @@
                 <div class="d-flex justify-content-center mt-3">
                     <div class="pagination">
                         <c:if test="${currentPage > 1}">
-                            <a href="${pageContext.request.contextPath}/searchAirlines?page=1&search=${search}&status=${status}"
+                            <a href="${pageContext.request.contextPath}/viewNews?page=1&search=${search}&status=${status}"
                                class="btn btn-outline-primary">First</a>
                             <a href="${pageContext.request.contextPath}/searchAirlines?page=${currentPage - 1}&search=${search}&status=${status}"
                                class="btn btn-outline-primary">Previous</a>
@@ -171,9 +175,9 @@
                         <span class="btn btn-primary">${currentPage} / ${totalPages}</span>
 
                         <c:if test="${currentPage < totalPages}">
-                            <a href="${pageContext.request.contextPath}/searchAirlines?page=${currentPage + 1}&search=${search}&status=${status}"
+                            <a href="${pageContext.request.contextPath}/viewNews?page=${currentPage + 1}&search=${search}&status=${status}"
                                class="btn btn-outline-primary">Next</a>
-                            <a href="${pageContext.request.contextPath}/searchAirlines?page=${totalPages}&search=${search}&status=${status}"
+                            <a href="${pageContext.request.contextPath}/viewNews?page=${totalPages}&search=${search}&status=${status}"
                                class="btn btn-outline-primary">Last</a>
                         </c:if>
                     </div>
@@ -183,18 +187,18 @@
                 <div class="d-flex justify-content-center mt-3">
                     <div class="pagination">
                         <c:if test="${currentPage > 1}">
-                            <a href="${pageContext.request.contextPath}/listAirlines?page=1&search=${search}"
+                            <a href="${pageContext.request.contextPath}/viewNews?page=1&search=${search}"
                                class="btn btn-outline-primary">First</a>
-                            <a href="${pageContext.request.contextPath}/listAirlines?page=${currentPage - 1}"
+                            <a href="${pageContext.request.contextPath}/viewNews?page=${currentPage - 1}"
                                class="btn btn-outline-primary">Previous</a>
                         </c:if>
 
                         <span class="btn btn-primary">${currentPage} / ${totalPages}</span>
 
                         <c:if test="${currentPage < totalPages}">
-                            <a href="${pageContext.request.contextPath}/listAirlines?page=${currentPage + 1}"
+                            <a href="${pageContext.request.contextPath}/viewNews?page=${currentPage + 1}"
                                class="btn btn-outline-primary">Next</a>
-                            <a href="${pageContext.request.contextPath}/listAirlines?page=${totalPages}"
+                            <a href="${pageContext.request.contextPath}/viewNews?page=${totalPages}"
                                class="btn btn-outline-primary">Last</a>
                         </c:if>
                     </div>
@@ -212,8 +216,6 @@
 <!-- page-wrapper -->
 
 
-
-
 <!-- nút delete/restore -->
 <script>
     function confirmDelete(id) {
@@ -222,19 +224,19 @@
             let urlParams = new URLSearchParams(window.location.search);
             let currentPage = urlParams.get("page") || 1; // Nếu không có thì mặc định là trang 1
 
-            fetch('${pageContext.request.contextPath}/deleteAirline', {
+            fetch('${pageContext.request.contextPath}/manageNews', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                body: 'action=deactivate&id=' + id
+                body: 'action=delete&id=' + id
             }).then(response => {
                 if (response.ok) {
-                    alert("Airline is deactivated!");
+                    alert("News is deactivated!");
                     <c:choose>
                     <c:when test="${searchpage == 'page'}">
-                    window.location.href = "${pageContext.request.contextPath}/searchAirlines?page=" + currentPage + "&search=${search}&status=${status}";
+                    window.location.href = "${pageContext.request.contextPath}/viewNews?page=" + currentPage + "&search=${search}&status=${status}";
                     </c:when>
                     <c:otherwise>
-                    window.location.href = "${pageContext.request.contextPath}/listAirlines?page=" + currentPage;
+                    window.location.href = "${pageContext.request.contextPath}/viewNews?page=" + currentPage;
                     </c:otherwise>
                     </c:choose>
                 } else {
@@ -245,23 +247,23 @@
     }
 
     function confirmRestore(id) {
-        if (confirm("Are you sure you want to restore this airline?")) {
+        if (confirm("Are you sure you want to restore this news?")) {
             let urlParams = new URLSearchParams(window.location.search);
             let currentPage = urlParams.get("page") || 1;
 
-            fetch('${pageContext.request.contextPath}/deleteAirline', {
+            fetch('${pageContext.request.contextPath}/manageNews', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                 body: 'action=restore&id=' + id
             }).then(response => {
                 if (response.ok) {
-                    alert("Airline restore successfully!!");
+                    alert("News restore successfully!!");
                     <c:choose>
                     <c:when test="${searchpage == 'page'}">
-                    window.location.href = "${pageContext.request.contextPath}/searchAirlines?page=" + currentPage + "&search=${search}&status=${status}";
+                    window.location.href = "${pageContext.request.contextPath}/viewNews?page=" + currentPage + "&search=${search}&status=${status}";
                     </c:when>
                     <c:otherwise>
-                    window.location.href = "${pageContext.request.contextPath}/listAirlines?page=" + currentPage;
+                    window.location.href = "${pageContext.request.contextPath}/viewNews?page=" + currentPage;
                     </c:otherwise>
                     </c:choose>
 
