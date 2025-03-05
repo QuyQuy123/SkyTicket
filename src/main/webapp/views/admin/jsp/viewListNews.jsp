@@ -52,11 +52,11 @@
 
                     <div class="search-bar p-0 d-none d-md-block ms-2">
                         <div id="search" class="menu-search mb-0">
-                            <form action="${pageContext.request.contextPath}/viewNews" method="get"
+                            <form action="${pageContext.request.contextPath}/viewNews" method="post"
                                   class="d-flex">
                                 <!-- Ô tìm kiếm -->
                                 <input type="text" name="search" class="form-control border rounded-pill me-2"
-                                       placeholder="Search Airlines..." value="${param.search}">
+                                       placeholder="Search Title..." value="${param.search}">
 
                                 <!-- Bộ lọc trạng thái -->
                                 <select name="status" class="form-select border rounded-pill me-2">
