@@ -32,12 +32,12 @@ public class LocationsAdd extends HttpServlet {
             session.setAttribute("errorMsg", "Location name cannot be empty.");
             response.sendRedirect(request.getContextPath() + "/views/admin/jsp/addLocation.jsp");
             return;
-        }else if (!locationName.matches("[a-zA-Z ]+")) {
-            session.setAttribute("errorMsg", "Location name cannot be digits.");
+        } else if (locationsDAO.getIdByLocationName(locationName) != -1) {
+            session.setAttribute("errorMsg", "Location name already exists.");
             response.sendRedirect(request.getContextPath() + "/views/admin/jsp/addLocation.jsp");
             return;
-        }else if (locationsDAO.getIdByLocationName(locationName) != -1) {
-            session.setAttribute("errorMsg", "Location name already exists.");
+        } else if (!locationName.matches("[a-zA-ZÀ-ỹ ]+")) {
+            session.setAttribute("errorMsg", "Location name cannot be digits.");
             response.sendRedirect(request.getContextPath() + "/views/admin/jsp/addLocation.jsp");
             return;
         } else {

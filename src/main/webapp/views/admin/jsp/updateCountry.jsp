@@ -119,6 +119,8 @@
                                                    class="form-control" required
                                                    value="<%=countries.getCountryName() != null ? countries.getCountryName():""%>">
                                         </div>
+                                        <button type="submit" class="btn btn-primary">Update Country</button>
+                                        <a href="${pageContext.request.contextPath}/listCountriesURL" class="btn btn-danger">Cancel</a>
                                     </div><!--end col-->
 
 
@@ -131,10 +133,6 @@
                                             </select>
                                         </div>
                                     </div><!--end col-->
-
-
-                                    <button type="submit" class="btn btn-primary">Update Country</button>
-                                    <a href="${pageContext.request.contextPath}/listCountriesURL" class="btn btn-danger">Cancel</a>
                             </form>
                         </div>
                     </div><!--end col-->
