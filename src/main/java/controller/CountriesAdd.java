@@ -35,6 +35,10 @@ public class CountriesAdd extends HttpServlet {
             session.setAttribute("errorMsg", "Country name already exists.");
             response.sendRedirect(request.getContextPath() + "/views/admin/jsp/addCountry.jsp");
             return;
+        } else if (!countryName.matches("[a-zA-ZÀ-ỹ ]+")) {
+        session.setAttribute("errorMsg", "Country name cannot be digits.");
+        response.sendRedirect(request.getContextPath() + "/views/admin/jsp/addCountry.jsp");
+        return;
         } else {
             Countries countries = new Countries(countryName, status);
             boolean isAdded = countriesDAO.addCountry(countries);

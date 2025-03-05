@@ -36,6 +36,10 @@ public class LocationsAdd extends HttpServlet {
             session.setAttribute("errorMsg", "Location name already exists.");
             response.sendRedirect(request.getContextPath() + "/views/admin/jsp/addLocation.jsp");
             return;
+        } else if (!locationName.matches("[a-zA-ZÀ-ỹ ]+")) {
+            session.setAttribute("errorMsg", "Location name cannot be digits.");
+            response.sendRedirect(request.getContextPath() + "/views/admin/jsp/addLocation.jsp");
+            return;
         } else {
             Locations location = new Locations(locationName, countryId, status);
             boolean isAdded = locationsDAO.addLocation(location);

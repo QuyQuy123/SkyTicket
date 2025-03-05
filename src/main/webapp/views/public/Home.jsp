@@ -137,16 +137,7 @@
             height: auto;
             border-radius: 5px;
         }
-        .passenger-count {
-            color: #3C6E57;
-            font-size: 20px;
-            font-weight: bold;
-            width: 55px;
-            border: 2px solid;
-            border-radius: 5px;
-            text-align: center;
-            margin: 0 10px;
-        }
+
 
         .search-button {
             height: 100%;
@@ -208,9 +199,9 @@
 
                 <div class="row" style="height: 55px; margin-top: 20px">
                     <!-- From Field -->
-                    <div class="col-md-2" style="padding-right: 0px">
+                    <div class="col-md-2" style="padding-right: 0">
                         <p style="color: black; margin: 0; font-size: 12px">FROM</p>
-                        <input type="text" value="Hà Nội" readonly style="height: 100%;font-size: 18px" class="form-control" id="fromDisplay" onclick="showLocationList('from')" oninput="filterLocations('from')" placeholder="FROM" required >
+                        <input type="text" value="Ha Noi" readonly style="height: 100%;font-size: 18px" class="form-control" id="fromDisplay" onclick="showLocationList('from')" oninput="filterLocations('from')" placeholder="FROM" required >
                         <input type="hidden" value="1" id="from" name="departure">
                         <div id="from-locations" class="location-list" style="margin-top: 88px;margin-left: 85px;width: 300px;height: 300px">
 
@@ -226,7 +217,7 @@
                             <div class="location-item" onclick="selectLocation('<%= ai.getAirportId() %>', '<%= lo.getLocationName() %>', 'from')">
                                 <span class="location-name" style="font-weight: bold; font-size: 16px; color: black;">
                                     <%= lo.getLocationName() %>
-                                </span></br>
+                                </span><br>
                                 <span class="airport-name" style="font-size: 14px; color: grey; filter: blur(1%);">
                                     <%= ai.getAirportName() %>
                                 </span>
@@ -241,7 +232,7 @@
                     <!-- To Field -->
                     <div class="col-md-2" style="padding-right: 0px">
                         <p style="color: black; margin: 0; font-size: 12px">TO</p>
-                        <input type="text" value="TP. Hồ Chí Minh" readonly style="height: 100%;font-size: 18px" class="form-control" id="toDisplay" onclick="showLocationList('to')" oninput="filterLocations('to')" placeholder="TO" required>
+                        <input type="text" value="TP.Ho Chi Minh" readonly style="height: 100%;font-size: 18px" class="form-control" id="toDisplay" onclick="showLocationList('to')" oninput="filterLocations('to')" placeholder="TO" required>
                         <input type="hidden" value="2" id="to" name="destination">
                         <div id="to-locations" class="location-list" style="margin-top: 88px;margin-left: 260px;width: 300px;height: 300px">
 
@@ -256,7 +247,7 @@
                             <div class="location-item" onclick="selectLocation('<%= ai.getAirportId() %>', '<%= lo.getLocationName() %>', 'to')">
                                 <span class="location-name" style="font-weight: bold; font-size: 16px; color: black;">
                                                     <%= lo.getLocationName() %>
-                                </span></br>
+                                </span><br>
                                 <span class="airport-name" style="font-size: 14px; color: grey; filter: blur(1%);">
                                                     <%= ai.getAirportName() %>
                                 </span>
@@ -270,11 +261,10 @@
                         <p style="color: black; margin: 0; font-size: 12px">DEPART</p>
                         <input type="date" id="departureDate" class="form-control" name="departureDate" style="height: 100%;font-size: 18px;" placeholder="dd-mm-yyyy" onkeydown="return false;" required >
                     </div>
-                    <div class="col-md-2" id="returnDateField" style="display:none;padding-right: 0px" >
+                    <div class="col-md-2" id="returnDateField" style="display:none;padding-right: 0" >
                         <p style="color: black; margin: 0; font-size: 12px">RETURN</p>
-                        <input type="date" id="returnDate" class="form-control" name="returnDate" style="height: 100%;font-size: 18px;" autocomplete="off"   placeholder="dd-mm-yyyy" onkeydown="return false;">
+                        <input type="date" id="returnDate" class="form-control" name="returnDate" style="height: 100%;font-size: 18px;" autocomplete="off" placeholder="dd-mm-yyyy" onkeydown="return false;">
                     </div>
-
                     <!-- Passengers Field -->
                     <div class="col-md-4" id="passengerField" style="position: relative; padding-right: 0;">
                         <p style="color: black; margin: 0; font-size: 12px">PASSENGER</p>
@@ -369,26 +359,19 @@
         <div class="news-container">
             <%
 
-                List<News> listNew = (List<News>) request.getAttribute("listNew");
+               List<News> listNew = (List<News>) request.getAttribute("listNew");
 
                 if (listNew != null) {
                     for (int i = listNew.size() - 1; i >= listNew.size()-4; i--) {
                         News n = listNew.get(i);
             %>
-            <div class="news-item" onclick="viewNews('<%= n.getNewId() %>');">
+            <div class="news-item" onclick="viewNews('<%= n.getNewId() %>')">
                 <img src="<%= n.getImg() %>" alt="<%= n.getTitle() %>" >
 
                 <h2 style="height: 25%;"><%= n.getTitle() %></h2>
                 <div class="news-content" style="display: none;">
                     <p><%= n.getContent() %></p>
                 </div>
-
-<%--                <div   style="margin-top: 7%;margin-left: 3%;">--%>
-<%--                    <img src="#" style="width: 12%; height: 100%;">--%>
-<%--                    <p style="margin-top: -8%;--%>
-<%--                               margin-left: 14%;--%>
-<%--                               font-size: 16px;">BamBoo Eway</p>--%>
-<%--                </div>--%>
 
             </div>
             <%

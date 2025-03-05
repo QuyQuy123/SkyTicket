@@ -48,7 +48,7 @@
 
 <div style="margin: 107px 0;margin-left: 41%;">
 
-    <form action="changePaswordURL" method="post" style="margin: 100px 0;  ">
+    <form action="changePaswordURL" method="post" style="margin: 100px 0;width: 26%  ">
         <% String currentP = ((Accounts)request.getAttribute("account")).getPassword(); %>
         <input type="hidden" name="currentPassword" id="currentPassword" value="<%= currentP %>"/>
         <input type="hidden" name="idAccount" value="${requestScope.account.getAccountId()}"/>
@@ -76,7 +76,7 @@
 
         <div id="errorPass" style="color: red; display: none;">Password must be more than 6 characters</div>
         <div class="button">
-            <input id="submit" type="submit" value="Đổi mật khẩu" style="width: 29.6%;"/><br /><br />
+            <input id="submit" type="submit" value="Đổi mật khẩu" style="width: 100%;"/><br /><br />
         </div>
     </form>
 

@@ -5,10 +5,10 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Reset Password</title>
-    <link rel="shortcut icon" type="image/jpg" href="image/logo-icon.png" />
+    <link rel="shortcut icon" type="image/jpg" href="<%= request.getContextPath() %>/img/logo.jpg" />
     <link rel="stylesheet" href="<%= request.getContextPath() %>/css/Login.css" type="text/css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="icon/themify-icons/themify-icons.css" />
+
 </head>
 <body>
 <div class="container">
@@ -40,7 +40,7 @@
         <p id="capslock-warning" style="display: none; margin-bottom: 30px">⚠️ Caps Lock is on</p>
         <h5 style="color: red">${requestScope.error}</h5><br>
         <div class="button">
-            <input id="submit" type="submit" value="Receive Email" /><br /><br />
+            <input id="submit" type="submit" value="Continue" /><br /><br />
         </div>
         Did you remember the password? <a class="letDoIt" href="LoginURL">Login</a>
     </form>

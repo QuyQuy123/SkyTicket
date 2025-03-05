@@ -12,11 +12,13 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Enter OTP</title>
     <link rel="stylesheet" href="<%= request.getContextPath() %>/css/Login.css" type="text/css" />
+
 </head>
 <body>
 <div class="container">
-    <h1>Enter OTP</h1>
-    <p>Please enter the OTP sent to your email.</p>
+    <h1 style="padding: 57px;
+    padding-top: 10px;">Enter OTP</h1>
+    <p style="margin-bottom: 26px;color: red">Please enter the OTP sent to your email.</p>
     <form action="<%= request.getContextPath() %>/VerifyOTPURL" method="post">
         <div class="form-group">
             <input type="text" name="otp" required />
