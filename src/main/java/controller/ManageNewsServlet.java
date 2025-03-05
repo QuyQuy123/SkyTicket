@@ -59,8 +59,13 @@ public class ManageNewsServlet extends HttpServlet {
                 request.getRequestDispatcher(rep).forward(request, response);
                 break;
 
-            case "delete":
-
+            case "view":
+                int id1 = Integer.parseInt(request.getParameter("id"));
+                NewsDAO news1DAO = new NewsDAO();
+                News news1 = news1DAO.getNewsById(id1);
+                request.setAttribute("news", news1);
+                request.setAttribute("isView", true);
+                request.getRequestDispatcher(rep).forward(request, response);
                 break;
 
             case "list":
@@ -94,17 +99,23 @@ public class ManageNewsServlet extends HttpServlet {
 
         // Xử lý file upload
         Part filePart = request.getPart("imgNews");
-        String fileName = filePart.getSubmittedFileName();
-        String uploadPath = getServletContext().getRealPath("") + File.separator + UPLOAD_DIR;
-        File uploadDir = new File(uploadPath);
-        if (!uploadDir.exists()) uploadDir.mkdir();
+        String fileName = request.getParameter("previewNewsImage"); // Lấy file cũ mặc định
 
-        String filePath = uploadPath + File.separator + fileName;
-        filePart.write(filePath);
+        if (filePart != null && filePart.getSize() > 0) {  // Nếu có file mới
+            fileName = filePart.getSubmittedFileName();
+            String uploadPath = getServletContext().getRealPath("") + File.separator + UPLOAD_DIR;
+            File uploadDir = new File(uploadPath);
+            if (!uploadDir.exists()) {
+                uploadDir.mkdirs(); // Tạo thư mục nếu chưa có
+            }
+
+            String filePath = uploadPath + File.separator + fileName;
+            filePart.write(filePath);
+        }
 
         switch (action) {
             case "add":
-                News news = new News(title, fileName, content, airlineId, status);
+                News news = new News(title, "img/"+ fileName, content, airlineId, status);
                 boolean success = newsDAO.addNews(news);
                 request.setAttribute("isAdd", true);
 
@@ -119,8 +130,19 @@ public class ManageNewsServlet extends HttpServlet {
                 News newsUpdate = newsDAO.getNewsById(id);
                 request.setAttribute("isUpdate", true);
 
-                boolean check = newsDAO.updateNews(newsUpdate);
+                newsUpdate.setTitle(title);
+                newsUpdate.setContent(content);
+                newsUpdate.setAirlineId(airlineId);
+                newsUpdate.setStatus(status);
+                newsUpdate.setImg("img/"+ fileName);
 
+                boolean check = newsDAO.updateNews(newsUpdate);
+                request.setAttribute("news", newsUpdate);
+                if (check) {
+                    request.setAttribute("msg", "News update successfully!");
+                } else {
+                    request.setAttribute("msg", "Failed to update news.");
+                }
 
         }
 

@@ -90,6 +90,7 @@
                     <h5 class="mb-0">
                         <c:choose>
                             <c:when test="${isUpdate}">Update News ID: ${news.newId}</c:when>
+                            <c:when test="${isView}">Details News ID: ${news.newId}</c:when>
                             <c:otherwise>Add News</c:otherwise>
                         </c:choose>
                     </h5>
@@ -103,7 +104,7 @@
                             <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/#">List News</a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">
-                                ${ isUpdate ? 'Update News' : 'Add News'}
+                                ${ isUpdate ? 'Update News' : isView ? 'View News' : 'Add News'}
                             </li>
                         </ul>
                     </nav>
@@ -124,15 +125,23 @@
                                 <div class="row align-items-center">
                                     <div class="col-lg-5 col-md-4">
                                         <label class="form-label" for="imgNews">Image: </label>
-                                        <input type="file" name="imgNews" id="imgNews" class="form-control">
 
-                                        <!-- Nếu có ảnh cũ, hiển thị ảnh đó -->
-                                        <c:if test="${not empty news and not empty news.img}">
-                                            <div class="mt-2">
-                                                <img src="${news.img}" alt="origin news" class="img-thumbnail" width="250">
-                                            </div>
+                                        <c:if test="${not isView}">
+                                            <input type="file" name="imgNews" id="imgNews" class="form-control">
                                         </c:if>
 
+                                        <!-- Nếu có ảnh cũ, hiển thị ảnh đó -->
+                                        <div class="mt-2">
+                                            <c:choose>
+                                                <c:when test="${not empty news and not empty news.img}">
+                                                    <img id="previewNewsImage" src="${news.img}" alt="origin news" class="img-thumbnail shadow mt-3" width="250">
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <img id="previewNewsImage" src="${pageContext.request.contextPath}/views/admin/assets/images/client/demoNews.jpeg"
+                                                         alt="news demo" class="img-thumbnail shadow mt-3" width="250">
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </div>
                                         <hr>
                                     </div>
                                 </div><!--end row-->
@@ -147,22 +156,24 @@
                                             <input name="title" id="title" type="text"
                                                    class="form-control"
                                                    placeholder="Title name"
-                                                   value="${not empty news ? news.title : ''}">
+                                                   value="${not empty news ? news.title : ''}"
+                                                    ${isView ? 'disabled' : ''}>
                                         </div>
                                     </div><!--end col-->
 
 
                                     <div class="container mt-4">
                                         <label class="form-label" for="editor">Content: </label>
-                                        <textarea id="editor" name="content" value="${not empty news ? news.content : ''}"></textarea>
+                                        <textarea id="editor" name="content" ${isView ? 'disabled' : ''}>${not empty news ? news.content : ''}</textarea>
                                         <br>
                                     </div>
+
 
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label class="form-label" for="airline">Airline</label>
                                             <select name="airline" id="airline"
-                                                    class="form-control gender-name select2input">
+                                                    class="form-control gender-name select2input" ${isView ? 'disabled' : ''}>
                                                 <option value="" disabled ${empty news ? 'selected' : ''}>-- Select Airline
                                                     --
                                                 </option>
@@ -180,7 +191,7 @@
                                         <div class="mb-3">
                                             <label class="form-label" for="sts">Status</label>
                                             <select class="form-control gender-name select2input" name="status"
-                                                    id="sts">
+                                                    id="sts" ${isView ? 'disabled' : ''}>
                                                 <option value="" disabled ${empty news ? 'selected' : ''}> --Select
                                                     Status--
                                                 </option>
@@ -204,7 +215,10 @@
                                         <button type="submit" class="btn btn-primary">Update News</button>
                                     </c:when>
                                 </c:choose>
-                                <button type="reset" class="btn btn-primary">Reset</button>
+                                <c:if test="${not isView}">
+                                    <button type="reset" class="btn btn-primary">Reset</button>
+                                </c:if>
+                                <a href="<%= request.getContextPath() %>/viewNews" class="btn btn-primary">Back</a>
 
                             </form>
                         </div>
@@ -241,6 +255,19 @@
     // Đảm bảo dữ liệu CKEditor được gửi khi submit
     document.querySelector("form").addEventListener("submit", function () {
         document.querySelector("#editor").value = CKEDITOR.instances.editor.getData();
+    });
+</script>
+
+<script>
+    document.getElementById('imgNews').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('previewNewsImage').src = e.target.result;
+            }
+            reader.readAsDataURL(file);
+        }
     });
 </script>
 
