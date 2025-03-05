@@ -202,7 +202,7 @@ public class FlightsDAO extends DBConnect {
 
 
 
-    public List<Flights> searchFlights(String deA, String arA, Date dateFrom, Date dateTo, Double priceFrom, Double priceTo, String airlineName, Integer status) {
+    public List<Flights> searchFlights(String deA, String arA, Date dateFrom, Date dateTo, Double priceVipFrom, Double priceVipTo, Double priceEcoFrom, Double priceEcoTo, String airlineName, Integer status) {
         List<Flights> flights = new ArrayList<>();
         StringBuilder sql = new StringBuilder("SELECT * FROM Flights WHERE 1=1");
 
@@ -218,10 +218,16 @@ public class FlightsDAO extends DBConnect {
         if (dateTo != null) {
             sql.append(" AND DATE(DepartureTime) <= ?");
         }
-        if (priceFrom != null) {
+        if (priceVipFrom != null) {
+            sql.append(" AND ClassVipPrice >= ?");
+        }
+        if (priceVipTo != null) {
+            sql.append(" AND ClassVipPrice <= ?");
+        }
+        if (priceEcoFrom != null) {
             sql.append(" AND ClassEconomyPrice >= ?");
         }
-        if (priceTo != null) {
+        if (priceEcoTo != null) {
             sql.append(" AND ClassEconomyPrice <= ?");
         }
         if (airlineName != null && !airlineName.isEmpty()) {
@@ -245,11 +251,17 @@ public class FlightsDAO extends DBConnect {
             if (dateTo != null) {
                 ps.setDate(index++, dateTo);
             }
-            if (priceFrom != null) {
-                ps.setDouble(index++, priceFrom);
+            if (priceVipFrom != null) {
+                ps.setDouble(index++, priceVipFrom);
             }
-            if (priceTo != null) {
-                ps.setDouble(index++, priceTo);
+            if (priceVipTo != null) {
+                ps.setDouble(index++, priceVipTo);
+            }
+            if (priceEcoFrom != null) {
+                ps.setDouble(index++, priceVipFrom);
+            }
+            if (priceEcoTo != null) {
+                ps.setDouble(index++, priceVipTo);
             }
             if (airlineName != null && !airlineName.isEmpty()) {
                 ps.setString(index++, "%" + airlineName.trim() + "%");
