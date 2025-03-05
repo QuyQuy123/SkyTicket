@@ -129,8 +129,7 @@ public class NewsDAO extends DBConnect{
                 News a = new News(
                         rs.getInt("NewId"), rs.getString("Title"),
                         rs.getString("img"), rs.getString("content"),
-                        rs.getInt("airlineId"), rs.getInt("status"),
-                        rs.getTimestamp("CreateAt")
+                        rs.getInt("airlineId"), rs.getInt("status")
                 );
                 list.add(a);
             }
@@ -138,6 +137,88 @@ public class NewsDAO extends DBConnect{
             ex.printStackTrace();
         }
         return list;
+    }
+
+
+    public int countNews() {
+        String sql = "SELECT COUNT(*) FROM News";
+        try (PreparedStatement ps = connection.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public List<News> getNewsPaginated(int start, int limit) {
+        List<News> list = new ArrayList<>();
+        String sql = "SELECT * FROM News ORDER BY newId ASC LIMIT ?, ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, start);
+            ps.setInt(2, limit);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new News(rs.getInt("newId"), rs.getString("title"),
+                        rs.getInt("airlineId"), rs.getInt("status")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public int countNewsByFilter(String search, Integer status) {
+        String sql = "SELECT COUNT(*) FROM News WHERE title LIKE ? ";
+        if (status != null) sql += "AND status = " + status;
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, "%" + search + "%");
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public List<News> searchNewsPaginated(String search, Integer status, int start, int limit) {
+        List<News> list = new ArrayList<>();
+        String sql = "SELECT * FROM News WHERE title LIKE ? ";
+        if (status != null) sql += "AND status = " + status;
+        sql += " ORDER BY newId ASC LIMIT ?, ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, "%" + search + "%");
+            ps.setInt(2, start);
+            ps.setInt(3, limit);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new News(rs.getInt("newId"), rs.getString("title"),
+                        rs.getInt("airlineId"), rs.getInt("status")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+
+    public boolean updateNewsStatus(int id, int status) {
+        String sql = "UPDATE News SET status = ? WHERE NewId = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, status);
+            stmt.setInt(2, id);
+            int rowsUpdated = stmt.executeUpdate();
+            return rowsUpdated > 0; // Trả về true nếu có bản ghi được cập nhật
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
 
