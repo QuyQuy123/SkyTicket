@@ -26,7 +26,6 @@ public class ManageNewsServlet extends HttpServlet {
     private static final String UPLOAD_DIR = "img";
 
 
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -115,7 +114,7 @@ public class ManageNewsServlet extends HttpServlet {
 
         switch (action) {
             case "add":
-                News news = new News(title, "img/"+ fileName, content, airlineId, status);
+                News news = new News(title, "img/" + fileName, content, airlineId, status);
                 boolean success = newsDAO.addNews(news);
                 request.setAttribute("isAdd", true);
 
@@ -134,7 +133,7 @@ public class ManageNewsServlet extends HttpServlet {
                 newsUpdate.setContent(content);
                 newsUpdate.setAirlineId(airlineId);
                 newsUpdate.setStatus(status);
-                newsUpdate.setImg("img/"+ fileName);
+                newsUpdate.setImg("img/" + fileName);
 
                 boolean check = newsDAO.updateNews(newsUpdate);
                 request.setAttribute("news", newsUpdate);
@@ -143,7 +142,22 @@ public class ManageNewsServlet extends HttpServlet {
                 } else {
                     request.setAttribute("msg", "Failed to update news.");
                 }
-
+            case "delete":
+                int id1 = Integer.parseInt(request.getParameter("id"));
+                boolean check1 = newsDAO.updateNewsStatus(id1, 0);
+                if(check1){
+                    response.setStatus(HttpServletResponse.SC_OK);
+                }
+                break;
+            case "restore":
+                int id2 = Integer.parseInt(request.getParameter("id"));
+                boolean check2 = newsDAO.updateNewsStatus(id2, 1);
+                if(check2){
+                    response.setStatus(HttpServletResponse.SC_OK);
+                }
+                break;
+            default:
+                break;
         }
 
         request.getRequestDispatcher("/views/admin/jsp/manageNewsForm.jsp").forward(request, response);

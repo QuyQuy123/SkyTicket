@@ -141,7 +141,7 @@
                                     <td class="p-3"><%= seat.getSeatNumber() %></td>
                                     <td class="p-3"><%= seat.getSeatClass() %></td>
                                     <td class="p-3"><span class="badge <%= seat.getIsBooked() == 1 ? "bg-soft-success" : "bg-soft-warning" %>"><%= seat.getIsBooked() == 1 ? "Yes" : "No" %></span></td>
-                                    <td class="text-end p-2">
+                                    <td class=" p-2">
                                         <a href="<%= request.getContextPath() %>/updateSeatURL?SeatId=<%=seat.getSeatId()%>" class="btn btn-icon btn-pills btn-soft-success"><i class="uil uil-pen"></i></a>
                                         <a href="javascript:void(0);" class="btn btn-icon btn-pills btn-soft-danger" onclick="confirmDelete(<%= seat.getSeatId() %>)">
                                             <i class="uil uil-trash"></i>

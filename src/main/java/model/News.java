@@ -24,6 +24,13 @@ public class News {
         this.status = status;
     }
 
+    public News(int newId, String title, int airlineId, int status) {
+        this.newId = newId;
+        this.title = title;
+        this.airlineId = airlineId;
+        this.status = status;
+    }
+
     public News(String title, String img, String content, int airlineId, int status) {
         this.title = title;
         this.img = img;
