@@ -142,17 +142,11 @@
             </li>
 
             <li class="sidebar-dropdown">
-                <a href="javascript:void(0)"><i class="uil uil-file me-2 d-inline-block"></i>Update</a>
+                <a href="javascript:void(0)"><i class="uil uil-file me-2 d-inline-block"></i>Baggages</a>
                 <div class="sidebar-submenu">
                     <ul>
-                        <li><a href="faqs.html">FAQs</a></li>
-                        <li><a href="review.html">Reviews</a></li>
-                        <li><a href="invoice-list.html">Invoice List</a></li>
-                        <li><a href="invoice.html">Invoice</a></li>
-                        <li><a href="terms.html">Terms & Policy</a></li>
-                        <li><a href="privacy.html">Privacy Policy</a></li>
-                        <li><a href="error.html">404 !</a></li>
-                        <li><a href="blank-page.html">Blank Page</a></li>
+                        <li><a href="<%= request.getContextPath() %>/BaggagesList">List of Baggages</a></li>
+                        <li><a href="review.html">Add Baggage</a></li>
                     </ul>
                 </div>
             </li>
