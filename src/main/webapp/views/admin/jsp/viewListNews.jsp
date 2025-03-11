@@ -121,25 +121,6 @@
                                                        class="btn btn-icon btn-sm btn-soft-success"><i
                                                             class="uil uil-pen"></i></a>
 
-                                                    <c:choose>
-                                                        <c:when test="${ln.status == 0}">
-                                                            <!-- Nút khôi phục -->
-                                                            <button onclick="confirmRestore(${ln.newId})"
-                                                                    class="btn btn-icon btn-sm btn-soft-success">
-                                                                <i class="uil uil-redo"></i> <!-- Icon hồi phục -->
-                                                            </button>
-
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                            <!-- Nút xóa (vô hiệu hóa) -->
-                                                            <button href="javascript:void(0);"
-                                                                    onclick="confirmDelete(${ln.newId})"
-                                                                    class="btn btn-icon btn-sm btn-soft-danger">
-                                                                <i class="uil uil-trash"></i>
-                                                            </button>
-                                                        </c:otherwise>
-                                                    </c:choose>
-
                                                 </td>
                                             </tr>
                                         </c:forEach>
@@ -216,64 +197,6 @@
 <!-- page-wrapper -->
 
 
-<!-- nút delete/restore -->
-<script>
-    function confirmDelete(id) {
-        if (confirm("Are you sure you want to de-activate this news?")) {
-
-            let urlParams = new URLSearchParams(window.location.search);
-            let currentPage = urlParams.get("page") || 1; // Nếu không có thì mặc định là trang 1
-
-            fetch('${pageContext.request.contextPath}/manageNews', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                body: 'action=delete&id=' + id
-            }).then(response => {
-                if (response.ok) {
-                    alert("News is deactivated!");
-                    <c:choose>
-                    <c:when test="${searchpage == 'page'}">
-                    window.location.href = "${pageContext.request.contextPath}/viewNews?page=" + currentPage + "&search=${search}&status=${status}";
-                    </c:when>
-                    <c:otherwise>
-                    window.location.href = "${pageContext.request.contextPath}/viewNews?page=" + currentPage;
-                    </c:otherwise>
-                    </c:choose>
-                } else {
-                    alert("Error! Try again!!!");
-                }
-            }).catch(error => console.error("Error: ", error));
-        }
-    }
-
-    function confirmRestore(id) {
-        if (confirm("Are you sure you want to restore this news?")) {
-            let urlParams = new URLSearchParams(window.location.search);
-            let currentPage = urlParams.get("page") || 1;
-
-            fetch('${pageContext.request.contextPath}/manageNews', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                body: 'action=restore&id=' + id
-            }).then(response => {
-                if (response.ok) {
-                    alert("News restore successfully!!");
-                    <c:choose>
-                    <c:when test="${searchpage == 'page'}">
-                    window.location.href = "${pageContext.request.contextPath}/viewNews?page=" + currentPage + "&search=${search}&status=${status}";
-                    </c:when>
-                    <c:otherwise>
-                    window.location.href = "${pageContext.request.contextPath}/viewNews?page=" + currentPage;
-                    </c:otherwise>
-                    </c:choose>
-
-                } else {
-                    alert("Error! Try again!!!");
-                }
-            }).catch(error => console.error("Error: ", error));
-        }
-    }
-</script>
 
 <!-- javascript -->
 <script src="${pageContext.request.contextPath}/views/admin/assets/js/bootstrap.bundle.min.js"></script>

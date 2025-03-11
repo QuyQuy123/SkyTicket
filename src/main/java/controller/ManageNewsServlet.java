@@ -67,11 +67,14 @@ public class ManageNewsServlet extends HttpServlet {
                 request.getRequestDispatcher(rep).forward(request, response);
                 break;
 
+            case "delete":
+
             case "list":
                 break;
 
             default:
                 break;
+
 
         }
     }
@@ -142,20 +145,7 @@ public class ManageNewsServlet extends HttpServlet {
                 } else {
                     request.setAttribute("msg", "Failed to update news.");
                 }
-            case "delete":
-                int id1 = Integer.parseInt(request.getParameter("id"));
-                boolean check1 = newsDAO.updateNewsStatus(id1, 0);
-                if(check1){
-                    response.setStatus(HttpServletResponse.SC_OK);
-                }
-                break;
-            case "restore":
-                int id2 = Integer.parseInt(request.getParameter("id"));
-                boolean check2 = newsDAO.updateNewsStatus(id2, 1);
-                if(check2){
-                    response.setStatus(HttpServletResponse.SC_OK);
-                }
-                break;
+
             default:
                 break;
         }

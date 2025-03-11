@@ -229,25 +229,6 @@
                                                            class="btn btn-icon btn-sm btn-soft-success"><i
                                                                 class="uil uil-pen"></i></a>
 
-                                                        <c:choose>
-                                                            <c:when test="${acl.status == 0}">
-                                                                <!-- Nút khôi phục -->
-                                                                <button href="javascript:void(0);"
-                                                                        onclick="confirmRestore(${f.flightId})"
-                                                                        class="btn btn-icon btn-sm btn-soft-success">
-                                                                    <i class="uil uil-redo"></i>
-                                                                </button>
-                                                            </c:when>
-                                                            <c:otherwise>
-                                                                <!-- Nút xóa (vô hiệu hóa) -->
-                                                                <button href="javascript:void(0);"
-                                                                        onclick="confirmDelete(${f.flightId})"
-                                                                        class="btn btn-icon btn-sm btn-soft-danger">
-                                                                    <i class="uil uil-trash"></i>
-                                                                </button>
-                                                            </c:otherwise>
-                                                        </c:choose>
-
                                                     </td>
                                                 </tr>
                                             </c:forEach>
@@ -294,52 +275,6 @@
 <!-- page-wrapper -->
 
 
-<!-- nút delete/restore -->
-<script>
-    function confirmDelete(id) {
-        if (confirm("Are you sure you want to deactivate this flight?")) {
-            fetch('${pageContext.request.contextPath}/manageFlights?action=delete&id=' + id, {
-                method: 'GET',
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-            }).then(response => {
-                if (response.ok) {
-                    alert("Flight is deactivated!");
-                    window.location.href = "${pageContext.request.contextPath}/listFlights?action=view";
-                } else {
-                    alert("Error! Try again!!!");
-                }
-            }).catch(error => console.error("Error: ", error));
-        }
-    }
-
-
-    function confirmRestore(id) {
-        if (confirm("Are you sure you want to restore this flight?")) {
-            let urlParams = new URLSearchParams(window.location.search);
-            let currentPage = urlParams.get("page") || 1;
-
-            fetch('${pageContext.request.contextPath}/manageFlights?action=restore&id=' + id, {
-                method: 'GET',
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            }).then(response => {
-                if (response.ok) {
-                    alert("Flight restore successfully!!");
-                    <c:choose>
-                    <c:when test="${searchpage == 'page'}">
-                    window.location.href = "${pageContext.request.contextPath}/searchAccount?page=" + currentPage + "&search=${search}&status=${status}&roleId=${roleId}";
-                    </c:when>
-                    <c:otherwise>
-                    window.location.href = "${pageContext.request.contextPath}/manageAccount?action=view&page=" + currentPage;
-                    </c:otherwise>
-                    </c:choose>
-
-                } else {
-                    alert("Error! Try again!!!");
-                }
-            }).catch(error => console.error("Error: ", error));
-        }
-    }
-</script>
 
 
 <!-- javascript -->
