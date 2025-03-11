@@ -15,8 +15,8 @@ const passengerOptionsDiv = document.getElementById('passenger-options');
 const today = new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Ho_Chi_Minh' }); // 'en-CA' cho định dạng YYYY-MM-DD
 
 // Gán giá trị min cho cả hai ô input
-document.getElementById('departureDate').setAttribute('min', today);
-document.getElementById('returnDate').setAttribute('min', today);
+// document.getElementById('departureDate').setAttribute('min', today);
+// document.getElementById('returnDate').setAttribute('min', today );
 
 function updateTotalPassengers() {
     const adults = parseInt(adultCountInput.value) || 0;
