@@ -5,6 +5,7 @@
 <%@ page import="model.Locations" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="model.Seats" %>
+<%@ page import="model.Baggage" %>
 <html lang="en">
 
 <head>
@@ -33,10 +34,10 @@
 
 <body>
 <%
-    List<Seats> listSeats = (List<Seats>) request.getAttribute("seats");
+    List<Baggage> baggages = (List<Baggage>) request.getAttribute("baggages");
     int currentPage = (Integer) request.getAttribute("currentPage");
     int totalPages = (Integer) request.getAttribute("totalPages");
-    if (listSeats == null) listSeats = new ArrayList<>();
+    if (baggages == null) baggages = new ArrayList<>();
 
 %>
 
@@ -78,26 +79,21 @@
 
                     <div class="search-bar p-0 d-none d-md-block ms-2">
                         <div id="search" class="menu-search mb-0">
-                            <form action="<%= request.getContextPath() %>/seatsSearch" method="get"
+                            <form action="<%= request.getContextPath() %>/baggagesSearch" method="get"
                                   class="d-flex">
                                 <!-- Ô tìm kiếm -->
-                                <input type="text" name="search" class="form-control border rounded-pill me-2"
-                                       placeholder="Search Seats..." >
-                                <input type="text" name="flightId" class="form-control border rounded-pill me-2"
-                                       placeholder="Flight ID...">
+                                <input type="text" name="BaggageID" class="form-control border rounded-pill me-2"
+                                       placeholder="Search BaggageID..." >
 
-
-                                <!-- Bộ lọc trạng thái -->
-                                <select name="status" class="form-select border rounded-pill me-2">
-                                    <option value="">All Status</option>
-                                    <option value="1">Active</option>
-                                    <option value="0">Deactive</option>
+                                <select name="orderWeight" id="order1" class="form-select border rounded-pill me-2">
+                                    <option value="">Order of Weight</option>
+                                    <option value="asc" ${param.order == 'asc' ? 'selected' : ''}>Weight Ascending</option>
+                                    <option value="desc" ${param.order == 'desc' ? 'selected' : ''}>Weight Descending</option>
                                 </select>
-
-                                <select name="isBooked" class="form-select border rounded-pill me-2">
-                                    <option value="">IsBooked</option>
-                                    <option value="1">Yes</option>
-                                    <option value="0">No</option>
+                                <select name="orderPrice" id="order2" class="form-select border rounded-pill me-2">
+                                    <option value="">Order of Price</option>
+                                    <option value="asc" ${param.order == 'asc' ? 'selected' : ''}>Price Ascending</option>
+                                    <option value="desc" ${param.order == 'desc' ? 'selected' : ''}>Price Descending</option>
                                 </select>
 
                                 <!-- Nút tìm kiếm -->
@@ -121,29 +117,23 @@
                             <table class="table table-center bg-white mb-0">
                                 <thead>
                                 <tr>
-                                    <th class="border-bottom p-3">SeatID</th>
-                                    <th class="border-bottom p-3">FlightId</th>
-                                    <th class="border-bottom p-3">Status</th>
-                                    <th class="border-bottom p-3">Seat Number</th>
-                                    <th class="border-bottom p-3">SeatClass</th>
-                                    <th class="border-bottom p-3">IsBooked</th>
-                                    <th class="border-bottom p-3">Actions</th>
+                                    <th class="border-bottom p-3">BaggageId</th>
+                                    <th class="border-bottom p-3">Weight</th>
+                                    <th class="border-bottom p-3">Price</th>
+                                    <th class="border-bottom p-3">Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <%
-                                    for (Seats seat : listSeats){
+                                    for (Baggage b : baggages){
                                 %>
                                 <tr>
-                                    <td class="p-3"><%= seat.getSeatId() %></td>
-                                    <td class="p-3"><%= seat.getFlightId()%></td>
-                                    <td class="p-3"><span class="badge <%= seat.getStatus() == 1 ? "bg-soft-success" : "bg-soft-warning" %>"><%= seat.getStatus() == 1 ? "Active" : "Deactive" %></span></td>
-                                    <td class="p-3"><%= seat.getSeatNumber() %></td>
-                                    <td class="p-3"><%= seat.getSeatClass() %></td>
-                                    <td class="p-3"><span class="badge <%= seat.getIsBooked() == 1 ? "bg-soft-success" : "bg-soft-warning" %>"><%= seat.getIsBooked() == 1 ? "Yes" : "No" %></span></td>
+                                    <td class="p-3"><%= b.getBaggageId() %></td>
+                                    <td class="p-3"><%= b.getWeight()%></td>
+                                    <td class="p-3"><%= b.getPrice()%></td>
                                     <td class=" p-2">
-                                        <a href="<%= request.getContextPath() %>/updateSeatURL?SeatId=<%=seat.getSeatId()%>" class="btn btn-icon btn-pills btn-soft-success"><i class="uil uil-pen"></i></a>
-                                        <a href="javascript:void(0);" class="btn btn-icon btn-pills btn-soft-danger" onclick="confirmDelete(<%= seat.getSeatId() %>)">
+                                        <a href="#" class="btn btn-icon btn-pills btn-soft-success"><i class="uil uil-pen"></i></a>
+                                        <a href="javascript:void(0);" class="btn btn-icon btn-pills btn-soft-danger" onclick="confirmDelete(<%= b.getBaggageId() %>)">
                                             <i class="uil uil-trash"></i>
                                     </td>
                                 </tr>
@@ -163,13 +153,13 @@
                     <div class="pagination">
                         <!-- Nút First -->
                         <c:if test="${currentPage > 1}">
-                            <a href="${pageContext.request.contextPath}/seatsSearch?page=1&search=${search}&status=${status}"
+                            <a href="${pageContext.request.contextPath}/baggagesSearch?page=1"
                                class="btn btn-outline-primary">First</a>
                         </c:if>
 
                         <!-- Nút Previous -->
                         <c:if test="${currentPage > 1}">
-                            <a href="${pageContext.request.contextPath}/seatsSearch?page=${currentPage - 1}&search=${search}&status=${status}"
+                            <a href="${pageContext.request.contextPath}/baggagesSearch?page=${currentPage - 1}"
                                class="btn btn-outline-primary">Previous</a>
                         </c:if>
 
@@ -178,13 +168,13 @@
 
                         <!-- Nút Next -->
                         <c:if test="${currentPage < totalPages}">
-                            <a href="${pageContext.request.contextPath}/seatsSearch?page=${currentPage + 1}&search=${search}&status=${status}"
+                            <a href="${pageContext.request.contextPath}/baggagesSearch?page=${currentPage + 1}"
                                class="btn btn-outline-primary">Next</a>
                         </c:if>
 
                         <!-- Nút Last -->
                         <c:if test="${currentPage < totalPages}">
-                            <a href="${pageContext.request.contextPath}/seatsSearch?page=${totalPages}&search=${search}&status=${status}"
+                            <a href="${pageContext.request.contextPath}/baggagesSearch?page=${totalPages}"
                                class="btn btn-outline-primary">Last</a>
                         </c:if>
 
