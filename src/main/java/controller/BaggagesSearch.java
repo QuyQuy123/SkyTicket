@@ -6,7 +6,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.Baggage;
+import model.Baggages;
 
 import java.io.IOException;
 import java.util.List;
@@ -40,7 +40,7 @@ public class BaggagesSearch extends HttpServlet {
             currentPage = totalPages; // Không cho vượt quá tổng số trang (trừ khi totalPages = 0)
         }
 
-        List<Baggage> baggages = baggageDAO.searchBaggages(baggageId, orderWeight, orderPrice, currentPage, RECORDS_PER_PAGE);
+        List<Baggages> baggages = baggageDAO.searchBaggages(baggageId, orderWeight, orderPrice, currentPage, RECORDS_PER_PAGE);
 
         request.setAttribute("baggages", baggages);
         request.setAttribute("currentPage", currentPage);

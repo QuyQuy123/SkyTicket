@@ -186,6 +186,7 @@
     AirportsDAO apd = new AirportsDAO();
     LocationsDAO ld = new LocationsDAO();
     CountriesDAO cd = new CountriesDAO();
+    BaggageDAO bd = new BaggageDAO();
 
 
     int adultTicket = Integer.parseInt(request.getParameter("adult"));
@@ -369,14 +370,14 @@
                                         <div class="passenger-info-input-title" style="width: 121px">Baggage:</div>
                                         <select name="pBaggages<%=i%>" id="baggage<%=i%>" onchange="updateTotalBaggage()">
                                             <option value="0">Buy 0kg extra checked baggage - <%=currencyFormatter.format(0)%>></option>
-<%--                                            <% for(Baggages b : bmd.getAllBaggagesByAirline(airlineId)){--%>
-<%--                                                if(b.getStatusId() == 1){--%>
-<%--                                            %>--%>
-<%--                                            <option value="<%=b.getId()%>" data-price="<%=b.getPrice()%>">Buy <%=b.getWeight()%>kg extra checked baggage - <%=currencyFormatter.format(b.getPrice())%></option>--%>
-<%--                                            <%--%>
-<%--                                                    }--%>
-<%--                                                }--%>
-<%--                                            %>--%>
+                                            <% for(Baggages b : bd.getAllBaggagesByAirline(airlineId)){
+                                                if(b.getStatus() == 1){
+                                            %>
+                                            <option value="<%=b.getBaggageId()%>" data-price="<%=b.getPrice()%>">Buy <%=b.getWeight()%>kg extra checked baggage - <%=currencyFormatter.format(b.getPrice())%></option>
+                                            <%
+                                                    }
+                                                }
+                                            %>
                                         </select>
                                     </div>
                                     <div class="passenger-info-input-box">

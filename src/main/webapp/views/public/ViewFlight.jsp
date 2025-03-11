@@ -197,7 +197,7 @@
                   if (flightTickets != null && !flightTickets.isEmpty()) {
                       for (Flights f : flightTickets) {
                           int airlineId = fld.getAirlineIdByFlightId(f.getFlightId());
-                          
+
 
                           String airlineImage = ald.getImageById(airlineId);
                           String airlineName = ald.getNameById(airlineId);

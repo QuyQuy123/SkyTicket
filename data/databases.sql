@@ -1,6 +1,6 @@
 -- Tạo database
 -- CREATE DATABASE SkyTickets;
- -- USE SkyTickets;
+-- use SkyTickets;
 
 -- Bảng Roles
 CREATE TABLE Roles (
@@ -52,24 +52,6 @@ CREATE TABLE Passengers (
     FOREIGN KEY (AccountId) REFERENCES Accounts(AccountId)
 );
 
--- Bảng Baggages
-CREATE TABLE Baggages (
-    BaggageId INT PRIMARY KEY AUTO_INCREMENT,
-    Name nvarchar(200),
-    Weight DECIMAL(5,2),
-    Price DECIMAL(10,2)
-);
-INSERT INTO Baggages (Name, Weight, Price) 
-VALUES 
-    ('Hanh li xach tay', 15.50, 300000),
-    ('Hanh li ki gui', 2.30, 50000),
-    ('Hanh li xach tay', 10.00, 200000),
-    ('Hanh li ki gui', 5.20, 150000),
-    ('Hanh li xach tay', 7.80, 180000);
-
-
-
-drop table Baggages;
 
 -- Bảng Bookings
 CREATE TABLE Bookings (
@@ -99,8 +81,7 @@ CREATE TABLE BookingDetails (
     PassengerId INT NOT NULL,
     BaggageId INT,
     FOREIGN KEY (BookingId) REFERENCES Bookings(BookingId),
-    FOREIGN KEY (PassengerId) REFERENCES Passengers(PassengerId),
-    FOREIGN KEY (BaggageId) REFERENCES Baggages(BaggageId)
+    FOREIGN KEY (PassengerId) REFERENCES Passengers(PassengerId)
 );
 
 -- Bảng Airlines
@@ -119,6 +100,31 @@ VALUES
 (2, 'Bamboo Airlines', 'new_bamboo_1.jpg', 'Hãng hàng không quốc gia Việt Nam với dịch vụ chất lượng cao.', 1, 30, 250),
 (3, 'Bamboo Airways', 'new_bamboo_1.jpg', 'Hãng hàng không tư nhân đầu tiên tại Việt Nam.', 1, 20, 180),
 (4, 'Bamboo Airlines', 'new_bamboo_1.jpg', 'Hãng hàng không quốc gia Việt Nam với dịch vụ chất lượng cao.', 1, 30, 250);
+
+
+
+-- Bảng Baggages
+CREATE TABLE Baggages (
+    BaggageId INT PRIMARY KEY AUTO_INCREMENT,
+    Weight DECIMAL(5,2),
+    Price DECIMAL(10,2),
+    AirlineId int ,
+    Status int default 1,
+     FOREIGN KEY (AirlineId) REFERENCES Airlines(AirlineId)
+);
+
+
+INSERT INTO Baggages ( Weight, Price,AirlineId) 
+VALUES 
+    ( 15.50, 300000,1),
+    ( 2.30, 50000,2),
+    (10.00, 200000,3),
+    ( 5.20, 150000,4),
+    ( 7.80, 180000,1);
+
+
+
+
 
 -- Bảng Countries
 CREATE TABLE Countries (
@@ -268,10 +274,12 @@ CREATE TABLE Tickets (
     BookingDetailId INT,
     BookingId INT,
     FlightId INT,
+    BaggageId int,
     CancelledAT datetime,
     FOREIGN KEY (SeatId) REFERENCES Seats(SeatId),
     FOREIGN KEY (PassengerId) REFERENCES Passengers(PassengerId),
     FOREIGN KEY (BookingDetailId) REFERENCES BookingDetails(BookingDetailId),
+    FOREIGN KEY (BaggageId) REFERENCES Baggages(BaggageId),
     FOREIGN KEY (FlightId) REFERENCES Flights(FlightId)
 	
 );
