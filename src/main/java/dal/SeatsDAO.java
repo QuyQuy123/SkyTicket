@@ -33,27 +33,76 @@ public class SeatsDAO extends DBConnect{
         }
         return seatsList;
     }
+    public List<Seats> getAllSeatByAirlineId(int id) {
+        List<Seats> seatCategories = new ArrayList<>();
+        String sql = "SELECT * FROM Seats WHERE AirlineId = ?";
+        PreparedStatement ps = null;
+        ResultSet rs = null;
 
-    public List<Seats> getSeatClasses(int flightId) {
-        List<Seats> seatList = new ArrayList<>();
-        String sql = "SELECT  SeatClass \n" +
-                "FROM Seats WHERE flightId =? && SeatClass IN ('Economy', 'Business') \n" +
-                "GROUP BY SeatClass;";
-
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setInt(1, flightId); // Truyền flightId vào SQL
-            ResultSet rs = ps.executeQuery();
-
+        try {
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
             while (rs.next()) {
-                Seats seat = new Seats();
-                seat.setSeatClass(rs.getString("SeatClass"));
-                seatList.add(seat);
+                Seats seat = new Seats(
+                        rs.getInt("SeatId"),
+                        rs.getInt("AirlineId"),
+                        rs.getInt("Status"),
+                        rs.getInt("SeatNumber"),
+                        rs.getString("SeatClass"), // Giả định SeatClass là danh mục ghế
+                        rs.getInt("IsBooked")
+                );
+                seatCategories.add(seat);
             }
+            return seatCategories;
         } catch (SQLException e) {
             e.printStackTrace();
+            return null;
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (ps != null) ps.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
-        return seatList;
     }
+
+    public static void main(String[] args) {
+        SeatsDAO seatsDAO = new SeatsDAO();
+        List<Seats> seatsList = seatsDAO.getAllSeatByAirlineId(4);
+        for (Seats seat : seatsList) {
+            System.out.println(seat);
+        }
+    }
+
+
+    public Seats getSeatById(int id) {
+        String sql = "SELECT * FROM Seats WHERE SeatId = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return new Seats(
+                            rs.getInt("SeatId"),
+                            rs.getInt("AirlineId"),
+                            rs.getInt("Status"),
+                            rs.getInt("SeatNumber"),
+                            rs.getString("SeatClass"),
+                            rs.getInt("IsBooked")
+                    );
+                }
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+
+
 
 
 

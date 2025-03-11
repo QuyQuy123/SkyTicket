@@ -197,11 +197,13 @@
                   if (flightTickets != null && !flightTickets.isEmpty()) {
                       for (Flights f : flightTickets) {
                           int airlineId = fld.getAirlineIdByFlightId(f.getFlightId());
+                          
 
                           String airlineImage = ald.getImageById(airlineId);
                           String airlineName = ald.getNameById(airlineId);
                           Flights flight = fld.getFlightById(f.getFlightId());
-                          List<Seats> seats = sd.getAllSeatByFlightId(flight.getFlightId());
+                          List<Seats> seats = sd.getAllSeatByAirlineId(airlineId);
+
               %>
               <div class="flight-detail" style="display: block">
                   <div class="flight-info" style="display: flex">
@@ -309,6 +311,7 @@
                                   <% if ("oneWay".equals(request.getParameter("flightType"))) { %>
                                   <form class="ticket-category-form" action="bookingFlightTicketsURL" style="display: flex; justify-content: center;">
                                       <input type="hidden" name="seatCategory" value="<%= seats.get(i).getSeatId() %>"/>
+
                                       <input type="hidden" name="flightDetailId" value="<%= f.getFlightId() %>"/>
                                       <input type="hidden" name="adult" value="${param.adult}"/>
                                       <input type="hidden" name="child" value="${param.child}"/>
