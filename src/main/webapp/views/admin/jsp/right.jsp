@@ -151,6 +151,24 @@
             </li>
 
             <li class="sidebar-dropdown">
+                <a href="javascript:void(0)"><i class="uil uil-flip-h me-2 d-inline-block"></i>Passengers</a>
+                <div class="sidebar-submenu">
+                    <ul>
+                        <li><a href="<%= request.getContextPath() %>/listPassengersURL">List of passengers</a></li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="sidebar-dropdown">
+                <a href="javascript:void(0)"><i class="uil uil-flip-h me-2 d-inline-block"></i>Payments</a>
+                <div class="sidebar-submenu">
+                    <ul>
+                        <li><a href="<%= request.getContextPath() %>/listPaymentsURL">List of payments</a></li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="sidebar-dropdown">
                 <a href="javascript:void(0)"><i
                         class="uil uil-sign-in-alt me-2 d-inline-block"></i>Updating</a>
                 <div class="sidebar-submenu">
