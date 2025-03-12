@@ -2,24 +2,24 @@ package model;
 
 public class Seats {
     private int seatId;
-    private int flightId;
+    private int airlineId;
     private int status;
     private int seatNumber;
     private String seatClass;
     private int isBooked;
 
 
-    public Seats(int seatId, int flightId, int status, int seatNumber, String seatClass, int isBooked) {
+    public Seats(int seatId, int airlineId, int status, int seatNumber, String seatClass, int isBooked) {
         this.seatId = seatId;
-        this.flightId = flightId;
+        this.airlineId = airlineId;
         this.status = status;
         this.seatNumber = seatNumber;
         this.seatClass = seatClass;
         this.isBooked = isBooked;
     }
 
-    public Seats(int flightId, int status, int seatNumber, String seatClass, int isBooked) {
-        this.flightId = flightId;
+    public Seats(int airlineId, int status, int seatNumber, String seatClass, int isBooked) {
+        this.airlineId = airlineId;
         this.status = status;
         this.seatNumber = seatNumber;
         this.seatClass = seatClass;
@@ -37,12 +37,12 @@ public class Seats {
         this.seatId = seatId;
     }
 
-    public int getFlightId() {
-        return flightId;
+    public int getAirlineId() {
+        return airlineId;
     }
 
-    public void setFlightId(int flightId) {
-        this.flightId = flightId;
+    public void setAirlineId(int airlineId) {
+        this.airlineId = airlineId;
     }
 
     public int getStatus() {
@@ -82,7 +82,7 @@ public class Seats {
     public String toString() {
         return "Seats{" +
                 "seatId=" + seatId +
-                ", flightId=" + flightId +
+                ", airlineId=" + airlineId +
                 ", status=" + status +
                 ", seatNumber=" + seatNumber +
                 ", seatClass='" + seatClass + '\'' +

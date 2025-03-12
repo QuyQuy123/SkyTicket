@@ -88,7 +88,7 @@
                 <div class="d-md-flex justify-content-between">
                     <h5 class="mb-0">
                         <c:choose>
-                            <c:when test="${isUpdate}">Update Flight ID: ${f.flightId}</c:when>
+                            <c:when test="${isUpdate}">Update Flight ID: ${f.airlineId}</c:when>
                             <c:otherwise>Add New Flight</c:otherwise>
                         </c:choose>
                     </h5>
@@ -236,7 +236,7 @@
                                     </c:when>
                                     <c:when test="${isUpdate}">
                                         <input type="hidden" name="action" value="update">
-                                        <input type="hidden" name="id" value="${f.flightId}">
+                                        <input type="hidden" name="id" value="${f.airlineId}">
                                         <button type="submit" class="btn btn-primary">Update Flight</button>
                                     </c:when>
                                 </c:choose>
