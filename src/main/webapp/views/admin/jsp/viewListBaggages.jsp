@@ -75,7 +75,7 @@
         <div class="container-fluid">
             <div class="layout-specing">
                 <div class="d-md-flex justify-content-between">
-                    <h5 class="mb-0">Seats List</h5>
+                    <h5 class="mb-0">Baggages List</h5>
 
                     <div class="search-bar p-0 d-none d-md-block ms-2">
                         <div id="search" class="menu-search mb-0">
@@ -106,7 +106,7 @@
                     <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
                         <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
                             <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/views/admin/jsp/Dashboard.jsp">SkyTicket</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Seats</li>
+                            <li class="breadcrumb-item active" aria-current="page">Baggages</li>
                         </ul>
                     </nav>
                 </div>
