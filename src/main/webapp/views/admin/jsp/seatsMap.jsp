@@ -190,6 +190,8 @@
                         </ul>
                     </nav>
                 </div>
+
+
                 <!-- Code phần seat ở đây-->
 
                 <div class="plane-container">
@@ -197,69 +199,129 @@
                             alt="control room"
                             src="${pageContext.request.contextPath}/views/admin/assets/images/airlines/control_room_airline.png">
                     </div>
+
                     <div class="plane">
                         <hr style="width: 80%; margin: 20px auto; border: 2px solid black;">
+
+                        <!-- Form ẩn để gửi dữ liệu bằng POST -->
+                        <form id="seatForm" action="${pageContext.request.contextPath}/listseats" method="POST">
+                            <input type="hidden" name="seatId" id="seatId">
+                            <input type="hidden" name="id" value="${airline.airlineId}">
+                        </form>
+
                         <!-- Ghế VIP -->
-                        <p>VIP seats</p>
-                        <c:set var="count" value="1"/>
-                        <c:forEach var="row" begin="1" end="${Math.ceil(airline.classVipCapacity / 6.0)}">
-                            <div class="row">
-                                <c:forEach var="i" begin="1" end="3">
-                                    <c:if test="${count <= airline.classVipCapacity}">
-                                        <div class="seat vip">${count}</div>
-                                        <c:set var="count" value="${count + 1}"/>
-                                    </c:if>
-                                </c:forEach>
-                                <div class="aisle"></div>
-                                <c:forEach var="i" begin="1" end="3">
-                                    <c:if test="${count <= airline.classVipCapacity}">
-                                        <div class="seat vip">${count}</div>
-                                        <c:set var="count" value="${count + 1}"/>
-                                    </c:if>
-                                </c:forEach>
-                            </div>
+                        <p>VIP Seats</p>
+                        <c:set var="count" value="0"/>
+                        <c:forEach var="seat" items="${seats}">
+                            <c:if test="${seat.seatClass eq 'Vip'}">
+                                <!-- Nếu là ghế đầu tiên của hàng mới, tạo div row -->
+                                <c:if test="${count % 6 == 0}">
+                                    <div class="row">
+                                </c:if>
+
+                                <!-- Hiển thị ghế -->
+                                <c:choose>
+                                    <c:when test="${seat.status == 1}">
+                                        <div class="seat vip">
+                                            <button style="background: none; border: none; padding: 0; font-size: inherit; color: inherit; cursor: pointer;"
+                                                    onclick="confirmChangeStatus('${seat.seatId}','${seat.seatNumber}', '${seat.seatClass}')">
+                                                    ${seat.seatNumber}
+                                            </button>
+                                        </div>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <div class="seat vip btn-soft-secondary">
+                                            <button style="background: none; border: none; padding: 0; font-size: inherit; color: inherit; cursor: pointer;"
+                                                    onclick="confirmChangeStatus('${seat.seatId}','${seat.seatNumber}', '${seat.seatClass}')">
+                                                ❌
+                                            </button>
+                                        </div>
+                                    </c:otherwise>
+                                </c:choose>
+
+
+                                <!-- Nếu đã hiển thị 3 ghế bên trái, thêm lối đi -->
+                                <c:if test="${(count + 1) % 6 == 3}">
+                                    <div class="aisle"></div>
+                                </c:if>
+
+                                <c:set var="count" value="${count + 1}"/>
+
+                                <!-- Nếu đủ 6 ghế, đóng div row -->
+                                <c:if test="${count % 6 == 0}">
+                                    </div>
+                                </c:if>
+                            </c:if>
                         </c:forEach>
 
-                        <hr style="width: 80%; margin: 20px auto; border: 2px solid black;">
-
-                        <!-- Ghế Thường -->
-                        <p>Economy Seats</p>
-                        <c:set var="count" value="1"/>
-                        <c:forEach var="row" begin="1" end="${Math.ceil(airline.classEconomyCapacity / 6.0)}">
-                            <div class="row">
-                                <c:forEach var="i" begin="1" end="3">
-                                    <c:if test="${count <= airline.classEconomyCapacity}">
-                                        <div class="seat regular">${count}</div>
-                                        <c:set var="count" value="${count + 1}"/>
-                                    </c:if>
-                                </c:forEach>
-                                <div class="aisle"></div>
-                                <c:forEach var="i" begin="1" end="3">
-                                    <c:if test="${count <= airline.classEconomyCapacity}">
-                                        <div class="seat regular">${count}</div>
-                                        <c:set var="count" value="${count + 1}"/>
-                                    </c:if>
-                                </c:forEach>
-                            </div>
-                        </c:forEach>
+                        <!-- Nếu hàng cuối chưa đủ 6 ghế, đóng hàng lại -->
+                        <c:if test="${count % 6 != 0}">
                     </div>
+                    </c:if>
 
                     <hr style="width: 80%; margin: 20px auto; border: 2px solid black;">
 
-                    <div class="plane-title"><img
-                            alt="airline tail"
-                            src="${pageContext.request.contextPath}/views/admin/assets/images/airlines/tail.png">
-                    </div>
+                    <!-- Ghế Economy -->
+                    <p>Economy Seats</p>
+                    <c:set var="count" value="0"/>
+                    <c:forEach var="seat" items="${seats}">
+                        <c:if test="${seat.seatClass eq 'Economy'}">
+                            <c:if test="${count % 6 == 0}">
+                                <div class="row">
+                            </c:if>
+
+                            <c:choose>
+                                <c:when test="${seat.status == 1}">
+                                    <div class="seat regular">
+                                        <button style="background: none; border: none; padding: 0; font-size: inherit; color: inherit; cursor: pointer;"
+                                                onclick="confirmChangeStatus('${seat.seatId}','${seat.seatNumber}', '${seat.seatClass}')">
+                                                ${seat.seatNumber}
+                                        </button>
+                                    </div>
+                                </c:when>
+                                <c:otherwise>
+                                    <div class="seat regular btn-soft-secondary">
+                                        <button style="background: none; border: none; padding: 0; font-size: inherit; color: inherit; cursor: pointer;"
+                                                onclick="confirmChangeStatus('${seat.seatId}','${seat.seatNumber}', '${seat.seatClass}')">
+                                            ❌
+                                        </button>
+                                    </div>
+                                </c:otherwise>
+                            </c:choose>
+
+                            <c:if test="${(count + 1) % 6 == 3}">
+                                <div class="aisle"></div>
+                            </c:if>
+
+                            <c:set var="count" value="${count + 1}"/>
+
+                            <c:if test="${count % 6 == 0}">
+                                </div>
+                            </c:if>
+                        </c:if>
+                    </c:forEach>
+
+                    <c:if test="${count % 6 != 0}">
                 </div>
+                </c:if>
 
 
-                <!-- hết phần seat-->
+                <hr style="width: 80%; margin: 20px auto; border: 2px solid black;">
+
+                <div class="plane-title"><img
+                        alt="airline tail"
+                        src="${pageContext.request.contextPath}/views/admin/assets/images/airlines/tail.png">
+                </div>
             </div>
-        </div><!--end container-->
 
-        <%@include file="bottom.jsp" %>
-    </main>
-    <!--End page-content" -->
+
+            <!-- hết phần seat-->
+        </div>
+</div><!--end container-->
+
+<%@include file="bottom.jsp" %>
+</main>
+<!--End page-content" -->
 </div>
 <!-- page-wrapper -->
 
@@ -277,6 +339,15 @@
 <!-- Main Js -->
 <script src="${pageContext.request.contextPath}/views/admin/assets/js/app.js"></script>
 
+<script>
+    function confirmChangeStatus(seatId, seatNumber, seatClass) {
+        let confirmMsg = "Bạn có muốn chuyển trạng thái ghế " + seatClass + " " + seatNumber + " không?";
 
+        if (confirm(confirmMsg)) {
+            document.getElementById("seatId").value = seatId; // Đưa seatId vào form
+            document.getElementById("seatForm").submit(); // Gửi form bằng POST
+        }
+    }
+</script>
 </body>
 </html>

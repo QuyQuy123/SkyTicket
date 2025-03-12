@@ -56,21 +56,17 @@ public class AirlinesAddServlet extends HttpServlet {
             Airlines airline = new Airlines(airlineName, fileName, information, status, classVip, classEconomy);
             AirlinesDAO airlineDAO = new AirlinesDAO();
 
-//            if(airlineDAO.isAirlineNameExists(airlineName)){
-//                request.setAttribute("msg", "Airline name already exists");
-//                request.getRequestDispatcher("/views/admin/jsp/addAirline.jsp").forward(request, response);
-//            }
+            int success = airlineDAO.addAirline(airline);
 
-            boolean success = airlineDAO.addAirline(airline);
-
-            if (success) {
+            if (success != 0) {
+                int airlineId = success;
                 SeatsDAO seatsDAO = new SeatsDAO();
                 for (int i = 1; i <= classVip; i++) {
-                    Seats seat = new Seats(airline.getAirlineId(), 1, i, "Vip", 0);
-                    seatsDAO.createSeat(seat);
+                    Seats seat = new Seats(airlineId, 1, i, "Vip", 0);
+                    seatsDAO.createSeat(seat); //nhwos theem hamf check
                 }
                 for (int i = 1; i <= classEconomy; i++) {
-                    Seats seat = new Seats(airline.getAirlineId(), 1, i, "Economy", 0);
+                    Seats seat = new Seats(airlineId, 1, i, "Economy", 0);
                     seatsDAO.createSeat(seat);
                 }
                 request.setAttribute("msg", "Airline added successfully");

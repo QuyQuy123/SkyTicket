@@ -35,7 +35,7 @@ public class SeatsDAO extends DBConnect{
     }
     public List<Seats> getAllSeatByAirlineId(int id) {
         List<Seats> seatCategories = new ArrayList<>();
-        String sql = "SELECT * FROM Seats WHERE AirlineId = ?";
+        String sql = "SELECT * FROM Seats WHERE AirlineId = ? ORDER BY SeatNumber ASC";
         PreparedStatement ps = null;
         ResultSet rs = null;
 
@@ -115,6 +115,20 @@ public class SeatsDAO extends DBConnect{
         }
         return false;
     }
+
+    public boolean updateSeatStatus(int seatId, int newStatus) {
+        String sql = "UPDATE Seats SET Status = ? WHERE SeatId = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, newStatus);
+            ps.setInt(2, seatId);
+
+            return ps.executeUpdate() > 0; // Trả về true nếu có ít nhất 1 dòng bị ảnh hưởng
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
 
 
 
