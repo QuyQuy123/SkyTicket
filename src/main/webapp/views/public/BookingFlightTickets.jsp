@@ -393,13 +393,17 @@
                                     <div class="passenger-info-input-box"  >
                                         <div class="passenger-info-input-title" style="width: 121px">Baggage:</div>
                                         <select name="pBaggages<%=i+totalPassengers/2%>" id="baggage<%=i+totalPassengers/2%>" onchange="updateTotalBaggage()">
-                                            <option value="0">Buy 0kg extra checked baggage - 0đ</option>
-<%--                                            <% for(Baggages b : bmd.getAllBaggagesByAirline(airlineId2)){--%>
-<%--                                            %>--%>
-<%--                                            <option value="<%=b.getId()%>" data-price="<%=b.getPrice()%>" >Buy <%=b.getWeight()%>kg extra checked baggage - <%=currencyFormatter.format(b.getPrice())%></option>--%>
-<%--                                            <%--%>
-<%--                                                }--%>
-<%--                                            %>--%>
+                                            <option value="0">Buy 0kg extra checked baggage - <%=currencyFormatter.format(0)%>></option>
+                                            <% for(Baggages b : bd.getAllBaggagesByAirline(airlineId)){
+                                                if(b.getStatus() == 1){
+                                            %>
+                                            <option value="<%=b.getBaggageId()%>" data-price="<%=b.getPrice()%>">Buy <%=b.getWeight()%>kg extra checked baggage - <%=currencyFormatter.format(b.getPrice())%></option>
+                                            <%
+                                                    }
+                                                }
+                                            %>
+
+
                                         </select>
                                     </div>
                                     <div class="passenger-info-input-box">
@@ -512,7 +516,7 @@
             </div>
 
 
-
+<%--hóa đơn--%>
             <div class="main-container2 passenger-info" style="width: 30%; height: fit-content">
                 <div style="width: 100%; text-align: center; font-size: 20px; color: #3C6E57; margin-bottom: 20px; letter-spacing: 1px;">
                     <p>INVOICE</p>
@@ -550,34 +554,27 @@
                         // Tổng giá vé
                         double totalTicketPrice = adultTotalPrice + childTotalPrice + infantTotalPrice;
 
-                        // Giá hành lý
-                        double baggagePrice = 0; // Lấy từ id="totalBaggage" nếu có
 
-                        // Tổng cuối cùng
-                        double grandTotal = totalTicketPrice + baggagePrice;
-
-                        // Định dạng tiền tệ
-                         currencyFormatter = NumberFormat.getInstance(new Locale("vi", "VN"));
                     %>
                     <div class="ticket-item">
                         <span>Adult Ticket x <%= adultTicket * m %></span>
-                        <span>= <%= currencyFormatter.format(adultTotalPrice) %> ₫</span>
+                        <span>= <%= currencyFormatter.format(adultTotalPrice) %> </span>
                     </div>
                     <div class="ticket-item">
                         <span>Children Ticket x <%= childTicket * m %></span>
-                        <span>= <%= currencyFormatter.format(childTotalPrice) %> ₫</span>
+                        <span>= <%= currencyFormatter.format(childTotalPrice) %> </span>
                     </div>
                     <div class="ticket-item">
                         <span>Infant Ticket x <%= infantTicket * m %></span>
-                        <span>= <%= currencyFormatter.format(infantTotalPrice) %> ₫</span>
+                        <span>= <%= currencyFormatter.format(infantTotalPrice) %></span>
                     </div>
                     <div class="ticket-item">
                         <span>Baggage</span>
-                        <span id="totalBaggage">= <%= currencyFormatter.format(baggagePrice) %> ₫</span>
+                        <span id="totalBaggage">= 0 ₫</span>
                     </div>
                     <div class="ticket-total">
                         <span>Total Price:</span>
-                        <span id="totalPrice"><%= currencyFormatter.format(grandTotal) %> ₫</span>
+                        <span id="totalPrice" data-total-ticket-price="<%= totalTicketPrice %>"><%= currencyFormatter.format(totalTicketPrice) %> ₫</span>
                     </div>
                 </div>
                 <div style="width: 100%">
@@ -587,20 +584,15 @@
                 </div>
             </div>
 
-
-
-
-
-        </div>
-
-            <%
-//Modal chọn ghế
-for(int j = 1; j<=totalPassengers;j++){ %>
-        <div class="modal fade " id="seatModal<%=j%>"  tabindex="-1" aria-labelledby="seatModalLabel" aria-hidden="true">
+<%--  Modal chọn ghế--%>
+                <%for (int j = 1; j <= totalPassengers; j++) { %>
+        <div class="modal fade " id="seatModal<%=j%>" tabindex="-1" aria-labelledby="seatModalLabel" aria-hidden="true">
             <div class="modal-dialog" style="min-width: 45%">
                 <div class="modal-content">
                     <div class="modal-header" style="padding:5px 5px;">
-                        <button type="button" class="close" style="font-size: 30px; margin-right: 12px;" data-dismiss="modal">×</button>
+                        <button type="button" class="close" style="font-size: 30px; margin-right: 12px;"
+                                data-dismiss="modal">×
+                        </button>
                         <h4 style="margin-left: 12px">Choose seat</h4>
                     </div>
                     <div style="display: flex;padding: 30px; justify-content: space-around">
@@ -609,14 +601,14 @@ for(int j = 1; j<=totalPassengers;j++){ %>
                                 <%
                                     TicketsDAO td = new TicketsDAO();
                                     int rowNumber = 0; // Bắt đầu từ hàng 0
-                                    String[] seatLetters = {"0", "1", "2", "3", "4", "5","6"}; // 7 cột
+                                    String[] seatLetters = {"0", "1", "2", "3", "4", "5", "6"}; // 7 cột
 
                                     int seatIndex = 0;
 
                                     int numberOfSeat = s.getSeatNumber();
                                     String seatCat = s.getSeatClass();
                                     List<String> bookedSeats = td.getAllTicketCodesById(flightlId, s.getSeatId());
-                                    if(j>adultTicket+childTicket+infantTicket){
+                                    if (j > adultTicket + childTicket + infantTicket) {
                                         numberOfSeat = 10;
                                         seatCat = s.getSeatClass();
                                         bookedSeats = td.getAllTicketCodesById(flightlId, s.getSeatId());
@@ -627,8 +619,9 @@ for(int j = 1; j<=totalPassengers;j++){ %>
                                 %>
                                 <thead>
                                 <tr>
-                                    <% for (int i = 0; i < 7; i++) { %>
-                                    <th style="padding-left: 15px;"><%= seatLetters[i] %></th>
+                                    <% for (int i = 0; i < 6; i++) { %>
+                                    <th style="padding-left: 15px;"><%= seatLetters[i] %>
+                                    </th>
                                     <% if (i == 2) { %> <!-- Thêm khoảng trống sau cột 2 -->
                                     <th style="padding-left: 15px; width: 40px"></th>
                                     <% }
@@ -656,14 +649,27 @@ for(int j = 1; j<=totalPassengers;j++){ %>
                                         <div onclick="handleSeatClick(this, '<%= seatColor %>', <%= j %>)"
                                              data-disabled="false" style="padding-right: 10px" data-color="#B8B8B8">
                                             <div class="seat-container">
-                                                <svg width="40" height="32" viewBox="0 0 40 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <rect x="8.75" y="2.75" width="22.5" height="26.5" rx="2.25" fill="<%= seatColor %>" stroke="<%= strokeColor %>" stroke-width="1.5" stroke-linejoin="round"></rect>
-                                                    <rect x="10.25" y="11.75" width="14.5" height="5.5" rx="2.25" transform="rotate(90 10.25 11.75)" fill="<%= seatColor %>" stroke="<%= strokeColor %>" stroke-width="1.5" stroke-linejoin="round"></rect>
-                                                    <rect x="35.25" y="11.75" width="14.5" height="5.5" rx="2.25" transform="rotate(90 35.25 11.75)" fill="<%= seatColor %>" stroke="<%= strokeColor %>" stroke-width="1.5" stroke-linejoin="round"></rect>
-                                                    <rect x="8.75" y="22.75" width="22.5" height="6.5" rx="2.25" fill="<%= seatColor %>" stroke="<%= strokeColor %>" stroke-width="1.5" stroke-linejoin="round"></rect>
-                                                    <path class="icon-selected" d="M20 6.333A6.67 6.67 0 0 0 13.334 13 6.67 6.67 0 0 0 20 19.667 6.67 6.67 0 0 0 26.667 13 6.669 6.669 0 0 0 20 6.333zm-1.333 10L15.333 13l.94-.94 2.394 2.387 5.06-5.06.94.946-6 6z" fill="transparent"></path>
+                                                <svg width="40" height="32" viewBox="0 0 40 32" fill="none"
+                                                     xmlns="http://www.w3.org/2000/svg">
+                                                    <rect x="8.75" y="2.75" width="22.5" height="26.5" rx="2.25"
+                                                          fill="<%= seatColor %>" stroke="<%= strokeColor %>"
+                                                          stroke-width="1.5" stroke-linejoin="round"></rect>
+                                                    <rect x="10.25" y="11.75" width="14.5" height="5.5" rx="2.25"
+                                                          transform="rotate(90 10.25 11.75)" fill="<%= seatColor %>"
+                                                          stroke="<%= strokeColor %>" stroke-width="1.5"
+                                                          stroke-linejoin="round"></rect>
+                                                    <rect x="35.25" y="11.75" width="14.5" height="5.5" rx="2.25"
+                                                          transform="rotate(90 35.25 11.75)" fill="<%= seatColor %>"
+                                                          stroke="<%= strokeColor %>" stroke-width="1.5"
+                                                          stroke-linejoin="round"></rect>
+                                                    <rect x="8.75" y="22.75" width="22.5" height="6.5" rx="2.25"
+                                                          fill="<%= seatColor %>" stroke="<%= strokeColor %>"
+                                                          stroke-width="1.5" stroke-linejoin="round"></rect>
+                                                    <path class="icon-selected"
+                                                          d="M20 6.333A6.67 6.67 0 0 0 13.334 13 6.67 6.67 0 0 0 20 19.667 6.67 6.67 0 0 0 26.667 13 6.669 6.669 0 0 0 20 6.333zm-1.333 10L15.333 13l.94-.94 2.394 2.387 5.06-5.06.94.946-6 6z"
+                                                          fill="transparent"></path>
                                                 </svg>
-                                                <input type="hidden" class="seatName" value="<%= seatCode %>" />
+                                                <input type="hidden" class="seatName" value="<%= seatCode %>"/>
                                             </div>
                                         </div>
                                     </td>
@@ -673,7 +679,7 @@ for(int j = 1; j<=totalPassengers;j++){ %>
                                     <td></td> <!-- Để trống cột giữa làm hành lang, không cho phép chọn -->
                                     <%
                                         // Bên phải: 3 cột (4, 5, 6)
-                                        for (int col = 3; col < 7; col++) {
+                                        for (int col = 3; col < 6; col++) {
                                             String seatCode = seatLetters[col] + row; // Tạo mã ghế (40, 50, 60, ..., 41, 51, 61, ...)
                                             String seatColor = bookedSeats.contains(seatCode) ? "#D8D8D8" : "#FFF";
                                             String strokeColor = "#B8B8B8";
@@ -687,14 +693,27 @@ for(int j = 1; j<=totalPassengers;j++){ %>
                                         <div onclick="handleSeatClick(this, '<%= seatColor %>', <%= j %>)"
                                              data-disabled="false" style="padding-right: 10px" data-color="#B8B8B8">
                                             <div class="seat-container">
-                                                <svg width="40" height="32" viewBox="0 0 40 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <rect x="8.75" y="2.75" width="22.5" height="26.5" rx="2.25" fill="<%= seatColor %>" stroke="<%= strokeColor %>" stroke-width="1.5" stroke-linejoin="round"></rect>
-                                                    <rect x="10.25" y="11.75" width="14.5" height="5.5" rx="2.25" transform="rotate(90 10.25 11.75)" fill="<%= seatColor %>" stroke="<%= strokeColor %>" stroke-width="1.5" stroke-linejoin="round"></rect>
-                                                    <rect x="35.25" y="11.75" width="14.5" height="5.5" rx="2.25" transform="rotate(90 35.25 11.75)" fill="<%= seatColor %>" stroke="<%= strokeColor %>" stroke-width="1.5" stroke-linejoin="round"></rect>
-                                                    <rect x="8.75" y="22.75" width="22.5" height="6.5" rx="2.25" fill="<%= seatColor %>" stroke="<%= strokeColor %>" stroke-width="1.5" stroke-linejoin="round"></rect>
-                                                    <path class="icon-selected" d="M20 6.333A6.67 6.67 0 0 0 13.334 13 6.67 6.67 0 0 0 20 19.667 6.67 6.67 0 0 0 26.667 13 6.669 6.669 0 0 0 20 6.333zm-1.333 10L15.333 13l.94-.94 2.394 2.387 5.06-5.06.94.946-6 6z" fill="transparent"></path>
+                                                <svg width="40" height="32" viewBox="0 0 40 32" fill="none"
+                                                     xmlns="http://www.w3.org/2000/svg">
+                                                    <rect x="8.75" y="2.75" width="22.5" height="26.5" rx="2.25"
+                                                          fill="<%= seatColor %>" stroke="<%= strokeColor %>"
+                                                          stroke-width="1.5" stroke-linejoin="round"></rect>
+                                                    <rect x="10.25" y="11.75" width="14.5" height="5.5" rx="2.25"
+                                                          transform="rotate(90 10.25 11.75)" fill="<%= seatColor %>"
+                                                          stroke="<%= strokeColor %>" stroke-width="1.5"
+                                                          stroke-linejoin="round"></rect>
+                                                    <rect x="35.25" y="11.75" width="14.5" height="5.5" rx="2.25"
+                                                          transform="rotate(90 35.25 11.75)" fill="<%= seatColor %>"
+                                                          stroke="<%= strokeColor %>" stroke-width="1.5"
+                                                          stroke-linejoin="round"></rect>
+                                                    <rect x="8.75" y="22.75" width="22.5" height="6.5" rx="2.25"
+                                                          fill="<%= seatColor %>" stroke="<%= strokeColor %>"
+                                                          stroke-width="1.5" stroke-linejoin="round"></rect>
+                                                    <path class="icon-selected"
+                                                          d="M20 6.333A6.67 6.67 0 0 0 13.334 13 6.67 6.67 0 0 0 20 19.667 6.67 6.67 0 0 0 26.667 13 6.669 6.669 0 0 0 20 6.333zm-1.333 10L15.333 13l.94-.94 2.394 2.387 5.06-5.06.94.946-6 6z"
+                                                          fill="transparent"></path>
                                                 </svg>
-                                                <input type="hidden" class="seatName" value="<%= seatCode %>" />
+                                                <input type="hidden" class="seatName" value="<%= seatCode %>"/>
                                             </div>
                                         </div>
                                     </td>
@@ -709,29 +728,52 @@ for(int j = 1; j<=totalPassengers;j++){ %>
                         <div>
                             <div style="padding-top: 20px">
                                 <div style="margin-bottom: 10px">
-                                    <svg width="40" height="32" viewBox="0 0 40 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <rect x="8.75" y="2.75" width="22.5" height="26.5" rx="2.25" fill="#FFF" stroke="#B8B8B8" stroke-width="1.5" stroke-linejoin="round"></rect>
-                                        <rect x="10.25" y="11.75" width="14.5" height="5.5" rx="2.25" transform="rotate(90 10.25 11.75)" fill="#FFF" stroke="#B8B8B8" stroke-width="1.5" stroke-linejoin="round"></rect>
-                                        <rect x="35.25" y="11.75" width="14.5" height="5.5" rx="2.25" transform="rotate(90 35.25 11.75)" fill="#FFF" stroke="#B8B8B8" stroke-width="1.5" stroke-linejoin="round"></rect>
-                                        <rect x="8.75" y="22.75" width="22.5" height="6.5" rx="2.25" fill="#FFF" stroke="#B8B8B8" stroke-width="1.5" stroke-linejoin="round"></rect>
+                                    <svg width="40" height="32" viewBox="0 0 40 32" fill="none"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <rect x="8.75" y="2.75" width="22.5" height="26.5" rx="2.25" fill="#FFF"
+                                              stroke="#B8B8B8" stroke-width="1.5" stroke-linejoin="round"></rect>
+                                        <rect x="10.25" y="11.75" width="14.5" height="5.5" rx="2.25"
+                                              transform="rotate(90 10.25 11.75)" fill="#FFF" stroke="#B8B8B8"
+                                              stroke-width="1.5" stroke-linejoin="round"></rect>
+                                        <rect x="35.25" y="11.75" width="14.5" height="5.5" rx="2.25"
+                                              transform="rotate(90 35.25 11.75)" fill="#FFF" stroke="#B8B8B8"
+                                              stroke-width="1.5" stroke-linejoin="round"></rect>
+                                        <rect x="8.75" y="22.75" width="22.5" height="6.5" rx="2.25" fill="#FFF"
+                                              stroke="#B8B8B8" stroke-width="1.5" stroke-linejoin="round"></rect>
                                     </svg>
                                     Empty Seat
                                 </div>
                                 <div style="margin-bottom: 10px">
-                                    <svg width="40" height="32" viewBox="0 0 40 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <rect x="8.75" y="2.75" width="22.5" height="26.5" rx="2.25" fill="rgb(139, 229, 176)" stroke="green" stroke-width="1.5" stroke-linejoin="round"></rect>
-                                        <rect x="10.25" y="11.75" width="14.5" height="5.5" rx="2.25" transform="rotate(90 10.25 11.75)" fill="rgb(139, 229, 176)" stroke="green" stroke-width="1.5" stroke-linejoin="round"></rect>
-                                        <rect x="35.25" y="11.75" width="14.5" height="5.5" rx="2.25" transform="rotate(90 35.25 11.75)" fill="rgb(139, 229, 176)" stroke="green" stroke-width="1.5" stroke-linejoin="round"></rect>
-                                        <rect x="8.75" y="22.75" width="22.5" height="6.5" rx="2.25" fill="rgb(139, 229, 176)" stroke="green" stroke-width="1.5" stroke-linejoin="round"></rect>
+                                    <svg width="40" height="32" viewBox="0 0 40 32" fill="none"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <rect x="8.75" y="2.75" width="22.5" height="26.5" rx="2.25"
+                                              fill="rgb(139, 229, 176)" stroke="green" stroke-width="1.5"
+                                              stroke-linejoin="round"></rect>
+                                        <rect x="10.25" y="11.75" width="14.5" height="5.5" rx="2.25"
+                                              transform="rotate(90 10.25 11.75)" fill="rgb(139, 229, 176)"
+                                              stroke="green" stroke-width="1.5" stroke-linejoin="round"></rect>
+                                        <rect x="35.25" y="11.75" width="14.5" height="5.5" rx="2.25"
+                                              transform="rotate(90 35.25 11.75)" fill="rgb(139, 229, 176)"
+                                              stroke="green" stroke-width="1.5" stroke-linejoin="round"></rect>
+                                        <rect x="8.75" y="22.75" width="22.5" height="6.5" rx="2.25"
+                                              fill="rgb(139, 229, 176)" stroke="green" stroke-width="1.5"
+                                              stroke-linejoin="round"></rect>
                                     </svg>
                                     Selected Seat
                                 </div>
                                 <div style="margin-bottom: 10px">
-                                    <svg width="40" height="32" viewBox="0 0 40 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <rect x="8.75" y="2.75" width="22.5" height="26.5" rx="2.25" fill="#D8D8D8" stroke="#B8B8B8" stroke-width="1.5" stroke-linejoin="round"></rect>
-                                        <rect x="10.25" y="11.75" width="14.5" height="5.5" rx="2.25" transform="rotate(90 10.25 11.75)" fill="#D8D8D8" stroke="#B8B8B8" stroke-width="1.5" stroke-linejoin="round"></rect>
-                                        <rect x="35.25" y="11.75" width="14.5" height="5.5" rx="2.25" transform="rotate(90 35.25 11.75)" fill="#D8D8D8" stroke="##B8B8B8" stroke-width="1.5" stroke-linejoin="round"></rect>
-                                        <rect x="8.75" y="22.75" width="22.5" height="6.5" rx="2.25" fill="#D8D8D8" stroke="#B8B8B8" stroke-width="1.5" stroke-linejoin="round"></rect>
+                                    <svg width="40" height="32" viewBox="0 0 40 32" fill="none"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <rect x="8.75" y="2.75" width="22.5" height="26.5" rx="2.25" fill="#D8D8D8"
+                                              stroke="#B8B8B8" stroke-width="1.5" stroke-linejoin="round"></rect>
+                                        <rect x="10.25" y="11.75" width="14.5" height="5.5" rx="2.25"
+                                              transform="rotate(90 10.25 11.75)" fill="#D8D8D8" stroke="#B8B8B8"
+                                              stroke-width="1.5" stroke-linejoin="round"></rect>
+                                        <rect x="35.25" y="11.75" width="14.5" height="5.5" rx="2.25"
+                                              transform="rotate(90 35.25 11.75)" fill="#D8D8D8" stroke="##B8B8B8"
+                                              stroke-width="1.5" stroke-linejoin="round"></rect>
+                                        <rect x="8.75" y="22.75" width="22.5" height="6.5" rx="2.25" fill="#D8D8D8"
+                                              stroke="#B8B8B8" stroke-width="1.5" stroke-linejoin="round"></rect>
                                     </svg>
                                     Booked Seat
                                 </div>
@@ -747,8 +789,9 @@ for(int j = 1; j<=totalPassengers;j++){ %>
                 </div>
             </div>
             <% } %>
-
         </div>
+
+
     </div>
 
 </main>
@@ -915,35 +958,44 @@ for(int j = 1; j<=totalPassengers;j++){ %>
     function updateTotalBaggage() {
         var totalBaggage = 0;
         var baggageId = 0;
-        for (var i = 1; i <= <%=adultTicket%>; i++) {
-            var baggageElement = document.getElementById("baggage" + i);
-            baggageId = parseInt(baggageElement ? baggageElement.value : 0);
-            if (baggageId !== 0) {
-                var selectedOption = baggageElement.options[baggageElement.selectedIndex];
-                console.log(parseInt(selectedOption.getAttribute('data-price')));
-                totalBaggage += parseInt(selectedOption.getAttribute('data-price'));
-            }
 
-        }
-        for (var i = <%=adultTicket+childTicket+infantTicket+1%>; i <= <%=totalPassengers%>; i++) {
+        // Tính giá hành lý cho hành khách người lớn (1 đến adultTicket)
+        for (var i = 1; i <= <%= adultTicket %>; i++) {
             var baggageElement = document.getElementById("baggage" + i);
             baggageId = parseInt(baggageElement ? baggageElement.value : 0);
             if (baggageId !== 0) {
                 var selectedOption = baggageElement.options[baggageElement.selectedIndex];
-                console.log(parseInt(selectedOption.getAttribute('data-price')));
                 totalBaggage += parseInt(selectedOption.getAttribute('data-price'));
             }
         }
-        document.getElementById("totalBaggage").innerText = "= " + new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(totalBaggage);
+
+        // Tính giá hành lý cho hành khách còn lại (từ adultTicket + childTicket + infantTicket + 1 đến totalPassengers)
+        for (var i = <%= adultTicket + childTicket + infantTicket + 1 %>; i <= <%= totalPassengers %>; i++) {
+            var baggageElement = document.getElementById("baggage" + i);
+            baggageId = parseInt(baggageElement ? baggageElement.value : 0);
+            if (baggageId !== 0) {
+                var selectedOption = baggageElement.options[baggageElement.selectedIndex];
+                totalBaggage += parseInt(selectedOption.getAttribute('data-price'));
+            }
+        }
+
+        // Cập nhật giá hành lý hiển thị
+        document.getElementById("totalBaggage").innerText = "= " + new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(totalBaggage);
+
+        // Gọi hàm cập nhật tổng giá
         updateTotalPrice(totalBaggage);
     }
 
-    <%--function updateTotalPrice(totalBaggage) {--%>
-    <%--    var a = <%= (f.getPrice() * (sc.getSurcharge()+1)+ ((m==2)?fd2.getPrice() * (sc2.getSurcharge()+1):0)) *--%>
-    <%--                            (adultTicket * ptd.getPassengerTypePriceById(1) + childTicket* ptd.getPassengerTypePriceById(2) + infantTicket* ptd.getPassengerTypePriceById(3)) %>;--%>
-    <%--    var total = a + totalBaggage;--%>
-    <%--    document.getElementById("totalPrice").innerText = new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(total);--%>
-    <%--}--%>
+    function updateTotalPrice(totalBaggage) {
+        // Lấy giá vé cơ bản từ thuộc tính data-total-ticket-price
+        var totalTicketPrice = parseFloat(document.getElementById("totalPrice").getAttribute('data-total-ticket-price'));
+
+        // Tính tổng giá: giá vé cơ bản + giá hành lý
+        var total = totalTicketPrice + totalBaggage;
+
+        // Cập nhật hiển thị tổng giá
+        document.getElementById("totalPrice").innerText = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(total);
+    }
     window.openSeatModal = openSeatModal;
 
 </script>
