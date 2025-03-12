@@ -14,7 +14,7 @@ public class TicketsDAO extends DBConnect{
         String sql = "SELECT t.Code \n" +
                 "FROM Tickets t\n" +
                 "JOIN Seats s ON t.SeatId = s.SeatId\n" +
-                "JOIN Flights f ON s.FlightId = f.FlightId\n" +
+                "JOIN Flights f ON t.FlightId = f.FlightId\n" +
                 "WHERE f.FlightId = ? \n" +
                 "AND s.SeatClass = ?;\n   ";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -34,35 +34,7 @@ public class TicketsDAO extends DBConnect{
     }
 
 
-    public Tickets getTicketByCode(String code, int flightId, int seatId) {
-        String sql = "SELECT t.* FROM Tickets t "
-                + "JOIN Seats s ON t.SeatId = s.SeatId "
-                + "WHERE t.Code = ? AND s.FlightId = ? "
-                + "AND (t.Status = 10 OR t.Status = 12) AND s.SeatId = ?";
 
-        try (PreparedStatement ps = connection.prepareStatement(sql);){
-            ps.setString(1, code);
-            ps.setInt(2, flightId);
-            ps.setInt(3, seatId);
-
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                 return new Tickets(
-                        rs.getInt("ticketId"),
-                        rs.getInt("seatId"),
-                        rs.getString("code"),
-                        rs.getDouble("totalPrice"),
-                        rs.getInt("bookingDetailId"),
-                        rs.getInt("status"),
-                        rs.getTimestamp("createAt")
-                );
-
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
 
 

@@ -1,17 +1,14 @@
 package controller;
 
-import dal.AirlinesDAO;
 import dal.BaggageDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.Airlines;
-import model.Baggage;
+import model.Baggages;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 
 @WebServlet(name = "BaggagesListServlet", value = "/BaggagesList")
@@ -40,7 +37,7 @@ public class BaggagesListServlet extends HttpServlet {
         if (page > totalPages) page = totalPages;
 
         // Lấy danh sách hành lý theo trang
-        List<Baggage> listBaggages = baggageDAO.getBaggagesByPage((page - 1) * RECORDS_PER_PAGE, RECORDS_PER_PAGE);
+        List<Baggages> listBaggages = baggageDAO.getBaggagesByPage((page - 1) * RECORDS_PER_PAGE, RECORDS_PER_PAGE);
 
         // Nếu trang hiện tại không có dữ liệu và lớn hơn 1, giảm trang xuống
         if (listBaggages.isEmpty() && page > 1) {

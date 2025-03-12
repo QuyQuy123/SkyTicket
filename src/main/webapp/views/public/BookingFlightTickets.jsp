@@ -186,6 +186,7 @@
     AirportsDAO apd = new AirportsDAO();
     LocationsDAO ld = new LocationsDAO();
     CountriesDAO cd = new CountriesDAO();
+    BaggageDAO bd = new BaggageDAO();
 
 
     int adultTicket = Integer.parseInt(request.getParameter("adult"));
@@ -194,6 +195,7 @@
     int totalPassengers = adultTicket + childTicket +infantTicket;
 
     Seats s = sd.getSeatById(Integer.parseInt(request.getParameter("seatCategory")));
+
     int flightlId = Integer.parseInt(request.getParameter("flightDetailId"));
     Flights f = fd.getFlightById(flightlId);
     int airlineId = f.getAirlineId();
@@ -368,14 +370,14 @@
                                         <div class="passenger-info-input-title" style="width: 121px">Baggage:</div>
                                         <select name="pBaggages<%=i%>" id="baggage<%=i%>" onchange="updateTotalBaggage()">
                                             <option value="0">Buy 0kg extra checked baggage - <%=currencyFormatter.format(0)%>></option>
-<%--                                            <% for(Baggages b : bmd.getAllBaggagesByAirline(airlineId)){--%>
-<%--                                                if(b.getStatusId() == 1){--%>
-<%--                                            %>--%>
-<%--                                            <option value="<%=b.getId()%>" data-price="<%=b.getPrice()%>">Buy <%=b.getWeight()%>kg extra checked baggage - <%=currencyFormatter.format(b.getPrice())%></option>--%>
-<%--                                            <%--%>
-<%--                                                    }--%>
-<%--                                                }--%>
-<%--                                            %>--%>
+                                            <% for(Baggages b : bd.getAllBaggagesByAirline(airlineId)){
+                                                if(b.getStatus() == 1){
+                                            %>
+                                            <option value="<%=b.getBaggageId()%>" data-price="<%=b.getPrice()%>">Buy <%=b.getWeight()%>kg extra checked baggage - <%=currencyFormatter.format(b.getPrice())%></option>
+                                            <%
+                                                    }
+                                                }
+                                            %>
                                         </select>
                                     </div>
                                     <div class="passenger-info-input-box">
@@ -509,87 +511,6 @@
 
             </div>
 
-<%--            <!-- hoá đơn -->--%>
-<%--            <div class="main-container2 passenger-info" style="width: 30%; height: fit-content">--%>
-<%--                <div style="width: 100%; text-align: center;--%>
-<%--                         font-size: 20px;--%>
-<%--                         color: #333;--%>
-<%--                         margin-bottom: 20px;--%>
-<%--                         color: #3C6E57;--%>
-<%--                         letter-spacing: 1px;"><p>INVOICE</p></div>--%>
-<%--                <div class="ticket-pricing">--%>
-<%--                    <%--%>
-<%--                        // Lấy giá vé cho từng hạng ghế--%>
-<%--                        double vipPrice = f.getClassVipPrice();    // Giá Business--%>
-<%--                        double economyPrice = f.getClassEconomyPrice(); // Giá Economy--%>
-
-<%--                        // Tính tiền cho người lớn--%>
-<%--                        double adultPrice = (s.getSeatClass().equals("Business") ? vipPrice : economyPrice) * adultTicket;--%>
-
-<%--                        // Tính tiền cho trẻ em (giả định 50% giá người lớn)--%>
-<%--                        double childPrice = (s.getSeatClass().equals("Business") ? (vipPrice * 0.5) : (economyPrice * 0.5)) * childTicket;--%>
-
-<%--                        // Tính tiền cho trẻ sơ sinh (giả định 10% giá người lớn)--%>
-<%--                        double infantPrice = (s.getSeatClass().equals("Business") ? (vipPrice * 0.1) : (economyPrice * 0.1)) * infantTicket;--%>
-
-<%--                        // Lấy tổng giá vé (chưa nhân m)--%>
-<%--                        double totalTicketPrice = adultPrice + childPrice + infantPrice;--%>
-
-<%--                        // Nếu là round-trip (m = 2), nhân với số lượt--%>
-<%--                        double totalFlightPrice = (m == 2) ? totalTicketPrice * 2 : totalTicketPrice;--%>
-
-<%--                        // Lấy tổng tiền hành lý (giả định từ JavaScript, khởi tạo 0 nếu chưa có)--%>
-<%--                        double baggagePrice = 0; // Cần lấy từ id="totalBaggage" qua JavaScript hoặc server-side--%>
-
-<%--                        // Tính tổng cuối cùng--%>
-<%--                        double grandTotal = totalFlightPrice + baggagePrice;--%>
-
-<%--                        // Định dạng tiền tệ--%>
-<%--                         currencyFormatter = NumberFormat.getInstance(new Locale("vi", "VN"));--%>
-<%--                    %>--%>
-<%--                    <div class="ticket-item">--%>
-<%--                        <span>Adult Ticket x <%= adultTicket * m %></span>--%>
-<%--                        <% if (s.getSeatClass().equals("Business")) { %>--%>
-<%--                        <span>= <%= currencyFormatter.format(adultPrice) %> ₫</span>--%>
-<%--                        <% } else { %>--%>
-<%--                        <span>= <%= currencyFormatter.format(adultPrice) %> ₫</span>--%>
-<%--                        <% } %>--%>
-<%--                    </div>--%>
-<%--                    <div class="ticket-item">--%>
-<%--                        <span>Children Ticket x <%= childTicket * m %></span>--%>
-<%--                        <% if (s.getSeatClass().equals("Business")) { %>--%>
-<%--                        <span>= <%= currencyFormatter.format(childPrice) %> ₫</span>--%>
-<%--                        <% } else { %>--%>
-<%--                        <span>= <%= currencyFormatter.format(childPrice) %> ₫</span>--%>
-<%--                        <% } %>--%>
-<%--                    </div>--%>
-<%--                    <div class="ticket-item">--%>
-<%--                        <span>Infant Ticket x <%= infantTicket * m %></span>--%>
-<%--                        <% if (s.getSeatClass().equals("Business")) { %>--%>
-<%--                        <span>= <%= currencyFormatter.format(infantPrice) %> ₫</span>--%>
-<%--                        <% } else { %>--%>
-<%--                        <span>= <%= currencyFormatter.format(infantPrice) %> ₫</span>--%>
-<%--                        <% } %>--%>
-<%--                    </div>--%>
-<%--                    <div class="ticket-item">--%>
-<%--                        <span>Baggage</span>--%>
-<%--                        <span id="totalBaggage">= <%= currencyFormatter.format(baggagePrice) %> ₫</span>--%>
-<%--                    </div>--%>
-<%--                    <div class="ticket-total">--%>
-<%--                        <span>Total Price:</span>--%>
-<%--                        <span id="totalPrice"><%= currencyFormatter.format(grandTotal) %> ₫</span>--%>
-<%--                    </div>--%>
-
-
-
-<%--                </div>--%>
-<%--                <div style="width: 100%">--%>
-<%--                    <button style="width: 100%; background-color:  #9DC567; padding: 10px 30px; border: none; border-radius: 8px; color: white"--%>
-<%--                            onclick="submitPassengerForm(<%=adultTicket + childTicket +infantTicket%>)"--%>
-<%--                    >SUBMIT</button>--%>
-<%--                </div>--%>
-
-<%--            </div>--%>
 
 
             <div class="main-container2 passenger-info" style="width: 30%; height: fit-content">
@@ -725,10 +646,10 @@ for(int j = 1; j<=totalPassengers;j++){ %>
                                             String seatCode = seatLetters[col] + row; // Tạo mã ghế (00, 01, 02, ..., 10, 11, 12, ...)
                                             String seatColor = bookedSeats.contains(seatCode) ? "#D8D8D8" : "#FFF";
                                             String strokeColor = "#B8B8B8";
-                                            Tickets thisTicket = td.getTicketByCode(seatCode, flightlId, s.getSeatId());
-                                            if(j>adultTicket+childTicket+infantTicket){
-                                                thisTicket = td.getTicketByCode(seatCode, flightlId, s.getSeatId());
-                                            }
+//                                            Tickets thisTicket = td.getTicketByCode(seatCode, flightlId, s.getSeatId());
+//                                            if(j>adultTicket+childTicket+infantTicket){
+//                                                thisTicket = td.getTicketByCode(seatCode, flightlId, s.getSeatId());
+//                                            }
                                     %>
 
                                     <td class="seat<%=j%>" data-seat-code="<%= seatCode %>">
@@ -756,10 +677,10 @@ for(int j = 1; j<=totalPassengers;j++){ %>
                                             String seatCode = seatLetters[col] + row; // Tạo mã ghế (40, 50, 60, ..., 41, 51, 61, ...)
                                             String seatColor = bookedSeats.contains(seatCode) ? "#D8D8D8" : "#FFF";
                                             String strokeColor = "#B8B8B8";
-                                            Tickets thisTicket = td.getTicketByCode(seatCode, flightlId, s.getSeatId());
-                                            if(j>adultTicket+childTicket+infantTicket){
-                                                thisTicket = td.getTicketByCode(seatCode, flightlId, s.getSeatId());
-                                            }
+//                                            Tickets thisTicket = td.getTicketByCode(seatCode, flightlId, s.getSeatId());
+//                                            if(j>adultTicket+childTicket+infantTicket){
+//                                                thisTicket = td.getTicketByCode(seatCode, flightlId, s.getSeatId());
+//                                            }
                                     %>
 
                                     <td class="seat<%=j%>" data-seat-code="<%= seatCode %>">

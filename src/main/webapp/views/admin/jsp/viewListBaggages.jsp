@@ -5,7 +5,7 @@
 <%@ page import="model.Locations" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="model.Seats" %>
-<%@ page import="model.Baggage" %>
+<%@ page import="model.Baggages" %>
 <html lang="en">
 
 <head>
@@ -34,7 +34,7 @@
 
 <body>
 <%
-    List<Baggage> baggages = (List<Baggage>) request.getAttribute("baggages");
+    List<Baggages> baggages = (List<Baggages>) request.getAttribute("baggages");
     int currentPage = (Integer) request.getAttribute("currentPage");
     int totalPages = (Integer) request.getAttribute("totalPages");
     if (baggages == null) baggages = new ArrayList<>();
@@ -125,7 +125,7 @@
                                 </thead>
                                 <tbody>
                                 <%
-                                    for (Baggage b : baggages){
+                                    for (Baggages b : baggages){
                                 %>
                                 <tr>
                                     <td class="p-3"><%= b.getBaggageId() %></td>

@@ -1,6 +1,6 @@
 package dal;
 
-import model.Baggage;
+import model.Baggages;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,18 +11,18 @@ import java.util.List;
 
 public class BaggageDAO extends DBConnect {
 
-    public List<Baggage> getAllBaggages() throws SQLException {
-        List<Baggage> baggages = new ArrayList<>();
+    public List<Baggages> getAllBaggages() throws SQLException {
+        List<Baggages> baggages = new ArrayList<>();
         String sql = "SELECT * FROM Baggages";
         Statement stmt = connection.createStatement();
         ResultSet rs = stmt.executeQuery(sql);
         while (rs.next()) {
-            baggages.add(new Baggage(rs.getInt("BaggageId"), rs.getFloat("Weight"), rs.getDouble("Price")));
+            baggages.add(new Baggages(rs.getInt("BaggageId"), rs.getFloat("Weight"), rs.getDouble("Price")));
         }
         return baggages;
     }
 
-    public void addBaggage(Baggage baggage) throws SQLException {
+    public void addBaggage(Baggages baggage) throws SQLException {
         String sql = "INSERT INTO Baggages (Weight, Price) VALUES (?, ?)";
         PreparedStatement stmt = connection.prepareStatement(sql);
         stmt.setFloat(1, baggage.getWeight());
@@ -30,7 +30,7 @@ public class BaggageDAO extends DBConnect {
         stmt.executeUpdate();
     }
 
-    public void updateBaggage(Baggage baggage) throws SQLException {
+    public void updateBaggage(Baggages baggage) throws SQLException {
         String sql = "UPDATE Baggages SET Weight = ?, Price = ? WHERE BaggageId = ?";
         PreparedStatement stmt = connection.prepareStatement(sql);
         stmt.setFloat(1, baggage.getWeight());
@@ -46,8 +46,8 @@ public class BaggageDAO extends DBConnect {
         stmt.executeUpdate();
     }
 
-    public List<Baggage> getFilteredBaggages(String sortBy, String order) throws SQLException {
-        List<Baggage> baggages = new ArrayList<>();
+    public List<Baggages> getFilteredBaggages(String sortBy, String order) throws SQLException {
+        List<Baggages> baggages = new ArrayList<>();
         String sql = "SELECT * FROM Baggages";
 
         if ("weight".equalsIgnoreCase(sortBy) || "price".equalsIgnoreCase(sortBy)) {
@@ -57,7 +57,7 @@ public class BaggageDAO extends DBConnect {
         Statement stmt = connection.createStatement();
         ResultSet rs = stmt.executeQuery(sql);
         while (rs.next()) {
-            baggages.add(new Baggage(rs.getInt("BaggageId"), rs.getFloat("Weight"), rs.getDouble("Price")));
+            baggages.add(new Baggages(rs.getInt("BaggageId"), rs.getFloat("Weight"), rs.getDouble("Price")));
         }
         return baggages;
     }
@@ -77,15 +77,15 @@ public class BaggageDAO extends DBConnect {
     }
 
     // Lấy danh sách hành lý theo trang
-    public List<Baggage> getBaggagesByPage(int start, int total) {
-        List<Baggage> baggages = new ArrayList<>();
+    public List<Baggages> getBaggagesByPage(int start, int total) {
+        List<Baggages> baggages = new ArrayList<>();
         String sql = "SELECT * FROM Baggages LIMIT ?, ?";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setInt(1, start);
             pstmt.setInt(2, total);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-                baggages.add(new Baggage(
+                baggages.add(new Baggages(
                         rs.getInt("BaggageId"),
                         rs.getFloat("Weight"),
                         rs.getDouble("Price")
@@ -96,8 +96,8 @@ public class BaggageDAO extends DBConnect {
         }
         return baggages;
     }
-    public List<Baggage> searchBaggages(String baggageId, String orderWeight, String orderPrice, int currentPage, int recordsPerPage) {
-        List<Baggage> baggages = new ArrayList<>();
+    public List<Baggages> searchBaggages(String baggageId, String orderWeight, String orderPrice, int currentPage, int recordsPerPage) {
+        List<Baggages> baggages = new ArrayList<>();
         String sql = "SELECT * FROM Baggages WHERE 1=1";
 
         if (baggageId != null && !baggageId.isEmpty()) {
@@ -128,7 +128,7 @@ public class BaggageDAO extends DBConnect {
 
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-                baggages.add(new Baggage(
+                baggages.add(new Baggages(
                         rs.getInt("BaggageId"),
                         rs.getFloat("Weight"),
                         rs.getDouble("Price")
@@ -141,59 +141,45 @@ public class BaggageDAO extends DBConnect {
         return baggages;
     }
 
+
+    public List<Baggages> getAllBaggagesByAirline(int airlineId) {
+        List<Baggages> baggages = new ArrayList<>();
+        String sql = "SELECT * FROM Baggages WHERE AirlineId = ?";
+
+        try (
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, airlineId);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                baggages.add(new Baggages(
+                        rs.getInt("BaggageId"),
+                        rs.getFloat("Weight"),
+                        rs.getDouble("Price"),
+                        rs.getInt("AirlineId"),
+                        rs.getInt("Status")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return baggages;
+    }
+
+
+
     // Hàm main để test các chức năng
     public static void main(String[] args) {
         BaggageDAO baggageDAO = new BaggageDAO();
-
-        List<Baggage> baggages = baggageDAO.getBaggagesByPage(0,10);
-
-        for (Baggage baggage : baggages) {
-            System.out.println(baggage.toString());
+        List<Baggages> baggages = baggageDAO.getAllBaggagesByAirline(3);
+        for (Baggages baggage : baggages) {
+            System.out.println(baggage);
         }
-//
-//        try {
-//            // 1. Thêm hành lý mới
-//            Baggage newBaggage = new Baggage(0, 20.0f, 50.0);
-//            baggageDAO.addBaggage(newBaggage);
-//            System.out.println("✔ Đã thêm hành lý mới.");
-//
-//            // 2. Lấy danh sách hành lý
-//            List<Baggage> baggages = baggageDAO.getAllBaggages();
-//            System.out.println("Danh sách hành lý:");
-//            for (Baggage b : baggages) {
-//                System.out.println(b);
-//            }
-//
-//            // 3. Cập nhật hành lý (giả sử ID = 1)
-//            Baggage updatedBaggage = new Baggage(1, 25.0f, 60.0);
-//            baggageDAO.updateBaggage(updatedBaggage);
-//            System.out.println("✔ Đã cập nhật hành lý có ID = 1.");
-//
-//            // 4. Xóa hành lý (giả sử ID = 1)
-//            baggageDAO.deleteBaggage(1);
-//            System.out.println("✔ Đã xóa hành lý có ID = 1.");
-//
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
 
-//        BaggageDAO baggageDAO = new BaggageDAO();
-//        try {
-//            System.out.println("Test sắp xếp theo Weight tăng dần:");
-//            List<Baggage> baggagesAsc = baggageDAO.getFilteredBaggages("weight", "asc");
-//            for (Baggage b : baggagesAsc) {
-//                System.out.println(b.getBaggageId() + " - " + b.getWeight() + "kg - " + b.getPrice() + "$");
-//            }
-//
-//            System.out.println("\nTest sắp xếp theo Price giảm dần:");
-//            List<Baggage> baggagesDesc = baggageDAO.getFilteredBaggages("price", "desc");
-//            for (Baggage b : baggagesDesc) {
-//                System.out.println(b.getBaggageId() + " - " + b.getWeight() + "kg - " + b.getPrice() + "$");
-//            }
-//
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
+
+
+
 
     }
 }
