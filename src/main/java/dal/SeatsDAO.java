@@ -100,6 +100,21 @@ public class SeatsDAO extends DBConnect{
         return null;
     }
 
+    public boolean createSeat(Seats seat) {
+        String sql = "INSERT INTO Seats (AirlineId, Status, SeatNumber, SeatClass, IsBooked) VALUES (?, ?, ?, ?, ?)";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, seat.getAirlineId());
+            ps.setInt(2, seat.getStatus());
+            ps.setInt(3, seat.getSeatNumber());
+            ps.setString(4, seat.getSeatClass());
+            ps.setInt(5, seat.getIsBooked());
+
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
 
 

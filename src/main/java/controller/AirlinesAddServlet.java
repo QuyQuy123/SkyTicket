@@ -4,12 +4,14 @@ import java.io.File;
 import java.io.IOException;
 
 import dal.AirlinesDAO;
+import dal.SeatsDAO;
 import jakarta.servlet.ServletException;
 
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import model.Airlines;
+import model.Seats;
 
 @WebServlet("/addAirline")
 @MultipartConfig(
@@ -50,7 +52,6 @@ public class AirlinesAddServlet extends HttpServlet {
             filePart.write(filePath);
 
 
-
             // Lưu vào database
             Airlines airline = new Airlines(airlineName, fileName, information, status, classVip, classEconomy);
             AirlinesDAO airlineDAO = new AirlinesDAO();
@@ -63,6 +64,15 @@ public class AirlinesAddServlet extends HttpServlet {
             boolean success = airlineDAO.addAirline(airline);
 
             if (success) {
+                SeatsDAO seatsDAO = new SeatsDAO();
+                for (int i = 1; i <= classVip; i++) {
+                    Seats seat = new Seats(airline.getAirlineId(), 1, i, "Vip", 0);
+                    seatsDAO.createSeat(seat);
+                }
+                for (int i = 1; i <= classEconomy; i++) {
+                    Seats seat = new Seats(airline.getAirlineId(), 1, i, "Economy", 0);
+                    seatsDAO.createSeat(seat);
+                }
                 request.setAttribute("msg", "Airline added successfully");
                 request.getRequestDispatcher("/views/admin/jsp/addAirline.jsp").forward(request, response);
             } else {

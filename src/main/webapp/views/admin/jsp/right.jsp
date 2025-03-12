@@ -69,7 +69,6 @@
                     <ul>
                         <li><a href="<%= request.getContextPath() %>/listAirlines">List of airlines</a></li>
                         <li><a href="<%= request.getContextPath() %>/views/admin/jsp/addAirline.jsp">Add airline</a></li>
-
                     </ul>
                 </div>
             </li>

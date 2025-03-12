@@ -108,7 +108,7 @@
                                     <c:when test="${not empty listAirlines}">
                                         <c:forEach var="airline" items="${listAirlines}">
                                             <tr>
-                                                <td class="p-1">${airline.airlineId}</td>
+                                                <td class="p-1"><a href="${pageContext.request.contextPath}/listseats?id=${airline.airlineId}">${airline.airlineId}</a></td>
                                                 <td class="p-1">
                                                     <img src="${pageContext.request.contextPath}/img/${airline.image}"
                                                          alt="Airline Image" class="img-fluid rounded"
