@@ -69,7 +69,6 @@
                     <ul>
                         <li><a href="<%= request.getContextPath() %>/listAirlines">List of airlines</a></li>
                         <li><a href="<%= request.getContextPath() %>/views/admin/jsp/addAirline.jsp">Add airline</a></li>
-
                     </ul>
                 </div>
             </li>
@@ -147,6 +146,24 @@
                     <ul>
                         <li><a href="<%= request.getContextPath() %>/BaggagesList">List of Baggages</a></li>
                         <li><a href="review.html">Add Baggage</a></li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="sidebar-dropdown">
+                <a href="javascript:void(0)"><i class="uil uil-flip-h me-2 d-inline-block"></i>Passengers</a>
+                <div class="sidebar-submenu">
+                    <ul>
+                        <li><a href="<%= request.getContextPath() %>/listPassengersURL">List of passengers</a></li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="sidebar-dropdown">
+                <a href="javascript:void(0)"><i class="uil uil-flip-h me-2 d-inline-block"></i>Payments</a>
+                <div class="sidebar-submenu">
+                    <ul>
+                        <li><a href="<%= request.getContextPath() %>/listPaymentsURL">List of payments</a></li>
                     </ul>
                 </div>
             </li>

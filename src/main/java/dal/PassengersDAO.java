@@ -1,0 +1,161 @@
+package dal;
+
+import model.Countries;
+import model.Locations;
+import model.Passengers;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+public class PassengersDAO extends DBConnect {
+    public List<Passengers> getAllPassengers() {
+        List<Passengers> list = new ArrayList<>();
+        String sql = "select * from Passengers";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("PassengerId");
+                String name = rs.getString("PassengerName");
+                String phone = rs.getString("Phone");
+                String email = rs.getString("Email");
+                String numberId = rs.getString("IdNumber");
+                String address = rs.getString("Address");
+                Date birthDate = rs.getDate("Dob");
+                String gender = rs.getString("Gender");
+                int accountId = rs.getInt("AccountId");
+                list.add(new Passengers(id, name, phone, email, numberId, address, birthDate, gender, accountId));
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return list;
+    }
+
+    public List<Passengers> getLocationsByPage(int start, int total) {
+        List<Passengers> list = new ArrayList<>();
+        try {
+            String query = "SELECT passengerid, passengername, phone," +
+                    "email, idnumber FROM Passengers LIMIT ?, ?";
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setInt(1, start);
+            ps.setInt(2, total);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Passengers(
+                        rs.getInt("passengerid"),
+                        rs.getString("passengername"),
+                        rs.getString("phone"),
+                        rs.getString("email"),
+                        rs.getString("IDNumber")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public int getTotalRecords() {
+        int total = 0;
+        try {
+            String query = "SELECT COUNT(*) FROM Passengers";
+            PreparedStatement ps = connection.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                total = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return total;
+    }
+
+    public List<Passengers> searchPassengerByPage(String keyword, int offset, int limit) {
+        List<Passengers> list = new ArrayList<>();
+        String sql = "SELECT * FROM Passengers WHERE " +
+                "passengername LIKE ? OR phone LIKE ? OR email LIKE ? OR IDNumber LIKE ? " +
+                "LIMIT ?, ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            String searchPattern = "%" + keyword + "%";
+
+            ps.setString(1, searchPattern);
+            ps.setString(2, searchPattern);
+            ps.setString(3, searchPattern);
+            ps.setString(4, searchPattern);
+            ps.setInt(5, offset);
+            ps.setInt(6, limit);
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Passengers(
+                        rs.getInt("passengerid"),
+                        rs.getString("passengername"),
+                        rs.getString("phone"),
+                        rs.getString("email"),
+                        rs.getString("IDNumber")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+
+    public int getTotalSearchRecords(String keyword) {
+        String sql = "SELECT COUNT(*) FROM Passengers WHERE " +
+                "passengername LIKE ? OR phone LIKE ? OR email LIKE ? OR IDNumber LIKE ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            String searchPattern = "%" + keyword + "%";
+
+            ps.setString(1, searchPattern);
+            ps.setString(2, searchPattern);
+            ps.setString(3, searchPattern);
+            ps.setString(4, searchPattern);
+
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public Passengers getPassengerById(int id) {
+        String sql = "SELECT * FROM Passengers WHERE passengerid = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    int passengerId = rs.getInt("passengerid");
+                    String passengerName = rs.getString("passengername");
+                    String phone = rs.getString("phone");
+                    String email = rs.getString("email");
+                    String idNumber = rs.getString("IDNumber");
+                    String address = rs.getString("Address");
+                    Date birthDate = rs.getDate("Dob");
+                    String gender = rs.getString("Gender");
+                    int accountId = rs.getInt("AccountId");
+                    return new Passengers(passengerId, passengerName, phone, email, idNumber, address, birthDate, gender, accountId);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static void main(String[] args) {
+
+    }
+}
+

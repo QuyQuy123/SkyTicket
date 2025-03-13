@@ -201,85 +201,98 @@ public class FlightsDAO extends DBConnect {
     }
 
 
+    public List<Flights> getSearchFlightsByPage(int start, int total, String deA, String arA, Date dateFrom, Date dateTo, Double priceVipFrom, Double priceVipTo, Double priceEcoFrom, Double priceEcoTo, String airlineName, Integer status) {
+        List<Flights> list = new ArrayList<>();
+        List<Object> params = new ArrayList<>();
+
+        StringBuilder sql = sqlSearchFlights(deA, arA, dateFrom, dateTo, priceVipFrom, priceVipTo, priceEcoFrom, priceEcoTo, airlineName, status, params);
+        sql.append(" LIMIT ?, ?");
+        params.add(start);
+        params.add(total);
+
+        try (PreparedStatement ps = connection.prepareStatement(sql.toString())) {
+            prepareStatementParams(ps, params);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(mapResultSetToFlight(rs));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 
     public List<Flights> searchFlights(String deA, String arA, Date dateFrom, Date dateTo, Double priceVipFrom, Double priceVipTo, Double priceEcoFrom, Double priceEcoTo, String airlineName, Integer status) {
         List<Flights> flights = new ArrayList<>();
-        StringBuilder sql = new StringBuilder("SELECT * FROM Flights WHERE 1=1");
+        List<Object> params = new ArrayList<>();
 
-        if (deA != null && !deA.isEmpty()) {
-            sql.append(" AND DepartureAirportId IN (SELECT AirportId FROM Airports WHERE airportName like ?)");
-        }
-        if (arA != null && !arA.isEmpty()) {
-            sql.append(" AND ArrivalAirportId IN (SELECT AirportId FROM Airports WHERE airportName like ?)");
-        }
-        if (dateFrom != null) {
-            sql.append(" AND DATE(DepartureTime) >= ?");
-        }
-        if (dateTo != null) {
-            sql.append(" AND DATE(DepartureTime) <= ?");
-        }
-        if (priceVipFrom != null) {
-            sql.append(" AND ClassVipPrice >= ?");
-        }
-        if (priceVipTo != null) {
-            sql.append(" AND ClassVipPrice <= ?");
-        }
-        if (priceEcoFrom != null) {
-            sql.append(" AND ClassEconomyPrice >= ?");
-        }
-        if (priceEcoTo != null) {
-            sql.append(" AND ClassEconomyPrice <= ?");
-        }
-        if (airlineName != null && !airlineName.isEmpty()) {
-            sql.append(" AND AirlineId IN (SELECT AirlineId FROM Airlines WHERE airlineName like ?)");
-        }
-        if (status != null) {
-            sql.append(" AND Status = ?");
-        }
+        StringBuilder sql = sqlSearchFlights(deA, arA, dateFrom, dateTo, priceVipFrom, priceVipTo, priceEcoFrom, priceEcoTo, airlineName, status, params);
 
         try (PreparedStatement ps = connection.prepareStatement(sql.toString())) {
-            int index = 1;
-            if (deA != null && !deA.isEmpty()) {
-                ps.setString(index++, "%" + deA.trim() + "%");
-            }
-            if (arA != null && !arA.isEmpty()) {
-                ps.setString(index++, "%" + arA.trim() + "%");
-            }
-            if (dateFrom != null) {
-                ps.setDate(index++, dateFrom);
-            }
-            if (dateTo != null) {
-                ps.setDate(index++, dateTo);
-            }
-            if (priceVipFrom != null) {
-                ps.setDouble(index++, priceVipFrom);
-            }
-            if (priceVipTo != null) {
-                ps.setDouble(index++, priceVipTo);
-            }
-            if (priceEcoFrom != null) {
-                ps.setDouble(index++, priceVipFrom);
-            }
-            if (priceEcoTo != null) {
-                ps.setDouble(index++, priceVipTo);
-            }
-            if (airlineName != null && !airlineName.isEmpty()) {
-                ps.setString(index++, "%" + airlineName.trim() + "%");
-            }
-            if (status != null) {
-                ps.setInt(index++, status);
-            }
-
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    flights.add(mapResultSetToFlight(rs));
-                }
+            prepareStatementParams(ps, params);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                flights.add(mapResultSetToFlight(rs));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return flights;
     }
+
+    private StringBuilder sqlSearchFlights(String deA, String arA, Date dateFrom, Date dateTo, Double priceVipFrom, Double priceVipTo, Double priceEcoFrom, Double priceEcoTo, String airlineName, Integer status, List<Object> params) {
+        StringBuilder sql = new StringBuilder("SELECT * FROM Flights WHERE 1=1");
+
+        if (deA != null && !deA.isEmpty()) {
+            sql.append(" AND DepartureAirportId IN (SELECT AirportId FROM Airports WHERE airportName LIKE ?)");
+            params.add("%" + deA.trim() + "%");
+        }
+        if (arA != null && !arA.isEmpty()) {
+            sql.append(" AND ArrivalAirportId IN (SELECT AirportId FROM Airports WHERE airportName LIKE ?)");
+            params.add("%" + arA.trim() + "%");
+        }
+        if (dateFrom != null) {
+            sql.append(" AND DATE(DepartureTime) >= ?");
+            params.add(dateFrom);
+        }
+        if (dateTo != null) {
+            sql.append(" AND DATE(DepartureTime) <= ?");
+            params.add(dateTo);
+        }
+        if (priceVipFrom != null) {
+            sql.append(" AND ClassVipPrice >= ?");
+            params.add(priceVipFrom);
+        }
+        if (priceVipTo != null) {
+            sql.append(" AND ClassVipPrice <= ?");
+            params.add(priceVipTo);
+        }
+        if (priceEcoFrom != null) {
+            sql.append(" AND ClassEconomyPrice >= ?");
+            params.add(priceEcoFrom);
+        }
+        if (priceEcoTo != null) {
+            sql.append(" AND ClassEconomyPrice <= ?");
+            params.add(priceEcoTo);
+        }
+        if (airlineName != null && !airlineName.isEmpty()) {
+            sql.append(" AND AirlineId IN (SELECT AirlineId FROM Airlines WHERE airlineName LIKE ?)");
+            params.add("%" + airlineName.trim() + "%");
+        }
+        if (status != null) {
+            sql.append(" AND Status = ?");
+            params.add(status);
+        }
+
+        return sql;
+    }
+
+    private void prepareStatementParams(PreparedStatement ps, List<Object> params) throws SQLException {
+        for (int i = 0; i < params.size(); i++) {
+            ps.setObject(i + 1, params.get(i));
+        }
+    }
+
 
 
 

@@ -4,12 +4,14 @@ import java.io.File;
 import java.io.IOException;
 
 import dal.AirlinesDAO;
+import dal.SeatsDAO;
 import jakarta.servlet.ServletException;
 
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import model.Airlines;
+import model.Seats;
 
 @WebServlet("/addAirline")
 @MultipartConfig(
@@ -50,19 +52,23 @@ public class AirlinesAddServlet extends HttpServlet {
             filePart.write(filePath);
 
 
-
             // Lưu vào database
             Airlines airline = new Airlines(airlineName, fileName, information, status, classVip, classEconomy);
             AirlinesDAO airlineDAO = new AirlinesDAO();
 
-//            if(airlineDAO.isAirlineNameExists(airlineName)){
-//                request.setAttribute("msg", "Airline name already exists");
-//                request.getRequestDispatcher("/views/admin/jsp/addAirline.jsp").forward(request, response);
-//            }
+            int success = airlineDAO.addAirline(airline);
 
-            boolean success = airlineDAO.addAirline(airline);
-
-            if (success) {
+            if (success != 0) {
+                int airlineId = success;
+                SeatsDAO seatsDAO = new SeatsDAO();
+                for (int i = 1; i <= classVip; i++) {
+                    Seats seat = new Seats(airlineId, 1, i, "Vip", 0);
+                    seatsDAO.createSeat(seat); //nhwos theem hamf check
+                }
+                for (int i = 1; i <= classEconomy; i++) {
+                    Seats seat = new Seats(airlineId, 1, i, "Economy", 0);
+                    seatsDAO.createSeat(seat);
+                }
                 request.setAttribute("msg", "Airline added successfully");
                 request.getRequestDispatcher("/views/admin/jsp/addAirline.jsp").forward(request, response);
             } else {

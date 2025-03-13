@@ -123,35 +123,48 @@
                                     <thead>
 
                                     <tr style="background-color: #b6d4fe">
-                                        <th scope="col" class="border-bottom hover-trigger" style="font-weight: normal;">=></th>
-                                        <th scope="col" class="border-bottom p-1">
-                                            <input type="text" class="form-control" name="deA" value="${param.deA}" placeholder="...">
+                                        <th scope="col" class="border-bottom hover-trigger"
+                                            style="font-weight: normal;">=>
                                         </th>
                                         <th scope="col" class="border-bottom p-1">
-                                            <input type="text" class="form-control" name="arA" value="${param.arA}" placeholder="...">
+                                            <input type="text" class="form-control" name="deA" value="${param.deA}"
+                                                   placeholder="...">
                                         </th>
                                         <th scope="col" class="border-bottom p-1">
-                                            <input type="date" class="form-control" name="dateFrom" value="${param.dateFrom}">
+                                            <input type="text" class="form-control" name="arA" value="${param.arA}"
+                                                   placeholder="...">
                                         </th>
                                         <th scope="col" class="border-bottom p-1">
-                                            <input type="date" class="form-control" name="dateTo" value="${param.dateTo}">
+                                            <input type="date" class="form-control" name="dateFrom"
+                                                   value="${param.dateFrom}">
                                         </th>
                                         <th scope="col" class="border-bottom p-1">
-                                            <input type="number" class="form-control" placeholder="From: " name="priceVipFrom" value="${param.priceVipFrom}">
-                                            <input type="number" class="form-control" placeholder="To: " name="priceVipTo" value="${param.priceVipTo}">
+                                            <input type="date" class="form-control" name="dateTo"
+                                                   value="${param.dateTo}">
                                         </th>
                                         <th scope="col" class="border-bottom p-1">
-                                            <input type="number" class="form-control" placeholder="From: " name="priceEcoFrom" value="${param.priceEcoFrom}">
-                                            <input type="number" class="form-control" placeholder="To: " name="priceEcoTo" value="${param.priceEcoTo}">
+                                            <input type="number" class="form-control" placeholder="From: "
+                                                   name="priceVipFrom" value="${param.priceVipFrom}">
+                                            <input type="number" class="form-control" placeholder="To: "
+                                                   name="priceVipTo" value="${param.priceVipTo}">
                                         </th>
                                         <th scope="col" class="border-bottom p-1">
-                                            <input type="text" class="form-control" name="airlineName" value="${param.airlineName}" placeholder="...">
+                                            <input type="number" class="form-control" placeholder="From: "
+                                                   name="priceEcoFrom" value="${param.priceEcoFrom}">
+                                            <input type="number" class="form-control" placeholder="To: "
+                                                   name="priceEcoTo" value="${param.priceEcoTo}">
+                                        </th>
+                                        <th scope="col" class="border-bottom p-1">
+                                            <input type="text" class="form-control" name="airlineName"
+                                                   value="${param.airlineName}" placeholder="...">
                                         </th>
                                         <th scope="col" class="border-bottom p-1">
                                             <select name="status" class="form-select border me-2">
                                                 <option value=""></option>
-                                                <option value="1" ${param.status == '1' ? 'selected' : ''}>Active</option>
-                                                <option value="0" ${param.status == '0' ? 'selected' : ''}>Deactive</option>
+                                                <option value="1" ${param.status == '1' ? 'selected' : ''}>Active
+                                                </option>
+                                                <option value="0" ${param.status == '0' ? 'selected' : ''}>Deactive
+                                                </option>
                                             </select>
                                         </th>
                                         <th scope="col" class="border-bottom p-1">
@@ -160,7 +173,6 @@
                                             </button>
                                         </th>
                                     </tr>
-
 
 
                                     <tr>
@@ -251,18 +263,28 @@
         </div>
         <!--end container-->
 
-        <div class="pagination">
-            <c:if test="${currentPage > 1}">
-                <a href="?page=${currentPage - 1}">❮ Trước</a>
-            </c:if>
 
-            <c:forEach var="i" begin="1" end="${totalPages}">
-                <a href="?page=${i}" class="${i == currentPage ? 'active' : ''}">${i}</a>
-            </c:forEach>
 
-            <c:if test="${currentPage < totalPages}">
-                <a href="?page=${currentPage + 1}">Sau ❯</a>
-            </c:if>
+        <!--phân trang-->
+
+        <div class="d-flex justify-content-center mt-3">
+            <div class="pagination">
+                <c:if test="${currentPage > 1}">
+                    <a href="${pageContext.request.contextPath}/listFlights?page=1&search=${search}"
+                       class="btn btn-outline-primary">First</a>
+                    <a href="${pageContext.request.contextPath}/listFlights?page=${currentPage - 1}"
+                       class="btn btn-outline-primary">Previous</a>
+                </c:if>
+
+                <span class="btn btn-primary">${currentPage} / ${totalPages}</span>
+
+                <c:if test="${currentPage < totalPages}">
+                    <a href="${pageContext.request.contextPath}/listFlights?page=${currentPage + 1}"
+                       class="btn btn-outline-primary">Next</a>
+                    <a href="${pageContext.request.contextPath}/listFlights?page=${totalPages}"
+                       class="btn btn-outline-primary">Last</a>
+                </c:if>
+            </div>
         </div>
 
 
@@ -273,8 +295,6 @@
     <!--End page-content" -->
 </div>
 <!-- page-wrapper -->
-
-
 
 
 <!-- javascript -->

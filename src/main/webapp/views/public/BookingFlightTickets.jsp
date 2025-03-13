@@ -609,7 +609,7 @@ for(int j = 1; j<=totalPassengers;j++){ %>
                                 <%
                                     TicketsDAO td = new TicketsDAO();
                                     int rowNumber = 0; // Bắt đầu từ hàng 0
-                                    String[] seatLetters = {"0", "1", "2", "3", "4", "5","6"}; // 7 cột
+                                    String[] seatLetters = {"0", "1", "2", "3", "4", "5","6","7", "8", "9"}; // 10 cột
 
                                     int seatIndex = 0;
 

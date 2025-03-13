@@ -54,22 +54,33 @@ public class AirlinesDAO extends DBConnect {
         return null;
     }
 
-    // Thêm hãng hàng không mới
-    public boolean addAirline(Airlines airline) {
+    // Thêm hãng hàng không mới và trả về ID của hãng vừa thêm
+    public int addAirline(Airlines airline) {
         String query = "INSERT INTO Airlines (airlineName, image, information, status, classVipCapacity, classEconomyCapacity) VALUES (?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement ps = connection.prepareStatement(query)) {
+        int generatedId = -1;
+
+        try (PreparedStatement ps = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, airline.getAirlineName());
             ps.setString(2, airline.getImage());
             ps.setString(3, airline.getInformation());
             ps.setInt(4, airline.getStatus());
             ps.setInt(5, airline.getClassVipCapacity());
             ps.setInt(6, airline.getClassEconomyCapacity());
-            return ps.executeUpdate() > 0;
+
+            int affectedRows = ps.executeUpdate();
+            if (affectedRows > 0) {
+                try (ResultSet rs = ps.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        generatedId = rs.getInt(1); // Lấy ID vừa chèn vào
+                    }
+                }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
+        return generatedId; // Trả về ID của hãng hàng không mới
     }
+
 
     // Cập nhật thông tin hãng hàng không
     public boolean updateAirline(Airlines airline) {
