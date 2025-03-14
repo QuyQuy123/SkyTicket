@@ -50,8 +50,10 @@ public class AirlinesUpdateServlet extends HttpServlet {
         int id = Integer.parseInt(request.getParameter("airlineId"));
         String airlineName = request.getParameter("name");
         String information = request.getParameter("information");
-        int classVip = Integer.parseInt(request.getParameter("classVip"));
-        int classEconomy = Integer.parseInt(request.getParameter("classEconomy"));
+        int numberOfSeatsOnVipRow = Integer.parseInt(request.getParameter("numberOfSeatsOnVipRow"));
+        int numberOfSeatsOnVipColumn = Integer.parseInt(request.getParameter("numberOfSeatsOnVipColumn"));
+        int numberOfSeatsOnEcoRow = Integer.parseInt(request.getParameter("numberOfSeatsOnEcoRow"));
+        int numberOfSeatsOnEcoColumn = Integer.parseInt(request.getParameter("numberOfSeatsOnEcoColumn"));
         int status = Integer.parseInt(request.getParameter("status"));
 
 
@@ -77,8 +79,10 @@ public class AirlinesUpdateServlet extends HttpServlet {
         airline.setAirlineName(airlineName);
         airline.setInformation(information);
         airline.setImage(fileName);
-        airline.setClassVipCapacity(classVip);
-        airline.setClassEconomyCapacity(classEconomy);
+        airline.setNumberOfSeatsOnVipRow(numberOfSeatsOnVipRow);
+        airline.setNumberOfSeatsOnVipColumn(numberOfSeatsOnVipColumn);
+        airline.setNumberOfSeatsOnEconomyRow(numberOfSeatsOnEcoRow);
+        airline.setNumberOfSeatsOnEconomyColumn(numberOfSeatsOnEcoColumn);
         airline.setStatus(status);
         boolean success = airlineDAO.updateAirline(airline);
 
