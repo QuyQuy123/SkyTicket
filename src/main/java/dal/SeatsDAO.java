@@ -35,7 +35,7 @@ public class SeatsDAO extends DBConnect{
     }
     public List<Seats> getAllSeatByAirlineId(int id) {
         List<Seats> seatCategories = new ArrayList<>();
-        String sql = "SELECT * FROM Seats WHERE AirlineId = ?";
+        String sql = "SELECT * FROM Seats WHERE AirlineId = ? ORDER BY SeatNumber ASC";
         PreparedStatement ps = null;
         ResultSet rs = null;
 
@@ -98,6 +98,35 @@ public class SeatsDAO extends DBConnect{
             e.printStackTrace();
         }
         return null;
+    }
+
+    public boolean createSeat(Seats seat) {
+        String sql = "INSERT INTO Seats (AirlineId, Status, SeatNumber, SeatClass, IsBooked) VALUES (?, ?, ?, ?, ?)";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, seat.getAirlineId());
+            ps.setInt(2, seat.getStatus());
+            ps.setInt(3, seat.getSeatNumber());
+            ps.setString(4, seat.getSeatClass());
+            ps.setInt(5, seat.getIsBooked());
+
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean updateSeatStatus(int seatId, int newStatus) {
+        String sql = "UPDATE Seats SET Status = ? WHERE SeatId = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, newStatus);
+            ps.setInt(2, seatId);
+
+            return ps.executeUpdate() > 0; // Trả về true nếu có ít nhất 1 dòng bị ảnh hưởng
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
 

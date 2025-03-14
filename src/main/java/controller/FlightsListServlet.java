@@ -14,13 +14,12 @@ import model.Flights;
 
 import java.io.IOException;
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet("/listFlights")
 public class FlightsListServlet extends HttpServlet {
 
-    private static final int RECORDS_PER_PAGE = 40; // Số lượng bản ghi mỗi trang
+    private static final int RECORDS_PER_PAGE = 5; // Số lượng bản ghi mỗi trang
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -125,37 +124,19 @@ public class FlightsListServlet extends HttpServlet {
         request.setAttribute("airportList", airportList);
 
         FlightsDAO flightsDAO = new FlightsDAO();
-        List<Flights> flightsList = flightsDAO.searchFlights(deA, arA, dateFrom, dateTo, priceVipFrom, priceVipTo,priceEcoFrom, priceEcoTo, airlineName, status);
-//        request.setAttribute("listFlights", flightsList);
-
-        // Nhận tham số trang hiện tại từ request (nếu không có thì mặc định là 1)
+        // Xác định trang hiện tại
         int page = 1;
-        int pageSize = 5; // Số lượng chuyến bay mỗi trang
-
-        String pageStr = request.getParameter("page");
-        if (pageStr != null && !pageStr.isEmpty()) {
-            try {
-                page = Integer.parseInt(pageStr);
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
-            }
+        if (request.getParameter("page") != null) {
+            page = Integer.parseInt(request.getParameter("page"));
         }
+        // Tính vị trí bắt đầu của dữ liệu
+        int start = (page - 1) * RECORDS_PER_PAGE;
+        List<Flights> flightsList = flightsDAO.searchFlights(deA, arA, dateFrom, dateTo, priceVipFrom, priceVipTo, priceEcoFrom, priceEcoTo, airlineName, status);
+        List<Flights> flightsListByPage = flightsDAO.getSearchFlightsByPage(start, RECORDS_PER_PAGE, deA, arA, dateFrom, dateTo, priceVipFrom, priceVipTo, priceEcoFrom, priceEcoTo, airlineName, status);
 
+        int totalPages = (int) Math.ceil((double) flightsList.size() / RECORDS_PER_PAGE);
 
-// Xác định phạm vi dữ liệu hiển thị trên trang hiện tại
-        int totalFlights = flightsList.size();
-        int totalPages = (int) Math.ceil((double) totalFlights / pageSize);
-        int fromIndex = (page - 1) * pageSize;
-        int toIndex = Math.min(fromIndex + pageSize, totalFlights);
-
-// Lấy danh sách chuyến bay cho trang hiện tại
-        List<Flights> paginatedFlights = new ArrayList<>();
-        if (fromIndex < totalFlights) {
-            paginatedFlights = flightsList.subList(fromIndex, toIndex);
-        }
-
-// Gửi dữ liệu đến JSP
-        request.setAttribute("listFlights", paginatedFlights);
+        request.setAttribute("listFlights", flightsListByPage);
         request.setAttribute("currentPage", page);
         request.setAttribute("totalPages", totalPages);
 
