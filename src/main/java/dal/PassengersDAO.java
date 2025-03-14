@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class PassengersDAO extends DBConnect {
     public List<Passengers> getAllPassengers() {
@@ -154,8 +155,68 @@ public class PassengersDAO extends DBConnect {
         return null;
     }
 
+    public boolean createPassenger(String passengerName, String phone,Date dob,String gender, int idAcc, int bookId) {
+        String sql = "INSERT INTO Passengers (PassengerName, Phone, Dob, Gender, AccountId,BookingId ) " +
+                "VALUES (?, ?, ?, ?, ?,?)";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setString(1,passengerName);
+            stmt.setString(2,phone);
+            stmt.setDate(3, (java.sql.Date) dob); // Đảm bảo dob là LocalDate
+            stmt.setString(4,gender);
+            stmt.setInt(5, idAcc);
+            stmt.setInt(6, bookId);
+
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public List<Passengers> getPassengersByBookingId(int bookingId) {
+        String sql = "SELECT * FROM Passengers WHERE BookingId = ?";
+        List<Passengers> passengers = new ArrayList<>();
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, bookingId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) { // Duyệt qua tất cả kết quả thay vì chỉ lấy 1
+                    Passengers passenger = new Passengers();
+                    passenger.setPassengerID(rs.getInt("PassengerId"));
+                    passenger.setPassengerName(rs.getString("PassengerName"));
+                    passenger.setPhone(rs.getString("Phone"));
+                    passenger.setEmail(rs.getString("Email"));
+                    passenger.setAddress(rs.getString("Address"));
+                    passenger.setDateOfBirth(rs.getDate("Dob"));
+                    passenger.setGender(rs.getString("Gender"));
+                    passenger.setAccountID(rs.getInt("AccountId"));
+
+                    passengers.add(passenger); // Thêm vào danh sách
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return passengers;
+    }
+
+
+
+
+
+
+
+
     public static void main(String[] args) {
+        PassengersDAO pd = new PassengersDAO();
+        List<Passengers> p = pd.getPassengersByBookingId(3);
+        for (Passengers p1 : p) {
+            System.out.println(p1.getPassengerID());
+        }
 
     }
+
+
 }
 

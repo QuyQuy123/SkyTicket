@@ -183,7 +183,7 @@
                                         <c:when test="${not empty listFlights}">
                                             <c:forEach var="f" items="${listFlights}">
                                                 <tr>
-                                                    <td class="p-1">${f.airlineId}</td>
+                                                    <td class="p-1">${f.flightId}</td>
                                                     <td class="p-1">
                                                         <c:forEach var="deA" items="${airportList}">
                                                             <c:if test="${deA.airportId == f.departureAirportId}">

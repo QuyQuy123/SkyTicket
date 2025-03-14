@@ -13,6 +13,7 @@ public class Passengers {
     private Date dateOfBirth;
     private String gender;
     private int accountID;
+    private int bookingId;
 
     public Passengers() {}
 
@@ -34,6 +35,27 @@ public class Passengers {
         this.dateOfBirth = dateOfBirth;
         this.gender = gender;
         this.accountID = accountID;
+    }
+
+    public Passengers(int passengerID, String passengerName, String phone, String email, String numberID, String address, Date dateOfBirth, String gender, int accountID, int bookingId) {
+        this.passengerID = passengerID;
+        this.passengerName = passengerName;
+        this.phone = phone;
+        this.email = email;
+        this.numberID = numberID;
+        this.address = address;
+        this.dateOfBirth = dateOfBirth;
+        this.gender = gender;
+        this.accountID = accountID;
+        this.bookingId = bookingId;
+    }
+
+    public int getBookingId() {
+        return bookingId;
+    }
+
+    public void setBookingId(int bookingId) {
+        this.bookingId = bookingId;
     }
 
     public int getPassengerID() {
@@ -84,8 +106,8 @@ public class Passengers {
         this.address = address;
     }
 
-    public Date getDateOfBirth() {
-        return dateOfBirth;
+    public java.sql.Date getDateOfBirth() {
+        return (java.sql.Date) dateOfBirth;
     }
 
     public void setDateOfBirth(Date dateOfBirth) {

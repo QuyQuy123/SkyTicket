@@ -290,9 +290,7 @@
                                       if (displayedClasses.contains(seatClass)) {
                                           continue;
                                       }
-
                                       displayedClasses.add(seatClass);
-
                                       // Lấy giá vé dựa trên seatClass
                                       double price = 0;
                                       if ("Business".equals(seatClass)) {
@@ -300,7 +298,6 @@
                                       } else if ("Economy".equals(seatClass)) {
                                           price = f.getClassEconomyPrice();
                                       }
-
                                       // Kiểm tra xem hạng ghế này có ghế nào active không
                                       boolean isCategoryActive = ("Business".equals(seatClass) && businessSeatsActive > 0) || ("Economy".equals(seatClass) && economySeatsActive > 0);
                           %>

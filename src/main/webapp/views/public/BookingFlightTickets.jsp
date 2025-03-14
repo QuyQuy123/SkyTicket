@@ -287,13 +287,24 @@
 
         <div style="display: flex; justify-content: space-between">
             <div style="width: 68%; display: block">
+
+
                 <form style="width: 100%" id="passengerForm" action="bookingFlightTicketsURL" method="post">
                     <input type="hidden" name="flightDetailId" value="<%=flightlId%>"/>
                     <input type="hidden" name="seatCategoryId" value="<%=s.getSeatId()%>"/>
                     <input type="hidden" name="adultTicket" value="<%=adultTicket%>"/>
                     <input type="hidden" name="childTicket" value="<%=childTicket%>"/>
                     <input type="hidden" name="infantTicket" value="<%=infantTicket%>"/>
-                    <input type="hidden" name="commonPrice" value="<%= f.getClassEconomyPrice() %>"/>
+                    <%
+                        double price = 0;
+                        if ("Business".equals(sd.getSeatById(s.getSeatId()).getSeatClass())) {
+                            price = (long) f.getClassVipPrice();
+                        } else if ("Economy".equals(sd.getSeatById(s.getSeatId()).getSeatClass())) {
+                            price = f.getClassEconomyPrice();
+                        }
+
+                    %>
+                    <input type="hidden" name="commonPrice" value="<%= price%>"/>
                     <%if(m==2){
                     %>
                     <input type="hidden" name="flightDetailId2" value="<%=flightDetailId2%>"/>

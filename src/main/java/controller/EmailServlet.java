@@ -9,6 +9,10 @@ import java.util.Date;
 import java.util.Properties;
 import java.util.Random;
 
+import dal.FlightsDAO;
+import dal.LocationsDAO;
+import dal.SeatsDAO;
+import dal.TicketsDAO;
 import jakarta.mail.Authenticator;
 import jakarta.mail.Message;
 import jakarta.mail.MessagingException;
@@ -17,14 +21,19 @@ import jakarta.mail.Session;
 import jakarta.mail.Transport;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
+import model.Bookings;
 
 public class EmailServlet {
+    SeatsDAO seatsDAO = new SeatsDAO();
+    TicketsDAO ticketsDAO = new TicketsDAO();
+    FlightsDAO flightsDAO = new FlightsDAO();
+    LocationsDAO locationsDAO = new LocationsDAO();
 
 
     final String from = "skyticket.work@gmail.com";
     final String passWord = "hzxd bxzv pmsm grut";
 
-    public void sendPasswordEmail(String to, String newPassword) {
+    public void sendBookingEmail(String to, Bookings b) {
         //Properties: khai bao cac thuoc tinh
         Properties pro = new Properties();
         pro.put("mail.smtp.host", "smtp.gmail.com");
@@ -52,17 +61,35 @@ public class EmailServlet {
             //content style
             msg.addHeader("Content-type", "text/HTML");
             //the person send and receiver:
-            msg.setFrom();
+            msg.setFrom(from);
             msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to, false));
             //The subject of email
-            msg.setSubject("Khôi Phục Lại Mật Khẩu Của Bạn", "UTF-8");
+            msg.setSubject("The Order Has Been Successfully Submitted", "UTF-8");
             //date
             msg.setSentDate(new Date());
             //quy dinh email phan hoi
             //msg.setReplyTo(InternetAddress.parse(from, false));
 
             //content
-            msg.setText("Mật Khẩu Mới của bạn là: " + newPassword, "UTF-8");
+            msg.setContent(
+                    "<div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px; background-color: #f9f9f9;'>"
+                            + "<h2 style='color: #007bff; text-align: center;'>Booking Confirmation</h2>"
+                            + "<p><strong>Customer:</strong> <span style='color: #333;'>" + b.getContactName() + "</span></p>"
+                            + "<p><strong>Order Code:</strong> <span style='color: #333; font-weight: bold;'>" + b.getCode() + "</span></p>"
+                            + "<p><strong>Total Cost:</strong> <span style='color: #28a745; font-size: 18px; font-weight: bold;'>" + b.getTotalPrice() + " USD</span></p>"
+                            + "<p style='margin-top: 20px;'>"
+                            + "Please make the payment at least <strong>10 days</strong> before your flight to secure your booking."
+                            + "</p>"
+                            + "<div style='text-align: center; margin-top: 30px;'>"
+                            + "<a href='https://yourwebsite.com/payment' style='background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold;'>Make Payment Now</a>"
+                            + "</div>"
+                            + "<p style='font-size: 12px; color: #777; text-align: center; margin-top: 20px;'>"
+                            + "If you have any questions, please contact our support team."
+                            + "</p>"
+                            + "</div>",
+                    "text/html"
+            );
+
 
             //send email
             Transport.send(msg);
