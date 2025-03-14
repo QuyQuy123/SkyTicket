@@ -194,7 +194,7 @@
     int infantTicket = Integer.parseInt(request.getParameter("infant"));
     int totalPassengers = adultTicket + childTicket +infantTicket;
 
-    Seats s = sd.getSeatById(Integer.parseInt(request.getParameter("seatCategory")));
+    Seats s = sd.getSeatById(Integer.parseInt(request.getParameter("seatCategory")));//seatId
 
     int flightlId = Integer.parseInt(request.getParameter("flightDetailId"));
     Flights f = fd.getFlightById(flightlId);
@@ -422,7 +422,7 @@
                                         <div style="display: flex; align-items: center; margin-right: 20px; font-weight: 600; font-size: 16px; color: #3C6E57">
                                             <span style=""><%=s2.getSeatClass()%> - <span id="seatCodeForDisplaying<%=i+totalPassengers/2%>">Not Selected</span></span>
                                         </div>
-                                        <a class="btn btn-info" style="text-decoration: none" onclick="openSeatModal(<%=i+totalPassengers/2%>)">Choose</a>
+                                        <button class="btn btn-info" style="text-decoration: none" onclick="openSeatModal(<%=i+totalPassengers/2%>)">Choose</button>
                                         <input type="hidden" name="code<%=i+totalPassengers/2%>" id="seatCode<%=i+totalPassengers/2%>"/>
                                     </div>
 
@@ -612,7 +612,7 @@
                                 <%
                                     TicketsDAO td = new TicketsDAO();
                                     int rowNumber = 0; // Bắt đầu từ hàng 0
-                                    String[] seatLetters = {"0", "1", "2", "3", "4", "5", "6"}; // 7 cột
+                                    String[] seatLetters = {"0", "1", "2", "3", "4", "5", "6"}; // 7 cột ???
 
                                     int seatIndex = 0;
 

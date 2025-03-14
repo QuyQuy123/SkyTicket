@@ -141,22 +141,43 @@
 
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label" for="classVip">Capacity Class Vip: </label>
-                                            <input name="classVip" id="classVip"
-                                                   type="number" min="10" max="50"
+                                            <label class="form-label" for="vipRow">Number of seats on Vip row: </label>
+                                            <input name="numberOfSeatsOnVipRow" id="vipRow"
+                                                   type="number" min="1" max="4"
                                                    class="form-control"
-                                                   placeholder="Number of seat Vip">
+                                                   placeholder="Enter number < 5 ">
                                         </div>
                                     </div>
 
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label" for="classEconomy">Capacity Class Economy: </label>
-                                            <input name="classEconomy"
-                                                   id="classEconomy" type="number"
+                                            <label class="form-label" for="vipCol">Number of seats on Vip column: </label>
+                                            <input name="numberOfSeatsOnVipColumn" id="vipCol"
+                                                   type="number" min="1" max="10"
+                                                   class="form-control"
+                                                   placeholder="Enter number from 1 to 10">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="ecoRow">Number of seats on Economy row: </label>
+                                            <input name="numberOfSeatsOnEcoRow"
+                                                   id="ecoRow" type="number"
+                                                   min="1" max="10"
+                                                   class="form-control"
+                                                   placeholder="Enter number from 1 to 10 ">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="ecoCol">Number of seats on Economy column: </label>
+                                            <input name="numberOfSeatsOnEcoColumn"
+                                                   id="ecoCol" type="number"
                                                    min="10" max="50"
                                                    class="form-control"
-                                                   placeholder="Number of seats economy">
+                                                   placeholder="Enter number from 10 to 50 ">
                                         </div>
                                     </div>
 
