@@ -14,13 +14,12 @@ import model.Flights;
 
 import java.io.IOException;
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet("/listFlights")
 public class FlightsListServlet extends HttpServlet {
 
-    private static final int RECORDS_PER_PAGE = 10; // Số lượng bản ghi mỗi trang
+    private static final int RECORDS_PER_PAGE = 5; // Số lượng bản ghi mỗi trang
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
