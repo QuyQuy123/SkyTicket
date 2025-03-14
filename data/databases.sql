@@ -89,15 +89,17 @@ CREATE TABLE Airlines (
     Image VARCHAR(255),
     Information TEXT,
     Status TINYINT DEFAULT 1,
-    ClassVipCapacity INT,
-    ClassEconomyCapacity INT
+	NumberOfSeatsOnVipRow int,
+    NumberOfSeatsOnVipColumn int,
+    NumberOfSeatsOnEconomyRow int,
+    NumberOfSeatsOnEconomyColumn int
 );
-INSERT INTO Airlines (AirlineId, AirlineName, Image, Information, Status, ClassVipCapacity, ClassEconomyCapacity) 
+INSERT INTO Airlines (AirlineId, AirlineName, Image, Information, Status, NumberOfSeatsOnVipRow, NumberOfSeatsOnVipColumn,NumberOfSeatsOnEconomyRow,NumberOfSeatsOnEconomyColumn) 
 VALUES 
-(1, 'Bamboo Airways_1', 'news_bamboo_1.jpg', 'Hãng hàng không tư nhân đầu tiên tại Việt Nam.', 1, 20, 180),
-(2, 'Bamboo Airlines_2', 'news_bamboo_1.jpg', 'Hãng hàng không quốc gia Việt Nam với dịch vụ chất lượng cao.', 1, 30, 250),
-(3, 'Bamboo Airways_3', 'news_bamboo_1.jpg', 'Hãng hàng không tư nhân đầu tiên tại Việt Nam.', 1, 20, 180),
-(4, 'Bamboo Airlines_4', 'news_bamboo_1.jpg', 'Hãng hàng không quốc gia Việt Nam với dịch vụ chất lượng cao.', 1, 30, 250);
+(1, 'Bamboo Airways_1', 'news_bamboo_1.jpg', 'Hãng hàng không tư nhân đầu tiên tại Việt Nam.', 1, 4, 5,6,7),
+(2, 'Bamboo Airlines_2', 'news_bamboo_1.jpg', 'Hãng hàng không quốc gia Việt Nam với dịch vụ chất lượng cao.',1, 4, 5,6,7),
+(3, 'Bamboo Airways_3', 'news_bamboo_1.jpg', 'Hãng hàng không tư nhân đầu tiên tại Việt Nam.', 1, 4, 5,6,7),
+(4, 'Bamboo Airlines_4', 'news_bamboo_1.jpg', 'Hãng hàng không quốc gia Việt Nam với dịch vụ chất lượng cao.', 1, 4, 5,6,7);
 
 
 

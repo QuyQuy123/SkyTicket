@@ -57,10 +57,8 @@ public class BookingFlightTicketsController extends HttpServlet {
 
             int flightDetailId = Integer.parseInt(request.getParameter("flightDetailId"));
             int seatCategoryId = Integer.parseInt(request.getParameter("seatCategoryId"));
-            float commonPriceFloat = Float.parseFloat(request.getParameter("commonPrice"));
 
-            totalPrice = commonPriceFloat;
-//            System.out.println("Price:"+totalPrice);
+            totalPrice = Float.parseFloat(request.getParameter("commonPrice"));
             String flightDetailId2Str = request.getParameter("flightDetailId2");
             int flightDetailId2 = 0;
             int seatCategoryId2 = 0;
@@ -76,6 +74,7 @@ public class BookingFlightTicketsController extends HttpServlet {
 
             String booking = bd.createBooking(pContactName,pContactPhoneNumber,pContactEmail,totalPrice,id);
             Bookings newBookId = bd.getLatestBooking();
+            System.out.println(newBookId);
 
             Bookings b =bd.getBookingByCode(booking);
 
@@ -85,13 +84,14 @@ public class BookingFlightTicketsController extends HttpServlet {
                 Date pDob = Date.valueOf(request.getParameter("pDob" + i));
                 String pPhoneNumber = request.getParameter("pPhoneNumber" + i).trim();
                 String code = request.getParameter("code" + i);
-                if (code != null) {
-                    if (td.getTicketByCode(code, flightDetailId, seatCategoryId) != null) {
-                        bd.deleteOrderByCode(b.getCode());
-                        request.getRequestDispatcher("views/public/failedBooking.jsp").forward(request, response);
-                        return;
-                    }
-                }
+
+//                if (code != null) {
+//                    if (td.getTicketByCode(code, flightDetailId, seatCategoryId) != null) {
+//                        bd.deleteOrderByCode(b.getCode());
+//                        request.getRequestDispatcher("views/public/failedBooking.jsp").forward(request, response);
+//                        return;
+//                    }
+//                }
                 boolean passeger = pd.createPassenger(pName,pPhoneNumber,pDob,pSex,id != null ? id : 0,newBookId.getBookingID());
                 List<Passengers> lp = pd.getPassengersByBookingId(newBookId.getBookingID());
                 for (Passengers p1 : lp) {
@@ -130,12 +130,13 @@ public class BookingFlightTicketsController extends HttpServlet {
                         } else {
 
                             Integer pBaggages = request.getParameter("pBaggages" + i).equals("0") ? null : Integer.parseInt(request.getParameter("pBaggages" + i));
+                            System.out.println("pBaggages" + pBaggages);
                             int pBPrice = ((pBaggages != null) ? bgd.getPriceBaggagesById(pBaggages) : 0);
                             totalPrice += pBPrice;
                             td.createTicket(code, flightDetailId, seatCategoryId, p1.getPassengerID(), newBookId.getBookingID(),1, 2000);
                         }
                     }
-                    //bd.updateTotalPrice(b.getBookingID(), totalPrice);
+                   // bd.updateTotalPrice(b.getBookingID(), totalPrice);
                 }
             }
 
@@ -144,7 +145,6 @@ public class BookingFlightTicketsController extends HttpServlet {
                 request.setAttribute("account", acc);
             }
              b = bd.getLatestBooking();
-            System.out.println(b.getContactName());
             email.sendBookingEmail(b.getContactEmail(),b);
 
             request.setAttribute("bookingId", b.getBookingID());
