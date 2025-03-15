@@ -98,7 +98,9 @@
                             <li class="breadcrumb-item active" aria-current="page">Payments</li>
                         </ul>
                     </nav>
+
                 </div>
+
 
                 <div class="row">
                     <div class="col-12 mt-4">
@@ -108,12 +110,35 @@
                                 <tr>
                                     <th class="border-bottom p-3">ID</th>
                                     <th class="border-bottom p-3">Method</th>
-                                    <th class="border-bottom p-3">Date Time</th>
-                                    <th class="border-bottom p-3">Total Price</th>
+
+                                    <th class="border-bottom p-3">
+                                        Date Time
+                                        <a href="<%= request.getContextPath() %>/sortPayments?sortBy=date&order=<%= "asc".equals(request.getParameter("order")) && "date".equals(request.getParameter("sortBy")) ? "desc" : "asc" %>">
+                                            <% if ("date".equals(request.getParameter("sortBy"))) { %>
+                                            <i class="uil <%= "asc".equals(request.getParameter("order")) ? "uil-arrow-up" : "uil-arrow-down" %>"></i>
+                                            <% } else { %>
+                                            <i class="uil uil-sort"></i> <!-- Mặc định icon khi chưa sắp xếp -->
+                                            <% } %>
+                                        </a>
+                                    </th>
+
+                                    <th class="border-bottom p-3">
+                                        Total Price
+                                        <a href="<%= request.getContextPath() %>/sortPayments?sortBy=price&order=<%= "asc".equals(request.getParameter("order")) && "price".equals(request.getParameter("sortBy")) ? "desc" : "asc" %>">
+                                            <% if ("price".equals(request.getParameter("sortBy"))) { %>
+                                            <i class="uil <%= "asc".equals(request.getParameter("order")) ? "uil-arrow-up" : "uil-arrow-down" %>"></i>
+                                            <% } else { %>
+                                            <i class="uil uil-sort"></i>
+                                            <% } %>
+                                        </a>
+                                    </th>
+
+
                                     <th class="border-bottom p-3">Status</th>
                                     <th class="border-bottom p-3">Actions</th>
                                 </tr>
                                 </thead>
+
                                 <tbody>
                                 <%
                                     for (Payments payments: listPayments){
