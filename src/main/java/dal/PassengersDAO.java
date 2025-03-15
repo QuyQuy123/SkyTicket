@@ -28,7 +28,8 @@ public class PassengersDAO extends DBConnect {
                 Date birthDate = rs.getDate("Dob");
                 String gender = rs.getString("Gender");
                 int accountId = rs.getInt("AccountId");
-                list.add(new Passengers(id, name, phone, email, numberId, address, birthDate, gender, accountId));
+                int bookingId = rs.getInt("BookingId");
+                list.add(new Passengers(id, name, phone, email, numberId, address, birthDate, gender, accountId, bookingId));
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -145,7 +146,8 @@ public class PassengersDAO extends DBConnect {
                     Date birthDate = rs.getDate("Dob");
                     String gender = rs.getString("Gender");
                     int accountId = rs.getInt("AccountId");
-                    return new Passengers(passengerId, passengerName, phone, email, idNumber, address, birthDate, gender, accountId);
+                    int bookingId = rs.getInt("BookingId");
+                    return new Passengers(passengerId, passengerName, phone, email, idNumber, address, birthDate, gender, accountId, bookingId);
                 }
             }
         } catch (SQLException e) {
@@ -154,8 +156,24 @@ public class PassengersDAO extends DBConnect {
         return null;
     }
 
-    public static void main(String[] args) {
+    public int getBookingidById(int id) {
+        String sql = "SELECT bookingid FROM Passengers WHERE passengerid = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("bookingid");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 
+    public static void main(String[] args) {
+        PassengersDAO passengersDAO = new PassengersDAO();
+        System.out.println(passengersDAO.getBookingidById(2));
     }
 }
 

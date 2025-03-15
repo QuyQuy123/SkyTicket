@@ -13,6 +13,7 @@ public class Passengers {
     private Date dateOfBirth;
     private String gender;
     private int accountID;
+    private int bookingID;
 
     public Passengers() {}
 
@@ -24,7 +25,7 @@ public class Passengers {
         this.numberID = numberID;
     }
 
-    public Passengers(int passengerID, String passengerName, String phone, String email, String numberID, String address, Date dateOfBirth, String gender, int accountID) {
+    public Passengers(int passengerID, String passengerName, String phone, String email, String numberID, String address, Date dateOfBirth, String gender, int accountID, int bookingID) {
         this.passengerID = passengerID;
         this.passengerName = passengerName;
         this.phone = phone;
@@ -34,6 +35,7 @@ public class Passengers {
         this.dateOfBirth = dateOfBirth;
         this.gender = gender;
         this.accountID = accountID;
+        this.bookingID = bookingID;
     }
 
     public int getPassengerID() {
@@ -108,6 +110,14 @@ public class Passengers {
         this.accountID = accountID;
     }
 
+    public int getBookingID() {
+        return bookingID;
+    }
+
+    public void setBookingID(int bookingID) {
+        this.bookingID = bookingID;
+    }
+
     @Override
     public String toString() {
         return "Passengers{" +
@@ -118,8 +128,9 @@ public class Passengers {
                 ", numberID='" + numberID + '\'' +
                 ", address='" + address + '\'' +
                 ", dateOfBirth=" + dateOfBirth +
-                ", gender=" + gender +
+                ", gender='" + gender + '\'' +
                 ", accountID=" + accountID +
+                ", bookingID=" + bookingID +
                 '}';
     }
 }
