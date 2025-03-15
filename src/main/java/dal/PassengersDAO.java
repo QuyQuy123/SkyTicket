@@ -37,7 +37,7 @@ public class PassengersDAO extends DBConnect {
         return list;
     }
 
-    public List<Passengers> getLocationsByPage(int start, int total) {
+    public List<Passengers> getPassengersByPage(int start, int total) {
         List<Passengers> list = new ArrayList<>();
         try {
             String query = "SELECT passengerid, passengername, phone," +
