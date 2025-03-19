@@ -258,15 +258,24 @@
                       <div style="text-align: center; font-size: 20px">Select Ticket Class</div>
                       <div class="ticket-category-list" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 90px;">
                           <%
-                              int activated = 0;
-                              for (int i = 0; i < seats.size(); i++) {
-                                  if (seats.get(i).getStatus() == 1) {
-                                      activated += 1;
-                                  }
-                              }
-
                               // Dùng HashSet để kiểm tra loại ghế đã hiển thị chưa
                               Set<String> displayedClasses = new HashSet<>();
+
+                              // Đếm số ghế có Status = 1 cho mỗi hạng ghế
+                              int businessSeatsActive = 0;
+                              int economySeatsActive = 0;
+
+                              // Đếm số ghế active cho từng hạng
+                              for (int i = 0; i < seats.size(); i++) {
+                                  String seatClass = seats.get(i).getSeatClass();
+                                  if (seats.get(i).getStatus() == 1) {
+                                      if ("Business".equals(seatClass)) {
+                                          businessSeatsActive++;
+                                      } else if ("Economy".equals(seatClass)) {
+                                          economySeatsActive++;
+                                      }
+                                  }
+                              }
 
                               // Lặp qua các hạng ghế muốn hiển thị (Business và Economy)
                               String[] targetClasses = {"Business", "Economy"};
@@ -281,17 +290,16 @@
                                       if (displayedClasses.contains(seatClass)) {
                                           continue;
                                       }
-
                                       displayedClasses.add(seatClass);
-                                      if (seats.get(i).getIsBooked() == 0) {
-                                          // Lấy giá vé dựa trên seatClass
-                                          double price = 0;
-                                          if ("Business".equals(seatClass)) {
-                                              // Giả định giá Business là 1.5 lần giá Economy, hoặc lấy từ seats.get(i).getPrice()
-                                              price = (long) (f.getClassVipPrice()); // Điều chỉnh tỷ lệ hoặc dùng seats.get(i).getPrice()
-                                          } else if ("Economy".equals(seatClass)) {
-                                              price = f.getClassEconomyPrice(); // Giá gốc cho Economy
-                                          }
+                                      // Lấy giá vé dựa trên seatClass
+                                      double price = 0;
+                                      if ("Business".equals(seatClass)) {
+                                          price = (long) f.getClassVipPrice();
+                                      } else if ("Economy".equals(seatClass)) {
+                                          price = f.getClassEconomyPrice();
+                                      }
+                                      // Kiểm tra xem hạng ghế này có ghế nào active không
+                                      boolean isCategoryActive = ("Business".equals(seatClass) && businessSeatsActive > 0) || ("Economy".equals(seatClass) && economySeatsActive > 0);
                           %>
 
                           <div class="ticket-category-box" style="width:30%;margin-bottom: 50px">
@@ -382,7 +390,7 @@
                                           break;
                                       }
                                   }
-                              }
+
                           %>
                       </div>
                   </div>

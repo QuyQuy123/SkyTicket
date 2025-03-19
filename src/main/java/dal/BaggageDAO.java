@@ -166,6 +166,21 @@ public class BaggageDAO extends DBConnect {
 
         return baggages;
     }
+    public int getPriceBaggagesById(int id) {
+        List<Baggages> list = new ArrayList<>();
+        String sql = "select price from Baggages \n"
+                + "where BaggageId = ?";
+        try(PreparedStatement prepare = connection.prepareStatement(sql)) {
+            prepare.setInt(1, id);
+            ResultSet resultSet = prepare.executeQuery();
+            while (resultSet.next()) {
+                return resultSet.getInt("price");
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return 0;
+    }
 
 
 
@@ -177,9 +192,7 @@ public class BaggageDAO extends DBConnect {
             System.out.println(baggage);
         }
 
-
-
-
-
     }
+
+
 }

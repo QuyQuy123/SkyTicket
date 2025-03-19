@@ -2,6 +2,7 @@
 -- CREATE DATABASE SkyTickets;
 -- use SkyTickets;
 
+
 -- Bảng Roles
 CREATE TABLE Roles (
     RoleId INT PRIMARY KEY AUTO_INCREMENT,
@@ -38,6 +39,22 @@ CREATE TABLE Discounts (
     FOREIGN KEY (AccountId) REFERENCES Accounts(AccountId)
 );
 
+
+
+-- Bảng Bookings
+CREATE TABLE Bookings (
+    BookingId INT PRIMARY KEY AUTO_INCREMENT,
+    Code varchar(50),
+    ContactName nvarchar(50),
+    ContactPhone nvarchar(15),
+    ContactEmail nvarchar(50),
+    TotalPrice DECIMAL(10,2) NOT NULL,
+    BookingDate DATETIME DEFAULT CURRENT_TIMESTAMP,
+    Status VARCHAR(50),
+    AccountId INT,
+    FOREIGN KEY (AccountId) REFERENCES Accounts(AccountId)
+);
+
 -- Bảng Passengers
 CREATE TABLE Passengers (
     PassengerId INT PRIMARY KEY AUTO_INCREMENT,
@@ -49,20 +66,11 @@ CREATE TABLE Passengers (
     Dob DATE,
     Gender ENUM('Male', 'Female'),
     AccountId INT,
-    FOREIGN KEY (AccountId) REFERENCES Accounts(AccountId)
+    BookingId int,
+    FOREIGN KEY (AccountId) REFERENCES Accounts(AccountId),
+    FOREIGN KEY (BookingId) REFERENCES Bookings(BookingId)
+    
 );
-
-
--- Bảng Bookings
-CREATE TABLE Bookings (
-    BookingId INT PRIMARY KEY AUTO_INCREMENT,
-    TotalPrice DECIMAL(10,2) NOT NULL,
-    BookingDate DATETIME DEFAULT CURRENT_TIMESTAMP,
-    Status VARCHAR(50),
-    AccountId INT,
-    FOREIGN KEY (AccountId) REFERENCES Accounts(AccountId)
-);
-
 -- Bảng Payments
 CREATE TABLE Payments (
     PaymentId INT PRIMARY KEY AUTO_INCREMENT,
@@ -72,16 +80,6 @@ CREATE TABLE Payments (
     PaymentDate DATETIME DEFAULT CURRENT_TIMESTAMP,
     TotalPrice DECIMAL(10,2),
     FOREIGN KEY (BookingId) REFERENCES Bookings(BookingId)
-);
-
--- Bảng BookingDetails
-CREATE TABLE BookingDetails (
-    BookingDetailId INT PRIMARY KEY AUTO_INCREMENT,
-    BookingId INT NOT NULL,
-    PassengerId INT NOT NULL,
-    BaggageId INT,
-    FOREIGN KEY (BookingId) REFERENCES Bookings(BookingId),
-    FOREIGN KEY (PassengerId) REFERENCES Passengers(PassengerId)
 );
 
 -- Bảng Airlines
@@ -96,10 +94,10 @@ CREATE TABLE Airlines (
 );
 INSERT INTO Airlines (AirlineId, AirlineName, Image, Information, Status, ClassVipCapacity, ClassEconomyCapacity) 
 VALUES 
-(1, 'Bamboo Airways', 'new_bamboo_1.jpg', 'Hãng hàng không tư nhân đầu tiên tại Việt Nam.', 1, 20, 180),
-(2, 'Bamboo Airlines', 'new_bamboo_1.jpg', 'Hãng hàng không quốc gia Việt Nam với dịch vụ chất lượng cao.', 1, 30, 250),
-(3, 'Bamboo Airways', 'new_bamboo_1.jpg', 'Hãng hàng không tư nhân đầu tiên tại Việt Nam.', 1, 20, 180),
-(4, 'Bamboo Airlines', 'new_bamboo_1.jpg', 'Hãng hàng không quốc gia Việt Nam với dịch vụ chất lượng cao.', 1, 30, 250);
+(1, 'Bamboo Airways_1', 'news_bamboo_1.jpg', 'Hãng hàng không tư nhân đầu tiên tại Việt Nam.', 1, 20, 180),
+(2, 'Bamboo Airlines_2', 'news_bamboo_1.jpg', 'Hãng hàng không quốc gia Việt Nam với dịch vụ chất lượng cao.', 1, 30, 250),
+(3, 'Bamboo Airways_3', 'news_bamboo_1.jpg', 'Hãng hàng không tư nhân đầu tiên tại Việt Nam.', 1, 20, 180),
+(4, 'Bamboo Airlines_4', 'news_bamboo_1.jpg', 'Hãng hàng không quốc gia Việt Nam với dịch vụ chất lượng cao.', 1, 30, 250);
 
 
 
@@ -271,14 +269,13 @@ CREATE TABLE Tickets (
     Code VARCHAR(50) UNIQUE NOT NULL,
     Status VARCHAR(50),
     CreateAt DATETIME DEFAULT CURRENT_TIMESTAMP,
-    BookingDetailId INT,
     BookingId INT,
     FlightId INT,
     BaggageId int,
+    Price float,
     CancelledAT datetime,
     FOREIGN KEY (SeatId) REFERENCES Seats(SeatId),
     FOREIGN KEY (PassengerId) REFERENCES Passengers(PassengerId),
-    FOREIGN KEY (BookingDetailId) REFERENCES BookingDetails(BookingDetailId),
     FOREIGN KEY (BaggageId) REFERENCES Baggages(BaggageId),
     FOREIGN KEY (FlightId) REFERENCES Flights(FlightId)
 	
