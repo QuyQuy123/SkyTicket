@@ -12,15 +12,13 @@ import model.UserGoogle;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 @WebServlet(name = "GoogleLoginHandlerController", urlPatterns = {"/LoginGoogle"})
 public class GoogleLoginHandlerController extends HttpServlet {
     AccountDAO ad = new AccountDAO();
-    LoginDAO ld = new LoginDAO();
     AccountDAO dao = new AccountDAO();
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException {
+            throws IOException, SQLException {
         HttpSession session = request.getSession();
         String code = request.getParameter("code");
         GoogleLogin gg = new GoogleLogin();
@@ -35,10 +33,6 @@ public class GoogleLoginHandlerController extends HttpServlet {
 
         if (!dao.checkEmailExists(data.getEmail())) {
             dao.addNewGoogleAccount(acc);}
-//        } else if (ld.checkStatus(data.getEmail())) {
-//            request.setAttribute("error", "Tài khoản của bạn đã bị khóa");
-//            request.getRequestDispatcher("views/public/Login.jsp").forward(request, response);
-//        }
         int id = ad.getIdByEmailOrPhoneNumber(acc.getEmail());
         session.setAttribute("id", id);
         response.sendRedirect("home");
