@@ -157,9 +157,11 @@
                                             <label class="form-label">Status: </label>
                                             <label for="name"></label><input name="name" id="bookingid" type="text" disabled
                                                                              class="form-control"
-                                                                             value="<%=bookings.getStatus() != null ? bookings.getStatus(): ""%>">
+                                                                             value="<%=bookings.getStatus() != 0 ? bookings.getStatus(): ""%>">
                                         </div>
                                     </div><!--end col-->
+                                    <% if (bookings.getAccountID() != 0) {
+                                    %>
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label class="form-label">Account ID: </label>
@@ -168,6 +170,7 @@
                                                                              value="<%=bookings.getAccountID() != 0 ? bookings.getAccountID(): ""%>">
                                         </div>
                                     </div><!--end col-->
+                                    <% } %>
 
 
                                     <a href="${pageContext.request.contextPath}/listBookingsURL" class="btn btn-primary">Back</a>

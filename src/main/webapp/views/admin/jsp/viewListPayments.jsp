@@ -84,6 +84,7 @@
                                     <option value="">All</option>
                                     <option value="Completed">Completed</option>
                                     <option value="Failed">Failed</option>
+                                    <option value="Pending">Pending</option>
                                 </select>
                                 <button type="submit" class="btn btn-outline-primary rounded-pill me-2">Search</button>
                             </form>
@@ -148,7 +149,14 @@
                                     <td class="p-3"><%= payments.getPaymentMethod() %></td>
                                     <td class="p-3"><%= payments.getPaymentDate() %></td>
                                     <td class="p-3"><%= payments.getTotalPrice() %> $</td>
-                                    <td class="p-3"><span class="badge <%= payments.getPaymentStatus().equals("Completed") ? "bg-soft-success" : "bg-soft-warning" %>"><%= payments.getPaymentStatus().equals("Completed") ? "Completed" : "Failed" %></span></td>
+                                    <td class="p-3">
+                                        <span class="badge
+                                        <%= payments.getPaymentStatus().equals("Completed") ? "bg-soft-success" :
+                                            (payments.getPaymentStatus().equals("Pending") ? "bg-soft-info" : "bg-soft-warning") %>">
+                                        <%= payments.getPaymentStatus() %>
+                                        </span>
+                                    </td>
+
                                     <td class="p-3">
                                         <a href="${pageContext.request.contextPath}/viewPayment?id=<%= payments.getPaymentID() %>" class="btn btn-icon btn-sm btn-soft-primary"><i
                                                 class="uil uil-eye"></i></a>
@@ -168,24 +176,31 @@
         <div class="d-flex justify-content-center mt-3">
             <nav aria-label="Page navigation">
                 <ul class="pagination">
+                    <c:set var="baseUrl" value="${not empty sortBy ? 'sortPayments' : 'searchPayments'}"/>
+
+                    <!-- Nút Previous -->
                     <c:if test="${currentPage > 1}">
                         <li class="page-item">
-                            <a class="page-link" href="${pageContext.request.contextPath}/searchPayments?search=${searchName}&page=${currentPage - 1}">Previous</a>
+                            <a class="page-link" href="${pageContext.request.contextPath}/${baseUrl}?search=${searchName}&status=${searchStatus}&sortBy=${sortBy}&order=${order}&page=${currentPage - 1}">Previous</a>
                         </li>
                     </c:if>
 
+                    <!-- Hiển thị trang hiện tại / tổng số trang -->
                     <li class="page-item disabled">
                         <span class="page-link">${currentPage} / ${totalPages}</span>
                     </li>
 
+                    <!-- Nút Next -->
                     <c:if test="${currentPage < totalPages}">
                         <li class="page-item">
-                            <a class="page-link" href="${pageContext.request.contextPath}/searchPayments?search=${searchName}&page=${currentPage + 1}">Next</a>
+                            <a class="page-link" href="${pageContext.request.contextPath}/${baseUrl}?search=${searchName}&status=${searchStatus}&sortBy=${sortBy}&order=${order}&page=${currentPage + 1}">Next</a>
                         </li>
                     </c:if>
                 </ul>
             </nav>
         </div>
+
+
 
 
         <!-- Footer Start -->

@@ -82,10 +82,8 @@
                        placeholder="Search by...">
                 <select name="status" class="form-select border rounded-pill me-2">
                   <option value="">All</option>
-                  <option value="Completed">Completed</option>
-                  <option value="Cancelled">Cancelled</option>
-                  <option value="Pending">Pending</option>
-                  <option value="Confirmed">Confirmed</option>
+                  <option value="1">DemoC</option>
+                  <option value="2">DemoF</option>
                 </select>
                 <button type="submit" class="btn btn-outline-primary rounded-pill me-2">Search</button>
               </form>
@@ -128,28 +126,8 @@
                   <td class="p-3"><%= bookings.getContactName() %></td>
                   <td class="p-3"><%= bookings.getContactPhone() %></td>
                   <td class="p-3"><%= bookings.getContactEmail() %></td>
-                  <td class="p-3"><%= bookings.getTotalPrice() %></td>
-                  <td class="p-3">
-    <span class="badge
-        <%
-            String status = bookings.getStatus();
-            String badgeClass = "bg-soft-secondary"; // Mặc định
-
-            if ("Completed".equals(status)) {
-                badgeClass = "bg-soft-success";
-            } else if ("Pending".equals(status)) {
-                badgeClass = "bg-soft-warning";
-            } else if ("Cancelled".equals(status)) {
-                badgeClass = "bg-soft-danger";
-            } else if ("In Progress".equals(status)) {
-                badgeClass = "bg-soft-primary";
-            }
-        %>
-        <%= badgeClass %>">
-        <%= status %>
-    </span>
-                  </td>
-
+                  <td class="p-3"><%= bookings.getTotalPrice() %> $</td>
+                  <td class="p-3"><span class="badge <%= bookings.getStatus() == 1 ? "bg-soft-success" : "bg-soft-warning" %>"><%= bookings.getStatus() == 1 ? "DemoC" : "DemoF" %></span></td>
                   <td class="p-3">
                     <a href="${pageContext.request.contextPath}/viewBooking?id=<%= bookings.getBookingID() %>" class="btn btn-icon btn-sm btn-soft-primary"><i
                             class="uil uil-eye"></i></a>

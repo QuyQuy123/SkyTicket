@@ -8,6 +8,7 @@ import model.Payments;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -26,8 +27,8 @@ public class BookingsDAO extends DBConnect {
                 String phone = rs.getString("ContactPhone");
                 String email = rs.getString("ContactEmail");
                 double totalPrice = rs.getDouble("TotalPrice");
-                Date bookingDate = rs.getDate("BookingDate");
-                String status = rs.getString("status");
+                Timestamp bookingDate = rs.getTimestamp("BookingDate");
+                int status = rs.getInt("status");
                 int accountId = rs.getInt("AccountId");
                 list.add(new Bookings(id, code, name, phone, email, totalPrice, bookingDate, status, accountId));
             }
@@ -50,8 +51,8 @@ public class BookingsDAO extends DBConnect {
                 rs.getString("ContactPhone"),
                 rs.getString("ContactEmail"),
                 rs.getDouble("TotalPrice"),
-                rs.getDate("BookingDate"),
-                rs.getString("status"),
+                rs.getTimestamp("BookingDate"),
+                rs.getInt("status"),
                 rs.getInt("AccountId"));
             }
         } catch (SQLException e) {
@@ -77,7 +78,7 @@ public class BookingsDAO extends DBConnect {
                         rs.getString("contactEmail"),
                         rs.getDouble("TotalPrice"),
                         rs.getTimestamp("bookingDate"),
-                        rs.getString("status"),
+                        rs.getInt("status"),
                         rs.getInt("accountId")
 
                 ));
@@ -140,7 +141,7 @@ public class BookingsDAO extends DBConnect {
                         rs.getString("contactEmail"),
                         rs.getDouble("totalPrice"),
                         rs.getTimestamp("bookingDate"),
-                        rs.getString("status"),
+                        rs.getInt("status"),
                         rs.getInt("accountId")
                 ));
             }
@@ -196,8 +197,8 @@ public class BookingsDAO extends DBConnect {
                     String contactPhone = rs.getString("contactPhone");
                     String contactEmail = rs.getString("contactEmail");
                     double totalPrice = rs.getDouble("totalPrice");
-                    Date bookingdate = rs.getTimestamp("bookingdate");
-                    String status = rs.getString("status");
+                    Timestamp bookingdate = rs.getTimestamp("bookingdate");
+                    int status = rs.getInt( "status");
                     int accountId = rs.getInt("accountId");
                     return new Bookings(bookingid, code, contactName, contactPhone, contactEmail, totalPrice, bookingdate, status, accountId);
                 }
