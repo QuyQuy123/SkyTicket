@@ -75,8 +75,9 @@ CREATE TABLE Payments (
     PaymentId INT PRIMARY KEY AUTO_INCREMENT,
     BookingId INT NOT NULL,
     PaymentMethod VARCHAR(50),
-    PaymentStatus VARCHAR(50),
+    PaymentStatus int default 1,
     PaymentDate DATETIME DEFAULT CURRENT_TIMESTAMP,
+    Email nvarchar(50),
     TotalPrice DECIMAL(10,2),
     FOREIGN KEY (BookingId) REFERENCES Bookings(BookingId)
 );

@@ -55,6 +55,9 @@ public class Tickets{
     public Tickets() {
     }
 
+    public Tickets(int ticketId, int seatId, int passengerId, String code, int status, Timestamp createAt, int bookingId, int flightId, int baggageId, float price) {
+    }
+
     public float getPrice() {
         return price;
     }
