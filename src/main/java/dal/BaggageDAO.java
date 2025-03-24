@@ -182,6 +182,30 @@ public class BaggageDAO extends DBConnect {
         return 0;
     }
 
+    public Baggages getBaggageById(int baggageId) {
+        Baggages baggage = null;
+        String query = "SELECT * FROM Baggages WHERE BaggageId = ?";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, baggageId);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    int id = resultSet.getInt("BaggageId");
+                    float weight = resultSet.getFloat("Weight");
+                    double price = resultSet.getDouble("Price");
+                    int airlineId = resultSet.getInt("AirlineId");
+                    int status = resultSet.getInt("Status");
+                    baggage = new Baggages(id, weight, price, airlineId, status);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return baggage;
+    }
+
+
 
 
     // Hàm main để test các chức năng

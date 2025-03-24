@@ -159,6 +159,15 @@
             </li>
 
             <li class="sidebar-dropdown">
+                <a href="javascript:void(0)"><i class="uil uil-flip-h me-2 d-inline-block"></i>Bookings</a>
+                <div class="sidebar-submenu">
+                    <ul>
+                        <li><a href="<%= request.getContextPath() %>/listBookingsURL">List of bookings</a></li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="sidebar-dropdown">
                 <a href="javascript:void(0)"><i
                         class="uil uil-sign-in-alt me-2 d-inline-block"></i>Updating</a>
                 <div class="sidebar-submenu">

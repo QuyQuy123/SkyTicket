@@ -63,6 +63,9 @@
                     <li><a href="admin">Manager</a></li>
                     <%}%>
                     <li><a href="changePaswordURL">Change Password</a></li>
+                    <% if(account.getRoleId()==1){ %>
+                    <li><a href="ticketHistoryURL">Ticket History</a></li>
+                    <%}%>
                     <li><a style="color: red;" href="LogoutURL">Log out</a></li>
                 </ul>
             </div>

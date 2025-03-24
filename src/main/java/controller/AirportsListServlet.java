@@ -23,7 +23,7 @@ public class AirportsListServlet extends HttpServlet {
             try {
                 page = Integer.parseInt(req.getParameter("page"));
             } catch (NumberFormatException e) {
-                page = 1; // Nếu không phải là số hợp lệ, chọn trang mặc định là 1
+                page = 1;
             }
         }
 

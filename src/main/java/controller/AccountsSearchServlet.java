@@ -9,7 +9,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.Accounts;
 import model.Roles;
-
 import java.io.IOException;
 import java.util.List;
 
@@ -27,7 +26,7 @@ public class AccountsSearchServlet extends HttpServlet {
         List<Roles> rolesList = rolesDAO.getAllRoles();
         request.setAttribute("rolesList", rolesList);
 
-        // Lấy tham số tìm kiếm từ form
+
         String search = request.getParameter("search");
         String roleIdStr = request.getParameter("roleId");
         String statusStr = request.getParameter("status");
@@ -36,15 +35,15 @@ public class AccountsSearchServlet extends HttpServlet {
         Integer roleId = (roleIdStr != null && !roleIdStr.isEmpty()) ? Integer.parseInt(roleIdStr) : null;
         Integer status = (statusStr != null && !statusStr.isEmpty()) ? Integer.parseInt(statusStr) : null;
         int page = (pageStr != null) ? Integer.parseInt(pageStr) : 1;
-        int total = RECORDS_PER_PAGE; // Số tài khoản trên mỗi trang
+        int total = RECORDS_PER_PAGE;
         int start = (page - 1) * total;
 
-        // Lấy danh sách tài khoản
+
         List<Accounts> accounts = accountDAO.searchAccounts(search, roleId, status, start, total);
         int totalAccounts = accountDAO.countFilteredAccounts(search, roleId, status);
         int totalPages = (int) Math.ceil((double) totalAccounts / total);
 
-        // Gửi dữ liệu qua JSP
+
         request.setAttribute("accountList", accounts);
         request.setAttribute("totalPages", totalPages);
         request.setAttribute("currentPage", page);
@@ -54,6 +53,9 @@ public class AccountsSearchServlet extends HttpServlet {
         request.setAttribute("searchpage", "page");
 
         request.getRequestDispatcher("views/admin/jsp/viewListAccounts.jsp").forward(request, response);
+
+
+
     }
 
     @Override

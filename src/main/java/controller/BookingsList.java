@@ -1,28 +1,25 @@
 package controller;
 
 
-import dal.AccountDAO;
-import dal.CountriesDAO;
-import dal.LocationsDAO;
-import dal.PassengersDAO;
+import dal.BookingsDAO;
+import dal.PaymentsDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.Locations;
-import model.Passengers;
+import model.Bookings;
+import model.Payments;
 
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(urlPatterns = "/listPassengersURL")
-public class PassengersList extends HttpServlet {
+@WebServlet("/listBookingsURL")
+public class BookingsList extends HttpServlet {
     private static final int RECORDS_PER_PAGE = 6;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        PassengersDAO passengersDAO = new PassengersDAO();
-        AccountDAO accountDAO = new AccountDAO();
+        BookingsDAO bookingsDAO = new BookingsDAO();
 
         int page = 1;
         String pageStr = request.getParameter("page");
@@ -36,25 +33,24 @@ public class PassengersList extends HttpServlet {
             }
         }
 
-        int totalRecords = passengersDAO.getTotalRecords();
+        int totalRecords = bookingsDAO.getTotalRecords();
         int totalPages = (int) Math.ceil((double) totalRecords / RECORDS_PER_PAGE);
 
         // Nếu page lớn hơn totalPages nhưng không có dữ liệu, đưa về trang cuối cùng có dữ liệu
         if (page > totalPages) page = totalPages;
 
-        List<Passengers> listPassengers = passengersDAO.getPassengersByPage((page - 1) * RECORDS_PER_PAGE, RECORDS_PER_PAGE);
+        List<Bookings> listBookings = bookingsDAO.getBookingsByPage((page - 1) * RECORDS_PER_PAGE, RECORDS_PER_PAGE);
 
         // Nếu danh sách lấy về rỗng mà page > 1, quay lại trang trước
-        if (listPassengers.isEmpty() && page > 1) {
+        if (listBookings.isEmpty() && page > 1) {
             page--;
-            listPassengers = passengersDAO.getPassengersByPage((page - 1) * RECORDS_PER_PAGE, RECORDS_PER_PAGE);
+            listBookings = bookingsDAO.getBookingsByPage((page - 1) * RECORDS_PER_PAGE, RECORDS_PER_PAGE);
         }
 
-        request.setAttribute("passengers", listPassengers);
-        request.setAttribute("accounts", accountDAO.getAllAccounts());
+        request.setAttribute("booking", listBookings);
         request.setAttribute("currentPage", page);
         request.setAttribute("totalPages", totalPages);
 
-        request.getRequestDispatcher("/views/admin/jsp/viewListPassengers.jsp").forward(request, response);
+        request.getRequestDispatcher("/views/admin/jsp/viewListBookings.jsp").forward(request, response);
     }
 }

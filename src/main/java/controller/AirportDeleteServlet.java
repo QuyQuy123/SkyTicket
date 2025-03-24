@@ -13,17 +13,17 @@ import java.io.IOException;
 public class AirportDeleteServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Lấy airportId từ request
+
         String airportIdStr = request.getParameter("airportId");
         if (airportIdStr != null) {
             try {
                 int airportId = Integer.parseInt(airportIdStr);
 
-                // Gọi DAO để xóa sân bay
+
                 AirportsDAO dao = new AirportsDAO();
                 boolean isDeleted = dao.deleteAirport(airportId);
 
-                // Nếu xóa thành công, thêm thông báo vào session
+
                 if (isDeleted) {
                     request.getSession().setAttribute("message", "Airport deleted successfully!");
                 } else {
@@ -33,7 +33,7 @@ public class AirportDeleteServlet extends HttpServlet {
                 request.getSession().setAttribute("message", "Invalid airport ID!");
             }
         }
-        // Chuyển hướng về trang danh sách sân bay
+
         response.sendRedirect(request.getContextPath() +"/AirportListURL");
         //request.getRequestDispatcher(request.getContextPath()+"/views/admin/jsp/viewListAirports.jsp").forward(request, response);
     }

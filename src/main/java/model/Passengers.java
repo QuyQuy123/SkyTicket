@@ -24,6 +24,13 @@ public class Passengers {
         this.email = email;
         this.numberID = numberID;
     }
+    public Passengers(int passengerID, String passengerName, Date dateOfBirth, String gender, int accountID) {
+        this.passengerID = passengerID;
+        this.passengerName = passengerName;
+        this.dateOfBirth = dateOfBirth;
+        this.gender = gender;
+        this.accountID = accountID;
+    }
 
     public Passengers(int passengerID, String passengerName, String phone, String email, String numberID, String address, Date dateOfBirth, String gender, int accountID) {
         this.passengerID = passengerID;

@@ -3,6 +3,8 @@ package dal;
 import model.Bookings;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BookingDAO extends DBConnect{
 
@@ -10,7 +12,8 @@ public class BookingDAO extends DBConnect{
     public String createBooking(String contactName, String contactPhone, String contactEmail,float totalPrice, Integer accountId) {
         String sql = "INSERT INTO Bookings (code,contactName, contactPhone, contactEmail,TotalPrice, BookingDate, Status, AccountId) "
                 + "VALUES (?, ?, ?, ?,?,?,?,?)";
-        String code = "abc";
+        AccountDAO acc = new AccountDAO();
+        String code = acc.generateRandomString();
 
         try(PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
@@ -49,33 +52,40 @@ public class BookingDAO extends DBConnect{
         }
     }
 
-    public Bookings getBookingByCode(String code) {
-        String sql = "SELECT BookingId, Code, TotalPrice, BookingDate, Status, AccountId FROM Bookings WHERE Code = ?";
 
-        try( PreparedStatement ps = connection.prepareStatement(sql)) {
+    public Bookings getBookingById(int id) {
+        String sql = "SELECT BookingId, Code, ContactName, ContactPhone, ContactEmail, TotalPrice, BookingDate, Status, AccountId " +
+                "FROM Bookings WHERE BookingId = ?";
 
-            ps.setString(1, code);
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, id);
 
-            ResultSet rs = ps.executeQuery();
-
-            if (rs.next()) {
-                int bookingId = rs.getInt("BookingId");
-                String bookingCode = rs.getString("Code");
-                int totalPrice = rs.getInt("TotalPrice");
-                Timestamp bookingDate = rs.getTimestamp("BookingDate");
-                int status = rs.getInt("Status");
-                Integer accountId = rs.getInt("AccountId");
-                if (rs.wasNull()) {
-                    accountId = null; // Xử lý trường hợp AccountId là NULL
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return new Bookings(
+                            rs.getInt("BookingId"),
+                            rs.getString("Code"),
+                            rs.getString("ContactName"),
+                            rs.getString("ContactPhone"),
+                            rs.getString("ContactEmail"),
+                            rs.getInt("TotalPrice"),
+                            rs.getTimestamp("BookingDate"),
+                            rs.getInt("Status"),
+                            rs.getInt("AccountId")
+                    );
                 }
-
-                return new Bookings(bookingId, bookingCode, totalPrice, bookingDate, status, accountId);
+            } catch (SQLException e) {
+                System.err.println("Error executing query to get booking by ID: " + e.getMessage());
+                e.printStackTrace();
+                throw new RuntimeException("Failed to retrieve booking with ID: " + id, e);
             }
-        } catch (Exception e) {
-            System.out.println("Error retrieving booking by code: " + e.getMessage());
+        } catch (SQLException e) {
+            System.err.println("Error preparing statement for getting booking by ID: " + e.getMessage());
+            e.printStackTrace();
+            throw new RuntimeException("Failed to prepare statement for booking retrieval with ID: " + id, e);
         }
 
-        return null; // Trả về null nếu không tìm thấy hoặc có lỗi
+        return null;
     }
 
     public void deleteOrderByCode(String code) {
@@ -126,12 +136,155 @@ public class BookingDAO extends DBConnect{
         return null;
     }
 
+    public List<Bookings> getOrdersByStatusAndAccountId(int status, int accountId) {
+        List<Bookings> list = new ArrayList<>();
+        String sql = "select * from Bookings\n"
+                + "where Status=? and AccountId = ? order by BookingId desc";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, status);
+            ps.setInt(2, accountId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Bookings b = new Bookings(rs.getInt("BookingId"),
+                        rs.getString("code"),
+                        rs.getString("contactName"),
+                        rs.getString("contactPhone"),
+                        rs.getString("contactEmail"),
+                        rs.getInt("totalPrice"),
+                        rs.getTimestamp("BookingDate"),
+                        rs.getInt("Status"),
+                        rs.getInt("AccountId")
+                );
+                list.add(b);
+            }
+            return list;
 
-
-    public static void main(String[] args) {
-        BookingDAO bookingDAO = new BookingDAO();
-        System.out.println(bookingDAO.getLatestBooking());
+        } catch (Exception e) {
+        }
+        return null;
     }
+
+    public List<Bookings> getListOrderByCodeAndAccountId(String code, int accountId) {
+        List<Bookings> list = new ArrayList<>();
+        String sql = "select * from Bookings\n"
+                + "where code=? and AccountId = ? order by BookingId desc";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, code);
+            ps.setInt(2, accountId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Bookings b = new Bookings(rs.getInt("BookingId"),
+                        rs.getString("code"),
+                        rs.getString("contactName"),
+                        rs.getString("contactPhone"),
+                        rs.getString("contactEmail"),
+                        rs.getInt("totalPrice"),
+                        rs.getTimestamp("BookingDate"),
+                        rs.getInt("Status"),
+                        rs.getInt("AccountId")
+                );
+                list.add(b);
+            }
+            return list;
+
+        } catch (Exception e) {
+        }
+        return null;
+    }
+
+    public int getNumberAllOrdersByAccountId( int accountId) {
+        List<Bookings> list = new ArrayList<>();
+        String sql = "select * from Bookings\n"
+                + "where  AccountId = ? order by BookingId desc";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, accountId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Bookings b = new Bookings(rs.getInt("BookingId"),
+                        rs.getString("code"),
+                        rs.getString("contactName"),
+                        rs.getString("contactPhone"),
+                        rs.getString("contactEmail"),
+                        rs.getInt("totalPrice"),
+                        rs.getTimestamp("BookingDate"),
+                        rs.getInt("Status"),
+                        rs.getInt("AccountId")
+                );
+                list.add(b);
+            }
+            return list.size();
+
+        } catch (Exception e) {
+        }
+        return 0;
+    }
+
+
+
+    public List<Bookings> getAllOrdersByAccountId(int accountId, int index) {
+        List<Bookings> list = new ArrayList<>();
+        int limit = 2; // Mỗi trang hiển thị 2 booking
+        int offset = (index - 1) * limit; // Tính offset
+        String sql = "SELECT * FROM Bookings WHERE AccountId = ? ORDER BY BookingId DESC LIMIT ? OFFSET ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, accountId);
+            ps.setInt(2, limit);
+            ps.setInt(3, offset);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Bookings b = new Bookings(
+                        rs.getInt("BookingId"),
+                        rs.getString("code"),
+                        rs.getString("contactName"),
+                        rs.getString("contactPhone"),
+                        rs.getString("contactEmail"),
+                        rs.getInt("totalPrice"),
+                        rs.getTimestamp("BookingDate"),
+                        rs.getInt("Status"),
+                        rs.getInt("AccountId")
+                );
+                list.add(b);
+            }
+
+            return list;
+        } catch (Exception e) {
+            e.printStackTrace(); // Thêm log để debug lỗi
+        }
+        return null;
+    }
+
+    public double getTotalPriceAllTickets(int bookingId) {
+        double totalPrice = 0.0;
+        String query = "SELECT SUM(Price) AS TotalPrice FROM Tickets WHERE BookingId = ?";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, bookingId);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    totalPrice = resultSet.getDouble("TotalPrice");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return totalPrice;
+    }
+    public static void main(String[] args) {
+        BookingDAO dao = new BookingDAO();
+        Bookings a = dao.getBookingById(11);
+        System.out.println(a);
+
+
+
+    }
+
+
+
 
 
 

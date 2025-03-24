@@ -30,16 +30,16 @@ public class BaggagesListServlet extends HttpServlet {
             }
         }
 
-        // Tổng số bản ghi
+
         int totalRecords = baggageDAO.getTotalRecords();
         int totalPages = (int) Math.ceil((double) totalRecords / RECORDS_PER_PAGE);
 
         if (page > totalPages) page = totalPages;
 
-        // Lấy danh sách hành lý theo trang
+
         List<Baggages> listBaggages = baggageDAO.getBaggagesByPage((page - 1) * RECORDS_PER_PAGE, RECORDS_PER_PAGE);
 
-        // Nếu trang hiện tại không có dữ liệu và lớn hơn 1, giảm trang xuống
+
         if (listBaggages.isEmpty() && page > 1) {
             page--;
             listBaggages = baggageDAO.getBaggagesByPage((page - 1) * RECORDS_PER_PAGE, RECORDS_PER_PAGE);

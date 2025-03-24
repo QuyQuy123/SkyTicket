@@ -24,14 +24,13 @@ public class AirlinesAddServlet extends HttpServlet {
     private static final String UPLOAD_DIR = "img";
 
 
-    // Xử lý yêu cầu GET
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.sendRedirect(request.getContextPath() + "/views/admin/jsp/addAirline.jsp");
     }
 
-    // Xử lý yêu cầu POST
-    // Giới hạn 16MB
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
@@ -54,7 +53,7 @@ public class AirlinesAddServlet extends HttpServlet {
             filePart.write(filePath);
 
 
-            // Lưu vào database
+
             Airlines airline = new Airlines(airlineName, fileName, information, status, numberOfSeatsOnVipRow, numberOfSeatsOnVipColumn, numberOfSeatsOnEcoRow, numberOfSeatsOnEcoColumn);
             AirlinesDAO airlineDAO = new AirlinesDAO();
 
@@ -74,7 +73,7 @@ public class AirlinesAddServlet extends HttpServlet {
                 request.setAttribute("msg", "Airline added successfully");
                 request.getRequestDispatcher("/views/admin/jsp/addAirline.jsp").forward(request, response);
             } else {
-                response.sendRedirect("error.jsp"); // Điều hướng nếu thất bại
+                response.sendRedirect("error.jsp");
             }
         } catch (Exception e) {
             e.printStackTrace();

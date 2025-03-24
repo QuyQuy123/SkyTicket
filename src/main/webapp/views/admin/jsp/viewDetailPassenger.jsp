@@ -1,7 +1,4 @@
-<%@ page import="model.Locations" %>
-<%@ page import="model.Countries" %>
-<%@ page import="model.Passengers" %>
-<%@ page import="model.Accounts" %>
+<%@ page import="model.*" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -72,7 +69,7 @@
     <%@ include file="top.jsp" %>
 
     <% Passengers passengers = (Passengers) request.getAttribute("passenger");
-      Accounts accounts = (Accounts) request.getAttribute("account");
+      Bookings bookings = (Bookings) request.getAttribute("booking");
     %>
 
     <div class="container-fluid">
@@ -158,6 +155,14 @@
                       <label for="name"></label><input name="name" id="gender" type="text" disabled
                                                        class="form-control"
                                                        value="<%=passengers.getGender() != null ? passengers.getGender(): ""%>">
+                    </div>
+                  </div><!--end col-->
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                      <label class="form-label">Booking Code: </label>
+                      <label for="name"></label><input name="name" id="bookingid" type="text" disabled
+                                                       class="form-control"
+                                                       value="<%=bookings.getCode() != null ? bookings.getCode(): ""%>">
                     </div>
                   </div><!--end col-->
                   <% if (passengers.getAccountID() != 0) {

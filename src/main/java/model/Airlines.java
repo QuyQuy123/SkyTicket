@@ -109,4 +109,19 @@ public class Airlines {
     public void setNumberOfSeatsOnEconomyColumn(int numberOfSeatsOnEconomyColumn) {
         this.numberOfSeatsOnEconomyColumn = numberOfSeatsOnEconomyColumn;
     }
+
+    @Override
+    public String toString() {
+        return "Airlines{" +
+                "airlineId=" + airlineId +
+                ", airlineName='" + airlineName + '\'' +
+                ", image='" + image + '\'' +
+                ", information='" + information + '\'' +
+                ", status=" + status +
+                ", numberOfSeatsOnVipRow=" + numberOfSeatsOnVipRow +
+                ", numberOfSeatsOnVipColumn=" + numberOfSeatsOnVipColumn +
+                ", numberOfSeatsOnEconomyRow=" + numberOfSeatsOnEconomyRow +
+                ", numberOfSeatsOnEconomyColumn=" + numberOfSeatsOnEconomyColumn +
+                '}';
+    }
 }

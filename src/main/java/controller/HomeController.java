@@ -20,6 +20,8 @@ public class HomeController extends HttpServlet {
         AccountDAO ad = new AccountDAO();
         NewsDAO nw = new NewsDAO();
         HttpSession session = req.getSession();
+        session.removeAttribute("flightDetailId2");
+        session.removeAttribute("flightDetailId");
 
         Integer idd = (Integer) session.getAttribute("id");
         int i = (idd != null) ? idd : -1;
