@@ -5,6 +5,7 @@
 <%@ page import="java.text.NumberFormat" %>
 <%@ page import="java.util.Locale" %>
 <%@ page import="java.util.List" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%--
 
@@ -40,26 +41,20 @@
             padding: 20px;
         }
 
-        .main-container {
+        .main-container, .main-container2 {
             border: 1px solid #ddd;
             margin-bottom: 20px;
             border-radius: 10px;
             background-color: #fff;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             padding: 20px;
+        }
+
+        .main-container {
             display: flex;
             flex-direction: row;
             justify-content: space-between;
             align-items: center;
-        }
-
-        .main-container2 {
-            border: 1px solid #ddd;
-            margin-bottom: 20px;
-            border-radius: 10px;
-            background-color: #fff;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            padding: 20px;
         }
 
         .main-container img {
@@ -87,7 +82,7 @@
             font-weight: bold;
         }
 
-        .passenger-info {
+        .passenger-info, .passenger-info-input {
             border: 1px solid #ddd;
             border-radius: 8px;
             padding: 20px;
@@ -96,16 +91,13 @@
         }
 
         .passenger-info-input {
-            padding: 15px;
-            margin-bottom: 30px;
-            border-radius: 8px;
             border: 5px solid #9DC567;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
         .passenger-info-input-box {
             display: flex;
-            margin-bottom: 15px
+            margin-bottom: 15px;
         }
 
         .passenger-info-input-box input {
@@ -138,10 +130,7 @@
             transition: border-color 0.3s ease;
         }
 
-        .main-container2 .inform input[type="text"]:focus,
-        .main-container2 .inform input[type="date"]:focus,
-        .main-container2 .inform input[type="number"]:focus,
-        .main-container2 .inform input[type="email"]:focus,
+        .main-container2 .inform input:focus,
         .main-container2 .inform select:focus {
             border-color: #9DC567;
             outline: none;
@@ -163,10 +152,6 @@
             padding: 5px 0;
         }
 
-        .ticket-item span, .ticket-total span {
-            font-size: 16px;
-        }
-
         .ticket-total {
             color: #3C6E57;
             font-weight: bold;
@@ -175,11 +160,35 @@
             padding-top: 10px;
         }
 
-        .ticket-item span:last-child, .ticket-total span:last-child {
-            color: #333;
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
         }
 
+        .modal-content {
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 30%;
+            border-radius: 10px;
+        }
 
+        .close {
+            float: right;
+            font-size: 28px;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: red;
+        }
     </style>
 </head>
 <body>
@@ -209,7 +218,7 @@
     int flightlId = Integer.parseInt(request.getParameter("flightDetailId"));
     Flights f = fd.getFlightById(flightlId);
     int airlineId = f.getAirlineId();
-    Airlines a = ald.getAirlineById(airlineId);
+    Airlines ali = ald.getAirlineById(airlineId);
     int departureAirportId = f.getDepartureAirportId();
     Airports dpa = apd.getAirportById(departureAirportId);
     Locations dpl = ld.getLocationByLId(dpa.getLocationId());
@@ -218,6 +227,11 @@
     Airports dsa = apd.getAirportById(destinationAirportId);
     Locations dsl = ld.getLocationByLId(dsa.getLocationId());
     Countries dsc = cd.getCountryById(dsl.getCountryId());
+    SeatsDAO seatsDAO = new SeatsDAO();
+    List<Seats> seats = seatsDAO.getAllSeatByAirlineId(ali.getAirlineId());
+    request.setAttribute("ali", ali);
+    request.setAttribute("seats", seats);
+    request.setAttribute("seatClass", seatClass);
 
 //    DiscountDAO dd = new DiscountDAO();
 
@@ -227,13 +241,13 @@
 <main>
     <div class="container" style="margin-top: 100px;">
         <div class="main-container">
-            <img src="<%= request.getContextPath() + "/img/" + a.getImage() %>" alt="Logo">
+            <img src="<%= request.getContextPath() + "/img/" + ali.getImage() %>" alt="Logo">
             <div class="details">
                 <h3>Additional Details: </h3>
                 <p>- Passengers: <span><%=adultTicket%> adult,
                             <%=childTicket%> children,
                             <%=infantTicket%> infant</span></p>
-                <p>- Airline: <span><%=a.getAirlineName()%></span></p>
+                <p>- Airline: <span><%=ali.getAirlineName()%></span></p>
 
             </div>
             <div class="details">
@@ -322,7 +336,7 @@
                         if (m == 2) {
                     %>
                     <input type="hidden" name="flightDetailId2" value="<%=flightDetailId2%>"/>
-<%--                    <input type="hidden" name="seatCategoryId2" value="<%=s2.getSeatId()%>"/>    <!-- note -->--%>
+                    <%--                    <input type="hidden" name="seatCategoryId2" value="<%=s2.getSeatId()%>"/>    <!-- note -->--%>
                     <input type="hidden" name="commonPrice2" value="<%= fl2.getClassEconomyPrice() %>"/>
                     <%
                         }%>
@@ -355,6 +369,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="main-container2 passenger-info">
                         <div style="width: 100%; text-align: center;
                                  font-size: 20px;
@@ -428,10 +443,15 @@
                                             <span style=""><%=seatClass%> - <span
                                                     id="seatCodeForDisplaying"><%=s != null ? s.getSeatNumber() : "Not Selected"%></span></span>
                                         </div>
-                                        <button class="btn btn-info" style="text-decoration: none">Choose</button>
-                         c               <input type="hidden" name="code<%=i%>" id="seatCode<%=i%>"/>
+                                        <!-- Include Modal -->
+                                        <%@ include file="modalChooseSeats.jsp" %>
+                                        <!-- Trigger button -->
+                                        <button onclick="openModal()" class="btn btn-info"
+                                                style="text-decoration: none">Choose
+                                        </button>
                                     </div>
-                                    <% if (m == 2) {
+                                    <%
+                                        if (m == 2) {
                                     %>
                                     <div class="passenger-info-input-box">
                                         <div class="passenger-info-input-title" style="width: 121px">Baggage:</div>
@@ -463,21 +483,24 @@
                                             <span style=""><%= seatclass2 %> - <span
                                                     id="seatCodeForDisplaying"><%=s != null ? s.getSeatNumber() : "Not Selected" %></span></span>
                                         </div>
-                                        <button class="btn btn-info" style="text-decoration: none"
-                                                onclick="openSeatModal(<%=i+totalPassengers/2%>)">Choose
+                                        <!-- Trigger button -->
+                                        <button onclick="openModal()" class="btn btn-info"
+                                                style="text-decoration: none">Choose
                                         </button>
-                                        <input type="hidden" name="code<%=i+totalPassengers/2%>"
-                                               id="seatCode<%=i+totalPassengers/2%>"/>
-                                    </div>
 
+                                        <!-- Include Modal -->
+                                        <%@ include file="modalChooseSeats.jsp" %>
+                                    </div>
                                     <%
-                                        }%>
+                                        }
+                                    %>
                                 </div>
                             </div>
                             <%
                                 }
                             %>
-                            <% for (int i = adultTicket + 1; i <= adultTicket + childTicket; i++) {
+                            <%
+                                for (int i = adultTicket + 1; i <= adultTicket + childTicket; i++) {
                             %>
                             <div class="passenger-info-input" style="position: relative">
                                 <div style="position: absolute;
@@ -515,13 +538,16 @@
                                             <span style=""><%=seatClass%> - <span
                                                     id="seatCodeForDisplaying"><%= s != null ? s.getSeatNumber() : "Not Selected"%></span></span>
                                         </div>
-                                        <button class="btn btn-info" style="text-decoration: none"
-                                        >Choose
+                                        <!-- Trigger button -->
+                                        <button onclick="openModal()" class="btn btn-info"
+                                                style="text-decoration: none">Choose
                                         </button>
 
-                                        <input type="hidden" name="code<%=i%>" id="seatCode<%=i%>"/>
+                                        <!-- Include Modal -->
+                                        <%@ include file="modalChooseSeats.jsp" %>
                                     </div>
-                                    <% if (m == 2) {
+                                    <%
+                                        if (m == 2) {
                                     %>
                                     <div class="passenger-info-input-box">
                                         <div class="passenger-info-input-title" style="width: 200px">Select seat for
@@ -531,19 +557,25 @@
                                             <span style=""><%=seatclass2%> - <span
                                                     id="seatCodeForDisplaying"><%= s != null ? s.getSeatNumber() : "Not Selected"%></span></span>
                                         </div>
-                                        <a class="btn btn-info" style="text-decoration: none">Choose</a>
-                                        <input type="hidden" name="code<%=i+totalPassengers/2%>"
-                                               id="seatCode<%=i+totalPassengers/2%>"/>
+                                        <!-- Trigger button -->
+                                        <button onclick="openModal()" class="btn btn-info"
+                                                style="text-decoration: none">Choose
+                                        </button>
+
+                                        <!-- Include Modal -->
+                                        <%@ include file="modalChooseSeats.jsp" %>
                                     </div>
 
                                     <%
-                                        }%>
+                                        }
+                                    %>
                                 </div>
                             </div>
                             <%
                                 }
                             %>
-                            <% for (int i = adultTicket + childTicket + 1; i <= adultTicket + childTicket + infantTicket; i++) {
+                            <%
+                                for (int i = adultTicket + childTicket + 1; i <= adultTicket + childTicket + infantTicket; i++) {
                             %>
                             <div class="passenger-info-input" style="position: relative">
                                 <div style="position: absolute;
@@ -656,7 +688,6 @@
                 </div>
             </div>
 
-
         </div>
 
 </main>
@@ -673,135 +704,6 @@
             const name = document.getElementById("name" + psg).value.trim();
             if (name === "") {
                 alert("Please enter a valid name for passenger " + psg + ". Do not enter spaces only.");
-                return false;
-            }
-        }
-        return true;
-    }
-
-    function handleSeatClick(seat, seatColor, i) {
-        console.log("Seat color: " + seatColor);
-        if (seatColor === '#FFF') {
-            selectSeat(seat, i);
-        } else {
-            alert('This seat cannot be selected.');
-        }
-    }
-
-    let currentChoosingSeat = [];
-    let selectedSeats = [];
-    let selectedSeats2 = [];
-
-    function selectSeat(seat, i) {
-        const seatContainer = seat.querySelector(`.seat-container`);
-        const selectedSeatCodeElement = document.getElementById('selectedSeatCode' + i);
-        const confirmedSeat = document.getElementById("seatCode" + i);
-        const confirmedSeatForDisplaying = document.getElementById("seatCodeForDisplaying");
-
-        const seatCode = seat.querySelector('.seatName').value;
-        if (i <= <%=adultTicket+childTicket+infantTicket%>) {
-            if (selectedSeats.includes(seatCode) && currentChoosingSeat[i] !== seat) {
-                alert('This seat is already selected by another passenger.');
-                return;
-            }
-        } else {
-            if (selectedSeats2.includes(seatCode) && currentChoosingSeat[i] !== seat) {
-                alert('This seat is already selected by another passenger.');
-                return;
-            }
-        }
-
-        console.log(currentChoosingSeat[i]);
-        console.log(selectedSeats);
-        //khi đang có ghế được chọn, chuyển ghế đó thành empty
-        if (currentChoosingSeat[i] !== undefined && currentChoosingSeat[i] !== null) {
-            const preSeat = currentChoosingSeat[i].querySelector('.seat-container');
-            const preRects = preSeat.querySelectorAll('svg rect');
-            preRects.forEach(rect => {
-                rect.setAttribute("fill", "#FFF");
-                rect.setAttribute("stroke", "#B8B8B8");
-            });
-            const prePaths = preSeat.querySelectorAll('path');
-            prePaths.forEach(path => {
-                path.setAttribute("d", "");
-            });
-            //xoá ghế chọn trước đó khỏi selectedSeat
-            if (i <= <%=adultTicket+childTicket+infantTicket%>) {
-                const index = selectedSeats.indexOf(currentChoosingSeat[i].querySelector('.seatName').value);
-                if (index > -1) {
-                    selectedSeats.splice(index, 1);
-                }
-            } else {
-                const index = selectedSeats2.indexOf(currentChoosingSeat[i].querySelector('.seatName').value);
-                if (index > -1) {
-                    selectedSeats2.splice(index, 1);
-                }
-            }
-
-        }
-
-        if (currentChoosingSeat[i] !== seat) {// nhấn sang ghế khác
-            const seatRects = seatContainer.querySelectorAll('svg rect');
-            seatRects.forEach(rect => {
-                rect.setAttribute("fill", "rgb(139, 229, 176)");
-                rect.setAttribute("stroke", "green");
-            });
-            const seatPaths = seatContainer.querySelectorAll('path');
-            seatPaths.forEach(path => {
-                path.setAttribute("d", "M20 6.333A6.67 6.67 0 0 0 13.334 13 6.67 6.67 0 0 0 20 19.667 6.67 6.67 0 0 0 26.667 13 6.669 6.669 0 0 0 20 6.333zm-1.333 10L15.333 13l.94-.94 2.394 2.387 5.06-5.06.94.946-6 6z");
-                path.setAttribute("fill", "green");
-            });
-
-            currentChoosingSeat[i] = seat;
-
-            if (i <= <%=adultTicket+childTicket+infantTicket%>) {
-                selectedSeats.push(seatCode);//thêm ghế vừa chọn vào danh sách ghế được chọn của chuyến đi
-            } else {
-                selectedSeats2.push(seatCode);//thêm ghế vừa chọn vào danh sách ghế được chọn của chuyến về
-            }
-            let tmp = currentChoosingSeat[i].querySelector('.seatName').value;
-            //phần hiển thị ở modal
-            selectedSeatCodeElement.textContent = tmp;
-            //phần input và hiển thị ở form
-            confirmedSeat.value = tmp;
-            confirmedSeatForDisplaying.textContent = tmp;
-        } else { // nhấn thêm lần nữa vào ghế đang chọn để huỷ chọn
-            const seatRects = seatContainer.querySelectorAll('svg rect');
-            seatRects.forEach(rect => {
-                rect.setAttribute("fill", "#FFF");
-                rect.setAttribute("stroke", "#B8B8B8");
-            });
-            const seatPaths = seatContainer.querySelectorAll('path');
-            seatPaths.forEach(path => {
-                path.setAttribute("d", " ");
-            });
-
-            if (i <= <%=adultTicket+childTicket+infantTicket%>) {
-                const index = selectedSeats.indexOf(currentChoosingSeat[i].querySelector('.seatName').value);
-                if (index > -1) {
-                    selectedSeats.splice(index, 1);
-                }
-            } else {
-                const index = selectedSeats2.indexOf(currentChoosingSeat[i].querySelector('.seatName').value);
-                if (index > -1) {
-                    selectedSeats2.splice(index, 1);
-                }
-            }
-            currentChoosingSeat[i] = null;
-            selectedSeatCodeElement.textContent = 'None';
-            confirmedSeatForDisplaying.textContent = 'Not Selected';
-            confirmedSeat.value = null;
-        }
-
-    }
-
-
-    function validateSelectTicket() {
-        const seatInputs = document.querySelectorAll("input[type='hidden'][name^='code']");
-
-        for (let input of seatInputs) {
-            if (!input.value) {
-                alert("Please select a seat for all tickets before submitting.");
                 return false;
             }
         }
@@ -866,8 +768,21 @@
         }).format(total);
     }
 
-    window.openSeatModal = openSeatModal;
 
+    function openModal() {
+        document.getElementById("myModal").style.display = "block";
+    }
+
+    function closeModal() {
+        document.getElementById("myModal").style.display = "none";
+    }
+
+    window.onclick = function (event) {
+        let modal = document.getElementById("myModal");
+        if (event.target === modal) {
+            closeModal();
+        }
+    }
 </script>
 
 

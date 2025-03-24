@@ -27,7 +27,7 @@ public class ListSeatsServlet extends HttpServlet {
         List<Seats> seatsList = seatsDAO.getAllSeatByAirlineId(airline.getAirlineId());
         request.setAttribute("airline", airline);
         request.setAttribute("seats", seatsList);
-        request.getRequestDispatcher("/views/admin/jsp/test.jsp").forward(request, response);
+        request.getRequestDispatcher("/views/admin/jsp/seatsMap.jsp").forward(request, response);
     }
 
     @Override

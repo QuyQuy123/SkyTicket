@@ -113,8 +113,8 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label">Airline Name: </label>
-                                            <label for="name"></label><input name="name" id="name" type="text" disabled
+                                            <label class="form-label" for="name">Airline Name: </label>
+                                            <input name="name" id="name" type="text" disabled
                                                                              class="form-control"
                                                                              value="${airl.airlineName != null? airl.airlineName:''}">
                                         </div>
@@ -123,8 +123,8 @@
 
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label">Status</label>
-                                            <select class="form-control gender-name select2input" name="status" disabled>
+                                            <label class="form-label" for="star">Status: </label>
+                                            <select class="form-control gender-name select2input" name="status" id="star" disabled>
                                                 <option value="1" ${airl.status == 1 ? 'selected' : ''}>Active</option>
                                                 <option value="0" ${airl.status == 0 ? 'selected' : ''}>Deactive</option>
                                             </select>
@@ -177,7 +177,7 @@
 
                                     <div class="col-md-12">
                                         <div class="mb-3">
-                                            <label class="form-label" for="information">Airline information</label>
+                                            <label class="form-label" for="information">Airline information: </label>
                                             <textarea name="information" id="information" rows="3" class="form-control" disabled>${airl.information != null ? airl.information : ''}</textarea>
 
                                         </div>
