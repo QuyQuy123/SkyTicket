@@ -1,9 +1,8 @@
 package controller;
 
-import com.mysql.cj.x.protobuf.MysqlxCrud;
 import dal.AccountDAO;
 import dal.BookingDAO;
-import dal.PaymenTDAO;
+import dal.PaymentsDAO;
 import dal.TicketsDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -24,7 +23,7 @@ public class QRCodeControler extends HttpServlet {
         BookingDAO bk = new BookingDAO();
         TicketsDAO td = new TicketsDAO();
         AccountDAO ad = new AccountDAO();
-        PaymenTDAO pd = new PaymenTDAO();
+        PaymentsDAO pd = new PaymentsDAO();
         EmailServlet email = new EmailServlet();
         Integer idd = (Integer) session.getAttribute("id");
         int i = (idd != null) ? idd : -1;
