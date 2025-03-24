@@ -131,16 +131,6 @@
             </li>
 
             <li class="sidebar-dropdown">
-                <a href="javascript:void(0)"><i class="uil uil-flip-h me-2 d-inline-block"></i>Seats</a>
-                <div class="sidebar-submenu">
-                    <ul>
-                        <li><a href="<%= request.getContextPath() %>/listSeats">Lists of Seats</a></li>
-                        <li><a href="<%= request.getContextPath() %>/addSeats">Add Seat</a></li>
-                    </ul>
-                </div>
-            </li>
-
-            <li class="sidebar-dropdown">
                 <a href="javascript:void(0)"><i class="uil uil-file me-2 d-inline-block"></i>Baggages</a>
                 <div class="sidebar-submenu">
                     <ul>
