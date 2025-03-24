@@ -341,7 +341,6 @@
 <div class="container mt-5 order-container" style="transform: translateY(45px); margin-bottom: 50px">
     <%
         List<Bookings> listBooking = (List<Bookings>) request.getAttribute("listBooking");
-//        System.out.println("list: "+listBooking);
         NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
         TicketsDAO td = new TicketsDAO();
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm dd-MM-yyyy");
@@ -511,7 +510,7 @@
             <div class="payment-options">
                 <div class="payment-option">
                     <form action="VnpayServlet" id="frmCreateOrder" method="post">
-                        <input type="hidden" name="orderID" value="<%=b.getBookingID()%>"/>
+                        <input type="hidden" name="bookingID" value="<%=b.getBookingID()%>"/>
                         <input type="hidden" name="bankCode" value="">
                         <input type="hidden" class="form-control" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="amount" max="1000000000" min="1" name="amount" type="number" value="<%=b.getTotalPrice()%>"/>
                         <input type="hidden" name="language" checked value="vn">
@@ -525,8 +524,8 @@
                     </form>
                 </div>
                 <div class="payment-option">
-                    <form action="QRCodeController" method="post">
-                        <input type="hidden" name="orderID" value="<%=b.getBookingID()%>"/>
+                    <form action="QRCodeURL" method="post">
+                        <input type="hidden" name="bookingID" value="<%=b.getBookingID()%>"/>
                         <button type="submit" class="btn btn-default">
                             <img class="imgPayment" src="<%= request.getContextPath() %>/img/qr.png" alt="QR CODE">
                             <div class="name-pay">
