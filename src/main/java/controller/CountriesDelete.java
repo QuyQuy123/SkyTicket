@@ -19,11 +19,11 @@ public class CountriesDelete extends HttpServlet {
         HttpSession session = req.getSession();
 
         try {
-            // Lấy action và id từ request
+
             String action = req.getParameter("action");
             String idParam = req.getParameter("id");
 
-            // Kiểm tra tham số hợp lệ
+
             if (idParam == null || action == null) {
                 session.setAttribute("message", "Invalid request parameters.");
                 resp.sendRedirect(req.getContextPath() + "/listCountriesURL");
@@ -34,7 +34,7 @@ public class CountriesDelete extends HttpServlet {
             CountriesDAO countriesDAO = new CountriesDAO();
             boolean result = false;
 
-            // Xử lý theo action
+
             if ("deactivate".equals(action)) {
                 result = countriesDAO.updateCountryStatus(id, 0);
                 session.setAttribute("message", result ? "Country deactivated successfully!" : "Failed to deactivate Country.");
@@ -45,7 +45,7 @@ public class CountriesDelete extends HttpServlet {
                 session.setAttribute("message", "Invalid action.");
             }
 
-            // Chuyển hướng về danh sách Country
+
             resp.sendRedirect(req.getContextPath() + "/listCountriesURL");
         } catch (NumberFormatException e) {
             session.setAttribute("message", "Invalid Country ID.");

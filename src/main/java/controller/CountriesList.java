@@ -27,21 +27,21 @@ public class CountriesList extends HttpServlet {
         if (pageStr != null) {
             try {
                 page = Integer.parseInt(pageStr);
-                if (page < 1) page = 1; // Không cho phép trang nhỏ hơn 1
+                if (page < 1) page = 1;
             } catch (NumberFormatException e) {
-                page = 1; // Nếu có lỗi thì về trang 1
+                page = 1;
             }
         }
 
         int totalRecords = countryDAO.getTotalRecords();
         int totalPages = (int) Math.ceil((double) totalRecords / RECORDS_PER_PAGE);
 
-        // Nếu page lớn hơn totalPages nhưng không có dữ liệu, đưa về trang cuối cùng có dữ liệu
+
         if (page > totalPages) page = totalPages;
 
         List<Countries> listCountries = countryDAO.getCountriesByPage((page - 1) * RECORDS_PER_PAGE, RECORDS_PER_PAGE);
 
-        // Nếu danh sách lấy về rỗng mà page > 1, quay lại trang trước
+
         if (listCountries.isEmpty() && page > 1) {
             page--;
             listCountries = countryDAO.getCountriesByPage((page - 1) * RECORDS_PER_PAGE, RECORDS_PER_PAGE);

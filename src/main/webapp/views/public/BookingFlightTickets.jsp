@@ -391,14 +391,14 @@
                                             %>
                                         </select>
                                     </div>
-                                    <div class="passenger-info-input-box">
-                                        <div class="passenger-info-input-title" style="width: 200px">Select seat for departuring:</div>
-                                        <div style="display: flex; align-items: center; margin-right: 20px; font-weight: 600; font-size: 16px; color: #3C6E57">
-                                            <span style=""><%=s.getSeatClass()%> - <span id="seatCodeForDisplaying<%=i%>">Not Selected</span></span>
-                                        </div>
-                                        <a class="btn btn-info" style="text-decoration: none" onclick="openSeatModal(<%=i%>)">Choose</a>
-                                        <input type="hidden" name="code<%=i%>" id="seatCode<%=i%>"/>
-                                    </div>
+<%--                                    <div class="passenger-info-input-box">--%>
+<%--                                        <div class="passenger-info-input-title" style="width: 200px">Select seat for departuring:</div>--%>
+<%--                                        <div style="display: flex; align-items: center; margin-right: 20px; font-weight: 600; font-size: 16px; color: #3C6E57">--%>
+<%--                                            <span style=""><%=s.getSeatClass()%> - <span id="seatCodeForDisplaying<%=i%>">Not Selected</span></span>--%>
+<%--                                        </div>--%>
+<%--                                        <a class="btn btn-info" style="text-decoration: none" onclick="openSeatModal(<%=i%>)">Choose</a>--%>
+<%--                                        <input type="hidden" name="code<%=i%>" id="seatCode<%=i%>"/>--%>
+<%--                                    </div>--%>
                                     <% if(m==2){
                                     %>
                                     <div class="passenger-info-input-box"  >
@@ -417,14 +417,14 @@
 
                                         </select>
                                     </div>
-                                    <div class="passenger-info-input-box">
-                                        <div class="passenger-info-input-title" style="width: 200px">Select seat for returning:</div>
-                                        <div style="display: flex; align-items: center; margin-right: 20px; font-weight: 600; font-size: 16px; color: #3C6E57">
-                                            <span style=""><%=s2.getSeatClass()%> - <span id="seatCodeForDisplaying<%=i+totalPassengers/2%>">Not Selected</span></span>
-                                        </div>
-                                        <button class="btn btn-info" style="text-decoration: none" onclick="openSeatModal(<%=i+totalPassengers/2%>)">Choose</button>
-                                        <input type="hidden" name="code<%=i+totalPassengers/2%>" id="seatCode<%=i+totalPassengers/2%>"/>
-                                    </div>
+<%--                                    <div class="passenger-info-input-box">--%>
+<%--                                        <div class="passenger-info-input-title" style="width: 200px">Select seat for returning:</div>--%>
+<%--                                        <div style="display: flex; align-items: center; margin-right: 20px; font-weight: 600; font-size: 16px; color: #3C6E57">--%>
+<%--                                            <span style=""><%=s2.getSeatClass()%> - <span id="seatCodeForDisplaying<%=i+totalPassengers/2%>">Not Selected</span></span>--%>
+<%--                                        </div>--%>
+<%--                                        <button class="btn btn-info" style="text-decoration: none" onclick="openSeatModal(<%=i+totalPassengers/2%>)">Choose</button>--%>
+<%--                                        <input type="hidden" name="code<%=i+totalPassengers/2%>" id="seatCode<%=i+totalPassengers/2%>"/>--%>
+<%--                                    </div>--%>
 
                                     <%
                                         }%>
@@ -460,25 +460,25 @@
                                         %>
                                         <input type="date" name="pDob<%=i%>" required max="<%=maxDateChild%>" onkeydown="return false;">
                                     </div>
-                                    <div class="passenger-info-input-box">
-                                        <div class="passenger-info-input-title" style="width: 200px" >Select seat for departuring:</div>
-                                        <div style="display: flex; align-items: center; margin-right: 20px; font-weight: 600; font-size: 16px; color: #3C6E57">
-                                            <span style=""><%=s.getSeatClass()%> - <span id="seatCodeForDisplaying<%=i%>">Not Selected</span></span>
-                                        </div>
-                                        <a class="btn btn-info" style="text-decoration: none" onclick="openSeatModal(<%=i%>)">Choose</a>
+<%--                                    <div class="passenger-info-input-box">--%>
+<%--                                        <div class="passenger-info-input-title" style="width: 200px" >Select seat for departuring:</div>--%>
+<%--                                        <div style="display: flex; align-items: center; margin-right: 20px; font-weight: 600; font-size: 16px; color: #3C6E57">--%>
+<%--                                            <span style=""><%=s.getSeatClass()%> - <span id="seatCodeForDisplaying<%=i%>">Not Selected</span></span>--%>
+<%--                                        </div>--%>
+<%--                                        <a class="btn btn-info" style="text-decoration: none" onclick="openSeatModal(<%=i%>)">Choose</a>--%>
 
-                                        <input type="hidden" name="code<%=i%>" id="seatCode<%=i%>"/>
-                                    </div>
+<%--                                        <input type="hidden" name="code<%=i%>" id="seatCode<%=i%>"/>--%>
+<%--                                    </div>--%>
                                     <% if(m==2){
                                     %>
-                                    <div class="passenger-info-input-box">
-                                        <div class="passenger-info-input-title" style="width: 200px">Select seat for returning:</div>
-                                        <div style="display: flex; align-items: center; margin-right: 20px; font-weight: 600; font-size: 16px; color: #3C6E57">
-                                            <span style=""><%=s2.getSeatClass()%> - <span id="seatCodeForDisplaying<%=i+totalPassengers/2%>">Not Selected</span></span>
-                                        </div>
-                                        <a class="btn btn-info" style="text-decoration: none" onclick="openSeatModal(<%=i+totalPassengers/2%>)">Choose</a>
-                                        <input type="hidden" name="code<%=i+totalPassengers/2%>" id="seatCode<%=i+totalPassengers/2%>"/>
-                                    </div>
+<%--                                    <div class="passenger-info-input-box">--%>
+<%--                                        <div class="passenger-info-input-title" style="width: 200px">Select seat for returning:</div>--%>
+<%--                                        <div style="display: flex; align-items: center; margin-right: 20px; font-weight: 600; font-size: 16px; color: #3C6E57">--%>
+<%--                                            <span style=""><%=s2.getSeatClass()%> - <span id="seatCodeForDisplaying<%=i+totalPassengers/2%>">Not Selected</span></span>--%>
+<%--                                        </div>--%>
+<%--                                        <a class="btn btn-info" style="text-decoration: none" onclick="openSeatModal(<%=i+totalPassengers/2%>)">Choose</a>--%>
+<%--                                        <input type="hidden" name="code<%=i+totalPassengers/2%>" id="seatCode<%=i+totalPassengers/2%>"/>--%>
+<%--                                    </div>--%>
 
                                     <%
                                         }%>
@@ -550,12 +550,12 @@
                         double inboundAdultPrice = (m == 2) ? (inboundClass.equals("Business") ? inboundVipPrice : inboundEconomyPrice) * adultTicket : 0;
 
                         // Tính giá cho trẻ em từng chặng (50% giá người lớn)
-                        double outboundChildPrice = (outboundClass.equals("Business") ? (outboundVipPrice * 0.5) : (outboundEconomyPrice * 0.5)) * childTicket;
-                        double inboundChildPrice = (m == 2) ? (inboundClass.equals("Business") ? (inboundVipPrice * 0.5) : (inboundEconomyPrice * 0.5)) * childTicket : 0;
+                        double outboundChildPrice = (outboundClass.equals("Business") ? (outboundVipPrice * 0.9) : (outboundEconomyPrice * 0.9)) * childTicket;
+                        double inboundChildPrice = (m == 2) ? (inboundClass.equals("Business") ? (inboundVipPrice * 0.9) : (inboundEconomyPrice * 0.9)) * childTicket : 0;
 
                         // Tính giá cho trẻ sơ sinh từng chặng (10% giá người lớn)
-                        double outboundInfantPrice = (outboundClass.equals("Business") ? (outboundVipPrice * 0.1) : (outboundEconomyPrice * 0.1)) * infantTicket;
-                        double inboundInfantPrice = (m == 2) ? (inboundClass.equals("Business") ? (inboundVipPrice * 0.1) : (inboundEconomyPrice * 0.1)) * infantTicket : 0;
+                        double outboundInfantPrice = (outboundClass.equals("Business") ? (outboundVipPrice * 0.8) : (outboundEconomyPrice * 0.8)) * infantTicket;
+                        double inboundInfantPrice = (m == 2) ? (inboundClass.equals("Business") ? (inboundVipPrice * 0.8) : (inboundEconomyPrice * 0.8)) * infantTicket : 0;
 
                         // Tổng giá vé cho từng loại hành khách
                         double adultTotalPrice = outboundAdultPrice + inboundAdultPrice;
@@ -585,7 +585,7 @@
                     </div>
                     <div class="ticket-total">
                         <span>Total Price:</span>
-                        <span id="totalPrice" data-total-ticket-price="<%= totalTicketPrice %>"><%= currencyFormatter.format(totalTicketPrice) %> ₫</span>
+                        <span id="totalPrice" name="totalPrice" data-total-ticket-price="<%= totalTicketPrice %>"><%= currencyFormatter.format(totalTicketPrice) %> ₫</span>
                     </div>
                 </div>
                 <div style="width: 100%">
@@ -596,210 +596,210 @@
             </div>
 
 <%--  Modal chọn ghế--%>
-                <%for (int j = 1; j <= totalPassengers; j++) { %>
-        <div class="modal fade " id="seatModal<%=j%>" tabindex="-1" aria-labelledby="seatModalLabel" aria-hidden="true">
-            <div class="modal-dialog" style="min-width: 45%">
-                <div class="modal-content">
-                    <div class="modal-header" style="padding:5px 5px;">
-                        <button type="button" class="close" style="font-size: 30px; margin-right: 12px;"
-                                data-dismiss="modal">×
-                        </button>
-                        <h4 style="margin-left: 12px">Choose seat</h4>
-                    </div>
-                    <div style="display: flex;padding: 30px; justify-content: space-around">
-                        <div>
-                            <table>
-                                <%
-                                    TicketsDAO td = new TicketsDAO();
-                                    int rowNumber = 0; // Bắt đầu từ hàng 0
-                                    String[] seatLetters = {"0", "1", "2", "3", "4", "5", "6"}; // 7 cột ???
+<%--                <%for (int j = 1; j <= totalPassengers; j++) { %>--%>
+<%--        <div class="modal fade " id="seatModal<%=j%>" tabindex="-1" aria-labelledby="seatModalLabel" aria-hidden="true">--%>
+<%--            <div class="modal-dialog" style="min-width: 45%">--%>
+<%--                <div class="modal-content">--%>
+<%--                    <div class="modal-header" style="padding:5px 5px;">--%>
+<%--                        <button type="button" class="close" style="font-size: 30px; margin-right: 12px;"--%>
+<%--                                data-dismiss="modal">×--%>
+<%--                        </button>--%>
+<%--                        <h4 style="margin-left: 12px">Choose seat</h4>--%>
+<%--                    </div>--%>
+<%--                    <div style="display: flex;padding: 30px; justify-content: space-around">--%>
+<%--                        <div>--%>
+<%--                            <table>--%>
+<%--                                <%--%>
+<%--                                    TicketsDAO td = new TicketsDAO();--%>
+<%--                                    int rowNumber = 0; // Bắt đầu từ hàng 0--%>
+<%--                                    String[] seatLetters = {"0", "1", "2", "3", "4", "5", "6"}; // 7 cột ???--%>
 
-                                    int seatIndex = 0;
+<%--                                    int seatIndex = 0;--%>
 
-                                    int numberOfSeat = s.getSeatNumber();
-                                    String seatCat = s.getSeatClass();
-                                    List<String> bookedSeats = td.getAllTicketCodesById(flightlId, s.getSeatId());
-                                    if (j > adultTicket + childTicket + infantTicket) {
-                                        numberOfSeat = 10;
-                                        seatCat = s.getSeatClass();
-                                        bookedSeats = td.getAllTicketCodesById(flightlId, s.getSeatId());
-                                    }
+<%--                                    int numberOfSeat = s.getSeatNumber();--%>
+<%--                                    String seatCat = s.getSeatClass();--%>
+<%--                                    List<String> bookedSeats = td.getAllTicketCodesById(flightlId, s.getSeatId());--%>
+<%--                                    if (j > adultTicket + childTicket + infantTicket) {--%>
+<%--                                        numberOfSeat = 10;--%>
+<%--                                        seatCat = s.getSeatClass();--%>
+<%--                                        bookedSeats = td.getAllTicketCodesById(flightlId, s.getSeatId());--%>
+<%--                                    }--%>
 
-                                    // Số hàng dọc (mỗi bên 10 ghế)
-                                    int numberOfRowsPerSide = 10;
-                                %>
-                                <thead>
-                                <tr>
-                                    <% for (int i = 0; i < 6; i++) { %>
-                                    <th style="padding-left: 15px;"><%= seatLetters[i] %>
-                                    </th>
-                                    <% if (i == 2) { %> <!-- Thêm khoảng trống sau cột 2 -->
-                                    <th style="padding-left: 15px; width: 40px"></th>
-                                    <% }
-                                    } %>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <%
-                                    for (int row = 0; row < numberOfRowsPerSide; row++) { // Lặp qua 10 hàng
-                                %>
-                                <tr>
-                                    <%
-                                        // Bên trái: 3 cột (0, 1, 2)
-                                        for (int col = 0; col < 3; col++) {
-                                            String seatCode = seatLetters[col] + row; // Tạo mã ghế (00, 01, 02, ..., 10, 11, 12, ...)
-                                            String seatColor = bookedSeats.contains(seatCode) ? "#D8D8D8" : "#FFF";
-                                            String strokeColor = "#B8B8B8";
-//                                            Tickets thisTicket = td.getTicketByCode(seatCode, flightlId, s.getSeatId());
-//                                            if(j>adultTicket+childTicket+infantTicket){
-//                                                thisTicket = td.getTicketByCode(seatCode, flightlId, s.getSeatId());
-//                                            }
-                                    %>
+<%--                                    // Số hàng dọc (mỗi bên 10 ghế)--%>
+<%--                                    int numberOfRowsPerSide = 10;--%>
+<%--                                %>--%>
+<%--                                <thead>--%>
+<%--                                <tr>--%>
+<%--                                    <% for (int i = 0; i < 6; i++) { %>--%>
+<%--                                    <th style="padding-left: 15px;"><%= seatLetters[i] %>--%>
+<%--                                    </th>--%>
+<%--                                    <% if (i == 2) { %> <!-- Thêm khoảng trống sau cột 2 -->--%>
+<%--                                    <th style="padding-left: 15px; width: 40px"></th>--%>
+<%--                                    <% }--%>
+<%--                                    } %>--%>
+<%--                                </tr>--%>
+<%--                                </thead>--%>
+<%--                                <tbody>--%>
+<%--                                <%--%>
+<%--                                    for (int row = 0; row < numberOfRowsPerSide; row++) { // Lặp qua 10 hàng--%>
+<%--                                %>--%>
+<%--                                <tr>--%>
+<%--                                    <%--%>
+<%--                                        // Bên trái: 3 cột (0, 1, 2)--%>
+<%--                                        for (int col = 0; col < 3; col++) {--%>
+<%--                                            String seatCode = seatLetters[col] + row; // Tạo mã ghế (00, 01, 02, ..., 10, 11, 12, ...)--%>
+<%--                                            String seatColor = bookedSeats.contains(seatCode) ? "#D8D8D8" : "#FFF";--%>
+<%--                                            String strokeColor = "#B8B8B8";--%>
+<%--//                                            Tickets thisTicket = td.getTicketByCode(seatCode, flightlId, s.getSeatId());--%>
+<%--//                                            if(j>adultTicket+childTicket+infantTicket){--%>
+<%--//                                                thisTicket = td.getTicketByCode(seatCode, flightlId, s.getSeatId());--%>
+<%--//                                            }--%>
+<%--                                    %>--%>
 
-                                    <td class="seat<%=j%>" data-seat-code="<%= seatCode %>">
-                                        <div onclick="handleSeatClick(this, '<%= seatColor %>', <%= j %>)"
-                                             data-disabled="false" style="padding-right: 10px" data-color="#B8B8B8">
-                                            <div class="seat-container">
-                                                <svg width="40" height="32" viewBox="0 0 40 32" fill="none"
-                                                     xmlns="http://www.w3.org/2000/svg">
-                                                    <rect x="8.75" y="2.75" width="22.5" height="26.5" rx="2.25"
-                                                          fill="<%= seatColor %>" stroke="<%= strokeColor %>"
-                                                          stroke-width="1.5" stroke-linejoin="round"></rect>
-                                                    <rect x="10.25" y="11.75" width="14.5" height="5.5" rx="2.25"
-                                                          transform="rotate(90 10.25 11.75)" fill="<%= seatColor %>"
-                                                          stroke="<%= strokeColor %>" stroke-width="1.5"
-                                                          stroke-linejoin="round"></rect>
-                                                    <rect x="35.25" y="11.75" width="14.5" height="5.5" rx="2.25"
-                                                          transform="rotate(90 35.25 11.75)" fill="<%= seatColor %>"
-                                                          stroke="<%= strokeColor %>" stroke-width="1.5"
-                                                          stroke-linejoin="round"></rect>
-                                                    <rect x="8.75" y="22.75" width="22.5" height="6.5" rx="2.25"
-                                                          fill="<%= seatColor %>" stroke="<%= strokeColor %>"
-                                                          stroke-width="1.5" stroke-linejoin="round"></rect>
-                                                    <path class="icon-selected"
-                                                          d="M20 6.333A6.67 6.67 0 0 0 13.334 13 6.67 6.67 0 0 0 20 19.667 6.67 6.67 0 0 0 26.667 13 6.669 6.669 0 0 0 20 6.333zm-1.333 10L15.333 13l.94-.94 2.394 2.387 5.06-5.06.94.946-6 6z"
-                                                          fill="transparent"></path>
-                                                </svg>
-                                                <input type="hidden" class="seatName" value="<%= seatCode %>"/>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <% }
-                                        // Khoảng trống ở giữa (cột 3)
-                                    %>
-                                    <td></td> <!-- Để trống cột giữa làm hành lang, không cho phép chọn -->
-                                    <%
-                                        // Bên phải: 3 cột (4, 5, 6)
-                                        for (int col = 3; col < 6; col++) {
-                                            String seatCode = seatLetters[col] + row; // Tạo mã ghế (40, 50, 60, ..., 41, 51, 61, ...)
-                                            String seatColor = bookedSeats.contains(seatCode) ? "#D8D8D8" : "#FFF";
-                                            String strokeColor = "#B8B8B8";
-//                                            Tickets thisTicket = td.getTicketByCode(seatCode, flightlId, s.getSeatId());
-//                                            if(j>adultTicket+childTicket+infantTicket){
-//                                                thisTicket = td.getTicketByCode(seatCode, flightlId, s.getSeatId());
-//                                            }
-                                    %>
+<%--                                    <td class="seat<%=j%>" data-seat-code="<%= seatCode %>">--%>
+<%--                                        <div onclick="handleSeatClick(this, '<%= seatColor %>', <%= j %>)"--%>
+<%--                                             data-disabled="false" style="padding-right: 10px" data-color="#B8B8B8">--%>
+<%--                                            <div class="seat-container">--%>
+<%--                                                <svg width="40" height="32" viewBox="0 0 40 32" fill="none"--%>
+<%--                                                     xmlns="http://www.w3.org/2000/svg">--%>
+<%--                                                    <rect x="8.75" y="2.75" width="22.5" height="26.5" rx="2.25"--%>
+<%--                                                          fill="<%= seatColor %>" stroke="<%= strokeColor %>"--%>
+<%--                                                          stroke-width="1.5" stroke-linejoin="round"></rect>--%>
+<%--                                                    <rect x="10.25" y="11.75" width="14.5" height="5.5" rx="2.25"--%>
+<%--                                                          transform="rotate(90 10.25 11.75)" fill="<%= seatColor %>"--%>
+<%--                                                          stroke="<%= strokeColor %>" stroke-width="1.5"--%>
+<%--                                                          stroke-linejoin="round"></rect>--%>
+<%--                                                    <rect x="35.25" y="11.75" width="14.5" height="5.5" rx="2.25"--%>
+<%--                                                          transform="rotate(90 35.25 11.75)" fill="<%= seatColor %>"--%>
+<%--                                                          stroke="<%= strokeColor %>" stroke-width="1.5"--%>
+<%--                                                          stroke-linejoin="round"></rect>--%>
+<%--                                                    <rect x="8.75" y="22.75" width="22.5" height="6.5" rx="2.25"--%>
+<%--                                                          fill="<%= seatColor %>" stroke="<%= strokeColor %>"--%>
+<%--                                                          stroke-width="1.5" stroke-linejoin="round"></rect>--%>
+<%--                                                    <path class="icon-selected"--%>
+<%--                                                          d="M20 6.333A6.67 6.67 0 0 0 13.334 13 6.67 6.67 0 0 0 20 19.667 6.67 6.67 0 0 0 26.667 13 6.669 6.669 0 0 0 20 6.333zm-1.333 10L15.333 13l.94-.94 2.394 2.387 5.06-5.06.94.946-6 6z"--%>
+<%--                                                          fill="transparent"></path>--%>
+<%--                                                </svg>--%>
+<%--                                                <input type="hidden" class="seatName" value="<%= seatCode %>"/>--%>
+<%--                                            </div>--%>
+<%--                                        </div>--%>
+<%--                                    </td>--%>
+<%--                                    <% }--%>
+<%--                                        // Khoảng trống ở giữa (cột 3)--%>
+<%--                                    %>--%>
+<%--                                    <td></td> <!-- Để trống cột giữa làm hành lang, không cho phép chọn -->--%>
+<%--                                    <%--%>
+<%--                                        // Bên phải: 3 cột (4, 5, 6)--%>
+<%--                                        for (int col = 3; col < 6; col++) {--%>
+<%--                                            String seatCode = seatLetters[col] + row; // Tạo mã ghế (40, 50, 60, ..., 41, 51, 61, ...)--%>
+<%--                                            String seatColor = bookedSeats.contains(seatCode) ? "#D8D8D8" : "#FFF";--%>
+<%--                                            String strokeColor = "#B8B8B8";--%>
+<%--//                                            Tickets thisTicket = td.getTicketByCode(seatCode, flightlId, s.getSeatId());--%>
+<%--//                                            if(j>adultTicket+childTicket+infantTicket){--%>
+<%--//                                                thisTicket = td.getTicketByCode(seatCode, flightlId, s.getSeatId());--%>
+<%--//                                            }--%>
+<%--                                    %>--%>
 
-                                    <td class="seat<%=j%>" data-seat-code="<%= seatCode %>">
-                                        <div onclick="handleSeatClick(this, '<%= seatColor %>', <%= j %>)"
-                                             data-disabled="false" style="padding-right: 10px" data-color="#B8B8B8">
-                                            <div class="seat-container">
-                                                <svg width="40" height="32" viewBox="0 0 40 32" fill="none"
-                                                     xmlns="http://www.w3.org/2000/svg">
-                                                    <rect x="8.75" y="2.75" width="22.5" height="26.5" rx="2.25"
-                                                          fill="<%= seatColor %>" stroke="<%= strokeColor %>"
-                                                          stroke-width="1.5" stroke-linejoin="round"></rect>
-                                                    <rect x="10.25" y="11.75" width="14.5" height="5.5" rx="2.25"
-                                                          transform="rotate(90 10.25 11.75)" fill="<%= seatColor %>"
-                                                          stroke="<%= strokeColor %>" stroke-width="1.5"
-                                                          stroke-linejoin="round"></rect>
-                                                    <rect x="35.25" y="11.75" width="14.5" height="5.5" rx="2.25"
-                                                          transform="rotate(90 35.25 11.75)" fill="<%= seatColor %>"
-                                                          stroke="<%= strokeColor %>" stroke-width="1.5"
-                                                          stroke-linejoin="round"></rect>
-                                                    <rect x="8.75" y="22.75" width="22.5" height="6.5" rx="2.25"
-                                                          fill="<%= seatColor %>" stroke="<%= strokeColor %>"
-                                                          stroke-width="1.5" stroke-linejoin="round"></rect>
-                                                    <path class="icon-selected"
-                                                          d="M20 6.333A6.67 6.67 0 0 0 13.334 13 6.67 6.67 0 0 0 20 19.667 6.67 6.67 0 0 0 26.667 13 6.669 6.669 0 0 0 20 6.333zm-1.333 10L15.333 13l.94-.94 2.394 2.387 5.06-5.06.94.946-6 6z"
-                                                          fill="transparent"></path>
-                                                </svg>
-                                                <input type="hidden" class="seatName" value="<%= seatCode %>"/>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <% }
-                                    %>
-                                </tr>
-                                <% }
-                                %>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div>
-                            <div style="padding-top: 20px">
-                                <div style="margin-bottom: 10px">
-                                    <svg width="40" height="32" viewBox="0 0 40 32" fill="none"
-                                         xmlns="http://www.w3.org/2000/svg">
-                                        <rect x="8.75" y="2.75" width="22.5" height="26.5" rx="2.25" fill="#FFF"
-                                              stroke="#B8B8B8" stroke-width="1.5" stroke-linejoin="round"></rect>
-                                        <rect x="10.25" y="11.75" width="14.5" height="5.5" rx="2.25"
-                                              transform="rotate(90 10.25 11.75)" fill="#FFF" stroke="#B8B8B8"
-                                              stroke-width="1.5" stroke-linejoin="round"></rect>
-                                        <rect x="35.25" y="11.75" width="14.5" height="5.5" rx="2.25"
-                                              transform="rotate(90 35.25 11.75)" fill="#FFF" stroke="#B8B8B8"
-                                              stroke-width="1.5" stroke-linejoin="round"></rect>
-                                        <rect x="8.75" y="22.75" width="22.5" height="6.5" rx="2.25" fill="#FFF"
-                                              stroke="#B8B8B8" stroke-width="1.5" stroke-linejoin="round"></rect>
-                                    </svg>
-                                    Empty Seat
-                                </div>
-                                <div style="margin-bottom: 10px">
-                                    <svg width="40" height="32" viewBox="0 0 40 32" fill="none"
-                                         xmlns="http://www.w3.org/2000/svg">
-                                        <rect x="8.75" y="2.75" width="22.5" height="26.5" rx="2.25"
-                                              fill="rgb(139, 229, 176)" stroke="green" stroke-width="1.5"
-                                              stroke-linejoin="round"></rect>
-                                        <rect x="10.25" y="11.75" width="14.5" height="5.5" rx="2.25"
-                                              transform="rotate(90 10.25 11.75)" fill="rgb(139, 229, 176)"
-                                              stroke="green" stroke-width="1.5" stroke-linejoin="round"></rect>
-                                        <rect x="35.25" y="11.75" width="14.5" height="5.5" rx="2.25"
-                                              transform="rotate(90 35.25 11.75)" fill="rgb(139, 229, 176)"
-                                              stroke="green" stroke-width="1.5" stroke-linejoin="round"></rect>
-                                        <rect x="8.75" y="22.75" width="22.5" height="6.5" rx="2.25"
-                                              fill="rgb(139, 229, 176)" stroke="green" stroke-width="1.5"
-                                              stroke-linejoin="round"></rect>
-                                    </svg>
-                                    Selected Seat
-                                </div>
-                                <div style="margin-bottom: 10px">
-                                    <svg width="40" height="32" viewBox="0 0 40 32" fill="none"
-                                         xmlns="http://www.w3.org/2000/svg">
-                                        <rect x="8.75" y="2.75" width="22.5" height="26.5" rx="2.25" fill="#D8D8D8"
-                                              stroke="#B8B8B8" stroke-width="1.5" stroke-linejoin="round"></rect>
-                                        <rect x="10.25" y="11.75" width="14.5" height="5.5" rx="2.25"
-                                              transform="rotate(90 10.25 11.75)" fill="#D8D8D8" stroke="#B8B8B8"
-                                              stroke-width="1.5" stroke-linejoin="round"></rect>
-                                        <rect x="35.25" y="11.75" width="14.5" height="5.5" rx="2.25"
-                                              transform="rotate(90 35.25 11.75)" fill="#D8D8D8" stroke="##B8B8B8"
-                                              stroke-width="1.5" stroke-linejoin="round"></rect>
-                                        <rect x="8.75" y="22.75" width="22.5" height="6.5" rx="2.25" fill="#D8D8D8"
-                                              stroke="#B8B8B8" stroke-width="1.5" stroke-linejoin="round"></rect>
-                                    </svg>
-                                    Booked Seat
-                                </div>
-                                <div style="margin-right: auto; font-size: 15px; font-weight: bold; color: green;">
-                                    Choosing Seat:</br> <%=seatCat%> - <span id="selectedSeatCode<%=j%>">None</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Confirm</button>
-                    </div>
-                </div>
-            </div>
-            <% } %>
+<%--                                    <td class="seat<%=j%>" data-seat-code="<%= seatCode %>">--%>
+<%--                                        <div onclick="handleSeatClick(this, '<%= seatColor %>', <%= j %>)"--%>
+<%--                                             data-disabled="false" style="padding-right: 10px" data-color="#B8B8B8">--%>
+<%--                                            <div class="seat-container">--%>
+<%--                                                <svg width="40" height="32" viewBox="0 0 40 32" fill="none"--%>
+<%--                                                     xmlns="http://www.w3.org/2000/svg">--%>
+<%--                                                    <rect x="8.75" y="2.75" width="22.5" height="26.5" rx="2.25"--%>
+<%--                                                          fill="<%= seatColor %>" stroke="<%= strokeColor %>"--%>
+<%--                                                          stroke-width="1.5" stroke-linejoin="round"></rect>--%>
+<%--                                                    <rect x="10.25" y="11.75" width="14.5" height="5.5" rx="2.25"--%>
+<%--                                                          transform="rotate(90 10.25 11.75)" fill="<%= seatColor %>"--%>
+<%--                                                          stroke="<%= strokeColor %>" stroke-width="1.5"--%>
+<%--                                                          stroke-linejoin="round"></rect>--%>
+<%--                                                    <rect x="35.25" y="11.75" width="14.5" height="5.5" rx="2.25"--%>
+<%--                                                          transform="rotate(90 35.25 11.75)" fill="<%= seatColor %>"--%>
+<%--                                                          stroke="<%= strokeColor %>" stroke-width="1.5"--%>
+<%--                                                          stroke-linejoin="round"></rect>--%>
+<%--                                                    <rect x="8.75" y="22.75" width="22.5" height="6.5" rx="2.25"--%>
+<%--                                                          fill="<%= seatColor %>" stroke="<%= strokeColor %>"--%>
+<%--                                                          stroke-width="1.5" stroke-linejoin="round"></rect>--%>
+<%--                                                    <path class="icon-selected"--%>
+<%--                                                          d="M20 6.333A6.67 6.67 0 0 0 13.334 13 6.67 6.67 0 0 0 20 19.667 6.67 6.67 0 0 0 26.667 13 6.669 6.669 0 0 0 20 6.333zm-1.333 10L15.333 13l.94-.94 2.394 2.387 5.06-5.06.94.946-6 6z"--%>
+<%--                                                          fill="transparent"></path>--%>
+<%--                                                </svg>--%>
+<%--                                                <input type="hidden" class="seatName" value="<%= seatCode %>"/>--%>
+<%--                                            </div>--%>
+<%--                                        </div>--%>
+<%--                                    </td>--%>
+<%--                                    <% }--%>
+<%--                                    %>--%>
+<%--                                </tr>--%>
+<%--                                <% }--%>
+<%--                                %>--%>
+<%--                                </tbody>--%>
+<%--                            </table>--%>
+<%--                        </div>--%>
+<%--                        <div>--%>
+<%--                            <div style="padding-top: 20px">--%>
+<%--                                <div style="margin-bottom: 10px">--%>
+<%--                                    <svg width="40" height="32" viewBox="0 0 40 32" fill="none"--%>
+<%--                                         xmlns="http://www.w3.org/2000/svg">--%>
+<%--                                        <rect x="8.75" y="2.75" width="22.5" height="26.5" rx="2.25" fill="#FFF"--%>
+<%--                                              stroke="#B8B8B8" stroke-width="1.5" stroke-linejoin="round"></rect>--%>
+<%--                                        <rect x="10.25" y="11.75" width="14.5" height="5.5" rx="2.25"--%>
+<%--                                              transform="rotate(90 10.25 11.75)" fill="#FFF" stroke="#B8B8B8"--%>
+<%--                                              stroke-width="1.5" stroke-linejoin="round"></rect>--%>
+<%--                                        <rect x="35.25" y="11.75" width="14.5" height="5.5" rx="2.25"--%>
+<%--                                              transform="rotate(90 35.25 11.75)" fill="#FFF" stroke="#B8B8B8"--%>
+<%--                                              stroke-width="1.5" stroke-linejoin="round"></rect>--%>
+<%--                                        <rect x="8.75" y="22.75" width="22.5" height="6.5" rx="2.25" fill="#FFF"--%>
+<%--                                              stroke="#B8B8B8" stroke-width="1.5" stroke-linejoin="round"></rect>--%>
+<%--                                    </svg>--%>
+<%--                                    Empty Seat--%>
+<%--                                </div>--%>
+<%--                                <div style="margin-bottom: 10px">--%>
+<%--                                    <svg width="40" height="32" viewBox="0 0 40 32" fill="none"--%>
+<%--                                         xmlns="http://www.w3.org/2000/svg">--%>
+<%--                                        <rect x="8.75" y="2.75" width="22.5" height="26.5" rx="2.25"--%>
+<%--                                              fill="rgb(139, 229, 176)" stroke="green" stroke-width="1.5"--%>
+<%--                                              stroke-linejoin="round"></rect>--%>
+<%--                                        <rect x="10.25" y="11.75" width="14.5" height="5.5" rx="2.25"--%>
+<%--                                              transform="rotate(90 10.25 11.75)" fill="rgb(139, 229, 176)"--%>
+<%--                                              stroke="green" stroke-width="1.5" stroke-linejoin="round"></rect>--%>
+<%--                                        <rect x="35.25" y="11.75" width="14.5" height="5.5" rx="2.25"--%>
+<%--                                              transform="rotate(90 35.25 11.75)" fill="rgb(139, 229, 176)"--%>
+<%--                                              stroke="green" stroke-width="1.5" stroke-linejoin="round"></rect>--%>
+<%--                                        <rect x="8.75" y="22.75" width="22.5" height="6.5" rx="2.25"--%>
+<%--                                              fill="rgb(139, 229, 176)" stroke="green" stroke-width="1.5"--%>
+<%--                                              stroke-linejoin="round"></rect>--%>
+<%--                                    </svg>--%>
+<%--                                    Selected Seat--%>
+<%--                                </div>--%>
+<%--                                <div style="margin-bottom: 10px">--%>
+<%--                                    <svg width="40" height="32" viewBox="0 0 40 32" fill="none"--%>
+<%--                                         xmlns="http://www.w3.org/2000/svg">--%>
+<%--                                        <rect x="8.75" y="2.75" width="22.5" height="26.5" rx="2.25" fill="#D8D8D8"--%>
+<%--                                              stroke="#B8B8B8" stroke-width="1.5" stroke-linejoin="round"></rect>--%>
+<%--                                        <rect x="10.25" y="11.75" width="14.5" height="5.5" rx="2.25"--%>
+<%--                                              transform="rotate(90 10.25 11.75)" fill="#D8D8D8" stroke="#B8B8B8"--%>
+<%--                                              stroke-width="1.5" stroke-linejoin="round"></rect>--%>
+<%--                                        <rect x="35.25" y="11.75" width="14.5" height="5.5" rx="2.25"--%>
+<%--                                              transform="rotate(90 35.25 11.75)" fill="#D8D8D8" stroke="##B8B8B8"--%>
+<%--                                              stroke-width="1.5" stroke-linejoin="round"></rect>--%>
+<%--                                        <rect x="8.75" y="22.75" width="22.5" height="6.5" rx="2.25" fill="#D8D8D8"--%>
+<%--                                              stroke="#B8B8B8" stroke-width="1.5" stroke-linejoin="round"></rect>--%>
+<%--                                    </svg>--%>
+<%--                                    Booked Seat--%>
+<%--                                </div>--%>
+<%--                                <div style="margin-right: auto; font-size: 15px; font-weight: bold; color: green;">--%>
+<%--                                    Choosing Seat:</br> <%=seatCat%> - <span id="selectedSeatCode<%=j%>">None</span>--%>
+<%--                                </div>--%>
+<%--                            </div>--%>
+<%--                        </div>--%>
+<%--                    </div>--%>
+<%--                    <div class="modal-footer">--%>
+<%--                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Confirm</button>--%>
+<%--                    </div>--%>
+<%--                </div>--%>
+<%--            </div>--%>
+<%--            <% } %>--%>
         </div>
 
 

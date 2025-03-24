@@ -21,10 +21,10 @@ public class CountriesSearch extends HttpServlet {
         String countryName = req.getParameter("search");
         String statusStr = req.getParameter("status");
 
-        // Chuyển đổi status từ String → Integer
+
         Integer status = (statusStr != null && !statusStr.isEmpty()) ? Integer.parseInt(statusStr) : null;
 
-        // Xác định số trang hiện tại
+
         int page = 1;
         String pageStr = req.getParameter("page");
         if (pageStr != null) {
@@ -38,21 +38,21 @@ public class CountriesSearch extends HttpServlet {
 
         CountriesDAO cdao = new CountriesDAO();
 
-        // Lấy danh sách kết quả tìm kiếm theo trang
+
         List<Countries> searchResults = cdao.searchCountryByPage(countryName, status, (page - 1) * RECORDS_PER_PAGE, RECORDS_PER_PAGE);
         int totalRecords = cdao.getTotalSearchRecords(countryName, status);
         int totalPages = (int) Math.ceil((double) totalRecords / RECORDS_PER_PAGE);
 
-        // Nếu page lớn hơn totalPages nhưng không có dữ liệu, đưa về trang cuối cùng có dữ liệu
+
         if (page > totalPages) page = totalPages;
 
-        // Nếu danh sách tìm kiếm rỗng mà page > 1, quay lại trang trước
+
         if (searchResults.isEmpty() && page > 1) {
             page--;
             searchResults = cdao.searchCountryByPage(countryName, status, (page - 1) * RECORDS_PER_PAGE, RECORDS_PER_PAGE);
         }
 
-        // Đưa dữ liệu vào request attribute
+
         req.setAttribute("countries", searchResults);
         req.setAttribute("searchName", countryName);
         req.setAttribute("searchStatus", statusStr);

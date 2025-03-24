@@ -127,13 +127,13 @@ public class FlightsDAO extends DBConnect {
         String sql = "SELECT * FROM flights " +
                 "WHERE DepartureAirportId = ? " +
                 "AND ArrivalAirportId = ? " +
-                "AND DATE(DepartureTime) = ? " +  // Chỉ so sánh phần ngày
+                "AND DATE(DepartureTime) = ? " +
                 "ORDER BY DepartureTime ASC";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, depAirportId);
             ps.setInt(2, arrAirportId);
-            ps.setDate(3,date); // Truyền java.sql.Date trực tiếp vào
+            ps.setDate(3,date);
 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -150,7 +150,7 @@ public class FlightsDAO extends DBConnect {
                 ));
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // Cần logging thay vì in lỗi ra console
+            e.printStackTrace();
         }
         return flights;
     }
@@ -169,7 +169,7 @@ public class FlightsDAO extends DBConnect {
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
-        return -1; // Trả về -1 nếu không tìm thấy dữ liệu
+        return -1;
     }
     public int getTotalFlights() {
         String query = "SELECT COUNT(*) FROM Flights";
@@ -297,28 +297,7 @@ public class FlightsDAO extends DBConnect {
 
 
 
-    public static void main(String[] args) {
-        FlightsDAO dao = new FlightsDAO();
-        int depAirportId = 5;
-        int arrAirportId = 1;
-        String depDateStr = "2025-02-23"; // Định dạng: dd-MM-yyyy
 
-        try {
-            Date parsedDate = Date.valueOf(depDateStr);
-
-            // Gọi method để lấy danh sách chuyến bay
-            List<Flights> flights = dao.getFlightsByAirportAndDate(depAirportId, arrAirportId, parsedDate);
-
-            // In kết quả
-            System.out.println("Danh sách chuyến bay:");
-            System.out.println(flights);
-            for (Flights flight : flights) {
-                System.out.println(flight);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
 
 

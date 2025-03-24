@@ -155,7 +155,7 @@ public class PassengersDAO extends DBConnect {
         return null;
     }
 
-    public boolean createPassenger(String passengerName, String phone,Date dob,String gender, int idAcc, int bookId) {
+    public boolean createPassenger(String passengerName, String phone,Date dob,String gender, Integer idAcc, int bookId) {
         String sql = "INSERT INTO Passengers (PassengerName, Phone, Dob, Gender, AccountId,BookingId ) " +
                 "VALUES (?, ?, ?, ?, ?,?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -164,7 +164,11 @@ public class PassengersDAO extends DBConnect {
             stmt.setString(2,phone);
             stmt.setDate(3, (java.sql.Date) dob); // Đảm bảo dob là LocalDate
             stmt.setString(4,gender);
-            stmt.setInt(5, idAcc);
+            if (idAcc != null) {
+                stmt.setInt(5, idAcc);
+            } else {
+                stmt.setNull(5, java.sql.Types.INTEGER);
+            }
             stmt.setInt(6, bookId);
 
             return stmt.executeUpdate() > 0;
@@ -215,19 +219,57 @@ public class PassengersDAO extends DBConnect {
         return 0;
     }
 
+    public Passengers getLatestPassengerByBookingId(int bookingId) {
+        String sql = "SELECT * FROM Passengers WHERE BookingId = ? ORDER BY PassengerId DESC LIMIT 1";
+        Passengers passenger = null;
 
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, bookingId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) { // Chỉ lấy 1 bản ghi (mới nhất)
+                    passenger = new Passengers();
+                    passenger.setPassengerID(rs.getInt("PassengerId"));
+                    passenger.setPassengerName(rs.getString("PassengerName"));
+                    passenger.setPhone(rs.getString("Phone"));
+                    passenger.setEmail(rs.getString("Email"));
+                    passenger.setAddress(rs.getString("Address"));
+                    passenger.setDateOfBirth(rs.getDate("Dob"));
+                    passenger.setGender(rs.getString("Gender"));
+                    passenger.setAccountID(rs.getInt("AccountId"));
+                    passenger.setBookingId(rs.getInt("BookingId")); // Thêm BookingId
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return passenger;
+    }
+    public int getPassengerIdByTicketId(int ticketId)  {
+        int passengerId = -1;
+        String query = "SELECT PassengerId FROM Tickets WHERE TicketId = ?";
 
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, ticketId);
 
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    passengerId = rs.getInt("PassengerId");
+                } else {
+                    throw new SQLException("No ticket found with TicketId: " + ticketId);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
-
+        return passengerId;
+    }
 
 
     public static void main(String[] args) {
         PassengersDAO pd = new PassengersDAO();
-        List<Passengers> p = pd.getPassengersByBookingId(3);
-        for (Passengers p1 : p) {
-            System.out.println(p1.getPassengerID());
-        }
+        int a = pd.getPassengerIdByTicketId(1);
+        System.out.println(a);
 
     }
 

@@ -44,7 +44,7 @@ public class AirportUpdateServlet extends HttpServlet {
         Airports existingAirport = airportsDAO.getAirportById(airportId);
         LocationsDAO locationsDAO = new LocationsDAO();
         Locations location = locationsDAO.getLocationById(existingAirport.getLocationId());
-        // Chỉ cập nhật airportName và status, giữ nguyên locationId
+
         Airports updatedAirport = new Airports(airportId, airportName, existingAirport.getLocationId(), status);
         int n = airportsDAO.updateAirport(updatedAirport);
 

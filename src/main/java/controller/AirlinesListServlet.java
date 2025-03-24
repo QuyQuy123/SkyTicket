@@ -14,7 +14,7 @@ import java.util.List;
 @WebServlet("/listAirlines")
 public class AirlinesListServlet extends HttpServlet {
 
-    private static final int RECORDS_PER_PAGE = 5; // Số lượng bản ghi mỗi trang
+    private static final int RECORDS_PER_PAGE = 5;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -22,16 +22,16 @@ public class AirlinesListServlet extends HttpServlet {
 
         AirlinesDAO airlinesDAO = new AirlinesDAO();
 
-        // Xác định trang hiện tại
+
         int page = 1;
         if (request.getParameter("page") != null) {
             page = Integer.parseInt(request.getParameter("page"));
         }
 
-        // Tính vị trí bắt đầu của dữ liệu
+
         int start = (page - 1) * RECORDS_PER_PAGE;
 
-        // Lấy danh sách airlines theo trang
+
         List<Airlines> listAirlines = airlinesDAO.getAirlinesByPage(start, RECORDS_PER_PAGE);
         int totalRecords = airlinesDAO.getTotalAirlines();
         int totalPages = (int) Math.ceil((double) totalRecords / RECORDS_PER_PAGE);

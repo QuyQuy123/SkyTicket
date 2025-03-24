@@ -8,17 +8,15 @@ import java.util.List;
 
 public class NewsDAO extends DBConnect{
     public News getNewsById(int id) {
-
         String sql = "select * from News where NewId= ?";
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+        try(PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                News a = new News(rs.getInt("NewId"), rs.getString("Title"),
+                return new News(rs.getInt("NewId"), rs.getString("Title"),
                         rs.getString("img"), rs.getString("content"),
                         rs.getInt("airlineId"), rs.getInt("status"));
-                return a;
+
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -29,8 +27,7 @@ public class NewsDAO extends DBConnect{
     public List<News> getAllNews() {
         List<News> list = new ArrayList<News>();
         String sql = "select * from News";
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+        try(PreparedStatement ps = connection.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 News a = new News(rs.getInt("NewId"), rs.getString("Title"),
@@ -71,6 +68,7 @@ public class NewsDAO extends DBConnect{
             ps.setString(2, news.getContent());
             ps.setString(3, news.getImg());
             ps.setInt(4, news.getAirlineId());
+            
             ps.setInt(5, news.getStatus());
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {

@@ -116,6 +116,9 @@ public class Bookings {
         return "Bookings{" +
                 "bookingID=" + bookingID +
                 ", code='" + code + '\'' +
+                ", contactName='" + contactName + '\'' +
+                ", contactPhone='" + contactPhone + '\'' +
+                ", contactEmail='" + contactEmail + '\'' +
                 ", totalPrice=" + totalPrice +
                 ", bookingDate=" + bookingDate +
                 ", status=" + status +

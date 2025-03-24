@@ -67,7 +67,7 @@ public class EmailServlet {
             msg.setSubject("The Order Has Been Successfully Submitted", "UTF-8");
             //date
             msg.setSentDate(new Date());
-            //quy dinh email phan hoi
+
             //msg.setReplyTo(InternetAddress.parse(from, false));
 
             //content
@@ -102,7 +102,7 @@ public class EmailServlet {
         StringBuilder otp = new StringBuilder();
         Random rand = new Random();
         for (int i = 0; i < length; i++) {
-            otp.append(rand.nextInt(10)); // Thêm số ngẫu nhiên từ 0 đến 9
+            otp.append(rand.nextInt(10));
         }
         return otp.toString();
     }

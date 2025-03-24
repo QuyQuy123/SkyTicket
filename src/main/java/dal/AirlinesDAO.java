@@ -293,7 +293,7 @@ public class AirlinesDAO extends DBConnect {
 
     public static void main(String[] args) {
         AirlinesDAO airlinesDAO = new AirlinesDAO();
-        System.out.println(airlinesDAO.getNameById(4));
+        System.out.println(airlinesDAO.getAirlineById(18));
     }
 
 
