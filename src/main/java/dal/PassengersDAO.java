@@ -37,7 +37,7 @@ public class PassengersDAO extends DBConnect {
         return list;
     }
 
-    public List<Passengers> getLocationsByPage(int start, int total) {
+    public List<Passengers> getPassengersByPage(int start, int total) {
         List<Passengers> list = new ArrayList<>();
         try {
             String query = "SELECT passengerid, passengername, phone," +
@@ -203,6 +203,20 @@ public class PassengersDAO extends DBConnect {
             e.printStackTrace();
         }
         return passengers;
+    }
+    public int getBookingidById(int id) {
+        String sql = "SELECT bookingid FROM Passengers WHERE passengerid = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("bookingid");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     public Passengers getLatestPassengerByBookingId(int bookingId) {
