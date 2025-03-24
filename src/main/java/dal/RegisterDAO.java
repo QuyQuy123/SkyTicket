@@ -7,8 +7,10 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import model.Accounts;
 
+import controller.PasswordUtil;
+import model.Accounts;
+import org.mindrot.jbcrypt.BCrypt;
 
 
 public class RegisterDAO extends DBConnect {
@@ -38,28 +40,22 @@ public class RegisterDAO extends DBConnect {
     }
 
     public void addNewAccount(Accounts a) {
-        String sql = "INSERT INTO Accounts (fullname, email, password, phone,img, roleid) " +
-                "VALUES (?, ?, ?, ?,?, 2)";
-
+        String sql = "INSERT INTO Accounts (fullname, email, password, phone, img, roleid) VALUES (?, ?, ?, ?, ?, 2)";
         try (PreparedStatement st = connection.prepareStatement(sql)) {
+            String hashedPassword = BCrypt.hashpw(a.getPassword(), BCrypt.gensalt(12));
             st.setString(1, a.getFullName());
             st.setString(2, a.getEmail());
-            st.setString(3, a.getPassword());
+            st.setString(3, hashedPassword);
             st.setString(4, a.getPhone());
             st.setString(5, a.getImg());
 
-
             int rowsAffected = st.executeUpdate();
-            if (rowsAffected > 0) {
-                System.out.println("Account added successfully.");
-            } else {
-                System.out.println("Failed to add account.");
-            }
+            System.out.println(rowsAffected > 0 ? "Account added successfully." : "Failed to add account.");
         } catch (SQLException e) {
-            System.err.println("Error executing SQL: " + e.getMessage());
             e.printStackTrace();
         }
     }
+
 
 
     public static void main(String[] args) {
