@@ -1,5 +1,6 @@
 package model;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class Payments {
@@ -8,6 +9,7 @@ public class Payments {
     private String PaymentMethod;
     private String PaymentStatus;
     private Date PaymentDate;
+    private String email;
     private double TotalPrice;
 
     public Payments() {
@@ -28,6 +30,16 @@ public class Payments {
         this.PaymentStatus = paymentStatus;
         this.PaymentDate = paymentDate;
         this.TotalPrice = totalPrice;
+    }
+
+    public Payments(int paymentID, int bookingID, String paymentMethod, String paymentStatus, Date paymentDate, String email, double totalPrice) {
+        this.paymentID = paymentID;
+        this.bookingID = bookingID;
+        PaymentMethod = paymentMethod;
+        PaymentStatus = paymentStatus;
+        PaymentDate = paymentDate;
+        this.email = email;
+        TotalPrice = totalPrice;
     }
 
     public int getPaymentID() {
@@ -70,6 +82,14 @@ public class Payments {
         PaymentDate = paymentDate;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public double getTotalPrice() {
         return TotalPrice;
     }
@@ -86,6 +106,7 @@ public class Payments {
                 ", PaymentMethod='" + PaymentMethod + '\'' +
                 ", PaymentStatus='" + PaymentStatus + '\'' +
                 ", PaymentDate=" + PaymentDate +
+                ", email='" + email + '\'' +
                 ", TotalPrice=" + TotalPrice +
                 '}';
     }

@@ -311,11 +311,8 @@
 
 
     double totalPrice = bkd.getTotalPriceAllTickets(bookingId);
-    System.out.println("total:"+totalPrice);
-    request.setAttribute("price", totalPrice);
-    request.setAttribute("bookingId", bookingId);
 
-    int adultTicket = 0;  // Giá trị mặc định nếu null
+    int adultTicket = 0;
     int childTicket = 0;
     int infantTicket = 0;
 

@@ -258,14 +258,11 @@
                       <div style="text-align: center; font-size: 20px">Select Ticket Class</div>
                       <div class="ticket-category-list" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 90px;">
                           <%
-                              // Dùng HashSet để kiểm tra loại ghế đã hiển thị chưa
                               Set<String> displayedClasses = new HashSet<>();
 
-                              // Đếm số ghế có Status = 1 cho mỗi hạng ghế
                               int businessSeatsActive = 0;
                               int economySeatsActive = 0;
 
-                              // Đếm số ghế active cho từng hạng
                               for (int i = 0; i < seats.size(); i++) {
                                   String seatClass = seats.get(i).getSeatClass();
                                   if (seats.get(i).getStatus() == 1) {
@@ -276,11 +273,8 @@
                                       }
                                   }
                               }
-
-                              // Lặp qua các hạng ghế muốn hiển thị (Business và Economy)
                               String[] targetClasses = {"Business", "Economy"};
                               for (String targetClass : targetClasses) {
-                                  // Tìm seat đầu tiên của từng hạng ghế
                                   for (int i = 0; i < seats.size(); i++) {
                                       String seatClass = seats.get(i).getSeatClass();
                                       if (!targetClass.equals(seatClass)) {
@@ -291,14 +285,12 @@
                                           continue;
                                       }
                                       displayedClasses.add(seatClass);
-                                      // Lấy giá vé dựa trên seatClass
                                       double price = 0;
                                       if ("Business".equals(seatClass)) {
                                           price = (long) f.getClassVipPrice();
                                       } else if ("Economy".equals(seatClass)) {
                                           price = f.getClassEconomyPrice();
                                       }
-                                      // Kiểm tra xem hạng ghế này có ghế nào active không
                                       boolean isCategoryActive = ("Business".equals(seatClass) && businessSeatsActive > 0) || ("Economy".equals(seatClass) && economySeatsActive > 0);
                           %>
 

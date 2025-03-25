@@ -62,7 +62,7 @@ public class TicketsDAO extends DBConnect{
     }
 
     public int createTicket(String code, int flightId, int seatId, int passengerId,
-                            int bookingId, int baggageId, float price) {
+                            int bookingId, Integer baggageId, float price) {
         int n = 0;
         int ticketId = -1;
         String sql = "INSERT INTO Tickets (Code, FlightId, SeatId, PassengerId, Status, CreateAt, "
@@ -76,7 +76,11 @@ public class TicketsDAO extends DBConnect{
             ps.setInt(4, 1);
             ps.setTimestamp(5, new Timestamp(System.currentTimeMillis()));
             ps.setInt(6, bookingId);
-            ps.setInt(7, baggageId);
+            if (baggageId == null) {
+                ps.setNull(7, java.sql.Types.INTEGER);
+            } else {
+                ps.setInt(7, baggageId);
+            }
             ps.setFloat(8, price);
             n = ps.executeUpdate();
             try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
@@ -172,18 +176,26 @@ public class TicketsDAO extends DBConnect{
         return null;
     }
 
+    public void confirmSuccessAllTicketsByBookingId(int bookid) {
 
+        String sql = "UPDATE Tickets SET Status = 2 where bookingId =? and Status = 1";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, bookid);
+            ps.executeUpdate();
 
-
-
-
-    public static void main(String[] args) {
-        TicketsDAO dao = new TicketsDAO();
-        List<Tickets> a = dao.getAllTicketSuccessfulPaymentByBookingId(1);
-        System.out.println(a);
-
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
+
+    public static void main(String[] args) {
+        TicketsDAO tDAO = new TicketsDAO();
+        tDAO.confirmSuccessAllTicketsByBookingId(1);
+    }
+
+
 
 
 

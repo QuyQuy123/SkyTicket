@@ -198,9 +198,32 @@ public class PaymentsDAO extends DBConnect {
         return false;
     }
 
+    public Payments getPaymentByBookingId(int bookingId) {
+        String sql = "SELECT * FROM Payments WHERE BookingId = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setInt(1, bookingId);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                return new Payments(
+                        rs.getInt("PaymentId"),
+                        rs.getInt("BookingId"),
+                        rs.getString("PaymentMethod"),
+                        rs.getString("PaymentStatus"),
+                        rs.getDate("PaymentDate"),
+                        rs.getString("Email"),
+                        rs.getDouble("TotalPrice")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     public static void main(String[] args) {
         PaymentsDAO dao = new PaymentsDAO();
-        System.out.println(dao.getAllPayments());
+        Payments a = dao.getPaymentByBookingId(3);
+        System.out.println(a);
     }
 }
