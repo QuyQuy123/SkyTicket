@@ -195,7 +195,7 @@
                         class="uil uil-sign-in-alt me-2 d-inline-block"></i>Refunds</a>
                 <div class="sidebar-submenu">
                     <ul>
-                        <li><a href="<%= request.getContextPath() %>/listRefund">List of Refund</a></li>
+                        <li><a href="<%= request.getContextPath() %>/listRefund?action=list">List of Refund</a></li>
                         <li><a href="<%= request.getContextPath() %>/addDiscounts"></a></li>
                     </ul>
                 </div>

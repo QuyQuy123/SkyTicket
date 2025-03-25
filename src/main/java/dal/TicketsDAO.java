@@ -189,10 +189,42 @@ public class TicketsDAO extends DBConnect{
         }
 
     }
+    public List<Tickets> getAllTickets() {
+        List<Tickets> tickets = new ArrayList<>();
+        String query = "SELECT * FROM Tickets";
+
+        try (PreparedStatement stmt = connection.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                Tickets ticket = new Tickets(
+                        rs.getInt("TicketId"),
+                        rs.getInt("SeatId"),
+                        rs.getInt("PassengerId"),
+                        rs.getString("Code"),
+                        rs.getInt("Status"),
+                        rs.getTimestamp("CreateAt"),
+                        rs.getInt("BookingId"),
+                        rs.getInt("FlightId"),
+                        rs.getInt("BaggageId"),
+                        rs.getFloat("Price"),
+                        rs.getTimestamp("cancelledAt")
+                );
+                tickets.add(ticket);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return tickets;
+    }
 
     public static void main(String[] args) {
         TicketsDAO tDAO = new TicketsDAO();
-        tDAO.confirmSuccessAllTicketsByBookingId(1);
+        List<Tickets> tickets = tDAO.getAllTickets();
+        for (Tickets ticket : tickets) {
+            System.out.println(ticket);
+        }
     }
 
 

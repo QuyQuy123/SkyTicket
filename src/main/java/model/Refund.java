@@ -64,8 +64,8 @@ public class Refund {
         return requestDate;
     }
 
-    public Timestamp setRequestDate(Timestamp requestDate) {
-       return requestDate;
+    public void setRequestDate(Timestamp requestDate) {
+       this.requestDate=requestDate;
     }
 
     public Timestamp getRefundDate() {

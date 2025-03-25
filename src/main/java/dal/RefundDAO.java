@@ -1,13 +1,12 @@
 package dal;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import model.Baggages;
 import model.Refund;
-import java.sql.Timestamp;
+
 public class RefundDAO extends DBConnect {
 
     // Lấy danh sách tất cả yêu cầu hoàn tiền
@@ -140,6 +139,131 @@ public class RefundDAO extends DBConnect {
         }
     }
 
+    public int getTotalRecords() {
+        int total = 0;
+        String sql = "SELECT COUNT(*) FROM Refund";
+        try (Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            if (rs.next()) {
+                total = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return total;
+    }
+    public List<Refund> getRefundByPage(int start, int total) {
+        List<Refund> refunds = new ArrayList<>();
+        String sql = "SELECT * FROM Refund LIMIT ?, ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setInt(1, start);
+            pstmt.setInt(2, total);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                Refund refund = new Refund();
+                refund.setRefundId(rs.getInt("RefundId"));
+                refund.setTicketId(rs.getInt("TicketId"));
+                refund.setBankAccount(rs.getString("BankAccount"));
+                refund.setBankName(rs.getString("BankName"));
+                refund.setRequestDate(rs.getTimestamp("RequestDate"));
+                refund.setRefundDate(rs.getTimestamp("RefundDate"));
+                refund.setRefundPrice(rs.getDouble("RefundPrice"));
+                refund.setStatus(rs.getInt("Status"));
+                refunds.add(refund);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return refunds;
+    }
+
+    public List<Refund> searchRefunds(String refundId, String ticketCode, String status, String orderPricet, int page, int recordsPerPage) throws SQLException {
+        List<Refund> refundList = new ArrayList<>();
+        String sql = "SELECT r.* FROM Refund r JOIN Tickets t ON r.TicketId = t.TicketId WHERE 1=1";
+
+        if (refundId != null && !refundId.trim().isEmpty()) {
+            sql += " AND r.RefundId = ?";
+        }
+        if (ticketCode != null && !ticketCode.trim().isEmpty()) {
+            sql += " AND t.Code LIKE ?";
+        }
+        if (status != null && !status.trim().isEmpty()) {
+            sql += " AND r.Status = ?";
+        }
+
+        if ("asc".equals(orderPricet)) {
+            sql += " ORDER BY r.RefundPrice ASC";
+        } else if ("desc".equals(orderPricet)) {
+            sql += " ORDER BY r.RefundPrice DESC";
+        }
+
+        int offset = (page - 1) * recordsPerPage;
+        sql += " LIMIT ?, ?";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            int index = 1;
+            if (refundId != null && !refundId.trim().isEmpty()) {
+                stmt.setString(index++, refundId);
+            }
+            if (ticketCode != null && !ticketCode.trim().isEmpty()) {
+                stmt.setString(index++, "%" + ticketCode + "%");
+            }
+            if (status != null && !status.trim().isEmpty()) {
+                stmt.setInt(index++, Integer.parseInt(status));
+            }
+            stmt.setInt(index++, offset);
+            stmt.setInt(index++, recordsPerPage);
+
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Refund refund = new Refund();
+                refund.setRefundId(rs.getInt("RefundId"));
+                refund.setTicketId(rs.getInt("TicketId"));
+                refund.setBankAccount(rs.getString("BankAccount"));
+                refund.setBankName(rs.getString("BankName"));
+                refund.setRequestDate(rs.getTimestamp("RequestDate"));
+                refund.setRefundDate(rs.getTimestamp("RefundDate"));
+                refund.setRefundPrice(rs.getDouble("RefundPrice"));
+                refund.setStatus(rs.getInt("Status"));
+                refundList.add(refund);
+            }
+        }
+        return refundList;
+    }
+
+    public int getTotalRecordsFiltered(String refundId, String ticketCode, String status) throws SQLException {
+        String sql = "SELECT COUNT(*) FROM Refund r JOIN Tickets t ON r.TicketId = t.TicketId WHERE 1=1";
+
+        if (refundId != null && !refundId.trim().isEmpty()) {
+            sql += " AND r.RefundId = ?";
+        }
+        if (ticketCode != null && !ticketCode.trim().isEmpty()) {
+            sql += " AND t.Code LIKE ?";
+        }
+        if (status != null && !status.trim().isEmpty()) {
+            sql += " AND r.Status = ?";
+        }
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            int index = 1;
+            if (refundId != null && !refundId.trim().isEmpty()) {
+                ps.setString(index++, refundId);
+            }
+            if (ticketCode != null && !ticketCode.trim().isEmpty()) {
+                ps.setString(index++, "%" + ticketCode + "%");
+            }
+            if (status != null && !status.trim().isEmpty()) {
+                ps.setInt(index++, Integer.parseInt(status));
+            }
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        }
+        return 0;
+    }
+
+
     // Xóa một yêu cầu hoàn tiền
     public void deleteRefund(int refundId) {
         String sql = "DELETE FROM Refund WHERE RefundId = ?";
@@ -153,48 +277,5 @@ public class RefundDAO extends DBConnect {
 
         public static void main(String[] args) {
             RefundDAO refundDAO = new RefundDAO();
-
-            // Test getAllRefunds
-            System.out.println("Danh sách tất cả yêu cầu hoàn tiền:");
-            List<Refund> refunds = refundDAO.getAllRefunds();
-            for (Refund refund : refunds) {
-                System.out.println(refund);
-            }
-
-            // Test getRefundsByStatus
-            int testStatus = 1;
-            System.out.println("\nDanh sách yêu cầu hoàn tiền với trạng thái " + testStatus + ":");
-            List<Refund> refundsByStatus = refundDAO.getRefundsByStatus(testStatus);
-            for (Refund refund : refundsByStatus) {
-                System.out.println(refund);
-            }
-
-            // Test getRefundById
-            int testRefundId = 1;
-            System.out.println("\nChi tiết yêu cầu hoàn tiền với RefundId = " + testRefundId + ":");
-            Refund refund = refundDAO.getRefundById(testRefundId);
-            System.out.println(refund);
-
-            // Test addRefund
-            System.out.println("\nThêm mới yêu cầu hoàn tiền:");
-            Refund newRefund = new Refund();
-            newRefund.setTicketId(2);
-            newRefund.setBankAccount("123456789");
-            newRefund.setBankName("ABC Bank");
-            newRefund.setRequestDate(new Timestamp(System.currentTimeMillis()));
-            newRefund.setRefundPrice(500.0);
-            newRefund.setStatus(0); // Pending
-            refundDAO.addRefund(newRefund);
-            System.out.println("Thêm yêu cầu hoàn tiền thành công.");
-
-            // Test updateRefundStatus
-            System.out.println("\nCập nhật trạng thái hoàn tiền:");
-            refundDAO.updateRefundStatus(testRefundId, 2); // 2 = Refund Success
-            System.out.println("Cập nhật trạng thái thành công.");
-
-            // Test deleteRefund
-            System.out.println("\nXóa yêu cầu hoàn tiền:");
-            refundDAO.deleteRefund(testRefundId);
-            System.out.println("Xóa yêu cầu hoàn tiền thành công.");
         }
 }

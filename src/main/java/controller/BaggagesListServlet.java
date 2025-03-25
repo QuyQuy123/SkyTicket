@@ -33,7 +33,6 @@ public class BaggagesListServlet extends HttpServlet {
             }
         }
 
-
         int totalRecords = baggageDAO.getTotalRecords();
         int totalPages = (int) Math.ceil((double) totalRecords / RECORDS_PER_PAGE);
 

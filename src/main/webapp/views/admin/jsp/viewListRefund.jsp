@@ -32,6 +32,9 @@
 <body>
 <%
     List<Refund> refundList = (List<Refund>) request.getAttribute("refundList");
+    List<Tickets> ticketsList = (List<Tickets>) request.getAttribute("ticketsList");
+    int currentPage = (Integer) request.getAttribute("currentPage");
+    int totalPages = (Integer) request.getAttribute("totalPages");
 //    int currentPage = (Integer) request.getAttribute("currentPage");
 //    int totalPages = (Integer) request.getAttribute("totalPages");
 
@@ -79,10 +82,21 @@
                             <form action="<%= request.getContextPath() %>/refundSearch" method="get"
                                   class="d-flex">
                                 <!-- Ô tìm kiếm -->
-                                <input type="text" name="BaggageID" class="form-control border rounded-pill me-2"
-                                       placeholder="Search BaggageID..." >
-
-
+                                <input type="text" name="RefundID" class="form-control border rounded-pill me-2 w-150 px-3 text-truncate"
+                                       style="min-width: 300px; width: 50%;"
+                                       placeholder="Search with Refund Id or Ticket Code" >
+                                <select name="orderPricet" id="order" class="form-select border rounded-pill me-2">
+                                    <option value="">Order of price</option>
+                                    <option value="asc" ${param.order == 'asc' ? 'selected' : ''}>Price Ascending</option>
+                                    <option value="desc" ${param.order == 'desc' ? 'selected' : ''}>Price Descending</option>
+                                </select>
+                                <!-- Bộ lọc trạng thái -->
+                                <select name="status" class="form-select border rounded-pill me-2">
+                                    <option value="">All Status</option>
+                                    <option value="1">Pending</option>
+                                    <option value="2">Success</option>
+                                    <option value="3">Failed</option>
+                                </select>
                                 <!-- Nút tìm kiếm -->
                                 <button type="submit" class="btn btn-outline-primary rounded-pill me-2">Search</button>
                             </form>
@@ -105,42 +119,48 @@
                                 <thead>
                                 <tr>
                                     <th class="border-bottom p-3">Refund ID</th>
-                                    <th class="border-bottom p-3">Ticket ID</th>
-                                    <th class="border-bottom p-3">Bank Account</th>
-                                    <th class="border-bottom p-3">Bank Name</th>
+                                    <th class="border-bottom p-3">Ticket Code</th>
                                     <th class="border-bottom p-3">Request Date</th>
                                     <th class="border-bottom p-3">Refund Date</th>
                                     <th class="border-bottom p-3">Refund Price</th>
                                     <th class="border-bottom p-3">Status</th>
+                                    <th class="border-bottom p-3">Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <%
                                     for (Refund r : refundList) {
+                                        String ticketCode = "Unknown";
+                                        for(Tickets t : ticketsList){
+                                            if(r.getTicketId() == t.getTicketId()){
+                                                ticketCode = t.getCode();
+                                            }
+                                        }
 
                                 %>
                                 <tr>
-                                    <td class="p-3"><%= r.getRefundId() %></td>
-                                    <td class="p-3"><%= r.getTicketId() %></td>
-                                    <td class="p-3"><%= r.getBankAccount()%></td>
-                                    <td class="p-3"><%= r.getBankName() %></td>
-                                    <td class="p-3"><%= r.getRequestDate() %></td>
-                                    <td class="p-3"><%= r.getRequestDate() %></td>
+                                    <td class="p-3" ><%= r.getRefundId() %></td>
+                                    <td class="p-3"><%= ticketCode %></td>
+                                    <td class="p-3"><%= r.getRequestDate()%></td>
+                                    <td class="p-3"><%= r.getRefundDate() %></td>
                                     <td class="p-3"><%= r.getRefundPrice() %></td>
                                     <td class="p-3">
                                         <span class="badge
-                                            <%= r.getStatus() == 1 ? "bg-soft-success" :
-                                                r.getStatus() == 2 ? "bg-soft-primary" :
-                                                "bg-soft-danger" %>">
-                                            <%= r.getStatus() == 1 ? "Refund Success" :
-                                                    r.getStatus() == 2 ? "Refund Pending" :
+                                            <%= r.getStatus() == 1 ? "bg-soft-warning text-warning" :
+                                                r.getStatus() == 2 ? "bg-soft-success text-success" :
+                                                "bg-soft-danger text-danger" %>">
+                                            <%= r.getStatus() == 1 ? "Refund Pending" :
+                                                    r.getStatus() == 2 ? "Refund Success" :
                                                             "Failed" %>
                                         </span>
                                     </td>
 
+
                                     <td class=" p-2">
+                                        <a href="${pageContext.request.contextPath}/listRefund?action=details&id=<%=r.getRefundId()%>" class="btn btn-icon btn-sm btn-soft-primary"><i
+                                                class="uil uil-eye"></i></a>
                                         <a href="#" class="btn btn-icon btn-pills btn-soft-success"><i class="uil uil-pen"></i></a>
-                                        <a href="#">
+                                        <a href="#" class="btn btn-icon btn-pills btn-soft-danger">
                                             <i class="uil uil-trash"></i>
                                         </a>
                                     </td>
@@ -156,36 +176,36 @@
 
         <!--phân trang-->
         <!-- Phân trang -->
-<%--        <div class="d-flex justify-content-center mt-3 margin-bottom">--%>
-<%--            <div class="pagination">--%>
-<%--                <!-- Nút First -->--%>
-<%--                <% if (currentPage > 1) { %>--%>
-<%--                <a href="<%= request.getContextPath() %>/baggagesSearch?page=1&BaggageID=<%= request.getAttribute("baggageId") != null ? request.getAttribute("baggageId") : "" %>&AirlineName=<%= request.getAttribute("airlinesName") != null ? request.getAttribute("airlinesName") : "" %>&orderWeight=<%= request.getAttribute("orderWeight") != null ? request.getAttribute("orderWeight") : "" %>&orderPrice=<%= request.getAttribute("orderPrice") != null ? request.getAttribute("orderPrice") : "" %>"--%>
-<%--                   class="btn btn-outline-primary">First</a>--%>
-<%--                <% } %>--%>
+        <div class="d-flex justify-content-center mt-3 margin-bottom">
+            <div class="pagination">
+                <!-- Nút First -->
+                <% if (currentPage > 1) { %>
+                <a href="<%= request.getContextPath() %>/refundSearch?RefundID=<%= request.getAttribute("refundIdOrTicketCode") != null ? request.getAttribute("refundIdOrTicketCode") : "" %>&orderPricet=<%= request.getAttribute("orderPricet") != null ? request.getAttribute("orderPricet") : "" %>&status=<%= request.getAttribute("status") != null ? request.getAttribute("status") : "" %>&page=1"
+                   class="btn btn-outline-primary">First</a>
+                <% } %>
 
-<%--                <!-- Nút Previous -->--%>
-<%--                <% if (currentPage > 1) { %>--%>
-<%--                <a href="<%= request.getContextPath() %>/baggagesSearch?page=<%= currentPage - 1 %>&BaggageID=<%= request.getAttribute("baggageId") != null ? request.getAttribute("baggageId") : "" %>&AirlineName=<%= request.getAttribute("airlinesName") != null ? request.getAttribute("airlinesName") : "" %>&orderWeight=<%= request.getAttribute("orderWeight") != null ? request.getAttribute("orderWeight") : "" %>&orderPrice=<%= request.getAttribute("orderPrice") != null ? request.getAttribute("orderPrice") : "" %>"--%>
-<%--                   class="btn btn-outline-primary">Previous</a>--%>
-<%--                <% } %>--%>
+                <!-- Nút Previous -->
+                <% if (currentPage > 1) { %>
+                <a href="<%= request.getContextPath() %>/refundSearch?RefundID=<%= request.getAttribute("refundIdOrTicketCode") != null ? request.getAttribute("refundIdOrTicketCode") : "" %>&orderPricet=<%= request.getAttribute("orderPricet") != null ? request.getAttribute("orderPricet") : "" %>&status=<%= request.getAttribute("status") != null ? request.getAttribute("status") : "" %>&page=<%= currentPage - 1 %>"
+                   class="btn btn-outline-primary">Previous</a>
+                <% } %>
 
-<%--                <!-- Hiển thị trang hiện tại -->--%>
-<%--                <span class="btn btn-primary"><%= currentPage %> / <%= totalPages %></span>--%>
+                <!-- Hiển thị trang hiện tại -->
+                <span class="btn btn-primary"><%= currentPage %> / <%= totalPages %></span>
 
-<%--                <!-- Nút Next -->--%>
-<%--                <% if (currentPage < totalPages) { %>--%>
-<%--                <a href="<%= request.getContextPath() %>/baggagesSearch?page=<%= currentPage + 1 %>&BaggageID=<%= request.getAttribute("baggageId") != null ? request.getAttribute("baggageId") : "" %>&AirlineName=<%= request.getAttribute("airlinesName") != null ? request.getAttribute("airlinesName") : "" %>&orderWeight=<%= request.getAttribute("orderWeight") != null ? request.getAttribute("orderWeight") : "" %>&orderPrice=<%= request.getAttribute("orderPrice") != null ? request.getAttribute("orderPrice") : "" %>"--%>
-<%--                   class="btn btn-outline-primary">Next</a>--%>
-<%--                <% } %>--%>
+                <!-- Nút Next -->
+                <% if (currentPage < totalPages) { %>
+                <a href="<%= request.getContextPath() %>/refundSearch?RefundID=<%= request.getAttribute("refundIdOrTicketCode") != null ? request.getAttribute("refundIdOrTicketCode") : "" %>&orderPricet=<%= request.getAttribute("orderPricet") != null ? request.getAttribute("orderPricet") : "" %>&status=<%= request.getAttribute("status") != null ? request.getAttribute("status") : "" %>&page=<%= currentPage + 1 %>"
+                   class="btn btn-outline-primary">Next</a>
+                <% } %>
 
-<%--                <!-- Nút Last -->--%>
-<%--                <% if (currentPage < totalPages) { %>--%>
-<%--                <a href="<%= request.getContextPath() %>/baggagesSearch?page=<%= totalPages %>&BaggageID=<%= request.getAttribute("baggageId") != null ? request.getAttribute("baggageId") : "" %>&AirlineName=<%= request.getAttribute("airlinesName") != null ? request.getAttribute("airlinesName") : "" %>&orderWeight=<%= request.getAttribute("orderWeight") != null ? request.getAttribute("orderWeight") : "" %>&orderPrice=<%= request.getAttribute("orderPrice") != null ? request.getAttribute("orderPrice") : "" %>"--%>
-<%--                   class="btn btn-outline-primary">Last</a>--%>
-<%--                <% } %>--%>
-<%--            </div>--%>
-<%--        </div>--%>
+                <!-- Nút Last -->
+                <% if (currentPage < totalPages) { %>
+                <a href="<%= request.getContextPath() %>/refundSearch?RefundID=<%= request.getAttribute("refundIdOrTicketCode") != null ? request.getAttribute("refundIdOrTicketCode") : "" %>&orderPricet=<%= request.getAttribute("orderPricet") != null ? request.getAttribute("orderPricet") : "" %>&status=<%= request.getAttribute("status") != null ? request.getAttribute("status") : "" %>&page=<%= totalPages %>"
+                   class="btn btn-outline-primary">Last</a>
+                <% } %>
+            </div>
+        </div>
         <!-- Footer Start -->
         <%@include file="bottom.jsp"%>
         <!-- End -->
