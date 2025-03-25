@@ -1,19 +1,20 @@
 package model;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class Payments {
     private int paymentID;
     private int bookingID;
     private String PaymentMethod;
-    private String PaymentStatus;
-    private Date PaymentDate;
+    private int PaymentStatus;
+    private Timestamp PaymentDate;
     private double TotalPrice;
 
     public Payments() {
     }
 
-    public Payments(int paymentID, String paymentMethod, String paymentStatus, Date paymentDate, double totalPrice) {
+    public Payments(int paymentID, String paymentMethod, int paymentStatus, Timestamp paymentDate, double totalPrice) {
         this.paymentID = paymentID;
         this.PaymentMethod = paymentMethod;
         this.PaymentStatus = paymentStatus;
@@ -21,7 +22,7 @@ public class Payments {
         this.TotalPrice = totalPrice;
     }
 
-    public Payments(int paymentID, int bookingID, String paymentMethod, String paymentStatus, Date paymentDate, double totalPrice) {
+    public Payments(int paymentID, int bookingID, String paymentMethod, int paymentStatus, Timestamp paymentDate, double totalPrice) {
         this.paymentID = paymentID;
         this.bookingID = bookingID;
         this.PaymentMethod = paymentMethod;
@@ -54,19 +55,19 @@ public class Payments {
         PaymentMethod = paymentMethod;
     }
 
-    public String getPaymentStatus() {
+    public int getPaymentStatus() {
         return PaymentStatus;
     }
 
-    public void setPaymentStatus(String paymentStatus) {
+    public void setPaymentStatus(int paymentStatus) {
         PaymentStatus = paymentStatus;
     }
 
-    public Date getPaymentDate() {
+    public Timestamp getPaymentDate() {
         return PaymentDate;
     }
 
-    public void setPaymentDate(Date paymentDate) {
+    public void setPaymentDate(Timestamp paymentDate) {
         PaymentDate = paymentDate;
     }
 

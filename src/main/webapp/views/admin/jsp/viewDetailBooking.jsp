@@ -157,7 +157,9 @@
                                             <label class="form-label">Status: </label>
                                             <label for="name"></label><input name="name" id="bookingid" type="text" disabled
                                                                              class="form-control"
-                                                                             value="<%=bookings.getStatus() != 0 ? bookings.getStatus(): ""%>">
+                                                                             value="<%= bookings.getStatus() == 1 ? "Is Pending" :
+                          bookings.getStatus() == 2 ? "Payment Successfully" :
+                          bookings.getStatus() == 3 ? "Refund Pending" : "Refund Completed" %>">
                                         </div>
                                     </div><!--end col-->
                                     <% if (bookings.getAccountID() != 0) {

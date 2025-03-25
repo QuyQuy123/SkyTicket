@@ -114,7 +114,7 @@
                                             <label class="form-label">Payment Status: </label>
                                             <label for="name"></label><input name="name" id="phone" type="text" disabled
                                                                              class="form-control"
-                                                                             value="<%=payments.getPaymentStatus() != null ? payments.getPaymentStatus(): ""%>">
+                                                                             value="<%= payments.getPaymentStatus() == 1 ? "Is Pending" : "Payment Success" %>">
                                         </div>
                                     </div><!--end col-->
                                     <div class="col-md-6">

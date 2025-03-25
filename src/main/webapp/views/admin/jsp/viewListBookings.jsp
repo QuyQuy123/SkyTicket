@@ -82,8 +82,10 @@
                        placeholder="Search by...">
                 <select name="status" class="form-select border rounded-pill me-2">
                   <option value="">All</option>
-                  <option value="1">DemoC</option>
-                  <option value="2">DemoF</option>
+                  <option value="1">Is Pending</option>
+                  <option value="2">Payment Successfully</option>
+                  <option value="3">Refund Pending</option>
+                  <option value="4">Refund Completed</option>
                 </select>
                 <button type="submit" class="btn btn-outline-primary rounded-pill me-2">Search</button>
               </form>
@@ -127,7 +129,17 @@
                   <td class="p-3"><%= bookings.getContactPhone() %></td>
                   <td class="p-3"><%= bookings.getContactEmail() %></td>
                   <td class="p-3"><%= bookings.getTotalPrice() %> $</td>
-                  <td class="p-3"><span class="badge <%= bookings.getStatus() == 1 ? "bg-soft-success" : "bg-soft-warning" %>"><%= bookings.getStatus() == 1 ? "DemoC" : "DemoF" %></span></td>
+                  <td class="p-3">
+                    <span class="badge
+                    <%= bookings.getStatus() == 1 ? "bg-soft-success" :
+                        bookings.getStatus() == 2 ? "bg-soft-warning" :
+                        bookings.getStatus() == 3 ? "bg-soft-danger" : "bg-soft-info" %>">
+                      <%= bookings.getStatus() == 1 ? "Is Pending" :
+                          bookings.getStatus() == 2 ? "Payment Successfully" :
+                          bookings.getStatus() == 3 ? "Refund Pending" : "Refund Completed" %>
+                    </span>
+                  </td>
+
                   <td class="p-3">
                     <a href="${pageContext.request.contextPath}/viewBooking?id=<%= bookings.getBookingID() %>" class="btn btn-icon btn-sm btn-soft-primary"><i
                             class="uil uil-eye"></i></a>
@@ -185,9 +197,9 @@
 <%--        }--%>
 <%--    }--%>
 
-<%--    function confirmRestore(locationId) {--%>
+<%--    function confirmRestore(bookingid) {--%>
 <%--        if (confirm("Do you want to restore this location?")) {--%>
-<%--            window.location.href = "<%= request.getContextPath() %>/deleteLocation?action=restore&id=" + locationId;--%>
+<%--            window.location.href = "<%= request.getContextPath() %>/deleteBooking?action=restore&id=" + bookingid;--%>
 <%--        }--%>
 <%--    }--%>
 <%--</script>--%>

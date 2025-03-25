@@ -82,9 +82,8 @@
                                        placeholder="Search by method...">
                                 <select name="status" class="form-select border rounded-pill me-2">
                                     <option value="">All</option>
-                                    <option value="Completed">Completed</option>
-                                    <option value="Failed">Failed</option>
-                                    <option value="Pending">Pending</option>
+                                    <option value="1">Is Pending</option>
+                                    <option value="2">Payment Success</option>
                                 </select>
                                 <button type="submit" class="btn btn-outline-primary rounded-pill me-2">Search</button>
                             </form>
@@ -149,17 +148,15 @@
                                     <td class="p-3"><%= payments.getPaymentMethod() %></td>
                                     <td class="p-3"><%= payments.getPaymentDate() %></td>
                                     <td class="p-3"><%= payments.getTotalPrice() %> $</td>
-                                    <td class="p-3">
-                                        <span class="badge
-                                        <%= payments.getPaymentStatus().equals("Completed") ? "bg-soft-success" :
-                                            (payments.getPaymentStatus().equals("Pending") ? "bg-soft-info" : "bg-soft-warning") %>">
-                                        <%= payments.getPaymentStatus() %>
-                                        </span>
-                                    </td>
-
+                                    <td class="p-3"><span class="badge <%= payments.getPaymentStatus() == 1 ? "bg-soft-success" : "bg-soft-warning" %>"><%= payments.getPaymentStatus() == 1 ? "Is Pending" : "Payment Success" %></span></td>
                                     <td class="p-3">
                                         <a href="${pageContext.request.contextPath}/viewPayment?id=<%= payments.getPaymentID() %>" class="btn btn-icon btn-sm btn-soft-primary"><i
                                                 class="uil uil-eye"></i></a>
+                                        <% if (payments.getPaymentStatus() == 1) {
+                                        %>
+                                        <a href="javascript:void(0);" class="btn btn-icon btn-pills btn-soft-danger" onclick="confirmRestore(<%= payments.getPaymentID() %>)">
+                                            <i class="uil uil-redo"></i>
+                                                <% } %>
                                     </td>
                                         <% } %>
                                 </tbody>
@@ -214,19 +211,19 @@
 
 
 <!-- javascript -->
-<%--<script>--%>
-<%--    function confirmDelete(locationId) {--%>
-<%--        if (confirm("Are you sure to deactivate this location?")) {--%>
-<%--            window.location.href = "<%= request.getContextPath() %>/deleteLocation?action=deactivate&id=" + locationId;--%>
-<%--        }--%>
-<%--    }--%>
+<script>
+    <%--function confirmDelete(paymentid) {--%>
+    <%--    if (confirm("Are you sure to deactivate this payment?")) {--%>
+    <%--        window.location.href = "<%= request.getContextPath() %>/deletePayment?action=deactivate&id=" + paymentid;--%>
+    <%--    }--%>
+    <%--}--%>
 
-<%--    function confirmRestore(locationId) {--%>
-<%--        if (confirm("Do you want to restore this location?")) {--%>
-<%--            window.location.href = "<%= request.getContextPath() %>/deleteLocation?action=restore&id=" + locationId;--%>
-<%--        }--%>
-<%--    }--%>
-<%--</script>--%>
+    function confirmRestore(paymentid) {
+        if (confirm("Do you want to change status of this Payment?")) {
+            window.location.href = "<%= request.getContextPath() %>/deletePayment?action=restore&id=" + paymentid;
+        }
+    }
+</script>
 
 
 <script src="<%= request.getContextPath() %>/views/admin/assets/js/bootstrap.bundle.min.js"></script>

@@ -84,8 +84,8 @@
                                        placeholder="Search by...">
                                 <select name="status" class="form-select border rounded-pill me-2">
                                     <option value="">All</option>
-                                    <option value="female">Female</option>
-                                    <option value="male">Male</option>
+<%--                                    <option value="female">Female</option>--%>
+<%--                                    <option value="male">Male</option>--%>
                                 </select>
                                 <button type="submit" class="btn btn-outline-primary rounded-pill me-2">Search</button>
                             </form>
@@ -153,7 +153,7 @@
                 <ul class="pagination">
                     <c:if test="${currentPage > 1}">
                         <li class="page-item">
-                            <a class="page-link" href="${pageContext.request.contextPath}/searchPassengers?search=${searchName}&status=${searchStatus}&page=${currentPage - 1}">Previous</a>
+                            <a class="page-link" href="${pageContext.request.contextPath}/searchPassengers?search=${searchName}&page=${currentPage - 1}">Previous</a>
                         </li>
                     </c:if>
 
@@ -163,7 +163,7 @@
 
                     <c:if test="${currentPage < totalPages}">
                         <li class="page-item">
-                            <a class="page-link" href="${pageContext.request.contextPath}/searchPassengers?search=${searchName}&status=${searchStatus}&page=${currentPage + 1}">Next</a>
+                            <a class="page-link" href="${pageContext.request.contextPath}/searchPassengers?search=${searchName}&page=${currentPage + 1}">Next</a>
                         </li>
                     </c:if>
                 </ul>

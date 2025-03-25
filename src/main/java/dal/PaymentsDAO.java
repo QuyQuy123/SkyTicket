@@ -7,6 +7,7 @@ import model.Payments;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -22,8 +23,8 @@ public class PaymentsDAO extends DBConnect {
                 int paymentID = rs.getInt("PaymentId");
                 int bookingID = rs.getInt("BookingId");
                 String paymentMethod = rs.getString("Paymentmethod");
-                String paymentStatus = rs.getString("Paymentstatus");
-                Date paymentDate = rs.getTimestamp("Paymentdate");
+                int paymentStatus = rs.getInt("Paymentstatus");
+                Timestamp paymentDate = rs.getTimestamp("Paymentdate");
                 double totalPrice = rs.getDouble("totalPrice");
                 list.add(new Payments(paymentID, bookingID, paymentMethod, paymentStatus, paymentDate, totalPrice));
             }
@@ -45,7 +46,7 @@ public class PaymentsDAO extends DBConnect {
                 list.add(new Payments(
                         rs.getInt("paymentid"),
                         rs.getString("PaymentMethod"),
-                        rs.getString("PaymentStatus"),
+                        rs.getInt("PaymentStatus"),
                         rs.getTimestamp("PaymentDate"),
                         rs.getDouble("TotalPrice")
                 ));
@@ -101,7 +102,7 @@ public class PaymentsDAO extends DBConnect {
                         rs.getInt("paymentId"),
                         rs.getInt("bookingId"),
                         rs.getString("paymentmethod"),
-                        rs.getString("paymentstatus"),
+                        rs.getInt("paymentstatus"),
                         rs.getTimestamp("paymentDate"),
                         rs.getDouble("totalPrice")
                 ));
@@ -151,8 +152,8 @@ public class PaymentsDAO extends DBConnect {
                     int paymentid = rs.getInt("paymentid");
                     int bookingid = rs.getInt("bookingid");
                     String paymentmethod = rs.getString("paymentmethod");
-                    String paymentstatus = rs.getString("paymentstatus");
-                    Date paymentdate = rs.getTimestamp("paymentdate");
+                    int paymentstatus = rs.getInt("paymentstatus");
+                    Timestamp paymentdate = rs.getTimestamp("paymentdate");
                     double totalPrice = rs.getDouble("totalPrice");
                     return new Payments(paymentid, bookingid, paymentmethod, paymentstatus, paymentdate, totalPrice);
                 }
@@ -178,8 +179,21 @@ public class PaymentsDAO extends DBConnect {
         return 0;
     }
 
+    public boolean updatePaymentStatus(int id, int status) {
+        String query = "UPDATE Payments SET PaymentStatus = ? WHERE paymentid = ?";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, status);
+            ps.setInt(2, id);
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public static void main(String[] args) {
         PaymentsDAO dao = new PaymentsDAO();
-        System.out.println(dao.getAllPayments());
+        System.out.println(dao.updatePaymentStatus(1, 1));
     }
 }
