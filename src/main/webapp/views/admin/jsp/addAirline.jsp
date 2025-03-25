@@ -121,7 +121,7 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label" for="name">Airline Name: </label>
+                                            <label class="form-label" for="name">Airline Name<span class="text-danger">*</span> : </label>
                                             <input name="name" id="name" type="text"
                                                                              class="form-control"
                                                                              placeholder="Airline name">
@@ -131,7 +131,7 @@
 
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label">Status</label>
+                                            <label class="form-label">Status<span class="text-danger">*</span> :</label>
                                             <select class="form-control gender-name select2input" name="status">
                                                 <option value="1">Active</option>
                                                 <option value="0" selected>Deactive</option>
@@ -141,29 +141,50 @@
 
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label" for="classVip">Capacity Class Vip: </label>
-                                            <input name="classVip" id="classVip"
-                                                   type="number" min="10" max="50"
+                                            <label class="form-label" for="vipRow">Number of seats on Vip row<span class="text-danger">*</span> : </label>
+                                            <input name="numberOfSeatsOnVipRow" id="vipRow"
+                                                   type="number" min="1" max="4"
                                                    class="form-control"
-                                                   placeholder="Number of seat Vip">
+                                                   placeholder="Enter number < 5 ">
                                         </div>
                                     </div>
 
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label" for="classEconomy">Capacity Class Economy: </label>
-                                            <input name="classEconomy"
-                                                   id="classEconomy" type="number"
+                                            <label class="form-label" for="vipCol">Number of seats on Vip column<span class="text-danger">*</span> : </label>
+                                            <input name="numberOfSeatsOnVipColumn" id="vipCol"
+                                                   type="number" min="1" max="10"
+                                                   class="form-control"
+                                                   placeholder="Enter number from 1 to 10">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="ecoRow">Number of seats on Economy row<span class="text-danger">*</span> : </label>
+                                            <input name="numberOfSeatsOnEcoRow"
+                                                   id="ecoRow" type="number"
+                                                   min="1" max="10"
+                                                   class="form-control"
+                                                   placeholder="Enter number from 1 to 10 ">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="ecoCol">Number of seats on Economy column<span class="text-danger">*</span> : </label>
+                                            <input name="numberOfSeatsOnEcoColumn"
+                                                   id="ecoCol" type="number"
                                                    min="10" max="50"
                                                    class="form-control"
-                                                   placeholder="Number of seats economy">
+                                                   placeholder="Enter number from 10 to 50 ">
                                         </div>
                                     </div>
 
 
                                     <div class="col-md-12">
                                         <div class="mb-3">
-                                            <label class="form-label" for="information">Airline information</label>
+                                            <label class="form-label" for="information">Airline information:</label>
                                             <textarea name="information"
                                                       id="information" rows="3"
                                                       class="form-control"
@@ -187,11 +208,7 @@
 
                             <ul class="list-unstyled mb-0 p-4" data-simplebar style="height: 664px;">
                                 <div>
-                                    Airline name must be ...
-                                    <hr>
-                                    Capacity of class VIP must be...
-                                    <hr>
-                                    Capacity of class economy must be...
+
                                 </div>
 
                                 <li class="mt-4 text-center">

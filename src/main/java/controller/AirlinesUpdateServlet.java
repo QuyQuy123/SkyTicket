@@ -50,25 +50,27 @@ public class AirlinesUpdateServlet extends HttpServlet {
         int id = Integer.parseInt(request.getParameter("airlineId"));
         String airlineName = request.getParameter("name");
         String information = request.getParameter("information");
-        int classVip = Integer.parseInt(request.getParameter("classVip"));
-        int classEconomy = Integer.parseInt(request.getParameter("classEconomy"));
+        int numberOfSeatsOnVipRow = Integer.parseInt(request.getParameter("numberOfSeatsOnVipRow"));
+        int numberOfSeatsOnVipColumn = Integer.parseInt(request.getParameter("numberOfSeatsOnVipColumn"));
+        int numberOfSeatsOnEcoRow = Integer.parseInt(request.getParameter("numberOfSeatsOnEcoRow"));
+        int numberOfSeatsOnEcoColumn = Integer.parseInt(request.getParameter("numberOfSeatsOnEcoColumn"));
         int status = Integer.parseInt(request.getParameter("status"));
 
 
-        // Xử lý file upload
+
         Part filePart = request.getPart("airlineImage");
         String fileName = "";
 
-        if (filePart != null && filePart.getSize() > 0) {  // Chỉ xử lý nếu có file mới
+        if (filePart != null && filePart.getSize() > 0) {
             fileName = filePart.getSubmittedFileName();
             String uploadPath = getServletContext().getRealPath("") + File.separator + UPLOAD_DIR;
             File uploadDir = new File(uploadPath);
-            if (!uploadDir.exists()) uploadDir.mkdirs(); // Tạo thư mục nếu chưa có
+            if (!uploadDir.exists()) uploadDir.mkdirs();
 
             String filePath = uploadPath + File.separator + fileName;
             filePart.write(filePath);
         } else {
-            fileName = request.getParameter("oldImage"); // Lấy tên file cũ từ request
+            fileName = request.getParameter("oldImage");
         }
 
 
@@ -77,8 +79,10 @@ public class AirlinesUpdateServlet extends HttpServlet {
         airline.setAirlineName(airlineName);
         airline.setInformation(information);
         airline.setImage(fileName);
-        airline.setClassVipCapacity(classVip);
-        airline.setClassEconomyCapacity(classEconomy);
+        airline.setNumberOfSeatsOnVipRow(numberOfSeatsOnVipRow);
+        airline.setNumberOfSeatsOnVipColumn(numberOfSeatsOnVipColumn);
+        airline.setNumberOfSeatsOnEconomyRow(numberOfSeatsOnEcoRow);
+        airline.setNumberOfSeatsOnEconomyColumn(numberOfSeatsOnEcoColumn);
         airline.setStatus(status);
         boolean success = airlineDAO.updateAirline(airline);
 
@@ -87,7 +91,7 @@ public class AirlinesUpdateServlet extends HttpServlet {
             request.setAttribute("airline", airline);
             request.getRequestDispatcher( "/views/admin/jsp/updateAirline.jsp").forward(request, response);
         } else {
-            response.sendRedirect("error.jsp"); // Điều hướng nếu thất bại
+            response.sendRedirect("error.jsp");
         }
     }
 }

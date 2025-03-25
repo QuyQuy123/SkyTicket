@@ -6,30 +6,36 @@ public class Airlines {
     private String image;
     private String information;
     private int status;
-    private int classVipCapacity;
-    private int classEconomyCapacity;
+    private int numberOfSeatsOnVipRow;
+    private int numberOfSeatsOnVipColumn;
+    private int numberOfSeatsOnEconomyRow;
+    private int numberOfSeatsOnEconomyColumn;
 
 
     public Airlines() {
     }
 
-    public Airlines(String airlineName, String image, String information, int status, int classVipCapacity, int classEconomyCapacity) {
+    public Airlines(String airlineName, String image, String information, int status, int numberOfSeatsOnVipRow, int numberOfSeatsOnVipColumn, int numberOfSeatsOnEconomyRow, int numberOfSeatsOnEconomyColumn) {
         this.airlineName = airlineName;
         this.image = image;
         this.information = information;
         this.status = status;
-        this.classVipCapacity = classVipCapacity;
-        this.classEconomyCapacity = classEconomyCapacity;
+        this.numberOfSeatsOnVipRow = numberOfSeatsOnVipRow;
+        this.numberOfSeatsOnVipColumn = numberOfSeatsOnVipColumn;
+        this.numberOfSeatsOnEconomyRow = numberOfSeatsOnEconomyRow;
+        this.numberOfSeatsOnEconomyColumn = numberOfSeatsOnEconomyColumn;
     }
 
-    public Airlines(int airlineId, String airlineName, String image, String information, int status, int classVipCapacity, int classEconomyCapacity) {
+    public Airlines(int airlineId, String airlineName, String image, String information, int status, int numberOfSeatsOnVipRow, int numberOfSeatsOnVipColumn, int numberOfSeatsOnEconomyRow, int numberOfSeatsOnEconomyColumn) {
         this.airlineId = airlineId;
         this.airlineName = airlineName;
-        this.information = information;
         this.image = image;
+        this.information = information;
         this.status = status;
-        this.classVipCapacity = classVipCapacity;
-        this.classEconomyCapacity = classEconomyCapacity;
+        this.numberOfSeatsOnVipRow = numberOfSeatsOnVipRow;
+        this.numberOfSeatsOnVipColumn = numberOfSeatsOnVipColumn;
+        this.numberOfSeatsOnEconomyRow = numberOfSeatsOnEconomyRow;
+        this.numberOfSeatsOnEconomyColumn = numberOfSeatsOnEconomyColumn;
     }
 
     public int getAirlineId() {
@@ -40,20 +46,20 @@ public class Airlines {
         this.airlineId = airlineId;
     }
 
-    public String getAirlineName() {
-        return airlineName;
-    }
-
-    public void setAirlineName(String airlineName) {
-        this.airlineName = airlineName;
-    }
-
     public String getImage() {
         return image;
     }
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public String getAirlineName() {
+        return airlineName;
+    }
+
+    public void setAirlineName(String airlineName) {
+        this.airlineName = airlineName;
     }
 
     public String getInformation() {
@@ -72,19 +78,50 @@ public class Airlines {
         this.status = status;
     }
 
-    public int getClassVipCapacity() {
-        return classVipCapacity;
+    public int getNumberOfSeatsOnVipRow() {
+        return numberOfSeatsOnVipRow;
     }
 
-    public void setClassVipCapacity(int classVipCapacity) {
-        this.classVipCapacity = classVipCapacity;
+    public void setNumberOfSeatsOnVipRow(int numberOfSeatsOnVipRow) {
+        this.numberOfSeatsOnVipRow = numberOfSeatsOnVipRow;
     }
 
-    public int getClassEconomyCapacity() {
-        return classEconomyCapacity;
+    public int getNumberOfSeatsOnVipColumn() {
+        return numberOfSeatsOnVipColumn;
     }
 
-    public void setClassEconomyCapacity(int classEconomyCapacity) {
-        this.classEconomyCapacity = classEconomyCapacity;
+    public void setNumberOfSeatsOnVipColumn(int numberOfSeatsOnVipColumn) {
+        this.numberOfSeatsOnVipColumn = numberOfSeatsOnVipColumn;
+    }
+
+    public int getNumberOfSeatsOnEconomyRow() {
+        return numberOfSeatsOnEconomyRow;
+    }
+
+    public void setNumberOfSeatsOnEconomyRow(int numberOfSeatsOnEconomyRow) {
+        this.numberOfSeatsOnEconomyRow = numberOfSeatsOnEconomyRow;
+    }
+
+    public int getNumberOfSeatsOnEconomyColumn() {
+        return numberOfSeatsOnEconomyColumn;
+    }
+
+    public void setNumberOfSeatsOnEconomyColumn(int numberOfSeatsOnEconomyColumn) {
+        this.numberOfSeatsOnEconomyColumn = numberOfSeatsOnEconomyColumn;
+    }
+
+    @Override
+    public String toString() {
+        return "Airlines{" +
+                "airlineId=" + airlineId +
+                ", airlineName='" + airlineName + '\'' +
+                ", image='" + image + '\'' +
+                ", information='" + information + '\'' +
+                ", status=" + status +
+                ", numberOfSeatsOnVipRow=" + numberOfSeatsOnVipRow +
+                ", numberOfSeatsOnVipColumn=" + numberOfSeatsOnVipColumn +
+                ", numberOfSeatsOnEconomyRow=" + numberOfSeatsOnEconomyRow +
+                ", numberOfSeatsOnEconomyColumn=" + numberOfSeatsOnEconomyColumn +
+                '}';
     }
 }

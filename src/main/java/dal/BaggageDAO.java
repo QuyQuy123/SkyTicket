@@ -82,7 +82,6 @@ public class BaggageDAO extends DBConnect {
         return baggages;
     }
 
-
     public int getTotalRecords() {
         int total = 0;
         String sql = "SELECT COUNT(*) FROM Baggages";
@@ -119,7 +118,6 @@ public class BaggageDAO extends DBConnect {
         }
         return baggages;
     }
-
     public List<Baggages> searchBaggages(String baggageId, String orderWeight, String orderPrice, int currentPage, int recordsPerPage) {
         List<Baggages> baggages = new ArrayList<>();
         String sql = "SELECT * FROM Baggages WHERE 1=1";
@@ -166,8 +164,6 @@ public class BaggageDAO extends DBConnect {
 
         return baggages;
     }
-
-
 
 
     public List<Baggages> getAllBaggagesByAirline(int airlineId) {
@@ -252,11 +248,27 @@ public class BaggageDAO extends DBConnect {
         }
         return baggages;
     }
-    public List<Baggages> getSortedBaggage(String sortBy, String order, int offset, int limit) {
+
+    public int getPriceBaggagesById(int id) {
+        List<Baggages> list = new ArrayList<>();
+        String sql = "select price from Baggages \n"
+                + "where BaggageId = ?";
+        try(PreparedStatement prepare = connection.prepareStatement(sql)) {
+            prepare.setInt(1, id);
+            ResultSet resultSet = prepare.executeQuery();
+            while (resultSet.next()) {
+                return resultSet.getInt("price");
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return 0;
+    }
+
+        public List<Baggages> getSortedBaggage(String sortBy, String order, int offset, int limit) {
         List<Baggages> baggages = new ArrayList<>();
         String query = "SELECT * FROM baggage ORDER BY " + (sortBy != null ? sortBy : "weight") + " "
                 + ("desc".equals(order) ? "DESC" : "ASC") + " LIMIT ? OFFSET ?";
-
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, limit);
             stmt.setInt(2, offset);
@@ -306,11 +318,9 @@ public class BaggageDAO extends DBConnect {
     public Baggages getBaggageById(int baggageId) {
         Baggages baggage = null;
         String sql = "SELECT * FROM Baggages WHERE BaggageId = ?";
-
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, baggageId);
             ResultSet rs = ps.executeQuery();
-
             if (rs.next()) {
                 baggage = new Baggages(
                         rs.getInt("BaggageId"),
@@ -329,10 +339,17 @@ public class BaggageDAO extends DBConnect {
     // Hàm main để test các chức năng
     public static void main(String[] args) {
         BaggageDAO baggageDAO = new BaggageDAO();
+        List<Baggages> baggages = baggageDAO.getAllBaggagesByAirline(3);
+        for (Baggages baggage : baggages) {
+            System.out.println(baggage);
+        }
+
+    }
+
 //        List<Baggages> baggages = baggageDAO.getAllBaggagesByAirline(3);
 //        for (Baggages baggage : baggages) {
 //            System.out.println(baggage);
 //        }
 
     }
-}
+

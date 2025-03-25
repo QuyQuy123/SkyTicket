@@ -1,28 +1,110 @@
 package model;
 
 import java.sql.Timestamp;
+import java.time.Duration;
 
-public class Tickets{
+public class Tickets {
 
     private int ticketId;
     private int seatId;
+    private int passengerId;
     private String code;
-    private double totalPrice;
-    private int bookingDetailId;
     private int status;
     private Timestamp createAt;
+    private int bookingId;
+    private int flightId;
+    private int baggageId;
+    private float price;
+    private Timestamp CancelledAt;
 
-    public Tickets(int ticketId, int seatId, String code, double totalPrice, int bookingDetailId, int status, Timestamp createAt) {
+    public Tickets(int ticketId, int seatId, int passengerId, String code, int status, Timestamp createAt, int bookingId, int flightId, int baggageId, Timestamp cancelledAt) {
+        this.ticketId = ticketId;
+        this.seatId = seatId;
+        this.passengerId = passengerId;
+        this.code = code;
+        this.status = status;
+        this.createAt = createAt;
+        this.bookingId = bookingId;
+        this.flightId = flightId;
+        this.baggageId = baggageId;
+        CancelledAt = cancelledAt;
+    }
+
+    public Tickets(int ticketId, int seatId, String code, int status, Timestamp createAt) {
         this.ticketId = ticketId;
         this.seatId = seatId;
         this.code = code;
-        this.totalPrice = totalPrice;
-        this.bookingDetailId = bookingDetailId;
+
         this.status = status;
         this.createAt = createAt;
     }
 
+    public Tickets(int ticketId, int seatId, int passengerId, String code, int status, Timestamp createAt, int bookingId, int flightId, int baggageId, float price, Timestamp cancelledAt) {
+        this.ticketId = ticketId;
+        this.seatId = seatId;
+        this.passengerId = passengerId;
+        this.code = code;
+        this.status = status;
+        this.createAt = createAt;
+        this.bookingId = bookingId;
+        this.flightId = flightId;
+        this.baggageId = baggageId;
+        this.price = price;
+        CancelledAt = cancelledAt;
+    }
+
     public Tickets() {
+    }
+
+    public Tickets(int ticketId, int seatId, int passengerId, String code, int status, Timestamp createAt, int bookingId, int flightId, int baggageId, float price) {
+    }
+
+    public float getPrice() {
+        return price;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
+    }
+
+    public int getBookingId() {
+        return bookingId;
+    }
+
+    public void setBookingId(int bookingId) {
+        this.bookingId = bookingId;
+    }
+
+    public int getFlightId() {
+        return flightId;
+    }
+
+    public void setFlightId(int flightId) {
+        this.flightId = flightId;
+    }
+
+    public int getBaggageId() {
+        return baggageId;
+    }
+
+    public void setBaggageId(int baggageId) {
+        this.baggageId = baggageId;
+    }
+
+    public Timestamp getCancelledAt() {
+        return CancelledAt;
+    }
+
+    public void setCancelledAt(Timestamp cancelledAt) {
+        CancelledAt = cancelledAt;
+    }
+
+    public int getPassengerId() {
+        return passengerId;
+    }
+
+    public void setPassengerId(int passengerId) {
+        this.passengerId = passengerId;
     }
 
     public int getTicketId() {
@@ -49,21 +131,6 @@ public class Tickets{
         this.code = code;
     }
 
-    public double getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(double totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
-    public int getBookingDetailId() {
-        return bookingDetailId;
-    }
-
-    public void setBookingDetailId(int bookingDetailId) {
-        this.bookingDetailId = bookingDetailId;
-    }
 
     public int getStatus() {
         return status;
@@ -86,11 +153,17 @@ public class Tickets{
         return "Tickets{" +
                 "ticketId=" + ticketId +
                 ", seatId=" + seatId +
+                ", passengerId=" + passengerId +
                 ", code='" + code + '\'' +
-                ", totalPrice=" + totalPrice +
-                ", bookingDetailId=" + bookingDetailId +
                 ", status=" + status +
                 ", createAt=" + createAt +
+                ", bookingId=" + bookingId +
+                ", flightId=" + flightId +
+                ", baggageId=" + baggageId +
+                ", price=" + price +
+                ", CancelledAt=" + CancelledAt +
                 '}';
     }
+
+
 }

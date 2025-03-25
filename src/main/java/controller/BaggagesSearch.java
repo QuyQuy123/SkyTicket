@@ -34,7 +34,7 @@ public class BaggagesSearch extends HttpServlet {
             try {
                 currentPage = Integer.parseInt(request.getParameter("page"));
             } catch (NumberFormatException e) {
-                currentPage = 1; // Nếu lỗi, về trang đầu tiên
+                currentPage = 1;
             }
         }
 
@@ -42,11 +42,11 @@ public class BaggagesSearch extends HttpServlet {
         int totalRecords = baggageDAO.getTotalRecordsFiltered(baggageId, airlinesName);
         int totalPages = (int) Math.ceil((double) totalRecords / RECORDS_PER_PAGE);
 
-        // Đảm bảo currentPage nằm trong phạm vi hợp lệ
+
         if (currentPage < 1) {
             currentPage = 1;
         } else if (currentPage > totalPages && totalPages > 0) {
-            currentPage = totalPages; // Không cho vượt quá tổng số trang (trừ khi totalPages = 0)
+            currentPage = totalPages;
         }
 
         // Lấy danh sách hành lý đã lọc

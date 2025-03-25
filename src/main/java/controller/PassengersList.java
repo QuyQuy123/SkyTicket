@@ -42,12 +42,12 @@ public class PassengersList extends HttpServlet {
         // Nếu page lớn hơn totalPages nhưng không có dữ liệu, đưa về trang cuối cùng có dữ liệu
         if (page > totalPages) page = totalPages;
 
-        List<Passengers> listPassengers = passengersDAO.getLocationsByPage((page - 1) * RECORDS_PER_PAGE, RECORDS_PER_PAGE);
+        List<Passengers> listPassengers = passengersDAO.getPassengersByPage((page - 1) * RECORDS_PER_PAGE, RECORDS_PER_PAGE);
 
         // Nếu danh sách lấy về rỗng mà page > 1, quay lại trang trước
         if (listPassengers.isEmpty() && page > 1) {
             page--;
-            listPassengers = passengersDAO.getLocationsByPage((page - 1) * RECORDS_PER_PAGE, RECORDS_PER_PAGE);
+            listPassengers = passengersDAO.getPassengersByPage((page - 1) * RECORDS_PER_PAGE, RECORDS_PER_PAGE);
         }
 
         request.setAttribute("passengers", listPassengers);

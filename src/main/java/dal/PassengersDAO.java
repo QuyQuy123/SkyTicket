@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class PassengersDAO extends DBConnect {
     public List<Passengers> getAllPassengers() {
@@ -36,7 +37,7 @@ public class PassengersDAO extends DBConnect {
         return list;
     }
 
-    public List<Passengers> getLocationsByPage(int start, int total) {
+    public List<Passengers> getPassengersByPage(int start, int total) {
         List<Passengers> list = new ArrayList<>();
         try {
             String query = "SELECT passengerid, passengername, phone," +
@@ -154,8 +155,124 @@ public class PassengersDAO extends DBConnect {
         return null;
     }
 
+    public boolean createPassenger(String passengerName, String phone,Date dob,String gender, Integer idAcc, int bookId) {
+        String sql = "INSERT INTO Passengers (PassengerName, Phone, Dob, Gender, AccountId,BookingId ) " +
+                "VALUES (?, ?, ?, ?, ?,?)";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setString(1,passengerName);
+            stmt.setString(2,phone);
+            stmt.setDate(3, (java.sql.Date) dob); // Đảm bảo dob là LocalDate
+            stmt.setString(4,gender);
+            if (idAcc != null) {
+                stmt.setInt(5, idAcc);
+            } else {
+                stmt.setNull(5, java.sql.Types.INTEGER);
+            }
+            stmt.setInt(6, bookId);
+
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public List<Passengers> getPassengersByBookingId(int bookingId) {
+        String sql = "SELECT * FROM Passengers WHERE BookingId = ?";
+        List<Passengers> passengers = new ArrayList<>();
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, bookingId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) { // Duyệt qua tất cả kết quả thay vì chỉ lấy 1
+                    Passengers passenger = new Passengers();
+                    passenger.setPassengerID(rs.getInt("PassengerId"));
+                    passenger.setPassengerName(rs.getString("PassengerName"));
+                    passenger.setPhone(rs.getString("Phone"));
+                    passenger.setEmail(rs.getString("Email"));
+                    passenger.setAddress(rs.getString("Address"));
+                    passenger.setDateOfBirth(rs.getDate("Dob"));
+                    passenger.setGender(rs.getString("Gender"));
+                    passenger.setAccountID(rs.getInt("AccountId"));
+
+                    passengers.add(passenger); // Thêm vào danh sách
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return passengers;
+    }
+    public int getBookingidById(int id) {
+        String sql = "SELECT bookingid FROM Passengers WHERE passengerid = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("bookingid");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public Passengers getLatestPassengerByBookingId(int bookingId) {
+        String sql = "SELECT * FROM Passengers WHERE BookingId = ? ORDER BY PassengerId DESC LIMIT 1";
+        Passengers passenger = null;
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, bookingId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) { // Chỉ lấy 1 bản ghi (mới nhất)
+                    passenger = new Passengers();
+                    passenger.setPassengerID(rs.getInt("PassengerId"));
+                    passenger.setPassengerName(rs.getString("PassengerName"));
+                    passenger.setPhone(rs.getString("Phone"));
+                    passenger.setEmail(rs.getString("Email"));
+                    passenger.setAddress(rs.getString("Address"));
+                    passenger.setDateOfBirth(rs.getDate("Dob"));
+                    passenger.setGender(rs.getString("Gender"));
+                    passenger.setAccountID(rs.getInt("AccountId"));
+                    passenger.setBookingId(rs.getInt("BookingId")); // Thêm BookingId
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return passenger;
+    }
+    public int getPassengerIdByTicketId(int ticketId)  {
+        int passengerId = -1;
+        String query = "SELECT PassengerId FROM Tickets WHERE TicketId = ?";
+
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, ticketId);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    passengerId = rs.getInt("PassengerId");
+                } else {
+                    throw new SQLException("No ticket found with TicketId: " + ticketId);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return passengerId;
+    }
+
+
     public static void main(String[] args) {
+        PassengersDAO pd = new PassengersDAO();
+        int a = pd.getPassengerIdByTicketId(1);
+        System.out.println(a);
 
     }
+
+
 }
 

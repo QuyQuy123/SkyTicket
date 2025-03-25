@@ -43,114 +43,126 @@
     <!-- Css -->
     <link href="${pageContext.request.contextPath}/views/admin/assets/css/style.min.css" rel="stylesheet"
           type="text/css" id="theme-opt"/>
+
     <style>
+        /* Căn chỉnh phần container */
         .plane-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            background: #f4f4f4;
-            border-radius: 50px;
-            padding: 40px 20px;
-            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
-            margin: 20px auto;
-            max-width: 500px;
-            position: relative;
-            overflow: hidden;
+            text-align: center;
+            padding: 20px;
         }
 
-        /* Đầu máy bay */
-        .plane-container::before {
-            content: "";
-            position: absolute;
-            top: -40px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 60px;
-            background: #d9d9d9;
-            border-radius: 50%;
+        /* Viền ngoài cho hình máy bay */
+        .plane-container {
+            margin-top: 20px;
+            border: 4px dashed #40c18b; /* Viền đậm màu xám đen */
+            border-radius: 15px; /* Bo góc nhẹ */
+            padding: 20px; /* Khoảng cách bên trong */
+            background-color: #f8f9fa; /* Màu nền nhẹ */
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3); /* Hiệu ứng bóng */
         }
 
-        /* Đuôi máy bay */
-        .plane-container::after {
-            content: "";
-            position: absolute;
-            bottom: -30px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 40px;
-            background: #d9d9d9;
-            border-radius: 30px 30px 0 0;
-        }
 
-        .plane-title {
-            font-size: 22px;
+        /* Tiêu đề */
+        h5 {
             font-weight: bold;
             color: #333;
-            margin-bottom: 20px;
+            text-align: center;
         }
 
-        .plane {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 20px;
-        }
-
+        /* Hàng ghế */
         .row {
             display: flex;
             justify-content: center;
-            gap: 10px;
-            margin-bottom: 10px;
+            margin: 10px 0;
         }
 
+        /* Ghế */
         .seat {
-            width: 45px;
-            height: 45px;
+            width: 50px;
+            height: 50px;
+            margin: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             border-radius: 10px;
-            text-align: center;
-            line-height: 45px;
             font-weight: bold;
-            font-size: 14px;
             box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-            transition: 0.3s;
-            cursor: pointer;
         }
 
-        .seat:hover {
+        /* Màu ghế */
+        .seat.vip {
+            background-color: gold;
+            color: black;
+        }
+
+        .seat.regular {
+            background-color: lightgreen;
+            color: black;
+        }
+
+        .seat.btn-soft-secondary {
+            background-color: lightcoral;
+            color: white;
+        }
+
+        /* Hover hiệu ứng */
+        .seat button:hover {
             transform: scale(1.1);
+            transition: 0.2s;
         }
 
-        .vip {
-            background: linear-gradient(135deg, #ffcc00, #ff9900);
+        /* Ghế */
+        .seat {
+            width: 50px;
+            height: 50px;
+            margin: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            font-weight: bold;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* Màu ghế */
+        .seat.vip {
+            background-color: gold;
+            color: black;
+        }
+
+        .seat.regular {
+            background-color: lightgreen;
+            color: black;
+        }
+
+        .seat.btn-soft-secondary {
+            background-color: lightcoral;
             color: white;
         }
 
-        .regular {
-            background: linear-gradient(135deg, #cccccc, #999999);
-            color: white;
+        /* Hover hiệu ứng rõ ràng hơn */
+        .seat:hover {
+            transform: scale(1.15); /* Phóng to ghế */
+            box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3); /* Tạo bóng đổ */
         }
 
-        /* Hành lang giữa ghế */
-        .aisle {
-            width: 20px;
+        /* Đổi màu nền khi hover */
+        .seat.vip:hover {
+            background-color: orange;
         }
 
-        /* Nút gradient */
-        .btn-gradient {
-            background: linear-gradient(45deg, #ff416c, #ff4b2b);
-            color: white;
-            border: none;
-            transition: 0.3s;
+        .seat.regular:hover {
+            background-color: mediumseagreen;
         }
 
-        .btn-gradient:hover {
-            background: linear-gradient(45deg, #ff4b2b, #ff416c);
-            transform: scale(1.05);
+        .seat.btn-soft-secondary:hover {
+            background-color: darkred;
         }
+
+
     </style>
+
 </head>
 
 <body>
@@ -209,13 +221,14 @@
                             <input type="hidden" name="id" value="${airline.airlineId}">
                         </form>
 
+                        <c:if test="${not empty airline}">
                         <!-- Ghế VIP -->
                         <p>VIP Seats</p>
                         <c:set var="count" value="0"/>
                         <c:forEach var="seat" items="${seats}">
                             <c:if test="${seat.seatClass eq 'Vip'}">
                                 <!-- Nếu là ghế đầu tiên của hàng mới, tạo div row -->
-                                <c:if test="${count % 6 == 0}">
+                                <c:if test="${count % airline.numberOfSeatsOnVipRow == 0}">
                                     <div class="row">
                                 </c:if>
 
@@ -240,22 +253,16 @@
                                 </c:choose>
 
 
-                                <!-- Nếu đã hiển thị 3 ghế bên trái, thêm lối đi -->
-                                <c:if test="${(count + 1) % 6 == 3}">
-                                    <div class="aisle"></div>
-                                </c:if>
-
                                 <c:set var="count" value="${count + 1}"/>
 
                                 <!-- Nếu đủ 6 ghế, đóng div row -->
-                                <c:if test="${count % 6 == 0}">
+                                <c:if test="${count % airline.numberOfSeatsOnVipRow == 0}">
                                     </div>
                                 </c:if>
                             </c:if>
                         </c:forEach>
 
-                        <!-- Nếu hàng cuối chưa đủ 6 ghế, đóng hàng lại -->
-                        <c:if test="${count % 6 != 0}">
+                        <c:if test="${count % airline.numberOfSeatsOnVipRow != 0}">
                     </div>
                     </c:if>
 
@@ -266,7 +273,7 @@
                     <c:set var="count" value="0"/>
                     <c:forEach var="seat" items="${seats}">
                         <c:if test="${seat.seatClass eq 'Economy'}">
-                            <c:if test="${count % 6 == 0}">
+                            <c:if test="${count % airline.numberOfSeatsOnEconomyRow == 0}">
                                 <div class="row">
                             </c:if>
 
@@ -289,20 +296,17 @@
                                 </c:otherwise>
                             </c:choose>
 
-                            <c:if test="${(count + 1) % 6 == 3}">
-                                <div class="aisle"></div>
-                            </c:if>
-
                             <c:set var="count" value="${count + 1}"/>
 
-                            <c:if test="${count % 6 == 0}">
+                            <c:if test="${count % airline.numberOfSeatsOnEconomyRow == 0}">
                                 </div>
                             </c:if>
                         </c:if>
                     </c:forEach>
 
-                    <c:if test="${count % 6 != 0}">
+                    <c:if test="${count % airline.numberOfSeatsOnEconomyRow != 0}">
                 </div>
+                </c:if>
                 </c:if>
 
 
@@ -341,8 +345,9 @@
 
 <script>
     function confirmChangeStatus(seatId, seatNumber, seatClass) {
+        debugger;
         let confirmMsg = "Bạn có muốn chuyển trạng thái ghế " + seatClass + " " + seatNumber + " không?";
-
+        console.log(seatId);
         if (confirm(confirmMsg)) {
             document.getElementById("seatId").value = seatId; // Đưa seatId vào form
             document.getElementById("seatForm").submit(); // Gửi form bằng POST

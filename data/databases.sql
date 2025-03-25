@@ -2,6 +2,7 @@
 -- CREATE DATABASE SkyTickets;
 -- use SkyTickets;
 
+
 -- Bảng Roles
 CREATE TABLE Roles (
     RoleId INT PRIMARY KEY AUTO_INCREMENT,
@@ -61,6 +62,22 @@ CREATE TABLE Discounts (
     FOREIGN KEY (AccountId) REFERENCES Accounts(AccountId)
 );
 
+
+
+-- Bảng Bookings
+CREATE TABLE Bookings (
+    BookingId INT PRIMARY KEY AUTO_INCREMENT,
+    Code varchar(50),
+    ContactName nvarchar(50),
+    ContactPhone nvarchar(15),
+    ContactEmail nvarchar(50),
+    TotalPrice DECIMAL(10,2) NOT NULL,
+    BookingDate DATETIME DEFAULT CURRENT_TIMESTAMP,
+    Status VARCHAR(50),
+    AccountId INT,
+    FOREIGN KEY (AccountId) REFERENCES Accounts(AccountId)
+);
+
 -- Bảng Passengers
 CREATE TABLE Passengers (
     PassengerId INT PRIMARY KEY AUTO_INCREMENT,
@@ -72,39 +89,20 @@ CREATE TABLE Passengers (
     Dob DATE,
     Gender ENUM('Male', 'Female'),
     AccountId INT,
-    FOREIGN KEY (AccountId) REFERENCES Accounts(AccountId)
+    BookingId int,
+    FOREIGN KEY (AccountId) REFERENCES Accounts(AccountId),
+    FOREIGN KEY (BookingId) REFERENCES Bookings(BookingId)
 );
-
-
--- Bảng Bookings
-CREATE TABLE Bookings (
-    BookingId INT PRIMARY KEY AUTO_INCREMENT,
-    TotalPrice DECIMAL(10,2) NOT NULL,
-    BookingDate DATETIME DEFAULT CURRENT_TIMESTAMP,
-    Status VARCHAR(50),
-    AccountId INT,
-    FOREIGN KEY (AccountId) REFERENCES Accounts(AccountId)
-);
-
 -- Bảng Payments
 CREATE TABLE Payments (
     PaymentId INT PRIMARY KEY AUTO_INCREMENT,
     BookingId INT NOT NULL,
     PaymentMethod VARCHAR(50),
-    PaymentStatus VARCHAR(50),
+    PaymentStatus int default 1,
     PaymentDate DATETIME DEFAULT CURRENT_TIMESTAMP,
+    Email nvarchar(50),
     TotalPrice DECIMAL(10,2),
     FOREIGN KEY (BookingId) REFERENCES Bookings(BookingId)
-);
-
--- Bảng BookingDetails
-CREATE TABLE BookingDetails (
-    BookingDetailId INT PRIMARY KEY AUTO_INCREMENT,
-    BookingId INT NOT NULL,
-    PassengerId INT NOT NULL,
-    BaggageId INT,
-    FOREIGN KEY (BookingId) REFERENCES Bookings(BookingId),
-    FOREIGN KEY (PassengerId) REFERENCES Passengers(PassengerId)
 );
 
 -- Bảng Airlines
@@ -114,15 +112,17 @@ CREATE TABLE Airlines (
     Image VARCHAR(255),
     Information TEXT,
     Status TINYINT DEFAULT 1,
-    ClassVipCapacity INT,
-    ClassEconomyCapacity INT
+	NumberOfSeatsOnVipRow int,
+    NumberOfSeatsOnVipColumn int,
+    NumberOfSeatsOnEconomyRow int,
+    NumberOfSeatsOnEconomyColumn int
 );
-INSERT INTO Airlines (AirlineId, AirlineName, Image, Information, Status, ClassVipCapacity, ClassEconomyCapacity) 
+INSERT INTO Airlines (AirlineId, AirlineName, Image, Information, Status, NumberOfSeatsOnVipRow, NumberOfSeatsOnVipColumn,NumberOfSeatsOnEconomyRow,NumberOfSeatsOnEconomyColumn) 
 VALUES 
-(1, 'Bamboo Airways', 'new_bamboo_1.jpg', 'Hãng hàng không tư nhân đầu tiên tại Việt Nam.', 1, 20, 180),
-(2, 'Bamboo Airlines', 'new_bamboo_1.jpg', 'Hãng hàng không quốc gia Việt Nam với dịch vụ chất lượng cao.', 1, 30, 250),
-(3, 'Bamboo Airways', 'new_bamboo_1.jpg', 'Hãng hàng không tư nhân đầu tiên tại Việt Nam.', 1, 20, 180),
-(4, 'Bamboo Airlines', 'new_bamboo_1.jpg', 'Hãng hàng không quốc gia Việt Nam với dịch vụ chất lượng cao.', 1, 30, 250);
+(1, 'Airbus A320C1', 'news_bamboo_1.jpg', 'Hãng hàng không tư nhân đầu tiên tại Việt Nam.', 1, 4, 5,6,7),
+(2, 'Airbus A320C2', 'news_bamboo_1.jpg', 'Hãng hàng không quốc gia Việt Nam với dịch vụ chất lượng cao.',1, 4, 5,6,7),
+(3, 'Airbus A320C3', 'news_bamboo_1.jpg', 'Hãng hàng không tư nhân đầu tiên tại Việt Nam.', 1, 4, 5,6,7),
+(4, 'Airbus A320C4', 'news_bamboo_1.jpg', 'Hãng hàng không quốc gia Việt Nam với dịch vụ chất lượng cao.', 1, 4, 5,6,7);
 
 
 -- Bảng Baggages
@@ -234,33 +234,33 @@ CREATE TABLE Flights (
 );
 INSERT INTO Flights (ArrivalTime, DepartureTime, ArrivalAirportId, DepartureAirportId, Status, AirlineId, ClassVipPrice, ClassEconomyPrice)
 VALUES 
-('2025-03-07 10:00:00', '2025-03-06 07:30:00', 2, 1, 1, 1, 2000000.00, 1000000.00),
-('2025-03-07 15:00:00', '2025-03-06 12:00:00', 3, 2, 1, 2, 2500000.00, 1200000.00),
-('2025-03-07 18:30:00', '2025-03-06 16:00:00', 4, 3, 1, 3, 2800000.00, 1500000.00),
-('2025-03-07 08:45:00', '2025-03-06 06:20:00', 2, 4, 1, 4, 3000000.00, 17000000.00),
-('2025-03-07 12:15:00', '2025-03-06 09:45:00', 1, 4, 1, 2, 2200000.00, 11000000.00),
-('2025-03-07 17:00:00', '2025-03-06 14:30:00', 3, 1, 1, 1, 2600000.00, 13000000.00),
-('2025-03-07 22:10:00', '2025-03-06 19:45:00', 5, 1, 1, 2, 2900000.00, 1400000.00),
-('2025-03-07 05:30:00', '2025-03-06 03:00:00', 5, 1, 1, 3, 3100000.00, 1800000.00),
-('2025-03-07 09:20:00', '2025-03-06 06:50:00', 5, 1, 1, 4, 2400000.00, 1150000.00),
-('2025-03-07 14:00:00', '2025-03-06 11:30:00', 7, 2, 1, 1, 2300000.00, 1150000.00),
-('2025-03-07 19:00:00', '2025-03-06 16:15:00', 8, 3, 1, 2, 2700000.00, 1350000.00),
-('2025-03-07 09:30:00', '2025-03-06 07:00:00', 9, 5, 1, 3, 3000000.00, 1500000.00),
-('2025-03-07 15:45:00', '2025-03-06 13:00:00', 10, 4, 1, 4, 3200000.00, 1600000.00),
-('2025-03-07 21:00:00', '2025-03-06 18:30:00', 11, 6, 1, 1, 3500000.00, 1750000.00),
-('2025-03-07 06:00:00', '2025-03-06 03:30:00', 12, 7, 1, 2, 4000000.00, 2001111.00),
-('2025-03-07 23:30:00', '2025-03-06 21:00:00', 5, 1, 1, 2, 2900000.00, 1400000.00),
-('2025-03-08 01:45:00', '2025-03-06 23:15:00', 5, 1, 1, 3, 3100000.00, 1800000.00),
-('2025-03-07 03:50:00', '2025-03-06 01:20:00', 5, 1, 1, 4, 2400000.00, 1150000.00),
-('2025-03-07 11:00:00', '2025-03-06 08:30:00', 5, 1, 1, 2, 2900000.00, 1400000.00),
-('2025-03-07 13:15:00', '2025-03-06 10:45:00', 5, 1, 1, 3, 3100000.00, 1800000.00),
-('2025-03-07 15:30:00', '2025-03-06 13:00:00', 5, 1, 1, 4, 2400000.00, 1150000.00),
-('2025-03-07 11:00:00', '2025-03-06 09:30:00', 1, 5, 1, 1, 2900000.00, 1400000.00),
-('2025-03-07 14:00:00', '2025-03-06 12:30:00', 1, 5, 1, 2, 3100000.00, 1800000.00),
-('2025-03-07 17:00:00', '2025-03-06 15:30:00', 1, 5, 1, 3, 2400000.00, 1150000.00),
-('2025-03-07 20:00:00', '2025-03-06 18:30:00', 1, 5, 1, 4, 2900000.00, 1400000.00),
-('2025-03-07 23:00:00', '2025-03-06 21:30:00', 1, 5, 1, 1, 3100000.00, 1800000.00),
-('2025-03-07 09:00:00', '2025-03-06 07:30:00', 1, 5, 1, 1, 2400000.00, 1150000.00);
+('2025-03-25 10:00:00', '2025-03-25 07:30:00', 2, 1, 1, 1, 2000000.00, 1000000.00),
+('2025-03-25 15:00:00', '2025-03-25 12:00:00', 3, 2, 1, 2, 2500000.00, 1200000.00),
+('2025-03-25 18:30:00', '2025-03-25 16:00:00', 4, 3, 1, 3, 2800000.00, 1500000.00),
+('2025-03-25 08:45:00', '2025-03-25 06:20:00', 2, 4, 1, 4, 3000000.00, 17000000.00),
+('2025-03-25 12:15:00', '2025-03-25 09:45:00', 1, 4, 1, 2, 2200000.00, 11000000.00),
+('2025-03-25 17:00:00', '2025-03-25 14:30:00', 3, 1, 1, 1, 2600000.00, 13000000.00),
+('2025-03-25 22:10:00', '2025-03-25 19:45:00', 5, 1, 1, 2, 2900000.00, 1400000.00),
+('2025-03-25 05:30:00', '2025-03-25 03:00:00', 5, 1, 1, 3, 3100000.00, 1800000.00),
+('2025-03-25 09:20:00', '2025-03-25 06:50:00', 5, 1, 1, 4, 2400000.00, 1150000.00),
+('2025-03-25 14:00:00', '2025-03-25 11:30:00', 7, 2, 1, 1, 2300000.00, 1150000.00),
+('2025-03-25 19:00:00', '2025-03-25 16:15:00', 8, 3, 1, 2, 2700000.00, 1350000.00),
+('2025-03-25 09:30:00', '2025-03-25 07:00:00', 9, 5, 1, 3, 3000000.00, 1500000.00),
+('2025-03-25 15:45:00', '2025-03-25 13:00:00', 10, 4, 1, 4, 3200000.00, 1600000.00),
+('2025-03-25 21:00:00', '2025-03-25 18:30:00', 11, 6, 1, 1, 3500000.00, 1750000.00),
+('2025-03-25 06:00:00', '2025-03-25 03:30:00', 12, 7, 1, 2, 4000000.00, 200000.00),
+('2025-03-25 23:30:00', '2025-03-25 21:00:00', 5, 1, 1, 2, 2900000.00, 1400000.00),
+('2025-03-25 01:45:00', '2025-03-25 23:15:00', 5, 1, 1, 3, 3100000.00, 1800000.00),
+('2025-03-25 03:50:00', '2025-03-25 01:20:00', 5, 1, 1, 4, 2400000.00, 1150000.00),
+('2025-03-25 11:00:00', '2025-03-25 08:30:00', 5, 1, 1, 2, 2900000.00, 1400000.00),
+('2025-03-25 13:15:00', '2025-03-25 10:45:00', 5, 1, 1, 3, 3100000.00, 1800000.00),
+('2025-03-25 15:30:00', '2025-03-25 13:00:00', 5, 1, 1, 4, 2400000.00, 1150000.00),
+('2025-03-25 11:00:00', '2025-03-25 09:30:00', 1, 5, 1, 1, 2900000.00, 1400000.00),
+('2025-03-25 14:00:00', '2025-03-25 12:30:00', 1, 5, 1, 2, 3100000.00, 1800000.00),
+('2025-03-25 17:00:00', '2025-03-25 15:30:00', 1, 5, 1, 3, 2400000.00, 1150000.00),
+('2025-03-25 20:00:00', '2025-03-25 18:30:00', 1, 5, 1, 4, 2900000.00, 1400000.00),
+('2025-03-25 23:00:00', '2025-03-25 21:30:00', 1, 5, 1, 1, 3100000.00, 1800000.00),
+('2025-03-25 09:00:00', '2025-03-25 07:30:00', 1, 5, 1, 1, 2400000.00, 1150000.00);
 
 -- Bảng Seats
 CREATE TABLE Seats (
@@ -286,17 +286,16 @@ CREATE TABLE Tickets (
     TicketId INT PRIMARY KEY AUTO_INCREMENT,
     SeatId INT NOT NULL,
     PassengerId INT NOT NULL,
-    Code VARCHAR(50) UNIQUE NOT NULL,
+    Code VARCHAR(50) ,
     Status VARCHAR(50),
     CreateAt DATETIME DEFAULT CURRENT_TIMESTAMP,
-    BookingDetailId INT,
     BookingId INT,
     FlightId INT,
     BaggageId int,
+    Price float,
     CancelledAT datetime,
     FOREIGN KEY (SeatId) REFERENCES Seats(SeatId),
     FOREIGN KEY (PassengerId) REFERENCES Passengers(PassengerId),
-    FOREIGN KEY (BookingDetailId) REFERENCES BookingDetails(BookingDetailId),
     FOREIGN KEY (BaggageId) REFERENCES Baggages(BaggageId),
     FOREIGN KEY (FlightId) REFERENCES Flights(FlightId)
 	

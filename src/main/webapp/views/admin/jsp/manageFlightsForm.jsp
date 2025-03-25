@@ -88,7 +88,7 @@
                 <div class="d-md-flex justify-content-between">
                     <h5 class="mb-0">
                         <c:choose>
-                            <c:when test="${isUpdate}">Update Flight ID: ${f.airlineId}</c:when>
+                            <c:when test="${isUpdate}">Update Flight ID: ${f.flightId}</c:when>
                             <c:otherwise>Add New Flight</c:otherwise>
                         </c:choose>
                     </h5>
@@ -124,7 +124,7 @@
 
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label" for="departureA">Departure Airport:</label>
+                                            <label class="form-label" for="departureA">Departure Airport<span class="text-danger">*</span> :</label>
                                             <select name="departureA" id="departureA" class="form-control gender-name select2input">
                                                 <option value="" disabled ${empty f ? 'selected' : ''}>Select Departure Airport</option>
                                                 <c:forEach var="airport" items="${airportsList}">
@@ -141,7 +141,7 @@
 
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label" for="arrivalA">Arrival Airport:</label>
+                                            <label class="form-label" for="arrivalA">Arrival Airport<span class="text-danger">*</span> :</label>
                                             <select name="arrivalA" id="arrivalA" class="form-control gender-name select2input">
                                                 <option value="" disabled ${empty f ? 'selected' : ''}>Select Arrival Airport</option>
                                                 <c:forEach var="airport" items="${airportsList}">
@@ -157,7 +157,7 @@
 
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label" for="departureT">Departure Time:</label>
+                                            <label class="form-label" for="departureT">Departure Time<span class="text-danger">*</span> :</label>
                                             <input name="departureT" id="departureT" type="datetime-local"
                                                    class="form-control"
                                                    value="${not empty f ? f.departureTime : ''}">
@@ -166,7 +166,7 @@
 
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label" for="arrivalT">Arrival Time:</label>
+                                            <label class="form-label" for="arrivalT">Arrival Time<span class="text-danger">*</span> :</label>
                                             <input name="arrivalT" id="arrivalT" type="datetime-local"
                                                    class="form-control"
                                                    value="${not empty f ? f.arrivalTime : ''}">
@@ -177,7 +177,7 @@
 
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label" for="classVip">Price of Class Vip (VND): </label>
+                                            <label class="form-label" for="classVip">Price of Class Vip (VND)<span class="text-danger">*</span> : </label>
                                             <input name="classVip" id="classVip"
                                                    type="number" min="0" step="1"
                                                    class="form-control"
@@ -189,7 +189,7 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label class="form-label" for="classEconomy">Price of Class
-                                                Economy (VND): </label>
+                                                Economy (VND)<span class="text-danger">*</span> : </label>
                                             <input name="classEconomy"
                                                    id="classEconomy" type="number"
                                                    min="0" step="1"
@@ -201,7 +201,7 @@
 
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label" for="airline">Airline</label>
+                                            <label class="form-label" for="airline">Airline<span class="text-danger">*</span> :</label>
                                             <select name="airline" id="airline" class="form-control gender-name select2input">
                                                 <option value="" disabled ${empty f ? 'selected' : ''}>-- Select Airline --</option>
                                                 <c:forEach var="airline" items="${airlinesList}">
@@ -216,7 +216,7 @@
 
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label" for="sts">Status</label>
+                                            <label class="form-label" for="sts">Status<span class="text-danger">*</span> :</label>
                                             <select class="form-control gender-name select2input" name="status" id="sts">
                                                 <option value="" disabled ${empty f ? 'selected' : ''}> --Select Status-- </option>
                                                 <option value="1" ${f.status == 1 ? 'selected' : ''}>Active</option>
@@ -236,7 +236,7 @@
                                     </c:when>
                                     <c:when test="${isUpdate}">
                                         <input type="hidden" name="action" value="update">
-                                        <input type="hidden" name="id" value="${f.airlineId}">
+                                        <input type="hidden" name="id" value="${f.flightId}">
                                         <button type="submit" class="btn btn-primary">Update Flight</button>
                                     </c:when>
                                 </c:choose>

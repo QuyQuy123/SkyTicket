@@ -20,8 +20,10 @@ public class AirlinesDAO extends DBConnect {
                         rs.getString("image"),
                         rs.getString("information"),
                         rs.getInt("status"),
-                        rs.getInt("ClassVipCapacity"),
-                        rs.getInt("ClassEconomyCapacity")
+                        rs.getInt("NumberOfSeatsOnVipRow"),
+                        rs.getInt("NumberOfSeatsOnVipColumn"),
+                        rs.getInt("NumberOfSeatsOnEconomyRow"),
+                        rs.getInt("NumberOfSeatsOnEconomyColumn")
                 ));
             }
         } catch (SQLException e) {
@@ -43,8 +45,10 @@ public class AirlinesDAO extends DBConnect {
                             rs.getString("image"),
                             rs.getString("information"),
                             rs.getInt("status"),
-                            rs.getInt("ClassVipCapacity"),
-                            rs.getInt("ClassEconomyCapacity")
+                            rs.getInt("NumberOfSeatsOnVipRow"),
+                            rs.getInt("NumberOfSeatsOnVipColumn"),
+                            rs.getInt("NumberOfSeatsOnEconomyRow"),
+                            rs.getInt("NumberOfSeatsOnEconomyColumn")
                     );
                 }
             }
@@ -56,7 +60,7 @@ public class AirlinesDAO extends DBConnect {
 
     // Thêm hãng hàng không mới và trả về ID của hãng vừa thêm
     public int addAirline(Airlines airline) {
-        String query = "INSERT INTO Airlines (airlineName, image, information, status, classVipCapacity, classEconomyCapacity) VALUES (?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO Airlines (airlineName, image, information, status, numberOfSeatsOnVipRow, numberOfSeatsOnVipColumn, numberOfSeatsOnEconomyRow, numberOfSeatsOnEconomyColumn) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         int generatedId = -1;
 
         try (PreparedStatement ps = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
@@ -64,8 +68,10 @@ public class AirlinesDAO extends DBConnect {
             ps.setString(2, airline.getImage());
             ps.setString(3, airline.getInformation());
             ps.setInt(4, airline.getStatus());
-            ps.setInt(5, airline.getClassVipCapacity());
-            ps.setInt(6, airline.getClassEconomyCapacity());
+            ps.setInt(5, airline.getNumberOfSeatsOnVipRow());
+            ps.setInt(6, airline.getNumberOfSeatsOnVipColumn());
+            ps.setInt(7, airline.getNumberOfSeatsOnEconomyRow());
+            ps.setInt(8, airline.getNumberOfSeatsOnEconomyColumn());
 
             int affectedRows = ps.executeUpdate();
             if (affectedRows > 0) {
@@ -84,15 +90,17 @@ public class AirlinesDAO extends DBConnect {
 
     // Cập nhật thông tin hãng hàng không
     public boolean updateAirline(Airlines airline) {
-        String query = "UPDATE Airlines SET airlineName=?, image=?, information=?, status=?, ClassVipCapacity=?, ClassEconomyCapacity=? WHERE airlineId=?";
+        String query = "UPDATE Airlines SET airlineName=?, image=?, information=?, status=?, numberOfSeatsOnVipRow=?, numberOfSeatsOnVipColumn=?,numberOfSeatsOnEconomyRow=?,numberOfSeatsOnEconomyColumn=?  WHERE airlineId=?";
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setString(1, airline.getAirlineName());
             ps.setString(2, airline.getImage());
             ps.setString(3, airline.getInformation());
             ps.setInt(4, airline.getStatus());
-            ps.setInt(5, airline.getClassVipCapacity());
-            ps.setInt(6, airline.getClassEconomyCapacity());
-            ps.setInt(7, airline.getAirlineId());
+            ps.setInt(5, airline.getNumberOfSeatsOnVipRow());
+            ps.setInt(6, airline.getNumberOfSeatsOnVipColumn());
+            ps.setInt(7, airline.getNumberOfSeatsOnEconomyRow());
+            ps.setInt(8, airline.getNumberOfSeatsOnEconomyColumn());
+            ps.setInt(9, airline.getAirlineId());
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -140,8 +148,10 @@ public class AirlinesDAO extends DBConnect {
                         rs.getString("image"),
                         rs.getString("information"),
                         rs.getInt("status"),
-                        rs.getInt("ClassVipCapacity"),
-                        rs.getInt("ClassEconomyCapacity")
+                        rs.getInt("NumberOfSeatsOnVipRow"),
+                        rs.getInt("NumberOfSeatsOnVipColumn"),
+                        rs.getInt("NumberOfSeatsOnEconomyRow"),
+                        rs.getInt("NumberOfSeatsOnEconomyColumn")
                 ));
             }
         } catch (SQLException e) {
@@ -196,8 +206,10 @@ public class AirlinesDAO extends DBConnect {
                         rs.getString("image"),
                         rs.getString("information"),
                         rs.getInt("status"),
-                        rs.getInt("ClassVipCapacity"),
-                        rs.getInt("ClassEconomyCapacity")
+                        rs.getInt("NumberOfSeatsOnVipRow"),
+                        rs.getInt("NumberOfSeatsOnVipColumn"),
+                        rs.getInt("NumberOfSeatsOnEconomyRow"),
+                        rs.getInt("NumberOfSeatsOnEconomyColumn")
                 ));
             }
         } catch (SQLException e) {
@@ -281,10 +293,7 @@ public class AirlinesDAO extends DBConnect {
 
     public static void main(String[] args) {
         AirlinesDAO airlinesDAO = new AirlinesDAO();
-        List<Airlines> airlines = airlinesDAO.getAllAirlines();
-        for(Airlines airline : airlines) {
-            System.out.println(airline.getAirlineName() + " " + airline.getAirlineId());
-        }
+        System.out.println(airlinesDAO.getAirlineById(18));
     }
 
 

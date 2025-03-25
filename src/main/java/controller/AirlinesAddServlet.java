@@ -24,21 +24,22 @@ public class AirlinesAddServlet extends HttpServlet {
     private static final String UPLOAD_DIR = "img";
 
 
-    // Xử lý yêu cầu GET
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.sendRedirect(request.getContextPath() + "/views/admin/jsp/addAirline.jsp");
     }
 
-    // Xử lý yêu cầu POST
-    // Giới hạn 16MB
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             String airlineName = request.getParameter("name");
             String information = request.getParameter("information");
-            int classVip = Integer.parseInt(request.getParameter("classVip"));
-            int classEconomy = Integer.parseInt(request.getParameter("classEconomy"));
+            int numberOfSeatsOnVipRow = Integer.parseInt(request.getParameter("numberOfSeatsOnVipRow"));
+            int numberOfSeatsOnVipColumn = Integer.parseInt(request.getParameter("numberOfSeatsOnVipColumn"));
+            int numberOfSeatsOnEcoRow = Integer.parseInt(request.getParameter("numberOfSeatsOnEcoRow"));
+            int numberOfSeatsOnEcoColumn = Integer.parseInt(request.getParameter("numberOfSeatsOnEcoColumn"));
             int status = Integer.parseInt(request.getParameter("status"));
 
             // Xử lý file upload
@@ -52,8 +53,8 @@ public class AirlinesAddServlet extends HttpServlet {
             filePart.write(filePath);
 
 
-            // Lưu vào database
-            Airlines airline = new Airlines(airlineName, fileName, information, status, classVip, classEconomy);
+
+            Airlines airline = new Airlines(airlineName, fileName, information, status, numberOfSeatsOnVipRow, numberOfSeatsOnVipColumn, numberOfSeatsOnEcoRow, numberOfSeatsOnEcoColumn);
             AirlinesDAO airlineDAO = new AirlinesDAO();
 
             int success = airlineDAO.addAirline(airline);
@@ -61,18 +62,18 @@ public class AirlinesAddServlet extends HttpServlet {
             if (success != 0) {
                 int airlineId = success;
                 SeatsDAO seatsDAO = new SeatsDAO();
-                for (int i = 1; i <= classVip; i++) {
+                for (int i = 1; i <= numberOfSeatsOnVipRow * numberOfSeatsOnVipColumn; i++) {
                     Seats seat = new Seats(airlineId, 1, i, "Vip", 0);
                     seatsDAO.createSeat(seat); //nhwos theem hamf check
                 }
-                for (int i = 1; i <= classEconomy; i++) {
+                for (int i = 1; i <= numberOfSeatsOnEcoRow * numberOfSeatsOnEcoColumn; i++) {
                     Seats seat = new Seats(airlineId, 1, i, "Economy", 0);
                     seatsDAO.createSeat(seat);
                 }
                 request.setAttribute("msg", "Airline added successfully");
                 request.getRequestDispatcher("/views/admin/jsp/addAirline.jsp").forward(request, response);
             } else {
-                response.sendRedirect("error.jsp"); // Điều hướng nếu thất bại
+                response.sendRedirect("error.jsp");
             }
         } catch (Exception e) {
             e.printStackTrace();

@@ -102,7 +102,7 @@
                                 <div class="row align-items-center">
                                     <div class="col-lg-5 col-md-4">
                                         <img id="previewImage" src="${pageContext.request.contextPath}/img/${airl.image}"
-                                             class="avatar rounded shadow mt-3" width="280" alt="Airline Image">
+                                             class="avatar rounded shadow mt-3" width="280" alt="Airline">
                                         <hr>
                                     </div><!--end col-->
 
@@ -113,8 +113,8 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label">Airline Name: </label>
-                                            <label for="name"></label><input name="name" id="name" type="text" disabled
+                                            <label class="form-label" for="name">Airline Name: </label>
+                                            <input name="name" id="name" type="text" disabled
                                                                              class="form-control"
                                                                              value="${airl.airlineName != null? airl.airlineName:''}">
                                         </div>
@@ -123,8 +123,8 @@
 
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label">Status</label>
-                                            <select class="form-control gender-name select2input" name="status" disabled>
+                                            <label class="form-label" for="star">Status: </label>
+                                            <select class="form-control gender-name select2input" name="status" id="star" disabled>
                                                 <option value="1" ${airl.status == 1 ? 'selected' : ''}>Active</option>
                                                 <option value="0" ${airl.status == 0 ? 'selected' : ''}>Deactive</option>
                                             </select>
@@ -134,30 +134,50 @@
 
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label">Capacity Class Vip: </label>
-                                            <label for="classVip"></label><input name="classVip" id="classVip" disabled
-                                                                                 type="number" min="10" max="50"
-                                                                                 class="form-control"
-                                                                                 value="${airl.classVipCapacity != null? airl.classVipCapacity:''}">
+                                            <label class="form-label" for="vipRow">Number of seats on Vip row: </label>
+                                            <input name="numberOfSeatsOnVipRow" id="vipRow" disabled
+                                                   type="number" min="1" max="4"
+                                                   class="form-control"
+                                                   value="${airl.numberOfSeatsOnVipRow != null? airl.numberOfSeatsOnVipRow:''}">
                                         </div>
                                     </div>
 
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label">Capacity Class Economy: </label>
-                                            <label for="classEconomy"></label><input name="classEconomy"
-                                                                                     id="classEconomy" type="number" disabled
-                                                                                     min="10" max="50"
-                                                                                     class="form-control"
-                                                                                     value="${airl.classEconomyCapacity != null? airl.classEconomyCapacity:''}">
+                                            <label class="form-label" for="vipCol">Number of seats on Vip column: </label>
+                                            <input name="numberOfSeatsOnVipColumn" id="vipCol" disabled
+                                                   type="number" min="1" max="10"
+                                                   class="form-control"
+                                                   value="${airl.numberOfSeatsOnVipColumn != null? airl.numberOfSeatsOnVipColumn:''}">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="ecoRow">Number of seats on Economy row: </label>
+                                            <input name="numberOfSeatsOnEcoRow" disabled
+                                                   id="ecoRow" type="number"
+                                                   min="1" max="10"
+                                                   class="form-control"
+                                                   value="${airl.numberOfSeatsOnEconomyRow != null? airl.numberOfSeatsOnEconomyRow:''}">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="ecoCol">Number of seats on Economy column: </label>
+                                            <input name="numberOfSeatsOnEcoColumn" disabled
+                                                   id="ecoCol" type="number"
+                                                   min="10" max="50"
+                                                   class="form-control"
+                                                   value="${airl.numberOfSeatsOnEconomyColumn != null? airl.numberOfSeatsOnEconomyColumn:''}">
                                         </div>
                                     </div>
 
 
                                     <div class="col-md-12">
                                         <div class="mb-3">
-                                            <label class="form-label">Airline information</label>
-                                            <label for="information"></label>
+                                            <label class="form-label" for="information">Airline information: </label>
                                             <textarea name="information" id="information" rows="3" class="form-control" disabled>${airl.information != null ? airl.information : ''}</textarea>
 
                                         </div>
