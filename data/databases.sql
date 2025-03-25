@@ -11,6 +11,12 @@ INSERT INTO Roles (RoleId, RoleName) VALUES
 (1, 'Admin'),
 (2, 'Member');
 
+
+INSERT INTO Roles (RoleName) VALUES 
+('Airport & Aircraft Manager'),
+('Flight Manager'),
+('Booking Manager');
+
 -- Bảng Accounts
 CREATE TABLE Accounts (
     AccountId INT PRIMARY KEY AUTO_INCREMENT,
@@ -28,6 +34,23 @@ CREATE TABLE Accounts (
 INSERT INTO Accounts (FullName, Email, Password, Phone, Address, Img, Dob, Status, RoleId) VALUES
 ('Admin User', 'admin@example.com', 'admin123', '0123456789', '123 Admin St', 'admin.jpg', '1990-01-01', 1, 1),
 ('Member User', 'member@example.com', 'member123', '0987654321', '456 Member St', 'member.jpg', '1995-05-05', 1, 2);
+
+INSERT INTO Accounts (FullName, Email, Password, Phone, Address, Img, Dob, Status, RoleId) VALUES
+('Nguyễn Văn Hùng', 'nguyenvanhung@example.com', 'pass123', '0912345671', '12 Nguyễn Huệ, Hà Nội', 'avatar1.jpg', '1992-03-15', 1, 2),
+('Trần Thị Lan', 'tranthilan@example.com', 'pass456', '0912345672', '34 Trần Phú, TP.HCM', 'avatar2.jpg', '1993-07-20', 1, 2),
+('Lê Văn Nam', 'levannam@example.com', 'pass789', '0912345673', '56 Lê Lợi, Đà Nẵng', 'avatar3.jpg', '1994-11-10', 1, 2),
+('Phạm Thị Hồng', 'phamthihong@example.com', 'pass101', '0912345674', '78 Phạm Văn Đồng, Huế', 'avatar4.jpg', '1995-02-25', 1, 2),
+('Hoàng Văn Đạt', 'hoangvandat@example.com', 'pass102', '0912345675', '90 Hoàng Hoa Thám, Hà Nội', 'avatar5.jpg', '1996-06-30', 1, 2),
+('Bùi Thị Mai', 'buithimai@example.com', 'pass103', '0912345676', '11 Bùi Thị Xuân, TP.HCM', 'avatar6.jpg', '1997-09-12', 1, 2),
+('Đặng Văn Long', 'dangvanlong@example.com', 'pass104', '0912345677', '22 Đặng Thái Mai, Đà Nẵng', 'avatar7.jpg', '1998-12-05', 1, 2),
+('Vũ Thị Thu', 'vuthithu@example.com', 'pass105', '0912345678', '33 Vũ Văn Dũng, Huế', 'avatar8.jpg', '1999-04-18', 1, 2),
+('Đỗ Văn Tuấn', 'dovantuan@example.com', 'pass106', '0912345679', '44 Đỗ Quang, Hà Nội', 'avatar9.jpg', '2000-08-22', 1, 2),
+('Ngô Thị Ngọc', 'ngothingoc@example.com', 'pass107', '0912345680', '55 Ngô Quyền, TP.HCM', 'avatar10.jpg', '2001-01-14', 1, 2),
+('Lý Văn Phong', 'lyvanphong@example.com', 'pass108', '0912345681', '66 Lý Thường Kiệt, Đà Nẵng', 'avatar11.jpg', '1991-05-09', 1, 2),
+('Trịnh Thị Hoa', 'trinhthihoa@example.com', 'pass109', '0912345682', '77 Trịnh Công Sơn, Huế', 'avatar12.jpg', '1992-10-27', 1, 2),
+('Phan Văn Bình', 'phanvanbinh@example.com', 'pass110', '0912345683', '88 Phan Chu Trinh, Hà Nội', 'avatar13.jpg', '1993-03-03', 1, 2),
+('Đào Thị Linh', 'daothilinh@example.com', 'pass111', '0912345684', '99 Đào Tấn, TP.HCM', 'avatar14.jpg', '1994-07-16', 1, 2),
+('Tạ Văn Khoa', 'tavankhoa@example.com', 'pass112', '0912345685', '100 Tạ Quang Bửu, Đà Nẵng', 'avatar15.jpg', '1995-11-29', 1, 2);
 
 -- Bảng Discounts
 CREATE TABLE Discounts (
@@ -102,7 +125,6 @@ VALUES
 (4, 'Bamboo Airlines', 'new_bamboo_1.jpg', 'Hãng hàng không quốc gia Việt Nam với dịch vụ chất lượng cao.', 1, 30, 250);
 
 
-
 -- Bảng Baggages
 CREATE TABLE Baggages (
     BaggageId INT PRIMARY KEY AUTO_INCREMENT,
@@ -121,10 +143,6 @@ VALUES
     (10.00, 200000,3),
     ( 5.20, 150000,4),
     ( 7.80, 180000,1);
-
-
-
-
 
 -- Bảng Countries
 CREATE TABLE Countries (

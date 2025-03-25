@@ -1,6 +1,7 @@
 package controller;
 
 import dal.AccountDAO;
+import dal.DiscountDAO;
 import dal.RolesDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -102,6 +103,7 @@ public class ManageAccountsServlet extends HttpServlet {
             throws ServletException, IOException {
         AccountDAO accountDAO = new AccountDAO();
         RolesDAO rolesDAO = new RolesDAO();
+        DiscountDAO discountDAO = new DiscountDAO();
         List<Roles> rolesList = rolesDAO.getAllRoles();
         request.setAttribute("rolesList", rolesList);
 
@@ -217,15 +219,18 @@ public class ManageAccountsServlet extends HttpServlet {
                 System.out.println("status: " + status);
                 System.out.println("roleId: " + roleId);
 
-
                 // Thêm tài khoản
                 Accounts account = new Accounts(fullName, email, password, phone, address, fileName, dob, status, roleId);
                 boolean isAdded = accountDAO.addAccount(account);
 
                 request.setAttribute("msg", isAdded ? "Add account successfully!" : "Add account failed!");
-
-
-
+                // Thêm logic insert discount nếu account được thêm thành công
+                if (isAdded) {
+                    int accountId = accountDAO.getLatestAccountId(); // Thêm hàm để lấy accountId mới nhất
+                    if (accountId > 0) {
+                        discountDAO.insertDiscountAuto(accountId); // Thêm discount với accountId
+                    }
+                }
                 request.getRequestDispatcher("/views/admin/jsp/addAccount.jsp").forward(request, response);
 
             } catch (NumberFormatException ex) {

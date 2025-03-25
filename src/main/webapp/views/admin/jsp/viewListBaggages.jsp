@@ -1,11 +1,8 @@
 
 <!DOCTYPE html>
 <%@ page import="java.util.List" %>
-<%@ page import="model.Airports" %>
-<%@ page import="model.Locations" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="model.Seats" %>
-<%@ page import="model.Baggages" %>
+<%@ page import="model.*" %>
 <html lang="en">
 
 <head>
@@ -35,6 +32,7 @@
 <body>
 <%
     List<Baggages> baggages = (List<Baggages>) request.getAttribute("baggages");
+    List<Airlines> airlines = (List<Airlines>) request.getAttribute("airlines");
     int currentPage = (Integer) request.getAttribute("currentPage");
     int totalPages = (Integer) request.getAttribute("totalPages");
     if (baggages == null) baggages = new ArrayList<>();
@@ -84,7 +82,18 @@
                                 <!-- Ô tìm kiếm -->
                                 <input type="text" name="BaggageID" class="form-control border rounded-pill me-2"
                                        placeholder="Search BaggageID..." >
-
+                                <select name="AirlineName" class="form-select border rounded-pill me-2">
+                                    <option value="">Select Airline Name</option>
+                                    <%
+                                        for (Airlines airline : airlines) {
+                                    %>
+                                    <option value="<%= airline.getAirlineName() %>">
+                                        <%= airline.getAirlineName() %>
+                                    </option>
+                                    <%
+                                        }
+                                    %>
+                                </select>
                                 <select name="orderWeight" id="order1" class="form-select border rounded-pill me-2">
                                     <option value="">Order of Weight</option>
                                     <option value="asc" ${param.order == 'asc' ? 'selected' : ''}>Weight Ascending</option>
@@ -118,23 +127,35 @@
                                 <thead>
                                 <tr>
                                     <th class="border-bottom p-3">BaggageId</th>
+                                    <th class="border-bottom p-3">Airline Name</th>
                                     <th class="border-bottom p-3">Weight</th>
                                     <th class="border-bottom p-3">Price</th>
+                                    <th class="border-bottom p-3">Status</th>
                                     <th class="border-bottom p-3">Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <%
-                                    for (Baggages b : baggages){
+                                    for (Baggages b : baggages) {
+                                        String airlineName = "Unknown"; // Mặc định nếu không tìm thấy
+                                        for (Airlines a : airlines) {
+                                            if (b.getAirlineId() == a.getAirlineId()) {
+                                                airlineName = a.getAirlineName();
+                                                break; // Thoát vòng lặp khi tìm thấy hãng phù hợp
+                                            }
+                                        }
                                 %>
                                 <tr>
                                     <td class="p-3"><%= b.getBaggageId() %></td>
-                                    <td class="p-3"><%= b.getWeight()%></td>
-                                    <td class="p-3"><%= b.getPrice()%></td>
+                                    <td class="p-3"><%= airlineName %></td>
+                                    <td class="p-3"><%= b.getWeight() %></td>
+                                    <td class="p-3"><%= b.getPrice() %></td>
+                                    <td class="p-3"><span class="badge <%= b.getStatus()== 1 ? "bg-soft-success" : "bg-soft-warning" %>"><%=b.getStatus()== 1 ? "Active" : "Deactive" %></span></td>
                                     <td class=" p-2">
-                                        <a href="#" class="btn btn-icon btn-pills btn-soft-success"><i class="uil uil-pen"></i></a>
+                                        <a href="${pageContext.request.contextPath}/updateBaggage?id=<%= b.getBaggageId() %>" class="btn btn-icon btn-pills btn-soft-success"><i class="uil uil-pen"></i></a>
                                         <a href="javascript:void(0);" class="btn btn-icon btn-pills btn-soft-danger" onclick="confirmDelete(<%= b.getBaggageId() %>)">
                                             <i class="uil uil-trash"></i>
+                                        </a>
                                     </td>
                                 </tr>
                                 <% } %>
@@ -147,42 +168,37 @@
         </div><!--end container-->
 
         <!--phân trang-->
-        <c:choose>
-            <c:when test="${searchpage == 'page'}">
-                <div class="d-flex justify-content-center mt-3 margin-bottom">
-                    <div class="pagination">
-                        <!-- Nút First -->
-                        <c:if test="${currentPage > 1}">
-                            <a href="${pageContext.request.contextPath}/baggagesSearch?page=1"
-                               class="btn btn-outline-primary">First</a>
-                        </c:if>
+        <!-- Phân trang -->
+        <div class="d-flex justify-content-center mt-3 margin-bottom">
+            <div class="pagination">
+                <!-- Nút First -->
+                <% if (currentPage > 1) { %>
+                <a href="<%= request.getContextPath() %>/baggagesSearch?page=1&BaggageID=<%= request.getAttribute("baggageId") != null ? request.getAttribute("baggageId") : "" %>&AirlineName=<%= request.getAttribute("airlinesName") != null ? request.getAttribute("airlinesName") : "" %>&orderWeight=<%= request.getAttribute("orderWeight") != null ? request.getAttribute("orderWeight") : "" %>&orderPrice=<%= request.getAttribute("orderPrice") != null ? request.getAttribute("orderPrice") : "" %>"
+                   class="btn btn-outline-primary">First</a>
+                <% } %>
 
-                        <!-- Nút Previous -->
-                        <c:if test="${currentPage > 1}">
-                            <a href="${pageContext.request.contextPath}/baggagesSearch?page=${currentPage - 1}"
-                               class="btn btn-outline-primary">Previous</a>
-                        </c:if>
+                <!-- Nút Previous -->
+                <% if (currentPage > 1) { %>
+                <a href="<%= request.getContextPath() %>/baggagesSearch?page=<%= currentPage - 1 %>&BaggageID=<%= request.getAttribute("baggageId") != null ? request.getAttribute("baggageId") : "" %>&AirlineName=<%= request.getAttribute("airlinesName") != null ? request.getAttribute("airlinesName") : "" %>&orderWeight=<%= request.getAttribute("orderWeight") != null ? request.getAttribute("orderWeight") : "" %>&orderPrice=<%= request.getAttribute("orderPrice") != null ? request.getAttribute("orderPrice") : "" %>"
+                   class="btn btn-outline-primary">Previous</a>
+                <% } %>
 
-                        <!-- Hiển thị trang hiện tại -->
-                        <span class="btn btn-primary">${currentPage} / ${totalPages}</span>
+                <!-- Hiển thị trang hiện tại -->
+                <span class="btn btn-primary"><%= currentPage %> / <%= totalPages %></span>
 
-                        <!-- Nút Next -->
-                        <c:if test="${currentPage < totalPages}">
-                            <a href="${pageContext.request.contextPath}/baggagesSearch?page=${currentPage + 1}"
-                               class="btn btn-outline-primary">Next</a>
-                        </c:if>
+                <!-- Nút Next -->
+                <% if (currentPage < totalPages) { %>
+                <a href="<%= request.getContextPath() %>/baggagesSearch?page=<%= currentPage + 1 %>&BaggageID=<%= request.getAttribute("baggageId") != null ? request.getAttribute("baggageId") : "" %>&AirlineName=<%= request.getAttribute("airlinesName") != null ? request.getAttribute("airlinesName") : "" %>&orderWeight=<%= request.getAttribute("orderWeight") != null ? request.getAttribute("orderWeight") : "" %>&orderPrice=<%= request.getAttribute("orderPrice") != null ? request.getAttribute("orderPrice") : "" %>"
+                   class="btn btn-outline-primary">Next</a>
+                <% } %>
 
-                        <!-- Nút Last -->
-                        <c:if test="${currentPage < totalPages}">
-                            <a href="${pageContext.request.contextPath}/baggagesSearch?page=${totalPages}"
-                               class="btn btn-outline-primary">Last</a>
-                        </c:if>
-
-                    </div>
-                </div>
-            </c:when>
-
-        </c:choose>
+                <!-- Nút Last -->
+                <% if (currentPage < totalPages) { %>
+                <a href="<%= request.getContextPath() %>/baggagesSearch?page=<%= totalPages %>&BaggageID=<%= request.getAttribute("baggageId") != null ? request.getAttribute("baggageId") : "" %>&AirlineName=<%= request.getAttribute("airlinesName") != null ? request.getAttribute("airlinesName") : "" %>&orderWeight=<%= request.getAttribute("orderWeight") != null ? request.getAttribute("orderWeight") : "" %>&orderPrice=<%= request.getAttribute("orderPrice") != null ? request.getAttribute("orderPrice") : "" %>"
+                   class="btn btn-outline-primary">Last</a>
+                <% } %>
+            </div>
+        </div>
         <!-- Footer Start -->
         <%@include file="bottom.jsp"%>
         <!-- End -->

@@ -281,7 +281,10 @@ public class AirlinesDAO extends DBConnect {
 
     public static void main(String[] args) {
         AirlinesDAO airlinesDAO = new AirlinesDAO();
-        System.out.println(airlinesDAO.getNameById(4));
+        List<Airlines> airlines = airlinesDAO.getAllAirlines();
+        for(Airlines airline : airlines) {
+            System.out.println(airline.getAirlineName() + " " + airline.getAirlineId());
+        }
     }
 
 

@@ -11,19 +11,20 @@ import model.Airlines;
 import model.Baggages;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(name = "BaggagesListServlet", value = "/BaggagesList")
-public class BaggagesListServlet extends HttpServlet {
+@WebServlet(name = "sortBaggages", value = "/sortBaggages")
+public class sortBaggages extends HttpServlet {
     private static final int RECORDS_PER_PAGE = 10;
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        BaggageDAO baggageDAO = new BaggageDAO();
-        AirlinesDAO airlinesDAO = new AirlinesDAO();
+        String sortBy = request.getParameter("sortBy");
+        String order = request.getParameter("order");
+
         int page = 1;
         String pageStr = request.getParameter("page");
-
         if (pageStr != null) {
             try {
                 page = Integer.parseInt(pageStr);
@@ -33,27 +34,24 @@ public class BaggagesListServlet extends HttpServlet {
             }
         }
 
-        // Tổng số bản ghi
+        BaggageDAO baggageDAO = new BaggageDAO();
         int totalRecords = baggageDAO.getTotalRecords();
         int totalPages = (int) Math.ceil((double) totalRecords / RECORDS_PER_PAGE);
 
         if (page > totalPages) page = totalPages;
 
-        // Lấy danh sách hành lý theo trang
-        List<Baggages> listBaggages = baggageDAO.getBaggagesByPage((page - 1) * RECORDS_PER_PAGE, RECORDS_PER_PAGE);
-        List<Airlines> listAirlines = airlinesDAO.getAllAirlines();
-
-        // Nếu trang hiện tại không có dữ liệu và lớn hơn 1, giảm trang xuống
-        if (listBaggages.isEmpty() && page > 1) {
+        List<Baggages> baggages = baggageDAO.getSortedBaggage(sortBy, order, (page - 1) * RECORDS_PER_PAGE, RECORDS_PER_PAGE);
+        List<Airlines> airlines = new AirlinesDAO().getAllAirlines();
+        if (baggages.isEmpty() && page > 1) {
             page--;
-            listBaggages = baggageDAO.getBaggagesByPage((page - 1) * RECORDS_PER_PAGE, RECORDS_PER_PAGE);
+            baggages = baggageDAO.getSortedBaggage(sortBy, order, (page - 1) * RECORDS_PER_PAGE, RECORDS_PER_PAGE);
         }
 
-        request.setAttribute("baggages", listBaggages);
-        request.setAttribute("airlines", listAirlines);
+        request.setAttribute("airlines", airlines);
+        request.setAttribute("baggages", baggages);
+        request.setAttribute("sortBy", sortBy);
         request.setAttribute("currentPage", page);
         request.setAttribute("totalPages", totalPages);
-
         request.getRequestDispatcher("/views/admin/jsp/viewListBaggages.jsp").forward(request, response);
     }
 
