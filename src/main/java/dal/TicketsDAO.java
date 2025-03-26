@@ -189,10 +189,47 @@ public class TicketsDAO extends DBConnect{
         }
 
     }
+    public void cancelTicketById(int id) {
+        String sql = "UPDATE Tickets SET Status = 3, cancelledat = ? WHERE ticketid = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
+            ps.setInt(2, id);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public int countNumberTicketNotCancel(int bookingId) {
+        String sql = "SELECT COUNT(*) AS ticket_count FROM Tickets WHERE BookingId = ? AND (Status = 1 or Status=2)";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, bookingId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("ticket_count");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public void cancelAllTicketsByBookingId(int bookId) {
+        String sql = "UPDATE Tickets SET Status = 3, cancelledat = ? WHERE bookingid = ? and (Status = 1 or Status = 2)";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
+            ps.setInt(2, bookId);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public static void main(String[] args) {
-        TicketsDAO tDAO = new TicketsDAO();
-        tDAO.confirmSuccessAllTicketsByBookingId(1);
+        TicketsDAO t = new TicketsDAO();
+        int a = t.countNumberTicketNotCancel(1);
+        System.out.println("count : "+a);
+
     }
 
 

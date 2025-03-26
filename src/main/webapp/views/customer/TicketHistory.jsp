@@ -1,5 +1,4 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="sun.security.krb5.internal.Ticket" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.time.LocalTime" %>
@@ -10,13 +9,7 @@
 <%@ page import="java.sql.Timestamp" %>
 <%@ page import="java.text.NumberFormat" %>
 <%@ page import="java.util.Locale" %>
-<%@ page import="model.*" %><%--
-  Created by IntelliJ IDEA.
-  User: 84968
-  Date: 3/20/2025
-  Time: 3:38 AM
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="model.*" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -32,11 +25,17 @@
             box-sizing: border-box;
         }
 
+
+
+
         body {
             font-family: 'Arial', sans-serif;
             background-color: #f4f7fa;
             line-height: 1.6;
         }
+
+
+
 
         /* Container chính */
         .container {
@@ -45,10 +44,16 @@
             padding: 20px;
         }
 
+
+
+
         .order-container {
             margin-top: 30px; /* Thay vì dùng transform: translateY */
             margin-bottom: 50px;
         }
+
+
+
 
         /* Buying History */
         .buying-history {
@@ -56,6 +61,9 @@
             flex-direction: column;
             gap: 30px;
         }
+
+
+
 
         .order-card {
             border: none;
@@ -66,10 +74,16 @@
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
+
+
+
         .order-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
         }
+
+
+
 
         .order-header {
             display: flex;
@@ -79,10 +93,16 @@
             border-bottom: 2px solid #eef2f7;
         }
 
+
+
+
         .order-id strong {
             font-size: 26px;
             color: #1a73e8;
         }
+
+
+
 
         .contact-info {
             font-size: 14px;
@@ -90,10 +110,16 @@
             margin-top: 8px;
         }
 
+
+
+
         .contact-info i {
             margin-right: 5px;
             color: #1a73e8;
         }
+
+
+
 
         /* Ticket Details */
         .ticket-details {
@@ -106,9 +132,15 @@
             transition: background-color 0.2s ease;
         }
 
+
+
+
         .ticket-details:hover {
             background-color: #f1f5f9;
         }
+
+
+
 
         .airline-image img {
             width: 90px;
@@ -117,10 +149,16 @@
             object-fit: cover;
         }
 
+
+
+
         .flight-info {
             flex-grow: 1;
             padding-left: 20px;
         }
+
+
+
 
         .flight-info div {
             font-size: 15px;
@@ -128,10 +166,16 @@
             margin-bottom: 8px;
         }
 
+
+
+
         .flight-info i {
             color: #1a73e8;
             margin-right: 8px;
         }
+
+
+
 
         .ticket-actions {
             display: flex;
@@ -141,6 +185,9 @@
             padding-left: 20px;
         }
 
+
+
+
         .ticket-actions .btn {
             padding: 8px 20px;
             font-size: 14px;
@@ -148,10 +195,16 @@
             transition: all 0.3s ease;
         }
 
+
+
+
         .ticket-actions .btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
+
+
+
 
         /* Status Labels */
         .status-label {
@@ -164,6 +217,9 @@
             text-align: center;
         }
 
+
+
+
         .status-label.completed { background-color: #343a40; }
         .status-label.pending { background-color: #ffc107; color: #333; }
         .status-label.successful { background-color: #28a745; }
@@ -172,6 +228,9 @@
         .status-label.rejected,
         .status-label.rejection { background-color: #dc3545; }
         .status-label.request { background-color: #ffc107; color: #333; }
+
+
+
 
         /* Order Total */
         .list-price {
@@ -182,6 +241,9 @@
             text-align: right;
         }
 
+
+
+
         .order-total {
             font-size: 18px;
             font-weight: 600;
@@ -189,10 +251,16 @@
             margin-top: 10px;
         }
 
+
+
+
         .order-actions {
             margin-top: 15px;
             text-align: right;
         }
+
+
+
 
         .order-actions .btn {
             padding: 10px 25px;
@@ -201,10 +269,16 @@
             transition: all 0.3s ease;
         }
 
+
+
+
         .order-actions .btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
+
+
+
 
         /* Payment Methods */
         #payment_methods {
@@ -218,6 +292,9 @@
             margin-right: auto;
         }
 
+
+
+
         #payment_methods h2 {
             font-size: 22px;
             font-weight: 600;
@@ -226,14 +303,23 @@
             margin-bottom: 25px;
         }
 
+
+
+
         .payment-options {
             display: flex;
             gap: 20px;
         }
 
+
+
+
         .payment-option {
             flex: 1;
         }
+
+
+
 
         .payment-option .btn {
             display: flex;
@@ -247,12 +333,18 @@
             transition: all 0.3s ease;
         }
 
+
+
+
         .payment-option .btn:hover {
             background-color: #e9ecef;
             border-color: #1a73e8;
             transform: translateY(-3px);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
+
+
+
 
         .imgPayment {
             width: 45px;
@@ -261,21 +353,33 @@
             border-radius: 5px;
         }
 
+
+
+
         .name-pay {
             font-size: 15px;
             color: #333;
         }
+
+
+
 
         .name-pay br + span {
             color: #6c757d;
             font-size: 13px;
         }
 
+
+
+
         /* Pagination */
         .pagination {
             justify-content: center;
             margin-top: 30px;
         }
+
+
+
 
         .pagination .page-link {
             border-radius: 6px;
@@ -285,17 +389,26 @@
             transition: all 0.3s ease;
         }
 
+
+
+
         .pagination .page-link:hover {
             background-color: #1a73e8;
             color: #fff;
             border-color: #1a73e8;
         }
 
+
+
+
         .pagination .active .page-link {
             background-color: #1a73e8;
             border-color: #1a73e8;
             color: #fff;
         }
+
+
+
 
         /* Responsive */
         @media (max-width: 768px) {
@@ -305,11 +418,17 @@
                 gap: 10px;
             }
 
+
+
+
             .ticket-details {
                 flex-direction: column;
                 align-items: flex-start;
                 padding: 15px;
             }
+
+
+
 
             .ticket-actions {
                 align-items: flex-start;
@@ -317,10 +436,16 @@
                 margin-top: 15px;
             }
 
+
+
+
             .payment-options {
                 flex-direction: column;
                 gap: 15px;
             }
+
+
+
 
             #payment_methods {
                 max-width: 100%;
@@ -329,13 +454,12 @@
         }
     </style>
 
-
 </head>
 
 <body>
 <jsp:include page="/views/layout/Header.jsp"/>
 
-<div class="container mt-5 order-container" style="transform: translateY(45px); margin-bottom: 50px">
+<div class="container mt-5 order-container">
     <%
         List<Bookings> listBooking = (List<Bookings>) request.getAttribute("listBooking");
         NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
@@ -376,7 +500,8 @@
         </div>
     </div>
     <% } %>
-<%--buying history--%>
+
+    <!-- Buying History -->
     <div class="buying-history">
         <% int id = 0; %>
         <% for (Bookings b : listBooking) { %>
@@ -385,43 +510,32 @@
         <div class="order-card">
             <div class="order-header">
                 <div class="order-id">
-                    <strong style="font-size: 28px;"><%= b.getCode() %></strong>
-                    <span style="margin-left: 4px; font-size: 12px; color: #aaa;"><%= sdf.format(b.getBookingDate()) %></span><br>
+                    <strong style="font-size: 28px;"><%=b.getCode()%></strong>
+                    <span style="margin-left: 4px; font-size: 12px; color: #aaa;"><%=sdf.format(b.getBookingDate())%></span><br>
                     <div class="contact-info" style="color: #9a9999; margin-top: 5px;">
-                        Contact: <i class="fas fa-user"></i> <%= b.getContactName() %> |
-                        <i class="fas fa-phone"></i> <%= b.getContactPhone() %> |
-                        <i class="fas fa-envelope"></i> <%= b.getContactEmail() %>
+                        Contact: <i class="fas fa-user"></i> <%=b.getContactName()%> |
+                        <i class="fas fa-phone"></i> <%=b.getContactPhone()%> |
+                        <i class="fas fa-envelope"></i> <%=b.getContactEmail()%>
                     </div>
                 </div>
                 <div class="order-details">
-                    <%
-                        if(b.getStatus()==1){%>
-                    <span style="margin: 10px;color: #f1c40f;font-weight: bold;padding: 5px 10px;background-color: #fef9e7;border-radius: 5px;"
-                          class="status-label <%= b.getStatus() %>">Is Pending</span>
-                    <% }%>
-                    <%
-                        if(b.getStatus()==2){%>
-                    <span style="margin: 10px;color: #00b894;font-weight: bold;padding: 5px 10px;background-color: #e6fff9;border-radius: 5px;"
-                          class="status-label <%= b.getStatus() %>">Successful Payment</span>
-                    <% }%>
-                    <%
-                        if(b.getStatus()==3){%>
-                    <span style="margin: 10px;color: red;font-weight: bold;padding: 5px 10px;background-color: #e6fff9;border-radius: 5px;"
-                          class="status-label <%= b.getStatus() %>">Is Cancelled</span>
-                    <% }%>
-                    <%
-                    if(b.getStatus()==4){%>
-                    <span style="margin: 10px;color: #f1c40f;font-weight: bold;padding: 5px 10px;background-color: #e6fff9;border-radius: 5px;"
-                          class="status-label <%= b.getStatus() %>">Refund Pending</span>
-                    <% }%>
-                    <%
-                    if(b.getStatus()==5){%>
-                    <span style="margin: 10px;color: #00b894;font-weight: bold;padding: 5px 10px;background-color: #e6fff9;border-radius: 5px;"
-                          class="status-label <%= b.getStatus() %>">Refund Complete</span>
-                    <% }%>
-
-
-
+                    <% switch (b.getStatus()) {
+                        case 1: %>
+                    <span class="status-label pending">Is Pending</span>
+                    <% break;
+                        case 2: %>
+                    <span class="status-label successful">Successful Payment</span>
+                    <% break;
+                        case 3: %>
+                    <span class="status-label cancelled">Is Cancelled</span>
+                    <% break;
+                        case 4: %>
+                    <span class="status-label request">Refund Pending</span>
+                    <% break;
+                        case 5: %>
+                    <span class="status-label successful">Refund Complete</span>
+                    <% break;
+                    } %>
                 </div>
             </div>
 
@@ -432,20 +546,26 @@
                 LocalDate depDate = null;
                 LocalDateTime currentDateTime = LocalDateTime.now();
                 int count = 1;
-                double total = 0;
+                boolean allTicketsCancelled = true;
+                Payments payment = pmd.getPaymentByBookingId(b.getBookingID());
+                boolean isPaid = payment != null && payment.getPaymentDate() != null;
             %>
-            <% for (Tickets t : listTicketInBooking) { %>
+            <% LocalDateTime depDateTime = null;
+                for (Tickets t : listTicketInBooking) { %>
             <% id = t.getTicketId(); %>
+            <% if (t.getStatus() != 3) allTicketsCancelled = false; %>
             <div class="ticket-details">
                 <div class="flight-info" style="display: flex; flex-direction: column; gap: 5px;">
                     <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px">
                         <div class="airline-image">
-                            <img src="<%= request.getContextPath() %>/img/tong_dai.jpg" alt="Airline Logo" class="img-fluid">
+                            <img src="<%=request.getContextPath()%>/img/tong_dai.jpg" alt="Airline Logo" class="img-fluid">
                         </div>
                         <div>
-                            <div>Ticket <%= count %></div>
-                            <div><%= pd.getPassengerById(pd.getPassengerIdByTicketId(t.getTicketId())).getGender().equals("Male") ? "Mr." : "Mrs." %><%= pd.getPassengerById(pd.getPassengerIdByTicketId(t.getTicketId())).getPassengerName()%></div>
-                            <div><%= sd.getSeatById(t.getSeatId()).getSeatClass() %> - <%= t.getCode() %></div>
+                            <div>Ticket <%=count%></div>
+                            <div>
+                                <%=pd.getPassengerById(pd.getPassengerIdByTicketId(t.getTicketId())).getGender().equals("Male") ? "Mr." : "Mrs."%>
+                                <%=pd.getPassengerById(pd.getPassengerIdByTicketId(t.getTicketId())).getPassengerName()%></div>
+                            <div><%=sd.getSeatById(t.getSeatId()).getSeatClass()%> - <%=t.getCode()%></div>
                         </div>
                     </div>
 
@@ -462,95 +582,100 @@
                             desDate = destinationDateTime.toLocalDate();
                             desTime = destinationDateTime.toLocalTime();
                     %>
-                    <div><i class="fas fa-plane"></i> <%= apd.getAirportById(flight.getDepartureAirportId()).getAirportName() %><strong> To </strong> <%= apd.getAirportById(flight.getArrivalAirportId()).getAirportName() %></div>
+                    <div><i class="fas fa-plane"></i>
+                        <%=apd.getAirportById(flight.getDepartureAirportId()).getAirportName()%> <strong>To</strong>
+                    <%=apd.getAirportById(flight.getArrivalAirportId()).getAirportName()%></div>
                     <div>
-                        <i class="far fa-calendar-alt"></i> <%= depDate %>
+                        <i class="far fa-calendar-alt"></i> <%=depDate%>
                         <span class="time-separator" style="margin-left: 10px;">
-                        <i class="far fa-clock"></i> <%= depTime %> - <%= desTime %>
-                        <%
-                            long totalTime = flight.getArrivalTime().getTime() - flight.getDepartureTime().getTime();
-                            long hours = totalTime / (1000 * 60 * 60);
-                            long minutes = (totalTime / (1000 * 60)) % 60;
-                        %>
-                        <p>Total time: <span class="total-time"><%= hours %> h <%= minutes %> m</span></p>
-                    </span>
+                            <i class="far fa-clock"></i> <%=depTime%> - <%=desTime%>
+                    <%
+                        long totalTime = flight.getArrivalTime().getTime() - flight.getDepartureTime().getTime();
+                        long hours = totalTime / (1000 * 60 * 60);
+                        long minutes = (totalTime / (1000 * 60)) % 60;
+                    %>
+                            <p>Total time: <span class="total-time"><%=hours%> h <%=minutes%> m</span></p>
+                        </span>
                     </div>
-                    <div><i class="fas fa-plane-departure"></i> <%= ad.getAirlineById(flight.getAirlineId()).getAirlineName() %></div>
+                    <div><i class="fas fa-plane-departure"></i>
+                    <%=ad.getAirlineById(flight.getAirlineId()).getAirlineName()%></div>
                     <% } %>
 
                     <%
                         Baggages bg = bd.getBaggageById(t.getBaggageId());
                         if (bg != null) {
                     %>
-                    <div><i class="fas fa-suitcase"></i> Extra baggage: <%= bg.getWeight() %>kg</div>
+                    <div><i class="fas fa-suitcase"></i> Extra baggage: <%=bg.getWeight()%>kg</div>
                     <% } %>
                 </div>
-
                 <div class="ticket-actions">
-                    <div><strong style="font-size: 16px"><%= currencyFormatter.format(t.getPrice()) %></strong></div>
+                    <div><strong style="font-size: 16px"><%=currencyFormatter.format(t.getPrice())%></strong></div>
                     <%
-                        LocalDateTime depDateTime = LocalDateTime.of(depDate != null ? depDate : LocalDate.now(), depTime != null ? depTime : LocalTime.now());
-                         currentDateTime = LocalDateTime.now();
+                        depDateTime = LocalDateTime.of(depDate != null ? depDate : LocalDate.now(), depTime != null ? depTime : LocalTime.now());
                     %>
+                    <!-- Logic hiển thị nút Cancel Ticket -->
                     <%
-                        if ((b.getStatus() == 1 || b.getStatus() == 2) && (t.getStatus() == 1 ||t.getStatus()==2) && currentDateTime.isBefore(depDateTime)) {
+                        if ((b.getStatus() == 1 || b.getStatus() == 2) && (t.getStatus() == 1 || t.getStatus() == 2) && currentDateTime.isBefore(depDateTime)) {
                     %>
-                    <button class="btn btn-danger" style="text-decoration: none; margin-top: 5px;" onclick="openModalTicket(<%= t.getTicketId() %>, <%= b.getBookingID() %>)">Cancel Ticket</button>
-                    <% } %>
-                    <%
-                        if (t.getStatus() == 3) {
-                    %>
+                    <button class="btn btn-danger" style="text-decoration: none; margin-top: 5px;" onclick="openModalTicket(
+                    <%= t.getTicketId()%>, <%=b.getBookingID()%>)">Cancel Ticket</button>
+                    <% } else if (t.getStatus() == 3) { %>
                     <button class="btn btn-danger" style="text-decoration: none; margin-top: 5px;" disabled>Is Cancelled</button>
-                    <% } %>
-                    <%
-                        if (t.getStatus() == 4) {
-                    %>
+                    <% } else if (t.getStatus() == 4) { %>
                     <button class="btn btn-warning" style="text-decoration: none; margin-top: 5px;" disabled>Refund Pending</button>
+                    <% } else if (t.getStatus() == 5) { %>
+                    <span class="status-label successful" style="margin-top: 5px;">Refund Complete</span>
                     <% } %>
-                    <%
-                        if (t.getStatus() == 5) {
-                    %>
-                    <span style="margin: 10px; color: #00b894; font-weight: bold; padding: 5px 10px; background-color: #e6fff9; border-radius: 5px;" class="status-label">Refund Complete</span>
-                    <% } %>
-                    <%
-                        if (t.getStatus() == 3 ) {
-                    %>
-                    <button class="btn btn-warning" style="text-decoration: none; margin-top: 5px;" onclick="openModalRequestRefund(<%= t.getTicketId() %>, <%= b.getBookingID() %>)">Request Refund</button>
+
+                    <!-- Logic hiển thị nút Request Refund cho từng ticket -->
+                    <% if (t.getStatus() == 3 && isPaid && b.getStatus() == 2 && listTicketInBooking.size() >= 1) { %>
+                    <button class="btn btn-warning" style="text-decoration: none; margin-top: 5px;" onclick="openModalRequestRefund(
+                        <%=t.getTicketId()%>, <%=b.getBookingID()%>)">Request Refund</button>
                     <% } %>
                 </div>
             </div>
             <% count++; %>
             <% } %>
-            <%
-                LocalDateTime depDateTime = LocalDateTime.of(depDate != null ? depDate : LocalDate.now(), depTime != null ? depTime : LocalTime.now());
-            %>
+
             <div class="list-price" style="text-align: right; padding: 15px 0">
-                <div>Order Tickets: <%= currencyFormatter.format(bkd.getTotalPriceAllTickets(b.getBookingID())) %></div>
-                <div>Cancel Tickets: <%= currencyFormatter.format(bkd.getTotalPriceCancelledTicket(b.getBookingID())) %></div>
-                <div>Is Paid: 0 đ</div>
-                <div class="order-discount">Discount: 0 đ</div>
-                <% double totals = bkd.getTotalPriceAllTickets(b.getBookingID())-bkd.getTotalPriceCancelledTicket(b.getBookingID()); %>
-                <div class="order-total"><strong style="font-size: 1.2em;">Total: <%= currencyFormatter.format(totals) %></strong></div>
+                <div>Totals Booking Tickets: <%=currencyFormatter.format(bkd.getTotalPriceAllTickets(b.getBookingID()))%></div>
+<%--                <div>Cancel Tickets: <%=currencyFormatter.format(bkd.getTotalPriceCancelledTicket(b.getBookingID()))%></div>--%>
+<%--                <div class="order-discount">Discount: 0 đ</div>--%>
+<%--                <%--%>
+<%--                    double totals = bkd.getTotalPriceAllTickets(b.getBookingID()) - bkd.getTotalPriceCancelledTicket(b.getBookingID());--%>
+<%--                    if (totals < 0) totals = 0; // Đảm bảo tổng không âm--%>
+<%--                %>--%>
+<%--                <div class="order-total"><strong style="font-size: 1.2em;">Total: <%=currencyFormatter.format(totals)%></strong></div>--%>
             </div>
 
             <div class="order-total-section" style="font-size: 1.2em;">
+                <!-- Logic hiển thị nút Request Refund cho toàn bộ booking -->
+                <%
+                    if (isPaid && ((listTicketInBooking.size() == 1 && listTicketInBooking.get(0).getStatus() == 3) || (listTicketInBooking.size() > 1 && allTicketsCancelled)) && b.getStatus() != 4 && b.getStatus() != 5) {
+                %>
                 <div class="order-actions" style="margin-top: 10px; text-align: right">
+                    <button class="btn btn-warning" style="text-decoration: none;" onclick="openModalRequestRefund(
+                        <%=listTicketInBooking.get(0).getTicketId()%>, <%=b.getBookingID()%>)">Request Refund</button>
+                </div>
+                <% } %>
+
+                <!-- Logic hiển thị nút Cancel Order và Pay Now -->
+                <div class="order-actions" style="margin-top: 10px; text-align: right">
+                    <% if (!isPaid && b.getStatus() != 3 && b.getStatus() != 4 && b.getStatus() != 5) { %>
+                    <button type="submit" class="btn btn-success" id="togglePaymentBtn<%=b.getBookingID()%>
+                " onclick="paymentMedthodDisplay(<%=b.getBookingID()%>)">PAY NOW</button>
+                    <% } %>
                     <%
-                        Payments payment = pmd.getPaymentByBookingId(b.getBookingID());
-                        if (payment == null || payment.getPaymentStatus() == null) {
+                        if (currentDateTime.isBefore(depDateTime) && b.getStatus() != 3 && b.getStatus() != 4 && b.getStatus() != 5 && !allTicketsCancelled) {
                     %>
-                    <button type="submit" class="btn btn-success" id="togglePaymentBtn<%= b.getBookingID() %>" onclick="paymentMedthodDisplay(<%= b.getBookingID() %>)">PAY NOW</button>
-                    <%
-                        }
-                    %>
-                    <% if (currentDateTime.isBefore(depDateTime) && b.getStatus()!=3 && b.getStatus()!=4 && b.getStatus()!=5) { %>
-                    <button class="btn btn-danger" style="text-decoration: none;" onclick="openModalOrder(<%= b.getBookingID() %>)">Cancel Order</button>
+                    <button class="btn btn-danger" style="text-decoration: none;" onclick="openModalOrder(
+                        <%=b.getBookingID()%>)">Cancel Order</button>
                     <% } %>
                 </div>
             </div>
         </div>
 
-
+        <!-- Payment Methods -->
         <div id="payment_methods<%=b.getBookingID()%>" style="display: none;">
             <h2>Payments Method</h2>
             <div class="payment-options">
@@ -558,14 +683,12 @@
                     <form action="VnpayServlet" id="frmCreateOrder" method="post">
                         <input type="hidden" name="bookingID" value="<%=b.getBookingID()%>"/>
                         <input type="hidden" name="bankCode" value="">
-                        <input type="hidden" class="form-control" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="amount" max="1000000000" min="1" name="amount" type="number" value="<%=b.getTotalPrice()%>"/>
+                        <input type="hidden" class="form-control" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="amount" max="1000000000" min="1" name="amount" type="number" value="
+            <%=b.getTotalPrice()%>"/>
                         <input type="hidden" name="language" checked value="vn">
                         <button type="submit" class="btn btn-default">
-                            <img class="imgPayment" src="<%= request.getContextPath() %>/img/VnPay.jpg" alt="VNPAY">
-                            <div class="name-pay">
-                                VNPAY<br>
-                                VNPAY payment gateway
-                            </div>
+                            <img class="imgPayment" src="<%=request.getContextPath()%>/img/VnPay.jpg" alt="VNPAY">
+                            <div class="name-pay">VNPAY<br>VNPAY payment gateway</div>
                         </button>
                     </form>
                 </div>
@@ -573,18 +696,14 @@
                     <form action="QRCodeURL" method="post">
                         <input type="hidden" name="bookingID" value="<%=b.getBookingID()%>"/>
                         <button type="submit" class="btn btn-default">
-                            <img class="imgPayment" src="<%= request.getContextPath() %>/img/qr.png" alt="QR CODE">
-                            <div class="name-pay">
-                                QR Code<br>
-                                Pay by QR Code transfer
-                            </div>
+                            <img class="imgPayment" src="<%=request.getContextPath()%>/img/qr.png" alt="QR CODE">
+                            <div class="name-pay">QR Code<br>Pay by QR Code transfer</div>
                         </button>
                     </form>
                 </div>
             </div>
         </div>
         <% } else { %>
-
         <div class="alert alert-warning">
             No tickets found for this booking (Code: <%= b.getCode() %>).
         </div>
@@ -592,28 +711,24 @@
         <% } %>
     </div>
 
-
-
-
-    <%String statusIdParam = request.getParameter("status");
+    <!-- Pagination -->
+    <% String statusIdParam = request.getParameter("status");
         String code = request.getParameter("code");
-        if(statusIdParam ==null && code==null){%>
-    <div style="width :100%; margin: 0 auto">
-        <nav aria-label="..." style="width: 100%;
-                     text-align: center;">
+        if (statusIdParam == null && code == null) { %>
+    <div style="width: 100%; margin: 0 auto">
+        <nav aria-label="..." style="width: 100%; text-align: center;">
             <ul class="pagination">
                 <c:if test="${index != 1}">
                     <li class="page-item">
-                        <a class="page-link" href="ticketHistoryURL?index=${index -1}">Previous</a>
+                        <a class="page-link" href="ticketHistoryURL?index=${index - 1}">Previous</a>
                     </li>
                 </c:if>
-                <c:forEach begin="1" end ="${numOfPage}" var="i">
+                <c:forEach begin="1" end="${numOfPage}" var="i">
                     <c:if test="${index == i}">
                         <li class="page-item active">
                             <a class="page-link" href="ticketHistoryURL?index=${i}">${i}</a>
                         </li>
                     </c:if>
-
                     <c:if test="${index != i}">
                         <li class="page-item">
                             <a class="page-link" href="ticketHistoryURL?index=${i}">${i}</a>
@@ -622,25 +737,25 @@
                 </c:forEach>
                 <c:if test="${index != numOfPage}">
                     <li class="page-item">
-                        <a class="page-link" href="ticketHistoryURL?index=${index +1}">Next</a>
+                        <a class="page-link" href="ticketHistoryURL?index=${index + 1}">Next</a>
                     </li>
                 </c:if>
             </ul>
         </nav>
     </div>
-    <%}%>
+    <% } %>
+
 </div>
 
-
+<!-- Modal Cancel Ticket -->
 <div id="cancelTicketModal" class="modal" role="dialog" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5);">
     <div class="modal-dialog" style="margin: 15% auto; width: 30%; position: relative;">
-        <div class="modal-content" style="background-color: #fff; padding: 20px; border: 1px solid #888;">
+        <div class="modal-content" style="background-color: #fff; padding: 20px; border: 1px solid #888; margin-top: -110px;">
             <form action="cancelTicket" method="post">
                 <input type="hidden" id="modalTicketId" name="ticketId" value="">
                 <input type="hidden" id="modalOrderId" name="orderId" value="">
                 <h2>Cancel Ticket</h2>
                 <p>Are you sure you want to cancel this ticket?</p>
-                <!-- Container for buttons with flex display -->
                 <div style="display: flex; justify-content: space-between;">
                     <button type="submit" id="confirmCancel" class="btn btn-danger" style="flex: 1; margin-right: 10px;">Yes</button>
                     <button type="button" id="closeModal" class="btn btn-secondary" style="flex: 1;" onclick="closeModal()">No</button>
@@ -649,14 +764,15 @@
         </div>
     </div>
 </div>
+
+<!-- Modal Cancel Order -->
 <div id="cancelOrderModal" class="modal" role="dialog" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5);">
     <div class="modal-dialog" style="margin: 15% auto; width: 30%; position: relative;">
-        <div class="modal-content" style="background-color: #fff; padding: 20px; border: 1px solid #888;">
+        <div class="modal-content" style="background-color: #fff; padding: 20px; border: 1px solid #888; margin-top: -110px;">
             <form action="cancelOrder" method="post">
                 <input type="hidden" id="modalOrderId1" name="orderId" value="">
                 <h2>Cancel Order</h2>
                 <p>Are you sure you want to cancel this order?</p>
-                <!-- Container for buttons with flex display -->
                 <div style="display: flex; justify-content: space-between;">
                     <button type="submit" id="confirmCancelOrder" class="btn btn-danger" style="flex: 1; margin-right: 10px;">Yes</button>
                     <button type="button" id="closeOrderModal" class="btn btn-secondary" style="flex: 1;" onclick="closeOrderModal()">No</button>
@@ -665,9 +781,11 @@
         </div>
     </div>
 </div>
+
+<!-- Modal Request Refund -->
 <div id="requestRefundModal" class="modal" role="dialog" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5);">
     <div class="modal-dialog" style="margin: 15% auto; width: 30%; position: relative;">
-        <div class="modal-content" style="background-color: #fff; padding: 20px; border: 1px solid #888;">
+        <div class="modal-content" style="background-color: #fff; padding: 20px; border: 1px solid #888; margin-top: -110px;">
             <form action="requestRefund" method="post" onsubmit="return validateBankAccount()">
                 <input type="hidden" id="modalTicketId2" name="ticketId" value="">
                 <input type="hidden" id="modalOrderId2" name="orderId" value="">
@@ -690,7 +808,6 @@
                     <label for="confirmBankAccount">Confirm Bank Account</label>
                     <input type="text" id="confirmBankAccount" name="confirmBankAccount" required class="form-control">
                 </div>
-                <!-- Container for buttons with flex display -->
                 <div style="display: flex; justify-content: space-between;">
                     <button type="submit" id="confirmRequestRefund" class="btn btn-danger" style="flex: 1; margin-right: 10px;">Yes</button>
                     <button type="button" id="closeRequestRefundModal" class="btn btn-secondary" style="flex: 1;" onclick="closeOrderModal()">No</button>
@@ -700,6 +817,7 @@
     </div>
 </div>
 
+<!-- JavaScript -->
 <script>
     function validateBankAccount() {
         const bankSelect = document.getElementById('bank').value;
@@ -708,15 +826,12 @@
 
         switch (bankSelect) {
             case 'BIDV':
-                // BIDV account: 14 digits and starts with 455
                 regex = /^455\d{11}$/;
                 break;
             case 'TP Bank':
-                // TP Bank account: 11 digits and starts with 0000
                 regex = /^0000\d{7}$/;
                 break;
             case 'MB Bank':
-                // MB Bank account: 10 digits
                 regex = /^\d{10}$/;
                 break;
             default:
@@ -737,11 +852,7 @@
 
         return true;
     }
-</script>
 
-<link href="https://pay.vnpay.vn/lib/vnpay/vnpay.css" rel="stylesheet" />
-<script src="https://pay.vnpay.vn/lib/vnpay/vnpay.min.js"></script>
-<script>
     function openModalRequestRefund(ticketId, orderId) {
         document.getElementById("modalTicketId2").value = ticketId;
         document.getElementById("modalOrderId2").value = orderId;
@@ -760,11 +871,11 @@
         document.getElementById("cancelTicketModal").style.display = "block";
     }
 
-    function closeModalTicket() {
+    function closeModal() {
         document.getElementById("cancelTicketModal").style.display = "none";
     }
 
-    document.getElementById("closeModal").onclick = closeModalTicket;
+    document.getElementById("closeModal").onclick = closeModal;
 
     function openModalOrder(orderId) {
         document.getElementById('modalOrderId1').value = orderId;
@@ -773,18 +884,17 @@
 
     function closeOrderModal() {
         document.getElementById('cancelOrderModal').style.display = 'none';
+        document.getElementById('requestRefundModal').style.display = 'none'; // Đóng cả modal refund
     }
 
     document.getElementById("closeOrderModal").onclick = closeOrderModal;
 
-    // Consolidated click outside handler
     window.onclick = function (event) {
         const modals = [
             document.getElementById("requestRefundModal"),
             document.getElementById("cancelTicketModal"),
             document.getElementById("cancelOrderModal")
         ];
-
         modals.forEach(function (modal) {
             if (event.target === modal) {
                 modal.style.display = "none";
@@ -824,9 +934,9 @@
             paymentMethods.style.display = 'none';
         }
     }
-
 </script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+<script src="https://pay.vnpay.vn/lib/vnpay/vnpay.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
 <jsp:include page="/views/layout/Footer.jsp"/>
