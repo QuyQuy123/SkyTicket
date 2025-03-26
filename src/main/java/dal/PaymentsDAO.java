@@ -25,8 +25,9 @@ public class PaymentsDAO extends DBConnect {
                 String paymentMethod = rs.getString("Paymentmethod");
                 int paymentStatus = rs.getInt("Paymentstatus");
                 Timestamp paymentDate = rs.getTimestamp("Paymentdate");
+                String email = rs.getString("Email");
                 double totalPrice = rs.getDouble("totalPrice");
-                list.add(new Payments(paymentID, bookingID, paymentMethod, paymentStatus, paymentDate, totalPrice));
+                list.add(new Payments(paymentID, bookingID, paymentMethod, paymentStatus, paymentDate, email, totalPrice));
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -154,8 +155,9 @@ public class PaymentsDAO extends DBConnect {
                     String paymentmethod = rs.getString("paymentmethod");
                     int paymentstatus = rs.getInt("paymentstatus");
                     Timestamp paymentdate = rs.getTimestamp("paymentdate");
+                    String email = rs.getString("Email");
                     double totalPrice = rs.getDouble("totalPrice");
-                    return new Payments(paymentid, bookingid, paymentmethod, paymentstatus, paymentdate, totalPrice);
+                    return new Payments(paymentid, bookingid, paymentmethod, paymentstatus, paymentdate, email, totalPrice);
                 }
             }
         } catch (SQLException e) {
@@ -190,6 +192,51 @@ public class PaymentsDAO extends DBConnect {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public int getIdByPaymentName(String name) {
+        String sql = "Select * from Payments where paymentmethod = ?";
+        try {
+            PreparedStatement prepare = connection.prepareStatement(sql);
+            prepare.setString(1, name);
+            ResultSet resultSet = prepare.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt("paymentid");
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return -1;
+    }
+
+    public int getStatus(int paymentId) {
+        String sql = "SELECT paymentstatus FROM Payments WHERE paymentid = ?";
+        int status = 0;
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, paymentId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                status = rs.getInt("paymentstatus");
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error fetching status: " + ex.getMessage());
+        }
+        return status;
+    }
+
+    public int getIdByBookingid(int id) {
+        String sql = "Select bookingid from Payments where paymentid = ?";
+        try {
+            PreparedStatement prepare = connection.prepareStatement(sql);
+            prepare.setInt(1, id);
+            ResultSet resultSet = prepare.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt("bookingid");
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return -1;
     }
 
     public static void main(String[] args) {

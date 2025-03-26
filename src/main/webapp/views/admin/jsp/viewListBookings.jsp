@@ -84,8 +84,9 @@
                   <option value="">All</option>
                   <option value="1">Is Pending</option>
                   <option value="2">Payment Successfully</option>
-                  <option value="3">Refund Pending</option>
-                  <option value="4">Refund Completed</option>
+                  <option value="3">Is Cancelled</option>
+                  <option value="4">Refund Pending</option>
+                  <option value="5">Refund Completed</option>
                 </select>
                 <button type="submit" class="btn btn-outline-primary rounded-pill me-2">Search</button>
               </form>
@@ -130,15 +131,18 @@
                   <td class="p-3"><%= bookings.getContactEmail() %></td>
                   <td class="p-3"><%= bookings.getTotalPrice() %> $</td>
                   <td class="p-3">
-                    <span class="badge
-                    <%= bookings.getStatus() == 1 ? "bg-soft-success" :
-                        bookings.getStatus() == 2 ? "bg-soft-warning" :
-                        bookings.getStatus() == 3 ? "bg-soft-danger" : "bg-soft-info" %>">
-                      <%= bookings.getStatus() == 1 ? "Is Pending" :
-                          bookings.getStatus() == 2 ? "Payment Successfully" :
-                          bookings.getStatus() == 3 ? "Refund Pending" : "Refund Completed" %>
-                    </span>
+    <span class="badge
+    <%= bookings.getStatus() == 1 ? "bg-soft-success" :
+        bookings.getStatus() == 2 ? "bg-soft-warning" :
+        bookings.getStatus() == 3 ? "bg-soft-danger" :
+        bookings.getStatus() == 4 ? "bg-soft-primary" : "bg-soft-secondary" %>">
+      <%= bookings.getStatus() == 1 ? "Is Pending" :
+              bookings.getStatus() == 2 ? "Payment Success" :
+                      bookings.getStatus() == 3 ? "Is Cancelled" :
+                              bookings.getStatus() == 4 ? "Refund Pending" : "Refund Completed" %>
+    </span>
                   </td>
+
 
                   <td class="p-3">
                     <a href="${pageContext.request.contextPath}/viewBooking?id=<%= bookings.getBookingID() %>" class="btn btn-icon btn-sm btn-soft-primary"><i

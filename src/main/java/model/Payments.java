@@ -9,9 +9,20 @@ public class Payments {
     private String PaymentMethod;
     private int PaymentStatus;
     private Timestamp PaymentDate;
+    private String email;
     private double TotalPrice;
 
     public Payments() {
+    }
+
+    public Payments(int paymentID, int bookingID, String paymentMethod, int paymentStatus, Timestamp paymentDate, String email, double totalPrice) {
+        this.paymentID = paymentID;
+        this.bookingID = bookingID;
+        PaymentMethod = paymentMethod;
+        PaymentStatus = paymentStatus;
+        PaymentDate = paymentDate;
+        this.email = email;
+        TotalPrice = totalPrice;
     }
 
     public Payments(int paymentID, String paymentMethod, int paymentStatus, Timestamp paymentDate, double totalPrice) {
@@ -79,14 +90,23 @@ public class Payments {
         TotalPrice = totalPrice;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     @Override
     public String toString() {
         return "Payments{" +
                 "paymentID=" + paymentID +
                 ", bookingID=" + bookingID +
                 ", PaymentMethod='" + PaymentMethod + '\'' +
-                ", PaymentStatus='" + PaymentStatus + '\'' +
+                ", PaymentStatus=" + PaymentStatus +
                 ", PaymentDate=" + PaymentDate +
+                ", email='" + email + '\'' +
                 ", TotalPrice=" + TotalPrice +
                 '}';
     }

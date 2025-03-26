@@ -1,18 +1,18 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: nguye
-  Date: 16/03/2025
-  Time: 3:09 CH
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <%@ page import="model.*" %>
-        <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="model.Locations" %>
+<%@ page import="model.Payments" %>
+<%@ page import="java.awt.print.Book" %>
+<%@ page import="model.Bookings" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-        <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-    <title>SkyTicket - Bookings management</title>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8"/>
+    <title>SkyTicket - Payments management</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Premium Bootstrap 4 Landing Page Template"/>
     <meta name="keywords" content="Appointment, Booking, System, Dashboard, Health"/>
@@ -71,20 +71,19 @@
     <main class="page-content bg-light">
         <%@ include file="top.jsp" %>
 
-        <%
-            Bookings bookings = (Bookings) request.getAttribute("booking");
-        %>
+        <% Payments payments = (Payments) request.getAttribute("payments");
+            Bookings bookings = (Bookings) request.getAttribute("bookings");%>
 
         <div class="container-fluid">
             <div class="layout-specing">
                 <div class="d-md-flex justify-content-between">
-                    <h5 class="mb-0">Booking ID: <%= bookings.getBookingID()%> </h5>
+                    <h5 class="mb-0">Update Payment ID: <%=payments.getPaymentID()%></h5>
 
                     <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
                         <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
                             <li class="breadcrumb-item"><a href="Dashboard.jsp">SkyTicket</a></li>
-                            <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/listBookingsURL">Bookings</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">View Booking</li>
+                            <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/listPaymentsURL">Payments</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Update Payments</li>
                         </ul>
                     </nav>
                 </div>
@@ -92,48 +91,54 @@
                 <div class="row">
                     <div class="col-lg-8 mt-4">
                         <div class="card border-0 p-4 rounded shadow">
+                            <c:if test="${not empty error}">
+                                <div style="color: red; font-weight: bold;">
+                                        ${error}
+                                </div>
+                            </c:if>
                             <c:if test="${not empty msg}">
                                 <div style="color: green; font-weight: bold;">
                                         ${msg}
                                 </div>
                             </c:if>
+                            <c:if test="${not empty error1}">
+                                <div style="color: green; font-weight: bold;">
+                                        ${error1}
+                                </div>
+                            </c:if>
 
-                            <form class="mt-4" action="${pageContext.request.contextPath}/updateLocation" method="post" enctype="multipart/form-data">
 
+                            <form class="mt-4" action="${pageContext.request.contextPath}/updatePayment" method="post">
+
+                                <input type="hidden" name="locationId" value="<%=payments.getPaymentID()%>">
 
                                 <br>
 
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label">Code: </label>
+                                            <label class="form-label">Payment Method: </label>
                                             <label for="name"></label><input name="name" id="name" type="text" disabled
                                                                              class="form-control"
-                                                                             value="<%=bookings.getCode() != null ? bookings.getCode(): ""%>">
+                                                                             value="<%=payments.getPaymentMethod() != null ? payments.getPaymentMethod(): ""%>">
                                         </div>
                                     </div><!--end col-->
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label">Contact Name: </label>
-                                            <label for="name"></label><input name="name" id="phone" type="text" disabled
-                                                                             class="form-control"
-                                                                             value="<%=bookings.getContactName() != null ? bookings.getContactName(): ""%>">
+                                            <label class="form-label" for="we">Status</label>
+                                            <select class="form-control gender-name select2input" name="status" id="we">
+                                                <option value="1" <%=payments.getPaymentStatus() == 1 ? "selected" : ""%>>Is Pending</option>
+                                                <option value="2" <%=payments.getPaymentStatus() == 2 ? "selected" : ""%>>Payment Success</option>
+                                                <option value="3" <%=payments.getPaymentStatus() == 3 ? "selected" : ""%>>Is Cancelled</option>
+                                            </select>
                                         </div>
                                     </div><!--end col-->
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label">Contact Phone: </label>
+                                            <label class="form-label">Payment Date: </label>
                                             <label for="name"></label><input name="name" id="email" type="text" disabled
                                                                              class="form-control"
-                                                                             value="<%=bookings.getContactPhone() != null ? bookings.getContactPhone(): ""%>">
-                                        </div>
-                                    </div><!--end col-->
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label class="form-label">Contact Email: </label>
-                                            <label for="name"></label><input name="name" id="conatct" type="text" disabled
-                                                                             class="form-control"
-                                                                             value="<%=bookings.getContactEmail() != null ? bookings.getContactEmail(): ""%>">
+                                                                             value="<%=payments.getPaymentDate() != null ? payments.getPaymentDate(): ""%>">
                                         </div>
                                     </div><!--end col-->
                                     <div class="col-md-6">
@@ -141,47 +146,34 @@
                                             <label class="form-label">Total Price: </label>
                                             <label for="name"></label><input name="name" id="idnumber" type="text" disabled
                                                                              class="form-control"
-                                                                             value="<%=bookings.getTotalPrice() != 0 ? bookings.getTotalPrice(): ""%>">
+                                                                             value="<%=payments.getTotalPrice() != 0 ? payments.getTotalPrice(): ""%>">
                                         </div>
                                     </div><!--end col-->
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label">Booking Date: </label>
-                                            <label for="name"></label><input name="name" id="date" type="text" disabled
-                                                                             class="form-control"
-                                                                             value="<%=bookings.getBookingDate() != null ? bookings.getBookingDate(): ""%>">
-                                        </div>
-                                    </div><!--end col-->
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label class="form-label">Status: </label>
+                                            <label class="form-label">Booking Code: </label>
                                             <label for="name"></label><input name="name" id="bookingid" type="text" disabled
                                                                              class="form-control"
-                                                                             value="<%= bookings.getStatus() == 1 ? "Is Pending" :
-              bookings.getStatus() == 2 ? "Payment Success" :
-                      bookings.getStatus() == 3 ? "Is Cancelled" :
-                              bookings.getStatus() == 4 ? "Refund Pending" : "Refund Completed" %>">
+                                                                             value="<%=bookings.getCode() != null ? bookings.getCode(): ""%>">
                                         </div>
                                     </div><!--end col-->
-                                    <% if (bookings.getAccountID() != 0) {
-                                    %>
+
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label">Account ID: </label>
-                                            <label for="name"></label><input name="name" id="id" type="text" disabled
-                                                                             class="form-control"
-                                                                             value="<%=bookings.getAccountID() != 0 ? bookings.getAccountID(): ""%>">
+                                            <label class="form-label">Email: </label>
+                                            <input name="countryName" id="countryName" disabled
+                                                   type="text" class="form-control"
+                                                   value="<%= payments.getEmail() != null ? payments.getEmail() : "Unknown" %>">
                                         </div>
                                     </div><!--end col-->
-                                    <% } %>
 
-
-                                    <a href="${pageContext.request.contextPath}/listBookingsURL" class="btn btn-primary">Back</a>
-
+                                    <div class="col-md-6">
+                                        <button type="submit" class="btn btn-primary">Update Payment</button>
+                                        <a href="${pageContext.request.contextPath}/listPaymentsURL" class="btn btn-danger">Cancel</a>
+                                    </div>
                             </form>
                         </div>
                     </div><!--end col-->
-
                 </div><!--end row-->
                 <div class="col-lg-4 mt-4">
                     <div class="card rounded border-0 shadow">
@@ -192,7 +184,7 @@
 
                         <ul class="list-unstyled mb-0 p-4" data-simplebar style="height: 664px;">
                             <div>
-                                Booking name must be ...
+                                Location name must be ...
                             </div>
 
                             <li class="mt-4 text-center">
@@ -226,12 +218,6 @@
 <!-- Main Js -->
 <script src="${pageContext.request.contextPath}/views/admin/assets/js/app.js"></script>
 
-
-</body>
-</html>
-</title>
-</head>
-<body>
 
 </body>
 </html>

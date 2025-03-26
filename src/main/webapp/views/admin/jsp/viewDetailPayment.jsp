@@ -111,10 +111,19 @@
                                     </div><!--end col-->
                                     <div class="col-md-6">
                                         <div class="mb-3">
+                                            <label class="form-label">Email: </label>
+                                            <label for="name"></label><input name="name" id="e" type="text" disabled
+                                                                             class="form-control"
+                                                                             value="<%=payments.getEmail() != null ? payments.getEmail(): ""%>">
+                                        </div>
+                                    </div><!--end col-->
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
                                             <label class="form-label">Payment Status: </label>
                                             <label for="name"></label><input name="name" id="phone" type="text" disabled
                                                                              class="form-control"
-                                                                             value="<%= payments.getPaymentStatus() == 1 ? "Is Pending" : "Payment Success" %>">
+                                                                             value="<%= payments.getPaymentStatus() == 1 ? "Is Pending" :
+              payments.getPaymentStatus() == 2 ? "Payment Success" : "Is Cancelled" %>">
                                         </div>
                                     </div><!--end col-->
                                     <div class="col-md-6">
