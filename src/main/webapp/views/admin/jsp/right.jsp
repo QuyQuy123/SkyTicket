@@ -196,7 +196,7 @@
                 <div class="sidebar-submenu">
                     <ul>
                         <li><a href="<%= request.getContextPath() %>/listRefund?action=list">List of Refund</a></li>
-                        <li><a href="<%= request.getContextPath() %>/addDiscounts"></a></li>
+                        <li><a href="<%= request.getContextPath() %>/addRefund">Add a new Refund</a></li>
                     </ul>
                 </div>
             </li>

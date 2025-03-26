@@ -20,7 +20,8 @@ public class AirportAddServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         HttpSession session = request.getSession();
         AirportsDAO dao = new AirportsDAO();
@@ -35,6 +36,14 @@ public class AirportAddServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/views/admin/jsp/addAirport.jsp");
             return;
         }
+
+        // Validate airportName: chỉ cho phép chữ cái, khoảng trắng, và dấu gạch nối
+        if (!airportName.matches("^[a-zA-Z\\s-]+$")) {
+            session.setAttribute("errorMsg", "Airport name can only contain letters, spaces, and hyphens.");
+            response.sendRedirect(request.getContextPath() + "/views/admin/jsp/addAirport.jsp");
+            return;
+        }
+
         if (dao.isAirportExist(airportName)) {
             session.setAttribute("errorMsg", "Airport name already exists.");
             response.sendRedirect(request.getContextPath() + "/views/admin/jsp/addAirport.jsp");

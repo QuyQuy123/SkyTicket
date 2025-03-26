@@ -39,7 +39,7 @@ public class AirportsListServlet extends HttpServlet {
 
             req.setAttribute("airports", listAirports);
             req.setAttribute("currentPage", page);
-            req.setAttribute("totalPage", totalPages);
+            req.setAttribute("totalPages", totalPages);
             req.setAttribute("locations", listLocations);
             req.getRequestDispatcher("/views/admin/jsp/viewListAirports.jsp").forward(req, resp);
     }

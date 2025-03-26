@@ -1,13 +1,6 @@
 <%@ page import="model.Locations" %>
 <%@ page import="model.Airports" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: Administrator
-  Date: 2/10/2025
-  Time: 1:03 AM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 
@@ -88,7 +81,7 @@
                     <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
                         <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
                             <li class="breadcrumb-item"><a href="Dashboard.jsp">SkyTicket</a></li>
-                            <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/listAirlines">Airlines</a></li>
+                            <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/AirportListURL">Airport</a></li>
                             <li class="breadcrumb-item active" aria-current="page">Update Airport</li>
                         </ul>
                     </nav>
@@ -102,8 +95,14 @@
                                         ${msg}
                                 </div>
                             </c:if>
+                            <c:if test="${not empty errorMsg}">
+                                <div style="color: red; font-weight: bold;">
+                                        ${errorMsg}
+                                </div>
+                            </c:if>
 
                             <form action="<%= request.getContextPath() %>/AirportUpdateURL" method="post">
+                                <input type="hidden" >
                                 <div class="row">
                                     <div class="col-lg-8 mt-4">
                                         <div class="card border-0 p-4 rounded shadow">
@@ -112,9 +111,10 @@
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="mb-3">
-                                                        <label class="form-label" for="name">AirportID</label>
-                                                        <input name="name" id="name" type="text" class="form-control"
+                                                        <label class="form-label" for="airportId">AirportID</label>
+                                                        <input name="airportId" id="airportId" type="text" class="form-control"
                                                                placeholder="AirportID" value="<%=airport.getAirportId()%>" disabled>
+                                                        <input type="hidden" name="airportId" value="<%=airport.getAirportId()%>">
                                                     </div>
                                                 </div><!--end col-->
 
@@ -130,7 +130,8 @@
                                                     <div class="mb-3">
                                                         <label class="form-label" for="locationName">Location Name</label>
                                                         <input name="locationName" id="locationName" type="Text" class="form-control"
-                                                        placeholder="Location Name" value="<%=locations.getLocationName()%>">
+                                                        placeholder="Location Name" value="<%=locations.getLocationName()%>" disabled>
+                                                        <input type="hidden" name="locationId" value="<%=airport.getLocationId()%>">
                                                     </div>
                                                 </div><!--end col-->
 
@@ -138,8 +139,8 @@
                                                     <div class="mb-3">
                                                         <label class="form-label" for="status">Status</label>
                                                         <select name="status" class="form-control department-name select2input" id="hehe">
-                                                            <option value="active">Active</option>
-                                                            <option value="deactive">Deactive</option>
+                                                            <option value="1" <%= airport.getStatus() == 1 ? "selected" : "" %>>Active</option>
+                                                            <option value="0" <%= airport.getStatus() == 0 ? "selected" : "" %>>Deactive</option>
                                                         </select>
                                                     </div>
                                                 </div><!--end col-->

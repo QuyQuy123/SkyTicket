@@ -263,6 +263,18 @@ public class RefundDAO extends DBConnect {
         return 0;
     }
 
+    // Kiểm tra Ticket Code và trả về TicketId nếu tồn tại
+    public int getTicketIdByCode(String ticketCode) throws SQLException {
+        String sql = "SELECT TicketId FROM Tickets WHERE Code = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, ticketCode);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("TicketId");
+            }
+        }
+        return -1; // Trả về -1 nếu không tìm thấy
+    }
 
     // Xóa một yêu cầu hoàn tiền
     public void deleteRefund(int refundId) {

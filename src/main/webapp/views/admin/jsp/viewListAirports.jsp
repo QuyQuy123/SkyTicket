@@ -37,7 +37,7 @@
             List<Locations> listLocations = (List<Locations>) request.getAttribute("locations");
 
             int currentPage = (Integer) request.getAttribute("currentPage");
-            int totalPages = (Integer) request.getAttribute("totalPage");
+            int totalPages = (Integer) request.getAttribute("totalPages");
 
             if (listAirports == null) listAirports = new ArrayList<>();
             if (listLocations == null) listLocations = new ArrayList<>();
@@ -136,12 +136,15 @@
                                     <td class="p-3"><%= airport.getAirportId() %></td>
                                     <td class="p-3"><%= airport.getAirportName() %></td>
                                     <td class="p-3"><%= locationName %></td>
-                                    <td class="p-3"><span class="badge <%= airport.getStatus() == 1 ? "bg-soft-success" : "bg-soft-warning" %>"><%= airport.getStatus() == 1 ? "Active" : "Inactive" %></span></td>
+                                    <td class="p-3"><span class="badge <%= airport.getStatus() == 1 ? "bg-soft-success" : "bg-soft-warning" %>"><%= airport.getStatus() == 1 ? "Active" : "Deactive" %></span></td>
                                     <td class="p-2">
 
-                                        <a href="<%= request.getContextPath() %>/AirportUpdateURL?airportId=<%=airport.getAirportId()%>" class="btn btn-icon btn-pills btn-soft-success"><i class="uil uil-pen"></i></a>
-                                        <a href="javascript:void(0);" class="btn btn-icon btn-pills btn-soft-danger" onclick="confirmDelete(<%= airport.getAirportId() %>)">
-                                            <i class="uil uil-trash"></i>
+                                        <a href="<%= request.getContextPath() %>/airportUpdate?action=update&airportId=<%=airport.getAirportId()%>" class="btn btn-icon btn-pills btn-soft-success"><i class="uil uil-pen"></i></a>
+                                        <a href="javascript:void(0);"
+                                           class="btn btn-icon btn-pills <%= airport.getStatus() == 1 ? "btn-soft-warning" : "btn-soft-success" %>"
+                                           onclick="toggleStatus(<%= airport.getAirportId() %>, <%= airport.getStatus() %>)">
+                                            <i class="uil <%= airport.getStatus() == 1 ? "uil-times" : "uil-check" %>"></i>
+                                        </a>
                                     </td>
                                 </tr>
                                 <% } %>
@@ -158,23 +161,35 @@
             <c:when test="${searchpage == 'page'}">
                 <div class="d-flex justify-content-center mt-3">
                     <div class="pagination">
+                        <!-- Nút First -->
                         <c:if test="${currentPage > 1}">
+                            <a href="${pageContext.request.contextPath}/AirportSearch?page=1&search=${search}&status=${status}"
+                               class="btn btn-outline-primary">First</a>
+                        </c:if>
 
+                        <!-- Nút Previous -->
+                        <c:if test="${currentPage > 1}">
                             <a href="${pageContext.request.contextPath}/AirportSearch?page=${currentPage - 1}&search=${search}&status=${status}"
                                class="btn btn-outline-primary">Previous</a>
                         </c:if>
 
+                        <!-- Hiển thị trang hiện tại -->
                         <span class="btn btn-primary">${currentPage} / ${totalPages}</span>
 
+                        <!-- Nút Next -->
                         <c:if test="${currentPage < totalPages}">
                             <a href="${pageContext.request.contextPath}/AirportSearch?page=${currentPage + 1}&search=${search}&status=${status}"
                                class="btn btn-outline-primary">Next</a>
+                        </c:if>
 
+                        <!-- Nút Last -->
+                        <c:if test="${currentPage < totalPages}">
+                            <a href="${pageContext.request.contextPath}/AirportSearch?page=${totalPages}&search=${search}&status=${status}"
+                               class="btn btn-outline-primary">Last</a>
                         </c:if>
                     </div>
                 </div>
             </c:when>
-
         </c:choose>
         <!-- Footer Start -->
         <%@include file="bottom.jsp"%>
@@ -188,9 +203,12 @@
 
 <!-- javascript -->
         <script>
-            function confirmDelete(airportId) {
-                if (confirm("Are you sure to delete this airport?")) {
-                    window.location.href = "<%= request.getContextPath() %>/AirportDeleteServlet?airportId=" + airportId;
+            function toggleStatus(airportId, currentStatus) {
+                let action = currentStatus == 1 ? "deactivate" : "activate";
+                let message = "Are you sure you want to " + action + " this airport?";
+
+                if (confirm(message)) {
+                    window.location.href = "<%= request.getContextPath() %>/airportUpdate?action=change&airportId=" + airportId;
                 }
             }
         </script>
