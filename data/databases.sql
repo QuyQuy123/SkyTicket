@@ -12,6 +12,11 @@ INSERT INTO Roles (RoleId, RoleName) VALUES
 (1, 'Admin'),
 (2, 'Member');
 
+INSERT INTO Roles (RoleName) VALUES
+('Aircraft and Airport Manager'),
+('Flight Manager'),
+('Booking Manager');
+
 -- Bảng Accounts
 CREATE TABLE Accounts (
     AccountId INT PRIMARY KEY AUTO_INCREMENT,
@@ -50,7 +55,7 @@ CREATE TABLE Bookings (
     ContactEmail nvarchar(50),
     TotalPrice DECIMAL(10,2) NOT NULL,
     BookingDate DATETIME DEFAULT CURRENT_TIMESTAMP,
-    Status VARCHAR(50),
+    Status TINYINT DEFAULT 1,
     AccountId INT,
     FOREIGN KEY (AccountId) REFERENCES Accounts(AccountId)
 );
@@ -121,10 +126,6 @@ VALUES
     (10.00, 200000,3),
     ( 5.20, 150000,4),
     ( 7.80, 180000,1);
-
-
-
-
 
 -- Bảng Countries
 CREATE TABLE Countries (
@@ -268,7 +269,7 @@ CREATE TABLE Tickets (
     SeatId INT NOT NULL,
     PassengerId INT NOT NULL,
     Code VARCHAR(50) ,
-    Status VARCHAR(50),
+    Status TINYINT DEFAULT 1,
     CreateAt DATETIME DEFAULT CURRENT_TIMESTAMP,
     BookingId INT,
     FlightId INT,
@@ -279,7 +280,6 @@ CREATE TABLE Tickets (
     FOREIGN KEY (PassengerId) REFERENCES Passengers(PassengerId),
     FOREIGN KEY (BaggageId) REFERENCES Baggages(BaggageId),
     FOREIGN KEY (FlightId) REFERENCES Flights(FlightId)
-	
 );
 
 -- Bảng News
@@ -315,5 +315,169 @@ CREATE TABLE Refund (
     RequestDate DATETIME,
     RefundDate DATETIME,
     RefundPrice DECIMAL(10,2),
+    Status TINYINT DEFAULT 1,
     FOREIGN KEY (TicketId) REFERENCES Tickets(TicketId)
 );
+
+INSERT INTO Baggages (Weight, Price, AirlineId, Status) VALUES
+-- Liên kết với Airbus A320C1 (AirlineId = 1)
+(5.00, 100000, 1, 1),
+(10.00, 200000, 1, 1),
+(15.00, 300000, 1, 1),
+(20.00, 400000, 1, 1),
+(25.00, 500000, 1, 1),
+-- Liên kết với Airbus A320C2 (AirlineId = 2)
+(7.50, 150000, 2, 1),
+(12.50, 250000, 2, 1),
+(17.50, 350000, 2, 1),
+(22.50, 450000, 2, 1),
+(30.00, 600000, 2, 1),
+-- Liên kết với Airbus A320C3 (AirlineId = 3)
+(8.00, 160000, 3, 1),
+(13.00, 260000, 3, 1),
+(18.00, 360000, 3, 1),
+(23.00, 460000, 3, 1),
+(28.00, 560000, 3, 1),
+-- Liên kết với Airbus A320C4 (AirlineId = 4)
+(6.50, 130000, 4, 1),
+(11.50, 230000, 4, 1),
+(16.50, 330000, 4, 1),
+(21.50, 430000, 4, 1),
+(27.00, 540000, 4, 1);
+
+INSERT INTO Accounts (FullName, Email, Password, Phone, Address, Img, Dob, Status, RoleId) VALUES
+('Nguyễn Văn Hùng', 'nguyenvanhung@example.com', 'hung123', '0912345001', '123 Nguyễn Trãi, Hà Nội', 'hung.jpg', '1990-03-15', 1, 2),
+('Trần Thị Mai', 'tranthimai@example.com', 'mai456', '0912345002', '456 Lê Lợi, TP.HCM', 'mai.jpg', '1988-07-20', 1, 2),
+('Lê Văn Nam', 'levannam@example.com', 'nam789', '0912345003', '789 Trần Phú, Đà Nẵng', 'nam.jpg', '1995-11-10', 1, 2),
+('Phạm Thị Lan', 'phamthilan@example.com', 'lan101', '0912345004', '321 Hùng Vương, Huế', 'lan.jpg', '1992-04-25', 1, 2),
+('Hoàng Văn Tuấn', 'hoangvantuan@example.com', 'tuan102', '0912345005', '654 Nguyễn Huệ, Nha Trang', 'tuan.jpg', '1985-09-30', 1, 2),
+('Bùi Thị Ngọc', 'buithingoc@example.com', 'ngoc103', '0912345006', '987 Lý Thường Kiệt, Cần Thơ', 'ngoc.jpg', '1993-12-05', 1, 2),
+('Đặng Văn Long', 'dangvanlong@example.com', 'long104', '0912345007', '147 Bà Triệu, Vũng Tàu', 'long.jpg', '1987-06-15', 1, 2),
+('Vũ Thị Hương', 'vuthihuong@example.com', 'huong105', '0912345008', '258 Nguyễn Văn Cừ, Phú Quốc', 'huong.jpg', '1996-08-20', 1, 2),
+('Ngô Văn Bình', 'ngovanbinh@example.com', 'binh106', '0912345009', '369 Trần Hưng Đạo, Hải Phòng', 'binh.jpg', '1991-01-10', 1, 2),
+('Đỗ Thị Thảo', 'dothithao@example.com', 'thao107', '0912345010', '741 Lê Đại Hành, Quảng Ninh', 'thao.jpg', '1989-02-14', 1, 2),
+('Nguyễn Thị Hoa', 'nguyenthihoa@example.com', 'hoa108', '0912345011', '852 Phạm Ngũ Lão, Hà Nội', 'hoa.jpg', '1994-05-18', 1, 2),
+('Trần Văn Đức', 'tranvanduc@example.com', 'duc109', '0912345012', '963 Nguyễn Thị Minh Khai, TP.HCM', 'duc.jpg', '1986-08-22', 1, 2),
+('Lê Thị Minh', 'lethiminh@example.com', 'minh110', '0912345013', '147 Lê Thánh Tôn, Đà Nẵng', 'minh.jpg', '1997-11-30', 1, 2),
+('Phạm Văn Tâm', 'phamvantam@example.com', 'tam111', '0912345014', '258 Trần Cao Vân, Huế', 'tam.jpg', '1990-03-10', 1, 2),
+('Hoàng Thị Linh', 'hoangthilinh@example.com', 'linh112', '0912345015', '369 Nguyễn Đình Chiểu, Nha Trang', 'linh.jpg', '1995-07-15', 1, 2),
+('Bùi Văn Phong', 'buivanphong@example.com', 'phong113', '0912345016', '741 Lê Hồng Phong, Cần Thơ', 'phong.jpg', '1988-09-25', 1, 2),
+('Đặng Thị Thu', 'dangthithu@example.com', 'thu114', '0912345017', '852 Trần Quốc Toàn, Vũng Tàu', 'thu.jpg', '1992-12-20', 1, 2),
+('Vũ Văn Hải', 'vuvanhai@example.com', 'hai115', '0912345018', '963 Nguyễn Công Trứ, Phú Quốc', 'hai.jpg', '1987-01-05', 1, 2),
+('Ngô Thị Yến', 'ngothiyen@example.com', 'yen116', '0912345019', '147 Phạm Văn Đồng, Hải Phòng', 'yen.jpg', '1993-04-12', 1, 2),
+('Đỗ Văn Sơn', 'dovanson@example.com', 'son117', '0912345020', '258 Bạch Đằng, Quảng Ninh', 'son.jpg', '1989-06-18', 1, 2);
+
+INSERT INTO Discounts (Percent, AccountId, Points) VALUES
+(5.00, 3, 50),    -- Nguyễn Văn Hùng
+(10.00, 4, 100),  -- Trần Thị Mai
+(15.00, 5, 150),  -- Lê Văn Nam
+(7.50, 6, 75),    -- Phạm Thị Lan
+(20.00, 7, 200),  -- Hoàng Văn Tuấn
+(12.50, 8, 125),  -- Bùi Thị Ngọc
+(8.00, 9, 80),    -- Đặng Văn Long
+(25.00, 10, 250), -- Vũ Thị Hương
+(10.00, 11, 100), -- Ngô Văn Bình
+(18.00, 12, 180), -- Đỗ Thị Thảo
+(6.00, 13, 60),   -- Nguyễn Thị Hoa
+(14.00, 14, 140), -- Trần Văn Đức
+(9.00, 15, 90),   -- Lê Thị Minh
+(22.00, 16, 220), -- Phạm Văn Tâm
+(11.00, 17, 110), -- Hoàng Thị Linh
+(17.00, 18, 170), -- Bùi Văn Phong
+(13.00, 19, 130), -- Đặng Thị Thu
+(19.00, 20, 190), -- Vũ Văn Hải
+(8.50, 21, 85),   -- Ngô Thị Yến
+(16.00, 22, 160); -- Đỗ Văn Sơn
+
+INSERT INTO Bookings (Code, ContactName, ContactPhone, ContactEmail, TotalPrice, BookingDate, Status, AccountId) VALUES
+('BK001', 'Nguyễn Văn Hùng', '0912345001', 'nguyenvanhung@example.com', 1500000.00, '2025-03-25 08:00:00', 2, 3),  -- Payment Success
+('BK002', 'Trần Thị Mai', '0912345002', 'tranthimai@example.com', 2000000.00, '2025-03-25 08:15:00', 1, 4),    -- Is Pending
+('BK003', 'Lê Văn Nam', '0912345003', 'levannam@example.com', 1200000.00, '2025-03-25 08:30:00', 2, 5),     -- Payment Success
+('BK004', 'Phạm Thị Lan', '0912345004', 'phamthilan@example.com', 1800000.00, '2025-03-25 08:45:00', 3, 6),   -- Is Cancelled
+('BK005', 'Hoàng Văn Tuấn', '0912345005', 'hoangvantuan@example.com', 2200000.00, '2025-03-25 09:00:00', 2, 7), -- Payment Success
+('BK006', 'Bùi Thị Ngọc', '0912345006', 'buithingoc@example.com', 1300000.00, '2025-03-25 09:15:00', 1, 8),    -- Is Pending
+('BK007', 'Đặng Văn Long', '0912345007', 'dangvanlong@example.com', 1700000.00, '2025-03-25 09:30:00', 2, 9),  -- Payment Success
+('BK008', 'Vũ Thị Hương', '0912345008', 'vuthihuong@example.com', 2500000.00, '2025-03-25 09:45:00', 4, 10),  -- Refund Pending
+('BK009', 'Ngô Văn Bình', '0912345009', 'ngovanbinh@example.com', 1400000.00, '2025-03-25 10:00:00', 1, 11),  -- Is Pending
+('BK010', 'Đỗ Thị Thảo', '0912345010', 'dothithao@example.com', 1900000.00, '2025-03-25 10:15:00', 5, 12),   -- Refund Complete
+('BK011', 'Nguyễn Thị Hoa', '0912345011', 'nguyenthihoa@example.com', 1600000.00, '2025-03-25 10:30:00', 2, 13), -- Payment Success
+('BK012', 'Trần Văn Đức', '0912345012', 'tranvanduc@example.com', 2100000.00, '2025-03-25 10:45:00', 1, 14),   -- Is Pending
+('BK013', 'Lê Thị Minh', '0912345013', 'lethiminh@example.com', 1150000.00, '2025-03-25 11:00:00', 2, 15),   -- Payment Success
+('BK014', 'Phạm Văn Tâm', '0912345014', 'phamvantam@example.com', 2300000.00, '2025-03-25 11:15:00', 3, 16),  -- Is Cancelled
+('BK015', 'Hoàng Thị Linh', '0912345015', 'hoangthilinh@example.com', 1750000.00, '2025-03-25 11:30:00', 4, 17), -- Refund Pending
+('BK016', 'Bùi Văn Phong', '0912345016', 'buivanphong@example.com', 1450000.00, '2025-03-25 11:45:00', 1, 18), -- Is Pending
+('BK017', 'Đặng Thị Thu', '0912345017', 'dangthithu@example.com', 1850000.00, '2025-03-25 12:00:00', 2, 19),  -- Payment Success
+('BK018', 'Vũ Văn Hải', '0912345018', 'vuvanhai@example.com', 3000000.00, '2025-03-25 12:15:00', 5, 20),    -- Refund Complete
+('BK019', 'Ngô Thị Yến', '0912345019', 'ngothiyen@example.com', 1250000.00, '2025-03-25 12:30:00', 1, 21),   -- Is Pending
+('BK020', 'Đỗ Văn Sơn', '0912345020', 'dovanson@example.com', 1650000.00, '2025-03-25 12:45:00', 2, 22);    -- Payment Success
+
+INSERT INTO Passengers (PassengerName, Phone, Email, IDNumber, Address, Dob, Gender, AccountId, BookingId) VALUES
+('Nguyễn Thị An', '0912345001', 'nguyenthian@example.com', '123456789', '123 Nguyễn Trãi, Hà Nội', '1992-05-10', 'Female', 3, 1),
+('Trần Văn Bảo', '0912345002', 'tranvanbao@example.com', '987654321', '456 Lê Lợi, TP.HCM', '1987-08-15', 'Male', 4, 2),
+('Lê Thị Cẩm', '0912345003', 'lethicam@example.com', '456789123', '789 Trần Phú, Đà Nẵng', '1994-11-20', 'Female', 5, 3),
+('Phạm Văn Duy', '0912345004', 'phamvanduy@example.com', '321654987', '321 Hùng Vương, Huế', '1990-03-25', 'Male', 6, 4),
+('Hoàng Thị Hà', '0912345005', 'hoangthiha@example.com', '789123456', '654 Nguyễn Huệ, Nha Trang', '1995-07-30', 'Female', 7, 5),
+('Bùi Văn Khánh', '0912345006', 'buivankhanh@example.com', '654987321', '987 Lý Thường Kiệt, Cần Thơ', '1988-09-05', 'Male', 8, 6),
+('Đặng Thị Linh', '0912345007', 'dangthilinh@example.com', '147258369', '147 Bà Triệu, Vũng Tàu', '1993-12-10', 'Female', 9, 7),
+('Vũ Văn Minh', '0912345008', 'vuvanminh@example.com', '258369147', '258 Nguyễn Văn Cừ, Phú Quốc', '1989-01-15', 'Male', 10, 8),
+('Ngô Thị Ngọc', '0912345009', 'ngothingoc@example.com', '369147258', '369 Trần Hưng Đạo, Hải Phòng', '1996-04-20', 'Female', 11, 9),
+('Đỗ Văn Phong', '0912345010', 'dovanphong@example.com', '741852963', '741 Lê Đại Hành, Quảng Ninh', '1987-06-25', 'Male', 12, 10),
+('Nguyễn Thị Quyên', '0912345011', 'nguyenthiquyen@example.com', '852963741', '852 Phạm Ngũ Lão, Hà Nội', '1991-05-18', 'Female', 13, 11),
+('Trần Văn Sơn', '0912345012', 'tranvanson@example.com', '963741852', '963 Nguyễn Thị Minh Khai, TP.HCM', '1986-08-22', 'Male', 14, 12),
+('Lê Thị Thảo', '0912345013', 'lethithao@example.com', '741963852', '147 Lê Thánh Tôn, Đà Nẵng', '1997-11-30', 'Female', 15, 13),
+('Phạm Văn Tiến', '0912345014', 'phamvantien@example.com', '852741963', '258 Trần Cao Vân, Huế', '1990-03-10', 'Male', 16, 14),
+('Hoàng Thị Uyên', '0912345015', 'hoangthiuyen@example.com', '963852741', '369 Nguyễn Đình Chiểu, Nha Trang', '1995-07-15', 'Female', 17, 15),
+('Bùi Văn Vinh', '0912345016', 'buivanvinh@example.com', '147852963', '741 Lê Hồng Phong, Cần Thơ', '1988-09-25', 'Male', 18, 16),
+('Đặng Thị Xuân', '0912345017', 'dangthixuan@example.com', '258963741', '852 Trần Quốc Toàn, Vũng Tàu', '1992-12-20', 'Female', 19, 17),
+('Vũ Văn Yên', '0912345018', 'vuvanyen@example.com', '369741852', '963 Nguyễn Công Trứ, Phú Quốc', '1987-01-05', 'Male', 20, 18),
+('Ngô Thị Ánh', '0912345019', 'ngothianh@example.com', '741852369', '147 Phạm Văn Đồng, Hải Phòng', '1993-04-12', 'Female', 21, 19),
+('Đỗ Văn Bảo', '0912345020', 'dovanbao@example.com', '852369741', '258 Bạch Đằng, Quảng Ninh', '1989-06-18', 'Male', 22, 20);
+
+
+
+INSERT INTO Tickets (SeatId, PassengerId, Code, Status, CreateAt, BookingId, FlightId, BaggageId, Price, CancelledAT) VALUES
+(1, 1, 'TK001', 1, '2025-03-25 08:00:00', 1, 1, 1, 1000000.00, NULL),   -- Booking 2: Payment Success
+(2, 2, 'TK002', 1, '2025-03-25 08:15:00', 2, 2, 2, 1200000.00, NULL),   -- Booking 1: Is Pending
+(3, 3, 'TK003', 1, '2025-03-25 08:30:00', 3, 3, 3, 1500000.00, NULL),   -- Booking 2: Payment Success
+(4, 4, 'TK004', 0, '2025-03-25 08:45:00', 4, 4, 4, 1700000.00, '2025-03-26 09:00:00'), -- Booking 3: Is Cancelled
+(5, 5, 'TK005', 1, '2025-03-25 09:00:00', 5, 5, 5, 1100000.00, NULL),   -- Booking 2: Payment Success
+(6, 6, 'TK006', 1, '2025-03-25 09:15:00', 6, 6, 6, 1300000.00, NULL),   -- Booking 1: Is Pending
+(7, 7, 'TK007', 1, '2025-03-25 09:30:00', 7, 7, 7, 1400000.00, NULL),   -- Booking 2: Payment Success
+(8, 8, 'TK008', 0, '2025-03-25 09:45:00', 8, 8, 8, 1800000.00, '2025-03-26 10:00:00'), -- Booking 4: Refund Pending
+(9, 9, 'TK009', 1, '2025-03-25 10:00:00', 9, 9, 9, 1150000.00, NULL),   -- Booking 1: Is Pending
+(10, 10, 'TK010', 0, '2025-03-25 10:15:00', 10, 10, 10, 1600000.00, '2025-03-26 11:00:00'), -- Booking 5: Refund Complete
+(11, 11, 'TK011', 1, '2025-03-25 10:30:00', 11, 11, 11, 1350000.00, NULL), -- Booking 2: Payment Success
+(12, 12, 'TK012', 1, '2025-03-25 10:45:00', 12, 12, 12, 1500000.00, NULL), -- Booking 1: Is Pending
+(13, 13, 'TK013', 1, '2025-03-25 11:00:00', 13, 13, 13, 1600000.00, NULL), -- Booking 2: Payment Success
+(14, 14, 'TK014', 0, '2025-03-25 11:15:00', 14, 14, 14, 1750000.00, '2025-03-26 12:00:00'), -- Booking 3: Is Cancelled
+(15, 15, 'TK015', 0, '2025-03-25 11:30:00', 15, 15, 15, 2000000.00, '2025-03-26 13:00:00'), -- Booking 4: Refund Pending
+(16, 16, 'TK016', 1, '2025-03-25 11:45:00', 16, 16, 16, 1400000.00, NULL), -- Booking 1: Is Pending
+(17, 17, 'TK017', 1, '2025-03-25 12:00:00', 17, 17, 17, 1800000.00, NULL), -- Booking 2: Payment Success
+(18, 18, 'TK018', 0, '2025-03-25 12:15:00', 18, 18, 18, 1150000.00, '2025-03-26 14:00:00'), -- Booking 5: Refund Complete
+(19, 19, 'TK019', 1, '2025-03-25 12:30:00', 19, 19, 19, 1400000.00, NULL), -- Booking 1: Is Pending
+(20, 20, 'TK020', 1, '2025-03-25 12:45:00', 20, 20, 20, 1800000.00, NULL); -- Booking 2: Payment Success
+
+INSERT INTO Refund (TicketId, BankAccount, BankName, RequestDate, RefundDate, RefundPrice, Status) VALUES
+-- Các vé đã hủy từ Tickets (Status = 0)
+(4, '1234567890', 'Vietcombank', '2025-03-26 08:30:00', '2025-03-27 09:00:00', 1700000.00, 2), -- TK004: Refund Success
+(8, '0987654321', 'Techcombank', '2025-03-26 09:30:00', NULL, 1800000.00, 1),                  -- TK008: Refund Pending
+(10, '4567891230', 'MB Bank', '2025-03-26 10:30:00', '2025-03-27 11:00:00', 1600000.00, 2),   -- TK010: Refund Success
+(14, '3216549870', 'BIDV', '2025-03-26 11:30:00', NULL, 1750000.00, 3),                       -- TK014: Failed
+(15, '7891234560', 'Vietinbank', '2025-03-26 12:30:00', NULL, 2000000.00, 1),                 -- TK015: Refund Pending
+(18, '6549873210', 'Sacombank', '2025-03-26 13:30:00', '2025-03-27 14:00:00', 1150000.00, 2), -- TK018: Refund Success
+
+-- Các vé khác (Status = 1) giả định yêu cầu hoàn tiền
+(1, '1472583690', 'TP Bank', '2025-03-26 08:00:00', NULL, 1000000.00, 1),                     -- TK001: Refund Pending
+(2, '2583691470', 'ACB', '2025-03-26 08:15:00', '2025-03-27 08:30:00', 1200000.00, 2),       -- TK002: Refund Success
+(3, '3691472580', 'VP Bank', '2025-03-26 08:30:00', NULL, 1500000.00, 3),                     -- TK003: Failed
+(5, '7418529630', 'HDBank', '2025-03-26 09:00:00', '2025-03-27 09:30:00', 1100000.00, 2),     -- TK005: Refund Success
+(6, '8529637410', 'Vietcombank', '2025-03-26 09:15:00', NULL, 1300000.00, 1),                 -- TK006: Refund Pending
+(7, '9637418520', 'Techcombank', '2025-03-26 09:30:00', NULL, 1400000.00, 3),                 -- TK007: Failed
+(9, '1478529630', 'MB Bank', '2025-03-26 10:00:00', '2025-03-27 10:30:00', 1150000.00, 2),    -- TK009: Refund Success
+(11, '2589637410', 'BIDV', '2025-03-26 10:30:00', NULL, 1350000.00, 1),                       -- TK011: Refund Pending
+(12, '3697418520', 'Vietinbank', '2025-03-26 10:45:00', '2025-03-27 11:30:00', 1500000.00, 2),-- TK012: Refund Success
+(13, '7419638520', 'Sacombank', '2025-03-26 11:00:00', NULL, 1600000.00, 3),                  -- TK013: Failed
+(16, '8527419630', 'TP Bank', '2025-03-26 11:45:00', NULL, 1400000.00, 1),                    -- TK016: Refund Pending
+(17, '9638527410', 'ACB', '2025-03-26 12:00:00', '2025-03-27 13:00:00', 1800000.00, 2),      -- TK017: Refund Success
+(19, '1479638520', 'VP Bank', '2025-03-26 12:30:00', NULL, 1400000.00, 1),                    -- TK019: Refund Pending
+(20, '2587419630', 'HDBank', '2025-03-26 12:45:00', NULL, 1800000.00, 3);                     -- TK020: Failed

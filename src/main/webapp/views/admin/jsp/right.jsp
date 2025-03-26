@@ -50,11 +50,9 @@
 
         <ul class="sidebar-menu pt-3">
             <li><a href="<%= request.getContextPath() %>/views/admin/jsp/Dashboard.jsp"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
-            <li><a href="#"><i class="uil uil-stethoscope me-2 d-inline-block"></i>Updating</a>
-            </li>
 
             <li class="sidebar-dropdown">
-                <a href="javascript:void(0)"><i class="uil uil-apps me-2 d-inline-block"></i>Accounts</a>
+                <a href="javascript:void(0)"><i class="uil uil-user me-2 d-inline-block"></i>Accounts</a>
                 <div class="sidebar-submenu">
                     <ul>
                         <li><a href="<%= request.getContextPath() %>/manageAccount?action=view">List of accounts</a></li>
@@ -64,7 +62,7 @@
             </li>
 
             <li class="sidebar-dropdown">
-                <a href="javascript:void(0)"><i class="uil uil-user me-2 d-inline-block"></i>Airlines</a>
+                <a href="javascript:void(0)"><i class="uil uil-plane me-2 d-inline-block"></i>Airlines</a>
                 <div class="sidebar-submenu">
                     <ul>
                         <li><a href="<%= request.getContextPath() %>/listAirlines">List of airlines</a></li>
@@ -74,7 +72,7 @@
             </li>
 
             <li class="sidebar-dropdown">
-                <a href="javascript:void(0)"><i class="uil uil-wheelchair me-2 d-inline-block"></i>Airports
+                <a href="javascript:void(0)"><i class="uil uil-plane-departure me-2 d-inline-block"></i>Airports
                    </a>
                 <div class="sidebar-submenu">
                     <ul>
@@ -88,7 +86,7 @@
 
             <%--            Locations Managerment--%>
             <li class="sidebar-dropdown">
-                <a href="javascript:void(0)"><i class="uil uil-wheelchair me-2 d-inline-block"></i>Locations
+                <a href="javascript:void(0)"><i class="uil uil-map-marker me-2 d-inline-block"></i>Locations
                 </a>
                 <div class="sidebar-submenu">
                     <ul>
@@ -101,7 +99,7 @@
             </li>
 
             <li class="sidebar-dropdown">
-                <a href="javascript:void(0)"><i class="uil uil-shopping-cart me-2 d-inline-block"></i>Flights</a>
+                <a href="javascript:void(0)"><i class="uil uil-plane-fly me-2 d-inline-block"></i>Flights</a>
                 <div class="sidebar-submenu">
                     <ul>
                         <li><a href="<%= request.getContextPath() %>/listFlights">Lists of flights</a></li>
@@ -111,7 +109,7 @@
             </li>
 
             <li class="sidebar-dropdown">
-                <a href="javascript:void(0)"><i class="uil uil-flip-h me-2 d-inline-block"></i>News</a>
+                <a href="javascript:void(0)"><i class="uil uil-newspaper me-2 d-inline-block"></i>News</a>
                 <div class="sidebar-submenu">
                     <ul>
                         <li><a href="<%= request.getContextPath() %>/viewNews">List of news</a></li>
@@ -121,7 +119,7 @@
             </li>
 
             <li class="sidebar-dropdown">
-                <a href="javascript:void(0)"><i class="uil uil-flip-h me-2 d-inline-block"></i>Countries</a>
+                <a href="javascript:void(0)"><i class="uil uil-globe me-2 d-inline-block"></i>Countries</a>
                 <div class="sidebar-submenu">
                     <ul>
                         <li><a href="<%= request.getContextPath() %>/listCountriesURL">List of countries</a></li>
@@ -131,17 +129,17 @@
             </li>
 
             <li class="sidebar-dropdown">
-                <a href="javascript:void(0)"><i class="uil uil-file me-2 d-inline-block"></i>Baggages</a>
+                <a href="javascript:void(0)"><i class="uil uil-suitcase me-2 d-inline-block"></i>Baggages</a>
                 <div class="sidebar-submenu">
                     <ul>
                         <li><a href="<%= request.getContextPath() %>/BaggagesList">List of Baggages</a></li>
-                        <li><a href="review.html">Add Baggage</a></li>
+                        <li><a href="<%= request.getContextPath() %>/addBaggage">Add Baggage</a></li>
                     </ul>
                 </div>
             </li>
 
             <li class="sidebar-dropdown">
-                <a href="javascript:void(0)"><i class="uil uil-flip-h me-2 d-inline-block"></i>Passengers</a>
+                <a href="javascript:void(0)"><i class="uil uil-user-square me-2 d-inline-block"></i>Passengers</a>
                 <div class="sidebar-submenu">
                     <ul>
                         <li><a href="<%= request.getContextPath() %>/listPassengersURL">List of passengers</a></li>
@@ -150,7 +148,7 @@
             </li>
 
             <li class="sidebar-dropdown">
-                <a href="javascript:void(0)"><i class="uil uil-flip-h me-2 d-inline-block"></i>Payments</a>
+                <a href="javascript:void(0)"><i class="uil uil-credit-card me-2 d-inline-block"></i>Payments</a>
                 <div class="sidebar-submenu">
                     <ul>
                         <li><a href="<%= request.getContextPath() %>/listPaymentsURL">List of payments</a></li>
@@ -159,7 +157,7 @@
             </li>
 
             <li class="sidebar-dropdown">
-                <a href="javascript:void(0)"><i class="uil uil-flip-h me-2 d-inline-block"></i>Bookings</a>
+                <a href="javascript:void(0)"><i class="uil uil-ticket me-2 d-inline-block"></i>Bookings</a>
                 <div class="sidebar-submenu">
                     <ul>
                         <li><a href="<%= request.getContextPath() %>/listBookingsURL">List of bookings</a></li>
@@ -169,22 +167,41 @@
 
             <li class="sidebar-dropdown">
                 <a href="javascript:void(0)"><i
-                        class="uil uil-sign-in-alt me-2 d-inline-block"></i>Updating</a>
+                        class="uil uil-shield me-2 d-inline-block"></i>Roles</a>
                 <div class="sidebar-submenu">
                     <ul>
-                        <li><a href="login.html">Login</a></li>
-                        <li><a href="signup.html">Signup</a></li>
-                        <li><a href="forgot-password.html">Forgot Password</a></li>
-                        <li><a href="lock-screen.html">Lock Screen</a></li>
-                        <li><a href="thankyou.html">Thank you...!</a></li>
+                        <li><a href="<%= request.getContextPath() %>/listRoles">List of Roles</a></li>
+                        <li><a href="<%= request.getContextPath() %>/addRole">Add Roles</a></li>
                     </ul>
                 </div>
             </li>
 
-            <li><a href="components.html"><i class="uil uil-cube me-2 d-inline-block"></i>Updating</a></li>
 
-            <li><a href="../landing/index-two.html" target="_blank"><i
-                    class="uil uil-window me-2 d-inline-block"></i>Landing page</a></li>
+            <li class="sidebar-dropdown">
+                <a href="javascript:void(0)"><i
+                        class="uil uil-tag-alt me-2 d-inline-block"></i>Discount</a>
+                <div class="sidebar-submenu">
+                    <ul>
+                        <li><a href="<%= request.getContextPath() %>/listDiscounts">List of Discount</a></li>
+                        <li><a href="<%= request.getContextPath() %>/addDiscounts">Add Discount</a></li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="sidebar-dropdown">
+                <a href="javascript:void(0)"><i
+                        class="uil uil-money-bill me-2 d-inline-block"></i>Refunds</a>
+                <div class="sidebar-submenu">
+                    <ul>
+                        <li><a href="<%= request.getContextPath() %>/listRefund?action=list">List of Refund</a></li>
+                        <li><a href="<%= request.getContextPath() %>/addRefund">Add a new Refund</a></li>
+                    </ul>
+                </div>
+            </li>
+<%--            <li><a href="components.html"><i class="uil uil-cube me-2 d-inline-block"></i>Updating</a></li>--%>
+
+<%--            <li><a href="../landing/index-two.html" target="_blank"><i--%>
+<%--                    class="uil uil-window me-2 d-inline-block"></i>Landing page</a></li>--%>
         </ul>
         <!-- sidebar-menu  -->
     </div>

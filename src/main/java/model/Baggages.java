@@ -9,14 +9,15 @@ public class Baggages {
 
     public Baggages(){};
 
-    public Baggages(int baggageId, float weight, double price) {
+    public Baggages(int baggageId, float weight, double price, int airlineId,int status) {
         this.baggageId = baggageId;
         this.weight = weight;
         this.price = price;
+        this.airlineId = airlineId;
+        this.status = status;
     }
+    public Baggages(float weight, double price, int airlineId,int status) {
 
-    public Baggages(int baggageId, float weight, double price, int airlineId,int status) {
-        this.baggageId = baggageId;
         this.weight = weight;
         this.price = price;
         this.airlineId = airlineId;

@@ -460,4 +460,16 @@ public class AccountDAO extends DBConnect {
         return 0;
     }
 
+    // Thêm hàm mới để lấy accountId mới nhất
+    public int getLatestAccountId() throws SQLException {
+        String sql = "SELECT MAX(AccountId) FROM accounts";
+        try (PreparedStatement ps = connection.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+            return -1; // Nếu không có bản ghi nào
+        }
+    }
+
 }

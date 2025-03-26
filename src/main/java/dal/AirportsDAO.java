@@ -32,21 +32,19 @@ public class AirportsDAO extends DBConnect {
 
     public int updateAirport(Airports ap) {
         int n = 0;
-        String sql = "UPDATE `skytickets`.`airports`\n" +
-                "SET\n" +
-                "`AirportId` = ?,\n" +
-                "`AirportName` = ?,\n" +
-                "`LocationId` = ?,\n" +
-                "`Status` = ?\n" +
+        String sql = "UPDATE `skytickets`.`airports` " +
+                "SET " +
+                "`AirportName` = ?, " +
+                "`LocationId` = ?, " +
+                "`Status` = ? " +
                 "WHERE `AirportId` = ?;";
         try {
             PreparedStatement pre = connection.prepareStatement(sql);
-            pre.setInt(1, ap.getAirportId());
-            pre.setString(2, ap.getAirportName());
-            pre.setInt(3, ap.getLocationId());
-            pre.setInt(4, ap.getStatus());
+            pre.setString(1, ap.getAirportName());
+            pre.setInt(2, ap.getLocationId());
+            pre.setInt(3, ap.getStatus());
+            pre.setInt(4, ap.getAirportId());
             n = pre.executeUpdate();
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -129,7 +127,7 @@ public class AirportsDAO extends DBConnect {
             n = state.executeUpdate(sql);
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        }
+       }
         return n;
     }
     public int addAirport(Airports ap) {
@@ -258,14 +256,32 @@ public class AirportsDAO extends DBConnect {
         }
         return null;
     }
+    public Airports getAirportByName(String airportName) {
+        Airports airport = null;
+        String query = "SELECT * FROM Airports WHERE airportName = ?";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setString(1, airportName);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                airport = new Airports(
+                        rs.getInt("airportId"),
+                        rs.getString("airportName"),
+                        rs.getInt("locationId"),
+                        rs.getInt("status")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return airport;
+    }
+
 
 
 
     public static void main(String[] args) {
         AirportsDAO dao = new AirportsDAO();
-        int test = 2;
-        Airports ap = dao.getAirportById(test);
-        System.out.println(ap.getAirportName());
+        System.out.println(dao.getAirportByName("Nội Bài International Airport"));
 
     }
 }

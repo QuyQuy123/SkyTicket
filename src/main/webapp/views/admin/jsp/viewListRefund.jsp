@@ -7,7 +7,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Skyticket - Baggage mangement</title>
+    <title>Skyticket - Refund mangement</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Premium Bootstrap 4 Landing Page Template" />
     <meta name="keywords" content="Appointment, Booking, System, Dashboard, Health" />
@@ -31,11 +31,13 @@
 
 <body>
 <%
-    List<Baggages> baggages = (List<Baggages>) request.getAttribute("baggages");
-    List<Airlines> airlines = (List<Airlines>) request.getAttribute("airlines");
+    List<Refund> refundList = (List<Refund>) request.getAttribute("refundList");
+    List<Tickets> ticketsList = (List<Tickets>) request.getAttribute("ticketsList");
     int currentPage = (Integer) request.getAttribute("currentPage");
     int totalPages = (Integer) request.getAttribute("totalPages");
-    if (baggages == null) baggages = new ArrayList<>();
+//    int currentPage = (Integer) request.getAttribute("currentPage");
+//    int totalPages = (Integer) request.getAttribute("totalPages");
+
 
 %>
 
@@ -73,38 +75,28 @@
         <div class="container-fluid">
             <div class="layout-specing">
                 <div class="d-md-flex justify-content-between">
-                    <h5 class="mb-0">Baggages List</h5>
+                    <h5 class="mb-0">Refund List</h5>
 
                     <div class="search-bar p-0 d-none d-md-block ms-2">
                         <div id="search" class="menu-search mb-0">
-                            <form action="<%= request.getContextPath() %>/baggagesSearch" method="get"
+                            <form action="<%= request.getContextPath() %>/refundSearch" method="get"
                                   class="d-flex">
                                 <!-- Ô tìm kiếm -->
-                                <input type="text" name="BaggageID" class="form-control border rounded-pill me-2"
-                                       placeholder="Search BaggageID..." >
-                                <select name="AirlineName" class="form-select border rounded-pill me-2">
-                                    <option value="">Select Airline Name</option>
-                                    <%
-                                        for (Airlines airline : airlines) {
-                                    %>
-                                    <option value="<%= airline.getAirlineName() %>">
-                                        <%= airline.getAirlineName() %>
-                                    </option>
-                                    <%
-                                        }
-                                    %>
-                                </select>
-                                <select name="orderWeight" id="order1" class="form-select border rounded-pill me-2">
-                                    <option value="">Order of Weight</option>
-                                    <option value="asc" ${param.order == 'asc' ? 'selected' : ''}>Weight Ascending</option>
-                                    <option value="desc" ${param.order == 'desc' ? 'selected' : ''}>Weight Descending</option>
-                                </select>
-                                <select name="orderPrice" id="order2" class="form-select border rounded-pill me-2">
-                                    <option value="">Order of Price</option>
+                                <input type="text" name="RefundID" class="form-control border rounded-pill me-2 w-150 px-3 text-truncate"
+                                       style="min-width: 300px; width: 50%;"
+                                       placeholder="Search with Refund Id or Ticket Code" >
+                                <select name="orderPricet" id="order" class="form-select border rounded-pill me-2">
+                                    <option value="">Order of price</option>
                                     <option value="asc" ${param.order == 'asc' ? 'selected' : ''}>Price Ascending</option>
                                     <option value="desc" ${param.order == 'desc' ? 'selected' : ''}>Price Descending</option>
                                 </select>
-
+                                <!-- Bộ lọc trạng thái -->
+                                <select name="status" class="form-select border rounded-pill me-2">
+                                    <option value="">All Status</option>
+                                    <option value="1">Pending</option>
+                                    <option value="2">Success</option>
+                                    <option value="3">Failed</option>
+                                </select>
                                 <!-- Nút tìm kiếm -->
                                 <button type="submit" class="btn btn-outline-primary rounded-pill me-2">Search</button>
                             </form>
@@ -115,7 +107,7 @@
                     <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
                         <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
                             <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/views/admin/jsp/Dashboard.jsp">SkyTicket</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Baggages</li>
+                            <li class="breadcrumb-item active" aria-current="page">Refund</li>
                         </ul>
                     </nav>
                 </div>
@@ -126,34 +118,49 @@
                             <table class="table table-center bg-white mb-0">
                                 <thead>
                                 <tr>
-                                    <th class="border-bottom p-3">BaggageId</th>
-                                    <th class="border-bottom p-3">Airline Name</th>
-                                    <th class="border-bottom p-3">Weight</th>
-                                    <th class="border-bottom p-3">Price</th>
+                                    <th class="border-bottom p-3">Refund ID</th>
+                                    <th class="border-bottom p-3">Ticket Code</th>
+                                    <th class="border-bottom p-3">Request Date</th>
+                                    <th class="border-bottom p-3">Refund Date</th>
+                                    <th class="border-bottom p-3">Refund Price</th>
                                     <th class="border-bottom p-3">Status</th>
                                     <th class="border-bottom p-3">Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <%
-                                    for (Baggages b : baggages) {
-                                        String airlineName = "Unknown"; // Mặc định nếu không tìm thấy
-                                        for (Airlines a : airlines) {
-                                            if (b.getAirlineId() == a.getAirlineId()) {
-                                                airlineName = a.getAirlineName();
-                                                break; // Thoát vòng lặp khi tìm thấy hãng phù hợp
+                                    for (Refund r : refundList) {
+                                        String ticketCode = "Unknown";
+                                        for(Tickets t : ticketsList){
+                                            if(r.getTicketId() == t.getTicketId()){
+                                                ticketCode = t.getCode();
                                             }
                                         }
+
                                 %>
                                 <tr>
-                                    <td class="p-3"><%= b.getBaggageId() %></td>
-                                    <td class="p-3"><%= airlineName %></td>
-                                    <td class="p-3"><%= b.getWeight() %></td>
-                                    <td class="p-3"><%= b.getPrice() %></td>
-                                    <td class="p-3"><span class="badge <%= b.getStatus()== 1 ? "bg-soft-success" : "bg-soft-warning" %>"><%=b.getStatus()== 1 ? "Active" : "Deactive" %></span></td>
+                                    <td class="p-3" ><%= r.getRefundId() %></td>
+                                    <td class="p-3"><%= ticketCode %></td>
+                                    <td class="p-3"><%= r.getRequestDate()%></td>
+                                    <td class="p-3"><%= r.getRefundDate() %></td>
+                                    <td class="p-3"><%= r.getRefundPrice() %></td>
+                                    <td class="p-3">
+                                        <span class="badge
+                                            <%= r.getStatus() == 1 ? "bg-soft-warning text-warning" :
+                                                r.getStatus() == 2 ? "bg-soft-success text-success" :
+                                                "bg-soft-danger text-danger" %>">
+                                            <%= r.getStatus() == 1 ? "Refund Pending" :
+                                                    r.getStatus() == 2 ? "Refund Success" :
+                                                            "Failed" %>
+                                        </span>
+                                    </td>
+
+
                                     <td class=" p-2">
-                                        <a href="${pageContext.request.contextPath}/updateBaggage?id=<%= b.getBaggageId() %>" class="btn btn-icon btn-pills btn-soft-success"><i class="uil uil-pen"></i></a>
-                                        <a href="javascript:void(0);" class="btn btn-icon btn-pills btn-soft-danger" onclick="confirmDelete(<%= b.getBaggageId() %>)">
+                                        <a href="${pageContext.request.contextPath}/listRefund?action=details&id=<%=r.getRefundId()%>" class="btn btn-icon btn-sm btn-soft-primary"><i
+                                                class="uil uil-eye"></i></a>
+                                        <a href="#" class="btn btn-icon btn-pills btn-soft-success"><i class="uil uil-pen"></i></a>
+                                        <a href="#" class="btn btn-icon btn-pills btn-soft-danger">
                                             <i class="uil uil-trash"></i>
                                         </a>
                                     </td>
@@ -173,13 +180,13 @@
             <div class="pagination">
                 <!-- Nút First -->
                 <% if (currentPage > 1) { %>
-                <a href="<%= request.getContextPath() %>/baggagesSearch?page=1&BaggageID=<%= request.getAttribute("baggageId") != null ? request.getAttribute("baggageId") : "" %>&AirlineName=<%= request.getAttribute("airlinesName") != null ? request.getAttribute("airlinesName") : "" %>&orderWeight=<%= request.getAttribute("orderWeight") != null ? request.getAttribute("orderWeight") : "" %>&orderPrice=<%= request.getAttribute("orderPrice") != null ? request.getAttribute("orderPrice") : "" %>"
+                <a href="<%= request.getContextPath() %>/refundSearch?RefundID=<%= request.getAttribute("refundIdOrTicketCode") != null ? request.getAttribute("refundIdOrTicketCode") : "" %>&orderPricet=<%= request.getAttribute("orderPricet") != null ? request.getAttribute("orderPricet") : "" %>&status=<%= request.getAttribute("status") != null ? request.getAttribute("status") : "" %>&page=1"
                    class="btn btn-outline-primary">First</a>
                 <% } %>
 
                 <!-- Nút Previous -->
                 <% if (currentPage > 1) { %>
-                <a href="<%= request.getContextPath() %>/baggagesSearch?page=<%= currentPage - 1 %>&BaggageID=<%= request.getAttribute("baggageId") != null ? request.getAttribute("baggageId") : "" %>&AirlineName=<%= request.getAttribute("airlinesName") != null ? request.getAttribute("airlinesName") : "" %>&orderWeight=<%= request.getAttribute("orderWeight") != null ? request.getAttribute("orderWeight") : "" %>&orderPrice=<%= request.getAttribute("orderPrice") != null ? request.getAttribute("orderPrice") : "" %>"
+                <a href="<%= request.getContextPath() %>/refundSearch?RefundID=<%= request.getAttribute("refundIdOrTicketCode") != null ? request.getAttribute("refundIdOrTicketCode") : "" %>&orderPricet=<%= request.getAttribute("orderPricet") != null ? request.getAttribute("orderPricet") : "" %>&status=<%= request.getAttribute("status") != null ? request.getAttribute("status") : "" %>&page=<%= currentPage - 1 %>"
                    class="btn btn-outline-primary">Previous</a>
                 <% } %>
 
@@ -188,13 +195,13 @@
 
                 <!-- Nút Next -->
                 <% if (currentPage < totalPages) { %>
-                <a href="<%= request.getContextPath() %>/baggagesSearch?page=<%= currentPage + 1 %>&BaggageID=<%= request.getAttribute("baggageId") != null ? request.getAttribute("baggageId") : "" %>&AirlineName=<%= request.getAttribute("airlinesName") != null ? request.getAttribute("airlinesName") : "" %>&orderWeight=<%= request.getAttribute("orderWeight") != null ? request.getAttribute("orderWeight") : "" %>&orderPrice=<%= request.getAttribute("orderPrice") != null ? request.getAttribute("orderPrice") : "" %>"
+                <a href="<%= request.getContextPath() %>/refundSearch?RefundID=<%= request.getAttribute("refundIdOrTicketCode") != null ? request.getAttribute("refundIdOrTicketCode") : "" %>&orderPricet=<%= request.getAttribute("orderPricet") != null ? request.getAttribute("orderPricet") : "" %>&status=<%= request.getAttribute("status") != null ? request.getAttribute("status") : "" %>&page=<%= currentPage + 1 %>"
                    class="btn btn-outline-primary">Next</a>
                 <% } %>
 
                 <!-- Nút Last -->
                 <% if (currentPage < totalPages) { %>
-                <a href="<%= request.getContextPath() %>/baggagesSearch?page=<%= totalPages %>&BaggageID=<%= request.getAttribute("baggageId") != null ? request.getAttribute("baggageId") : "" %>&AirlineName=<%= request.getAttribute("airlinesName") != null ? request.getAttribute("airlinesName") : "" %>&orderWeight=<%= request.getAttribute("orderWeight") != null ? request.getAttribute("orderWeight") : "" %>&orderPrice=<%= request.getAttribute("orderPrice") != null ? request.getAttribute("orderPrice") : "" %>"
+                <a href="<%= request.getContextPath() %>/refundSearch?RefundID=<%= request.getAttribute("refundIdOrTicketCode") != null ? request.getAttribute("refundIdOrTicketCode") : "" %>&orderPricet=<%= request.getAttribute("orderPricet") != null ? request.getAttribute("orderPricet") : "" %>&status=<%= request.getAttribute("status") != null ? request.getAttribute("status") : "" %>&page=<%= totalPages %>"
                    class="btn btn-outline-primary">Last</a>
                 <% } %>
             </div>

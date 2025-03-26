@@ -1,6 +1,14 @@
-<%@ page import="model.Locations" %>
-<%@ page import="model.Airports" %>
+<%@ page import="model.Airlines" %>
+<%@ page import="java.util.List" %>
+<%@ page import="dal.AirlinesDAO" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%--
+  Created by IntelliJ IDEA.
+  User: Administrator
+  Date: 2/10/2025
+  Time: 1:03 AM
+  To change this template use File | Settings | File Templates.
+--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 
@@ -9,7 +17,7 @@
 
 <head>
     <meta charset="utf-8"/>
-    <title>SkyTicket - Airlines management</title>
+    <title>SkyTicket - Baggage management</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Premium Bootstrap 4 Landing Page Template"/>
     <meta name="keywords" content="Appointment, Booking, System, Dashboard, Health"/>
@@ -29,10 +37,11 @@
     <link href="${pageContext.request.contextPath}/views/admin/assets/css/materialdesignicons.min.css" rel="stylesheet" type="text/css"/>
     <link href="${pageContext.request.contextPath}/views/admin/assets/css/remixicon.css" rel="stylesheet" type="text/css"/>
     <link href="https://unicons.iconscout.com/release/v3.0.6/css/line.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
     <!-- Css -->
     <link href="${pageContext.request.contextPath}/views/admin/assets/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt"/>
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
     <style>
         .btn-gradient {
             background: linear-gradient(45deg, #ff416c, #ff4b2b);
@@ -44,14 +53,12 @@
             background: linear-gradient(45deg, #ff4b2b, #ff416c);
             transform: scale(1.05);
         }
+
     </style>
 </head>
 
 <body>
-<%
-    Airports airport = (Airports) request.getAttribute("airport");
-    Locations locations = (Locations) request.getAttribute("location");
-%>
+
 <!-- Loader -->
 <div id="preloader">
     <div id="status">
@@ -62,7 +69,10 @@
     </div>
 </div>
 <!-- Loader -->
+    <%
+        List<Airlines> airline = (List<Airlines>) request.getAttribute("airlines");
 
+    %>
 <div class="page-wrapper doctris-theme toggled">
 
     <%@include file="right.jsp" %>
@@ -71,18 +81,16 @@
     <main class="page-content bg-light">
         <%@ include file="top.jsp" %>
 
-
-
         <div class="container-fluid">
             <div class="layout-specing">
                 <div class="d-md-flex justify-content-between">
-                    <h5 class="mb-0">Update Airline ID: <%=airport.getAirportId()%></h5>
+                    <h5 class="mb-0">Add New Baggage</h5>
 
                     <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
                         <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
                             <li class="breadcrumb-item"><a href="Dashboard.jsp">SkyTicket</a></li>
-                            <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/AirportListURL">Airport</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Update Airport</li>
+                            <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/BaggagesList">Baggages</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Add Baggage</li>
                         </ul>
                     </nav>
                 </div>
@@ -90,69 +98,71 @@
                 <div class="row">
                     <div class="col-lg-8 mt-4">
                         <div class="card border-0 p-4 rounded shadow">
+
                             <c:if test="${not empty msg}">
-                                <div style="color: green; font-weight: bold;">
+                                <div style="color: green; font-weight: bold;" class="alert alert-success" role="alert">
                                         ${msg}
                                 </div>
                             </c:if>
-                            <c:if test="${not empty errorMsg}">
-                                <div style="color: red; font-weight: bold;">
-                                        ${errorMsg}
-                                </div>
-                            </c:if>
 
-                            <form action="<%= request.getContextPath() %>/AirportUpdateURL" method="post">
-                                <input type="hidden" >
+                            <form class="mt-4" action="${pageContext.request.contextPath}/addBaggage" method="post" >
+
                                 <div class="row">
-                                    <div class="col-lg-8 mt-4">
-                                        <div class="card border-0 p-4 rounded shadow">
-                                            <div class="row align-items-center">
-                                            </div><!--end row-->
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="mb-3">
-                                                        <label class="form-label" for="airportId">AirportID</label>
-                                                        <input name="airportId" id="airportId" type="text" class="form-control"
-                                                               placeholder="AirportID" value="<%=airport.getAirportId()%>" disabled>
-                                                        <input type="hidden" name="airportId" value="<%=airport.getAirportId()%>">
-                                                    </div>
-                                                </div><!--end col-->
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="name">Baggage Id</label>
+                                            <input name="name" id="name" type="text"
+                                                   class="form-control"
+                                                   placeholder="Baggage Id" disabled>
+                                        </div>
+                                    </div><!--end col-->
 
-                                                <div class="col-md-6">
-                                                    <div class="mb-3">
-                                                        <label class="form-label" for="airportName">Airport Name</label>
-                                                        <input name="airportName" id="airportName" type="text" class="form-control"
-                                                               placeholder="Airport Name" value="<%=airport.getAirportName()%>" required>
-                                                    </div>
-                                                </div><!--end col-->
-
-                                                <div class="col-md-6">
-                                                    <div class="mb-3">
-                                                        <label class="form-label" for="locationName">Location Name</label>
-                                                        <input name="locationName" id="locationName" type="Text" class="form-control"
-                                                        placeholder="Location Name" value="<%=locations.getLocationName()%>" disabled>
-                                                        <input type="hidden" name="locationId" value="<%=airport.getLocationId()%>">
-                                                    </div>
-                                                </div><!--end col-->
-
-                                                <div class="col-md-6">
-                                                    <div class="mb-3">
-                                                        <label class="form-label" for="status">Status</label>
-                                                        <select name="status" class="form-control department-name select2input" id="hehe">
-                                                            <option value="1" <%= airport.getStatus() == 1 ? "selected" : "" %>>Active</option>
-                                                            <option value="0" <%= airport.getStatus() == 0 ? "selected" : "" %>>Deactive</option>
-                                                        </select>
-                                                    </div>
-                                                </div><!--end col-->
-                                            </div><!--end row-->
-
-                                            <div class="d-flex gap-2">
-                                                <button type="submit" name="submit" id="submit" class="btn btn-primary">Update Airport</button>
-                                                <button type="reset" class="btn btn-outline-secondary">Reset</button>
-                                            </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="Weight">Weight</label>
+                                            <input name="Weight" id="Weight"
+                                                   class="form-control"
+                                                   placeholder="Enter weight of baggage...">
                                         </div>
                                     </div>
-                                </div>
+
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="Price">Price</label>
+                                            <input name="Price"
+                                                   id="Price"
+                                                   class="form-control"
+                                                   placeholder="Enter price...">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Airline Id</label>
+                                            <select class="form-control gender-name select2input" name="airlineId">
+                                                <% if (airline != null) {
+                                                    for (Airlines a : airline) { %>
+                                                <option value="<%= a.getAirlineId() %>"><%= a.getAirlineName() %></option>
+                                                <% } } %>
+                                            </select>
+
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Status</label>
+                                            <select class="form-control gender-name select2input" name="status">
+                                                <option value="1">Active</option>
+                                                <option value="0" selected>Deactive</option>
+                                            </select>
+                                        </div>
+                                    </div><!--end col-->
+                                </div><!--end row-->
+
+                                <button type="submit" class="btn btn-primary">Add baggage</button>
+                                <button type="reset" class="btn btn-primary">Reset</button>
                             </form>
                         </div>
                     </div><!--end col-->
@@ -166,11 +176,9 @@
 
                             <ul class="list-unstyled mb-0 p-4" data-simplebar style="height: 664px;">
                                 <div>
-                                    Airline name must be ...
+                                    Baggage weight must be ...
                                     <hr>
-                                    Capacity of class VIP must be...
-                                    <hr>
-                                    Capacity of class economy must be...
+                                    Price of weight must be...
                                 </div>
 
                                 <li class="mt-4 text-center">
@@ -184,7 +192,6 @@
                 </div><!--end row-->
             </div>
         </div><!--end container-->
-
         <%@include file="bottom.jsp" %>
     </main>
     <!--End page-content" -->
@@ -204,7 +211,14 @@
 <script src="${pageContext.request.contextPath}/views/admin/assets/js/feather.min.js"></script>
 <!-- Main Js -->
 <script src="${pageContext.request.contextPath}/views/admin/assets/js/app.js"></script>
-
+<script>
+    setTimeout(function() {
+        let alertBox = document.querySelector(".alert");
+        if (alertBox) {
+            alertBox.style.display = "none";
+        }
+    }, 5000);
+</script>
 <script>
     document.getElementById('airlineImage').addEventListener('change', function (event) {
         let reader = new FileReader();

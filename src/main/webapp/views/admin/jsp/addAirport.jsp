@@ -70,7 +70,7 @@
                         <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
                             <li class="breadcrumb-item"><a href="Dashboard.jsp">Home</a></li>
                             <li class="breadcrumb-item"><a
-                                    href="<%= request.getContextPath() %>/AirportURL">Airports</a></li>
+                                    href="${pageContext.request.contextPath}/AirportListURL">Airports</a></li>
                             <li class="breadcrumb-item active" aria-current="page">Add Airport</li>
                         </ul>
                     </nav>

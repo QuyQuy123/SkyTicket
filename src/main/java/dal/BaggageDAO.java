@@ -17,27 +17,41 @@ public class BaggageDAO extends DBConnect {
         Statement stmt = connection.createStatement();
         ResultSet rs = stmt.executeQuery(sql);
         while (rs.next()) {
-            baggages.add(new Baggages(rs.getInt("BaggageId"), rs.getFloat("Weight"), rs.getDouble("Price")));
+            baggages.add(new Baggages(rs.getInt("BaggageId"), rs.getFloat("Weight"), rs.getDouble("Price"),rs.getInt("AirlineId"),
+                    rs.getInt("Status")));
         }
         return baggages;
     }
 
-    public void addBaggage(Baggages baggage) throws SQLException {
-        String sql = "INSERT INTO Baggages (Weight, Price) VALUES (?, ?)";
-        PreparedStatement stmt = connection.prepareStatement(sql);
-        stmt.setFloat(1, baggage.getWeight());
-        stmt.setDouble(2, baggage.getPrice());
-        stmt.executeUpdate();
+    public int addBaggage(Baggages baggage) {
+        int n = 0;
+        String sql = "INSERT INTO Baggages (Weight, Price, AirlineId, Status) VALUES (?, ?, ?, ?)";
+        try {
+            PreparedStatement pre = connection.prepareStatement(sql);
+            pre.setFloat(1, baggage.getWeight());
+            pre.setDouble(2, baggage.getPrice());
+            pre.setInt(3, baggage.getAirlineId());
+            pre.setInt(4, baggage.getStatus());
+            n = pre.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return n;
     }
 
-    public void updateBaggage(Baggages baggage) throws SQLException {
-        String sql = "UPDATE Baggages SET Weight = ?, Price = ? WHERE BaggageId = ?";
-        PreparedStatement stmt = connection.prepareStatement(sql);
-        stmt.setFloat(1, baggage.getWeight());
-        stmt.setDouble(2, baggage.getPrice());
-        stmt.setInt(3, baggage.getBaggageId());
-        stmt.executeUpdate();
+
+    public int updateBaggage(Baggages baggage) throws SQLException {
+        String sql = "UPDATE Baggages SET Weight = ?, Price = ?, AirlineId = ?, Status = ? WHERE BaggageId = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setFloat(1, baggage.getWeight());
+            stmt.setDouble(2, baggage.getPrice());
+            stmt.setInt(3, baggage.getAirlineId());
+            stmt.setInt(4, baggage.getStatus());
+            stmt.setInt(5, baggage.getBaggageId());
+            return stmt.executeUpdate(); // Trả về số dòng bị ảnh hưởng
+        }
     }
+
 
     public void deleteBaggage(int id) throws SQLException {
         String sql = "DELETE FROM Baggages WHERE BaggageId = ?";
@@ -57,7 +71,13 @@ public class BaggageDAO extends DBConnect {
         Statement stmt = connection.createStatement();
         ResultSet rs = stmt.executeQuery(sql);
         while (rs.next()) {
-            baggages.add(new Baggages(rs.getInt("BaggageId"), rs.getFloat("Weight"), rs.getDouble("Price")));
+            baggages.add(new Baggages(
+                    rs.getInt("BaggageId"),
+                    rs.getFloat("Weight"),
+                    rs.getDouble("Price"),
+                    rs.getInt("AirlineId"),
+                    rs.getInt("Status")
+            ));
         }
         return baggages;
     }
@@ -88,7 +108,9 @@ public class BaggageDAO extends DBConnect {
                 baggages.add(new Baggages(
                         rs.getInt("BaggageId"),
                         rs.getFloat("Weight"),
-                        rs.getDouble("Price")
+                        rs.getDouble("Price"),
+                        rs.getInt("AirlineId"),
+                        rs.getInt("Status")
                 ));
             }
         } catch (SQLException e) {
@@ -131,7 +153,9 @@ public class BaggageDAO extends DBConnect {
                 baggages.add(new Baggages(
                         rs.getInt("BaggageId"),
                         rs.getFloat("Weight"),
-                        rs.getDouble("Price")
+                        rs.getDouble("Price"),
+                        rs.getInt("AirlineId"),
+                        rs.getInt("Status")
                 ));
             }
         } catch (SQLException e) {
@@ -166,6 +190,65 @@ public class BaggageDAO extends DBConnect {
 
         return baggages;
     }
+    public List<Baggages> searchBaggages(String baggageId, String airlineName, String orderWeight, String orderPrice, int currentPage, int recordsPerPage) {
+        List<Baggages> baggages = new ArrayList<>();
+        String sql = "SELECT b.* FROM Baggages b JOIN Airlines a ON b.AirlineId = a.AirlineId WHERE 1=1";
+
+        // Điều kiện lọc
+        if (baggageId != null && !baggageId.trim().isEmpty()) {
+            sql += " AND b.BaggageId = ?"; // Sửa lại thành tìm chính xác thay vì LIKE
+        }
+        if (airlineName != null && !airlineName.trim().isEmpty()) {
+            sql += " AND a.AirlineName LIKE ?";
+        }
+
+        // Sắp xếp
+        if (orderWeight != null && !orderWeight.isEmpty()) {
+            sql += " ORDER BY b.Weight " + (orderWeight.equals("asc") ? "ASC" : "DESC");
+        } else if (orderPrice != null && !orderPrice.isEmpty()) {
+            sql += " ORDER BY b.Price " + (orderPrice.equals("asc") ? "ASC" : "DESC");
+        } else {
+            // Mặc định sắp xếp theo BaggageId tăng dần nếu không có tiêu chí sắp xếp nào
+            sql += " ORDER BY b.BaggageId ASC";
+        }
+
+        // Thêm phân trang
+        sql += " LIMIT ? OFFSET ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            int index = 1;
+            if (baggageId != null && !baggageId.trim().isEmpty()) {
+                try {
+                    ps.setInt(index++, Integer.parseInt(baggageId)); // Tìm chính xác BaggageId
+                } catch (NumberFormatException e) {
+                    // Nếu baggageId không phải số hợp lệ, có thể bỏ qua hoặc xử lý khác
+                    return baggages; // Trả về danh sách rỗng nếu lỗi
+                }
+            }
+            if (airlineName != null && !airlineName.trim().isEmpty()) {
+                ps.setString(index++, "%" + airlineName + "%");
+            }
+
+            // Set giá trị cho LIMIT và OFFSET
+            ps.setInt(index++, recordsPerPage);
+            ps.setInt(index++, (currentPage - 1) * recordsPerPage);
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                baggages.add(new Baggages(
+                        rs.getInt("BaggageId"),
+                        rs.getFloat("Weight"),
+                        rs.getDouble("Price"),
+                        rs.getInt("AirlineId"),
+                        rs.getInt("Status")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return baggages;
+    }
+
     public int getPriceBaggagesById(int id) {
         List<Baggages> list = new ArrayList<>();
         String sql = "select price from Baggages \n"
@@ -182,31 +265,76 @@ public class BaggageDAO extends DBConnect {
         return 0;
     }
 
-    public Baggages getBaggageById(int baggageId) {
-        Baggages baggage = null;
-        String query = "SELECT * FROM Baggages WHERE BaggageId = ?";
+        public List<Baggages> getSortedBaggage(String sortBy, String order, int offset, int limit) {
+        List<Baggages> baggages = new ArrayList<>();
+        String query = "SELECT * FROM baggage ORDER BY " + (sortBy != null ? sortBy : "weight") + " "
+                + ("desc".equals(order) ? "DESC" : "ASC") + " LIMIT ? OFFSET ?";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, limit);
+            stmt.setInt(2, offset);
+            ResultSet rs = stmt.executeQuery();
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setInt(1, baggageId);
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                if (resultSet.next()) {
-                    int id = resultSet.getInt("BaggageId");
-                    float weight = resultSet.getFloat("Weight");
-                    double price = resultSet.getDouble("Price");
-                    int airlineId = resultSet.getInt("AirlineId");
-                    int status = resultSet.getInt("Status");
-                    baggage = new Baggages(id, weight, price, airlineId, status);
-                }
+            while (rs.next()) {
+                baggages.add(new Baggages(
+                        rs.getInt("baggageId"),
+                        rs.getFloat("weight"),
+                        rs.getDouble("price"),
+                        rs.getInt("airlineId"),
+                        rs.getInt("status")
+                ));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return baggages;
+    }
+    public int getTotalRecordsFiltered(String baggageId, String airlineName) {
+        String sql = "SELECT COUNT(*) FROM Baggages b JOIN Airlines a ON b.AirlineId = a.AirlineId WHERE 1=1";
+        if (baggageId != null && !baggageId.trim().isEmpty()) {
+            sql += " AND b.BaggageId = ?";
+        }
+        if (airlineName != null && !airlineName.trim().isEmpty()) {
+            sql += " AND a.AirlineName LIKE ?";
+        }
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            int index = 1;
+            if (baggageId != null && !baggageId.trim().isEmpty()) {
+                ps.setInt(index++, Integer.parseInt(baggageId));
+            }
+            if (airlineName != null && !airlineName.trim().isEmpty()) {
+                ps.setString(index++, "%" + airlineName + "%");
+            }
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-        return baggage;
+        return 0;
     }
 
-
-
+    public Baggages getBaggageById(int baggageId) {
+        Baggages baggage = null;
+        String sql = "SELECT * FROM Baggages WHERE BaggageId = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, baggageId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                baggage = new Baggages(
+                        rs.getInt("BaggageId"),
+                        rs.getFloat("Weight"),
+                        rs.getDouble("Price"),
+                        rs.getInt("AirlineId"),
+                        rs.getInt("Status")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return baggage;
+    }
 
     // Hàm main để test các chức năng
     public static void main(String[] args) {
@@ -218,5 +346,10 @@ public class BaggageDAO extends DBConnect {
 
     }
 
+//        List<Baggages> baggages = baggageDAO.getAllBaggagesByAirline(3);
+//        for (Baggages baggage : baggages) {
+//            System.out.println(baggage);
+//        }
 
-}
+    }
+
