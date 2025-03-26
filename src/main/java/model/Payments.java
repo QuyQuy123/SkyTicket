@@ -42,6 +42,7 @@ public class Payments {
         this.TotalPrice = totalPrice;
     }
 
+
     public int getPaymentID() {
         return paymentID;
     }
@@ -82,20 +83,20 @@ public class Payments {
         PaymentDate = paymentDate;
     }
 
-    public double getTotalPrice() {
-        return TotalPrice;
-    }
-
-    public void setTotalPrice(double totalPrice) {
-        TotalPrice = totalPrice;
-    }
-
     public String getEmail() {
         return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public double getTotalPrice() {
+        return TotalPrice;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        TotalPrice = totalPrice;
     }
 
     @Override

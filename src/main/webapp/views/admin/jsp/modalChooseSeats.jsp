@@ -323,7 +323,6 @@
         </div>
 </div><!--end container-->
 
-<%@include file="bottom.jsp" %>
 </main>
 <!--End page-content" -->
 </div>
@@ -343,16 +342,5 @@
 <!-- Main Js -->
 <script src="${pageContext.request.contextPath}/views/admin/assets/js/app.js"></script>
 
-<script>
-    function confirmChangeStatus(seatId, seatNumber, seatClass) {
-        debugger;
-        let confirmMsg = "Bạn có muốn chuyển trạng thái ghế " + seatClass + " " + seatNumber + " không?";
-        console.log(seatId);
-        if (confirm(confirmMsg)) {
-            document.getElementById("seatId").value = seatId; // Đưa seatId vào form
-            document.getElementById("seatForm").submit(); // Gửi form bằng POST
-        }
-    }
-</script>
 </body>
 </html>

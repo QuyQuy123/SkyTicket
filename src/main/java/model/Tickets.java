@@ -1,8 +1,9 @@
 package model;
 
 import java.sql.Timestamp;
+import java.time.Duration;
 
-public class Tickets{
+public class Tickets {
 
     private int ticketId;
     private int seatId;
@@ -53,6 +54,9 @@ public class Tickets{
     }
 
     public Tickets() {
+    }
+
+    public Tickets(int ticketId, int seatId, int passengerId, String code, int status, Timestamp createAt, int bookingId, int flightId, int baggageId, float price) {
     }
 
     public float getPrice() {
@@ -128,11 +132,6 @@ public class Tickets{
     }
 
 
-
-
-
-
-
     public int getStatus() {
         return status;
     }
@@ -165,4 +164,6 @@ public class Tickets{
                 ", CancelledAt=" + CancelledAt +
                 '}';
     }
+
+
 }

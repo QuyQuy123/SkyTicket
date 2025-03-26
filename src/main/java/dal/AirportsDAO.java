@@ -129,7 +129,7 @@ public class AirportsDAO extends DBConnect {
             n = state.executeUpdate(sql);
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        }
+       }
         return n;
     }
     public int addAirport(Airports ap) {

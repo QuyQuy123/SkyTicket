@@ -62,7 +62,7 @@ public class TicketsDAO extends DBConnect{
     }
 
     public int createTicket(String code, int flightId, int seatId, int passengerId,
-                            int bookingId, int baggageId, float price) {
+                            int bookingId, Integer baggageId, float price) {
         int n = 0;
         int ticketId = -1;
         String sql = "INSERT INTO Tickets (Code, FlightId, SeatId, PassengerId, Status, CreateAt, "
@@ -76,12 +76,13 @@ public class TicketsDAO extends DBConnect{
             ps.setInt(4, 1);
             ps.setTimestamp(5, new Timestamp(System.currentTimeMillis()));
             ps.setInt(6, bookingId);
-            ps.setInt(7, baggageId);
+            if (baggageId == null) {
+                ps.setNull(7, java.sql.Types.INTEGER);
+            } else {
+                ps.setInt(7, baggageId);
+            }
             ps.setFloat(8, price);
-
             n = ps.executeUpdate();
-
-            // Retrieve the generated TicketId
             try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
                     ticketId = generatedKeys.getInt(1);
@@ -91,7 +92,6 @@ public class TicketsDAO extends DBConnect{
                 }
             }
 
-            // Update the ticket code with airline name, flightId, and ticketId
             FlightsDAO fDAO = new FlightsDAO();
             AirlinesDAO aDAO = new AirlinesDAO();
             int aid = fDAO.getAirlineIdByFlightId(flightId);
@@ -144,18 +144,91 @@ public class TicketsDAO extends DBConnect{
         return tickets;
     }
 
+    public List<Tickets> getAllTicketSuccessfulPaymentByBookingId(int bookingId) {
+        List<Tickets> ls = new ArrayList<>();
+        String sql ="select * FROM Tickets where bookingId =? and status = 1";
 
+        try {
+            PreparedStatement pre = connection.prepareStatement(sql);
+            pre.setInt(1, bookingId);
+            ResultSet rs = pre.executeQuery();
 
+            while (rs.next()) {
+                Tickets t = new Tickets(
+                        rs.getInt("TicketId"),
+                        rs.getInt("SeatId"),
+                        rs.getInt("PassengerId"),
+                        rs.getString("Code"),
+                        rs.getInt("Status"),
+                        rs.getTimestamp("CreateAt"),
+                        rs.getInt("BookingId"),
+                        rs.getInt("FlightId"),
+                        rs.getInt("BaggageId"),
+                        rs.getFloat("Price"),
+                        rs.getTimestamp("cancelledAt")
+                );
+                ls.add(t);
+            }
+            return ls;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
 
+    public void confirmSuccessAllTicketsByBookingId(int bookid) {
 
+        String sql = "UPDATE Tickets SET Status = 2 where bookingId =? and Status = 1";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, bookid);
+            ps.executeUpdate();
 
-    public static void main(String[] args) {
-        TicketsDAO dao = new TicketsDAO();
-        List<Tickets> t = dao.getAllTicketsByBookingId(3);
-        System.out.println(t);
-
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
+    public List<Tickets> getAllTickets() {
+        List<Tickets> tickets = new ArrayList<>();
+        String query = "SELECT * FROM Tickets";
+
+        try (PreparedStatement stmt = connection.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                Tickets ticket = new Tickets(
+                        rs.getInt("TicketId"),
+                        rs.getInt("SeatId"),
+                        rs.getInt("PassengerId"),
+                        rs.getString("Code"),
+                        rs.getInt("Status"),
+                        rs.getTimestamp("CreateAt"),
+                        rs.getInt("BookingId"),
+                        rs.getInt("FlightId"),
+                        rs.getInt("BaggageId"),
+                        rs.getFloat("Price"),
+                        rs.getTimestamp("cancelledAt")
+                );
+                tickets.add(ticket);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return tickets;
+    }
+
+    public static void main(String[] args) {
+        TicketsDAO tDAO = new TicketsDAO();
+        List<Tickets> tickets = tDAO.getAllTickets();
+        for (Tickets ticket : tickets) {
+            System.out.println(ticket);
+        }
+    }
+
+
+
 
 
 

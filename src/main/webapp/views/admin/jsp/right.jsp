@@ -131,21 +131,11 @@
             </li>
 
             <li class="sidebar-dropdown">
-                <a href="javascript:void(0)"><i class="uil uil-flip-h me-2 d-inline-block"></i>Seats</a>
-                <div class="sidebar-submenu">
-                    <ul>
-                        <li><a href="<%= request.getContextPath() %>/listSeats">Lists of Seats</a></li>
-                        <li><a href="<%= request.getContextPath() %>/addSeats">Add Seat</a></li>
-                    </ul>
-                </div>
-            </li>
-
-            <li class="sidebar-dropdown">
                 <a href="javascript:void(0)"><i class="uil uil-file me-2 d-inline-block"></i>Baggages</a>
                 <div class="sidebar-submenu">
                     <ul>
                         <li><a href="<%= request.getContextPath() %>/BaggagesList">List of Baggages</a></li>
-                        <li><a href="review.html">Add Baggage</a></li>
+                        <li><a href="<%= request.getContextPath() %>/addBaggage">Add Baggage</a></li>
                     </ul>
                 </div>
             </li>
@@ -179,18 +169,37 @@
 
             <li class="sidebar-dropdown">
                 <a href="javascript:void(0)"><i
-                        class="uil uil-sign-in-alt me-2 d-inline-block"></i>Updating</a>
+                        class="uil uil-sign-in-alt me-2 d-inline-block"></i>Roles</a>
                 <div class="sidebar-submenu">
                     <ul>
-                        <li><a href="login.html">Login</a></li>
-                        <li><a href="signup.html">Signup</a></li>
-                        <li><a href="forgot-password.html">Forgot Password</a></li>
-                        <li><a href="lock-screen.html">Lock Screen</a></li>
-                        <li><a href="thankyou.html">Thank you...!</a></li>
+                        <li><a href="<%= request.getContextPath() %>/listRoles">List of Roles</a></li>
+                        <li><a href="<%= request.getContextPath() %>/addRole">Add Roles</a></li>
                     </ul>
                 </div>
             </li>
 
+
+            <li class="sidebar-dropdown">
+                <a href="javascript:void(0)"><i
+                        class="uil uil-sign-in-alt me-2 d-inline-block"></i>Discount</a>
+                <div class="sidebar-submenu">
+                    <ul>
+                        <li><a href="<%= request.getContextPath() %>/listDiscounts">List of Discount</a></li>
+                        <li><a href="<%= request.getContextPath() %>/addDiscounts">Add Discount</a></li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="sidebar-dropdown">
+                <a href="javascript:void(0)"><i
+                        class="uil uil-sign-in-alt me-2 d-inline-block"></i>Refunds</a>
+                <div class="sidebar-submenu">
+                    <ul>
+                        <li><a href="<%= request.getContextPath() %>/listRefund?action=list">List of Refund</a></li>
+                        <li><a href="<%= request.getContextPath() %>/addDiscounts"></a></li>
+                    </ul>
+                </div>
+            </li>
             <li><a href="components.html"><i class="uil uil-cube me-2 d-inline-block"></i>Updating</a></li>
 
             <li><a href="../landing/index-two.html" target="_blank"><i

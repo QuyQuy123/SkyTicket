@@ -159,7 +159,7 @@
         }
 
         footer {
-            flex-shrink: 0; /* Đảm bảo footer không bị co lại */
+            flex-shrink: 0;
             width: 100%;
         }
     </style>

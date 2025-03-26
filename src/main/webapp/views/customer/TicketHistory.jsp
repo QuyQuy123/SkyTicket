@@ -1,19 +1,16 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="model.Bookings" %>
 <%@ page import="sun.security.krb5.internal.Ticket" %>
-<%@ page import="model.Tickets" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.time.LocalTime" %>
 <%@ page import="java.time.LocalDate" %>
 <%@ page import="java.time.LocalDateTime" %>
-<%@ page import="model.Flights" %>
 <%@ page import="dal.*" %>
 <%@ page import="java.time.format.DateTimeFormatter" %>
 <%@ page import="java.sql.Timestamp" %>
-<%@ page import="model.Baggages" %>
 <%@ page import="java.text.NumberFormat" %>
-<%@ page import="java.util.Locale" %><%--
+<%@ page import="java.util.Locale" %>
+<%@ page import="model.*" %><%--
   Created by IntelliJ IDEA.
   User: 84968
   Date: 3/20/2025
@@ -341,7 +338,6 @@
 <div class="container mt-5 order-container" style="transform: translateY(45px); margin-bottom: 50px">
     <%
         List<Bookings> listBooking = (List<Bookings>) request.getAttribute("listBooking");
-//        System.out.println("list: "+listBooking);
         NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
         TicketsDAO td = new TicketsDAO();
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm dd-MM-yyyy");
@@ -352,6 +348,7 @@
         AirportsDAO apd = new AirportsDAO();
         BaggageDAO bd = new BaggageDAO();
         BookingDAO bkd = new BookingDAO();
+        PaymentsDAO pmd = new PaymentsDAO();
     %>
 
     <!-- Status Tabs Section -->
@@ -379,7 +376,7 @@
         </div>
     </div>
     <% } %>
-
+<%--buying history--%>
     <div class="buying-history">
         <% int id = 0; %>
         <% for (Bookings b : listBooking) { %>
@@ -397,7 +394,34 @@
                     </div>
                 </div>
                 <div class="order-details">
-                    <span style="margin: 10px" class="status-label <%= b.getStatus() %>"></span>
+                    <%
+                        if(b.getStatus()==1){%>
+                    <span style="margin: 10px;color: #f1c40f;font-weight: bold;padding: 5px 10px;background-color: #fef9e7;border-radius: 5px;"
+                          class="status-label <%= b.getStatus() %>">Is Pending</span>
+                    <% }%>
+                    <%
+                        if(b.getStatus()==2){%>
+                    <span style="margin: 10px;color: #00b894;font-weight: bold;padding: 5px 10px;background-color: #e6fff9;border-radius: 5px;"
+                          class="status-label <%= b.getStatus() %>">Successful Payment</span>
+                    <% }%>
+                    <%
+                        if(b.getStatus()==3){%>
+                    <span style="margin: 10px;color: red;font-weight: bold;padding: 5px 10px;background-color: #e6fff9;border-radius: 5px;"
+                          class="status-label <%= b.getStatus() %>">Is Cancelled</span>
+                    <% }%>
+                    <%
+                    if(b.getStatus()==4){%>
+                    <span style="margin: 10px;color: #f1c40f;font-weight: bold;padding: 5px 10px;background-color: #e6fff9;border-radius: 5px;"
+                          class="status-label <%= b.getStatus() %>">Refund Pending</span>
+                    <% }%>
+                    <%
+                    if(b.getStatus()==5){%>
+                    <span style="margin: 10px;color: #00b894;font-weight: bold;padding: 5px 10px;background-color: #e6fff9;border-radius: 5px;"
+                          class="status-label <%= b.getStatus() %>">Refund Complete</span>
+                    <% }%>
+
+
+
                 </div>
             </div>
 
@@ -466,52 +490,73 @@
                     <div><strong style="font-size: 16px"><%= currencyFormatter.format(t.getPrice()) %></strong></div>
                     <%
                         LocalDateTime depDateTime = LocalDateTime.of(depDate != null ? depDate : LocalDate.now(), depTime != null ? depTime : LocalTime.now());
+                         currentDateTime = LocalDateTime.now();
                     %>
-                    <% if ((t.getStatus() == 1 || t.getStatus() == 2) && currentDateTime.isBefore(depDateTime)) { %>
-                    <button class="btn btn-danger" style="text-decoration: none; margin-top: 5px;" onclick="openModalTicket(<%= t.getTicketId() %>, <%= b.getBookingID() %>)">Cancel ticket</button>
+                    <%
+                        if ((b.getStatus() == 1 || b.getStatus() == 2) && (t.getStatus() == 1 ||t.getStatus()==2) && currentDateTime.isBefore(depDateTime)) {
+                    %>
+                    <button class="btn btn-danger" style="text-decoration: none; margin-top: 5px;" onclick="openModalTicket(<%= t.getTicketId() %>, <%= b.getBookingID() %>)">Cancel Ticket</button>
                     <% } %>
                     <%
-                        if ((b.getStatus() == 1 || b.getStatus() == 2) && t.getStatus() == 1 && b.getBookingDate() != null && t.getCancelledAt() != null
-                                && b.getBookingDate().compareTo(t.getCancelledAt()) < 0) {
+                        if (t.getStatus() == 3) {
                     %>
-                    <button class="btn btn-warning" style="text-decoration: none; margin-top: 5px;" onclick="openModalRequestRefund(<%= t.getTicketId() %>, <%= b.getBookingID() %>)">Request refund</button>
+                    <button class="btn btn-danger" style="text-decoration: none; margin-top: 5px;" disabled>Is Cancelled</button>
+                    <% } %>
+                    <%
+                        if (t.getStatus() == 4) {
+                    %>
+                    <button class="btn btn-warning" style="text-decoration: none; margin-top: 5px;" disabled>Refund Pending</button>
+                    <% } %>
+                    <%
+                        if (t.getStatus() == 5) {
+                    %>
+                    <span style="margin: 10px; color: #00b894; font-weight: bold; padding: 5px 10px; background-color: #e6fff9; border-radius: 5px;" class="status-label">Refund Complete</span>
+                    <% } %>
+                    <%
+                        if (t.getStatus() == 3 ) {
+                    %>
+                    <button class="btn btn-warning" style="text-decoration: none; margin-top: 5px;" onclick="openModalRequestRefund(<%= t.getTicketId() %>, <%= b.getBookingID() %>)">Request Refund</button>
                     <% } %>
                 </div>
             </div>
             <% count++; %>
             <% } %>
-
             <%
                 LocalDateTime depDateTime = LocalDateTime.of(depDate != null ? depDate : LocalDate.now(), depTime != null ? depTime : LocalTime.now());
             %>
             <div class="list-price" style="text-align: right; padding: 15px 0">
                 <div>Order Tickets: <%= currencyFormatter.format(bkd.getTotalPriceAllTickets(b.getBookingID())) %></div>
-                <div>Cancel Tickets: <%= currencyFormatter.format(0) %></div>
-                <div>Is Paid: <%= currencyFormatter.format(b.getTotalPrice()) %></div>
+                <div>Cancel Tickets: <%= currencyFormatter.format(bkd.getTotalPriceCancelledTicket(b.getBookingID())) %></div>
+                <div>Is Paid: 0 đ</div>
                 <div class="order-discount">Discount: 0 đ</div>
-                <% double totals = bkd.getTotalPriceAllTickets(b.getBookingID()); %>
+                <% double totals = bkd.getTotalPriceAllTickets(b.getBookingID())-bkd.getTotalPriceCancelledTicket(b.getBookingID()); %>
                 <div class="order-total"><strong style="font-size: 1.2em;">Total: <%= currencyFormatter.format(totals) %></strong></div>
             </div>
 
             <div class="order-total-section" style="font-size: 1.2em;">
                 <div class="order-actions" style="margin-top: 10px; text-align: right">
-                    <% if (b.getStatus() == 1) { %>
+                    <%
+                        Payments payment = pmd.getPaymentByBookingId(b.getBookingID());
+                        if (payment == null || payment.getPaymentStatus() == null) {
+                    %>
                     <button type="submit" class="btn btn-success" id="togglePaymentBtn<%= b.getBookingID() %>" onclick="paymentMedthodDisplay(<%= b.getBookingID() %>)">PAY NOW</button>
-                    <% } %>
-                    <% if (currentDateTime.isBefore(depDateTime)) { %>
+                    <%
+                        }
+                    %>
+                    <% if (currentDateTime.isBefore(depDateTime) && b.getStatus()!=3 && b.getStatus()!=4 && b.getStatus()!=5) { %>
                     <button class="btn btn-danger" style="text-decoration: none;" onclick="openModalOrder(<%= b.getBookingID() %>)">Cancel Order</button>
                     <% } %>
                 </div>
             </div>
         </div>
 
-        <!-- Chuyển phần payment_methods vào trong điều kiện -->
+
         <div id="payment_methods<%=b.getBookingID()%>" style="display: none;">
             <h2>Payments Method</h2>
             <div class="payment-options">
                 <div class="payment-option">
                     <form action="VnpayServlet" id="frmCreateOrder" method="post">
-                        <input type="hidden" name="orderID" value="<%=b.getBookingID()%>"/>
+                        <input type="hidden" name="bookingID" value="<%=b.getBookingID()%>"/>
                         <input type="hidden" name="bankCode" value="">
                         <input type="hidden" class="form-control" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="amount" max="1000000000" min="1" name="amount" type="number" value="<%=b.getTotalPrice()%>"/>
                         <input type="hidden" name="language" checked value="vn">
@@ -525,8 +570,8 @@
                     </form>
                 </div>
                 <div class="payment-option">
-                    <form action="QRCodeController" method="post">
-                        <input type="hidden" name="orderID" value="<%=b.getBookingID()%>"/>
+                    <form action="QRCodeURL" method="post">
+                        <input type="hidden" name="bookingID" value="<%=b.getBookingID()%>"/>
                         <button type="submit" class="btn btn-default">
                             <img class="imgPayment" src="<%= request.getContextPath() %>/img/qr.png" alt="QR CODE">
                             <div class="name-pay">
@@ -539,13 +584,16 @@
             </div>
         </div>
         <% } else { %>
-        <!-- Hiển thị thông báo nếu không có ticket trong booking -->
+
         <div class="alert alert-warning">
             No tickets found for this booking (Code: <%= b.getCode() %>).
         </div>
         <% } %>
         <% } %>
     </div>
+
+
+
 
     <%String statusIdParam = request.getParameter("status");
         String code = request.getParameter("code");
@@ -583,7 +631,7 @@
     <%}%>
 </div>
 
-<!--        Cancel ticket modal-->
+
 <div id="cancelTicketModal" class="modal" role="dialog" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5);">
     <div class="modal-dialog" style="margin: 15% auto; width: 30%; position: relative;">
         <div class="modal-content" style="background-color: #fff; padding: 20px; border: 1px solid #888;">

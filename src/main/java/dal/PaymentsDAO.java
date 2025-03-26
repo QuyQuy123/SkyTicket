@@ -181,6 +181,47 @@ public class PaymentsDAO extends DBConnect {
         return 0;
     }
 
+    public boolean insertPayment(int bookingId,String paymethod,String email,double price) {
+        String sql = "INSERT INTO Payments ( BookingId, PaymentMethod, PaymentDate,email, TotalPrice) " +
+                "VALUES ( ?, ?, ?, ?, ?)";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setInt(1, bookingId);
+            pstmt.setString(2, paymethod);
+            pstmt.setTimestamp(3,  new Timestamp(System.currentTimeMillis()));
+            pstmt.setString(4, email);
+            pstmt.setDouble(5, price);
+            int rowsAffected = pstmt.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+        return false;
+    }
+
+    public Payments getPaymentByBookingId(int bookingId) {
+        String sql = "SELECT * FROM Payments WHERE BookingId = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setInt(1, bookingId);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                return new Payments(
+                        rs.getInt("PaymentId"),
+                        rs.getInt("BookingId"),
+                        rs.getString("PaymentMethod"),
+                        rs.getInt("PaymentStatus"),
+                        rs.getTimestamp("PaymentDate"),
+                        rs.getString("Email"),
+                        rs.getDouble("TotalPrice")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
     public boolean updatePaymentStatus(int id, int status) {
         String query = "UPDATE Payments SET PaymentStatus = ? WHERE paymentid = ?";
         try (PreparedStatement ps = connection.prepareStatement(query)) {
@@ -238,9 +279,8 @@ public class PaymentsDAO extends DBConnect {
         }
         return -1;
     }
-
     public static void main(String[] args) {
         PaymentsDAO dao = new PaymentsDAO();
-        System.out.println(dao.updatePaymentStatus(1, 1));
+        System.out.println(dao.getAllPayments());
     }
 }

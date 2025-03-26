@@ -2,6 +2,8 @@ package controller;
 
 import dal.AccountDAO;
 import dal.BookingDAO;
+import dal.PaymentsDAO;
+import dal.TicketsDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -16,8 +18,32 @@ import java.io.IOException;
 @WebServlet(name = "QRCodeController", urlPatterns = "/QRCodeURL")
 public class QRCodeControler extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doGet(req, resp);
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        BookingDAO bk = new BookingDAO();
+        TicketsDAO td = new TicketsDAO();
+        AccountDAO ad = new AccountDAO();
+        PaymentsDAO pd = new PaymentsDAO();
+        EmailServlet email = new EmailServlet();
+        Integer idd = (Integer) session.getAttribute("id");
+        int i = (idd != null) ? idd : -1;
+        Accounts acc = ad.getAccountsById(i);
+        request.setAttribute("account", acc);
+        int bookingId = (int) session.getAttribute("bookID");
+        try {
+            pd.insertPayment(bookingId,"QRCode",bk.getBookingById(bookingId).getContactEmail(),bk.getBookingById(bookingId).getTotalPrice());
+            td.confirmSuccessAllTicketsByBookingId(bookingId);
+            Bookings book = bk.getBookingById(bookingId);
+           email.sendPaymentSuccessfulbyEmail(book.getContactEmail(), book);
+            request.getRequestDispatcher("views/public/SuccessfullPayment.jsp").forward(request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+
+
+
     }
 
     @Override

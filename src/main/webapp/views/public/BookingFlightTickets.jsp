@@ -178,8 +178,6 @@
 <jsp:include page="/views/layout/Header.jsp"/>
 
 <%
-    SimpleDateFormat timeFmt = new SimpleDateFormat("HH:mm");
-    SimpleDateFormat dateFmt = new SimpleDateFormat("dd/MM/yyyy");
     AirlinesDAO ald = new AirlinesDAO();
     FlightsDAO fd = new FlightsDAO();
     SeatsDAO sd = new SeatsDAO();
@@ -242,26 +240,18 @@
             <%
                 int flightDetailId2 = -1;
                 Seats s2 = null;
-                int airlineId2 = -1;
-                Flights fl2 = null;
+                Flights f2 = null;
                 if(request.getParameter("flightDetailId2")!=null){
                     totalPassengers*=2;
                     flightDetailId2= Integer.parseInt(request.getParameter("flightDetailId2"));
                     s2 = sd.getSeatById(Integer.parseInt(request.getParameter("seatCategory2")));
-                    fl2 = (Flights)fd.getFlightById(flightDetailId2);
-                    Flights f2 = fd.getFlightById(fl2.getFlightId());
-                    airlineId2 = f2.getAirlineId();
-                    Airlines a2 = ald.getAirlineById(airlineId2);
+                     f2 = fd.getFlightById(flightDetailId2);
                     int departureAirportId2 = f2.getDepartureAirportId();
                     Airports dpa2 = apd.getAirportById(departureAirportId2);
                     Locations dpl2 = ld.getLocationByLId(dpa2.getLocationId());
-
-                    Countries dpc2 = cd.getCountryById(dpl2.getCountryId());
-
                     int destinationAirportId2 = f2.getArrivalAirportId();
                     Airports dsa2 = apd.getAirportById(destinationAirportId2);
                     Locations dsl2 = ld.getLocationByLId(dsa2.getLocationId());
-                    Countries dsc2 = cd.getCountryById(dsl2.getCountryId());
             %>
 
             <div class="details">
@@ -309,7 +299,16 @@
                     %>
                     <input type="hidden" name="flightDetailId2" value="<%=flightDetailId2%>"/>
                     <input type="hidden" name="seatCategoryId2" value="<%=s2.getSeatId()%>"/>
-                    <input type="hidden" name="commonPrice2" value="<%= fl2.getClassEconomyPrice() %>"/>
+                    <%
+                        double price2 = 0;
+                        if ("Business".equals(sd.getSeatById(s2.getSeatId()).getSeatClass())) {
+                            price2 = (long) f2.getClassVipPrice();
+                        } else if ("Economy".equals(sd.getSeatById(s2.getSeatId()).getSeatClass())) {
+                            price2 = f2.getClassEconomyPrice();
+                        }
+
+                    %>
+                    <input type="hidden" name="commonPrice2" value="<%= price2 %>"/>
                     <%
                         }%>
                     <div class="main-container2 passenger-info" >
@@ -538,8 +537,8 @@
                         // Lấy giá vé từ từng chuyến bay
                         double outboundVipPrice = f.getClassVipPrice();       // Giá Business lượt đi
                         double outboundEconomyPrice = f.getClassEconomyPrice(); // Giá Economy lượt đi
-                        double inboundVipPrice = (m == 2) ? fl2.getClassVipPrice() : 0;       // Giá Business lượt về (0 nếu không có)
-                        double inboundEconomyPrice = (m == 2) ? fl2.getClassEconomyPrice() : 0; // Giá Economy lượt về (0 nếu không có)
+                        double inboundVipPrice = (m == 2) ? f2.getClassVipPrice() : 0;       // Giá Business lượt về (0 nếu không có)
+                        double inboundEconomyPrice = (m == 2) ? f2.getClassEconomyPrice() : 0; // Giá Economy lượt về (0 nếu không có)
 
                         // Lấy hạng vé từng chặng
                         String outboundClass = s.getSeatClass(); // Hạng vé lượt đi
@@ -585,7 +584,7 @@
                     </div>
                     <div class="ticket-total">
                         <span>Total Price:</span>
-                        <span id="totalPrice" name="totalPrice" data-total-ticket-price="<%= totalTicketPrice %>"><%= currencyFormatter.format(totalTicketPrice) %> ₫</span>
+                        <span id="totalPrice" data-total-ticket-price="<%= totalTicketPrice %>"><%= currencyFormatter.format(totalTicketPrice) %> ₫</span>
                     </div>
                 </div>
                 <div style="width: 100%">

@@ -99,12 +99,12 @@ public class BookingDAO extends DBConnect{
         }
     }
 
-    public void updateTotalPrice(int orderId, int newTotalPrice) {
+    public void updateTotalPrice(int bookingid, float newTotalPrice) {
         String sql = "UPDATE bookings SET totalPrice = ? WHERE bookingid = ?";
         try( PreparedStatement ps = connection.prepareStatement(sql)) {
 
-            ps.setInt(1, newTotalPrice);
-            ps.setInt(2, orderId);
+            ps.setFloat(1, newTotalPrice);
+            ps.setInt(2, bookingid);
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -259,7 +259,7 @@ public class BookingDAO extends DBConnect{
 
     public double getTotalPriceAllTickets(int bookingId) {
         double totalPrice = 0.0;
-        String query = "SELECT SUM(Price) AS TotalPrice FROM Tickets WHERE BookingId = ?";
+        String query = "SELECT TotalPrice from Bookings  WHERE BookingId = ?";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, bookingId);
@@ -274,9 +274,24 @@ public class BookingDAO extends DBConnect{
 
         return totalPrice;
     }
+    public float getTotalPriceCancelledTicket(int booking) {
+        String sql = "SELECT SUM(Price) as total FROM Tickets WHERE bookingID = ? and (Status = 3 or Status = 4 or Status=5)";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, booking);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getFloat("total");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
     public static void main(String[] args) {
         BookingDAO dao = new BookingDAO();
-        Bookings a = dao.getBookingById(11);
+        Float a = dao.getTotalPriceCancelledTicket(4);
         System.out.println(a);
 
 
