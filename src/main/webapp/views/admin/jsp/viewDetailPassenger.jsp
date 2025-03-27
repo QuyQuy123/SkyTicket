@@ -119,22 +119,6 @@
                   </div><!--end col-->
                   <div class="col-md-6">
                     <div class="mb-3">
-                      <label class="form-label">Email: </label>
-                      <label for="name"></label><input name="name" id="email" type="text" disabled
-                                                       class="form-control"
-                                                       value="<%=passengers.getEmail() != null ? passengers.getEmail(): ""%>">
-                    </div>
-                  </div><!--end col-->
-                  <div class="col-md-6">
-                    <div class="mb-3">
-                      <label class="form-label">ID Number: </label>
-                      <label for="name"></label><input name="name" id="idnumber" type="text" disabled
-                                                       class="form-control"
-                                                       value="<%=passengers.getNumberID() != null ? passengers.getNumberID(): ""%>">
-                    </div>
-                  </div><!--end col-->
-                  <div class="col-md-6">
-                    <div class="mb-3">
                       <label class="form-label">Address: </label>
                       <label for="name"></label><input name="name" id="address" type="text" disabled
                                                        class="form-control"
@@ -165,7 +149,7 @@
                                                        value="<%=bookings.getCode() != null ? bookings.getCode(): ""%>">
                     </div>
                   </div><!--end col-->
-                  <% if (passengers.getAccountID() != 0) {
+                    <% if (passengers.getAccountID() != 0) {
                     %>
                   <div class="col-md-6">
                     <div class="mb-3">
@@ -175,7 +159,7 @@
                                                        value="<%= passengers.getAccountID() %>">
                     </div>
                   </div><!--end col-->
-                  <%}%>
+                    <%}%>
 
 
                   <a href="${pageContext.request.contextPath}/listPassengersURL" class="btn btn-primary">Back</a>

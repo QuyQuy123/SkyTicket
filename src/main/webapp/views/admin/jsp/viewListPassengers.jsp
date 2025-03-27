@@ -80,10 +80,12 @@
                     <div class="search-bar p-0 d-none d-md-block ms-2">
                         <div id="search" class="menu-search mb-0">
                             <form action="<%= request.getContextPath() %>/searchPassengers" method="get" class="d-flex">
-                                <input style="width: 1000%" type="text" name="search" class="form-control border rounded-pill me-2"
+                                <input style="width: 400%" type="text" name="search" class="form-control border rounded-pill me-2"
                                        placeholder="Search by...">
                                 <select name="status" class="form-select border rounded-pill me-2">
                                     <option value="">All</option>
+                                    <%--                                    <option value="female">Female</option>--%>
+                                    <%--                                    <option value="male">Male</option>--%>
                                 </select>
                                 <button type="submit" class="btn btn-outline-primary rounded-pill me-2">Search</button>
                             </form>
@@ -109,8 +111,8 @@
                                     <th class="border-bottom p-3">ID</th>
                                     <th class="border-bottom p-3">Name</th>
                                     <th class="border-bottom p-3">Phone</th>
-                                    <th class="border-bottom p-3">Email</th>
-                                    <th class="border-bottom p-3">ID Number</th>
+                                    <th class="border-bottom p-3">Date of Birth</th>
+                                    <th class="border-bottom p-3">Gender</th>
                                     <th class="border-bottom p-3">Actions</th>
                                 </tr>
                                 </thead>
@@ -128,8 +130,8 @@
                                     <td class="p-3"><%= passengers.getPassengerID() %></td>
                                     <td class="p-3"><%= passengers.getPassengerName() %></td>
                                     <td class="p-3"><%= passengers.getPhone() %></td>
-                                    <td class="p-3"><%= passengers.getEmail() %></td>
-                                    <td class="p-3"><%= passengers.getNumberID() %></td>
+                                    <td class="p-3"><%= passengers.getDateOfBirth() %></td>
+                                    <td class="p-3"><span class="badge <%= passengers.getGender().equals("Female") ? "bg-soft-success" : "bg-soft-warning" %>"><%= passengers.getGender().equals("Female") ? "Female" : "Male" %></span></td>
                                     <td class="p-3">
                                         <a href="${pageContext.request.contextPath}/viewPassenger?id=<%= passengers.getPassengerID() %>" class="btn btn-icon btn-sm btn-soft-primary"><i
                                                 class="uil uil-eye"></i></a>
