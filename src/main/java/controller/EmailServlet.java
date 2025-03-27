@@ -35,6 +35,12 @@ public class EmailServlet {
     final String passWord = "hzxd bxzv pmsm grut";
 
     public void sendBookingEmail(String to, Bookings b) {
+        new Thread(() -> {
+            sendEmail(to, b);
+        }).start();
+    }
+
+    private void sendEmail(String to, Bookings b) {
         Properties pro = new Properties();
         pro.put("mail.smtp.host", "smtp.gmail.com");
         pro.put("mail.smtp.port", "587");
@@ -49,9 +55,8 @@ public class EmailServlet {
         };
 
         Session session = Session.getInstance(pro, authen);
-
-        MimeMessage msg = new MimeMessage(session);
         try {
+            MimeMessage msg = new MimeMessage(session);
             msg.addHeader("Content-type", "text/HTML");
             msg.setFrom(from);
             msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to, false));
@@ -75,13 +80,11 @@ public class EmailServlet {
                             + "</div>",
                     "text/html"
             );
-
             Transport.send(msg);
         } catch (MessagingException ex) {
             ex.printStackTrace();
         }
     }
-
     public String generateOTP(int length) {
         StringBuilder otp = new StringBuilder();
         Random rand = new Random();
@@ -135,6 +138,9 @@ public class EmailServlet {
             ex.printStackTrace();
         }
     }
+
+
+
 
     public void sendPaymentSuccessfulbyEmail(String to, Bookings b) {
         Properties pro = new Properties();
@@ -195,9 +201,4 @@ public class EmailServlet {
 
 
 
-    public static void main(String[] args) {
-            EmailServlet em = new EmailServlet();
-            em.sendOTPEmail("quyhslc11@gmail.com", "123456");
-
-    }
 }

@@ -28,6 +28,17 @@ public class Refund {
         this.ticketCode = ticketCode;
     }
 
+    public Refund( int ticketId, String bankAccount, String bankName, Timestamp requestDate, Timestamp refundDate, double refundPrice, int status) {
+        this.ticketId = ticketId;
+        this.bankAccount = bankAccount;
+        this.bankName = bankName;
+        this.requestDate = requestDate;
+        this.refundDate = refundDate;
+        this.refundPrice = refundPrice;
+        this.status = status;
+    }
+
+
     public int getRefundId() {
         return refundId;
     }

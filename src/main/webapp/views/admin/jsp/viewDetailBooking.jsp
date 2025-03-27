@@ -9,9 +9,12 @@
 <html>
 <head>
     <%@ page import="model.*" %>
+    <%@ page import="dal.PaymentsDAO" %>
+    <%@ page import="dal.BookingsDAO" %>
+    <%@ page import="dal.BookingDAO" %>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-    <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+        <%@ page contentType="text/html;charset=UTF-8" language="java" %>
     <title>SkyTicket - Bookings management</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Premium Bootstrap 4 Landing Page Template"/>
@@ -52,6 +55,8 @@
 
 <body>
 
+
+
 <!-- Loader -->
 <div id="preloader">
     <div id="status">
@@ -67,12 +72,40 @@
 
     <%@include file="right.jsp" %>
 
-    <!-- Start Page Content -->
+
+
+
     <main class="page-content bg-light">
         <%@ include file="top.jsp" %>
 
         <%
             Bookings bookings = (Bookings) request.getAttribute("booking");
+            PaymentsDAO pd = new PaymentsDAO();
+            Payments p = pd.getPaymentByBookingId(bookings.getBookingID());
+            BookingDAO bd = new BookingDAO();
+
+
+            // Xử lý yêu cầu từ AJAX
+            String action = request.getParameter("action");
+            if ("confirmPayment".equals(action)) {
+                int bookingId = Integer.parseInt(request.getParameter("bookingId"));
+                boolean success = bd.changeStatusToSuccess(bookingId);
+                if (success) {
+                    bookings = bd.getBookingById(bookingId); // Cập nhật lại booking
+                    request.setAttribute("msg", "Payment confirmed successfully!");
+                } else {
+                    request.setAttribute("msg", "Failed to confirm payment.");
+                }
+            }else if ("confirmRefund".equals(action)) {
+            int bookingId = Integer.parseInt(request.getParameter("bookingId"));
+            boolean success = bd.changeStatusToRefundSuccess(bookingId);
+            if (success) {
+                bookings = bd.getBookingById(bookingId); // Cập nhật lại booking
+                request.setAttribute("msg", "Refund confirmed successfully!");
+            } else {
+                request.setAttribute("msg", "Failed to confirm Refund.");
+            }
+        }
         %>
 
         <div class="container-fluid">
@@ -99,116 +132,150 @@
                             </c:if>
 
                             <form class="mt-4" action="${pageContext.request.contextPath}/updateLocation" method="post" enctype="multipart/form-data">
-
-
-                                <br>
-
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label class="form-label">Code: </label>
-                                            <label for="name"></label><input name="name" id="name" type="text" disabled
-                                                                             class="form-control"
-                                                                             value="<%=bookings.getCode() != null ? bookings.getCode(): ""%>">
+                                            <input name="code" id="name" type="text" disabled class="form-control"
+                                                   value="<%=bookings.getCode() != null ? bookings.getCode(): ""%>">
                                         </div>
                                     </div><!--end col-->
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label class="form-label">Contact Name: </label>
-                                            <label for="name"></label><input name="name" id="phone" type="text" disabled
-                                                                             class="form-control"
-                                                                             value="<%=bookings.getContactName() != null ? bookings.getContactName(): ""%>">
+                                            <input name="contactName" id="phone" type="text" disabled class="form-control"
+                                                   value="<%=bookings.getContactName() != null ? bookings.getContactName(): ""%>">
                                         </div>
                                     </div><!--end col-->
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label class="form-label">Contact Phone: </label>
-                                            <label for="name"></label><input name="name" id="email" type="text" disabled
-                                                                             class="form-control"
-                                                                             value="<%=bookings.getContactPhone() != null ? bookings.getContactPhone(): ""%>">
+                                            <input name="contactPhone" id="email" type="text" disabled class="form-control"
+                                                   value="<%=bookings.getContactPhone() != null ? bookings.getContactPhone(): ""%>">
                                         </div>
                                     </div><!--end col-->
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label class="form-label">Contact Email: </label>
-                                            <label for="name"></label><input name="name" id="conatct" type="text" disabled
-                                                                             class="form-control"
-                                                                             value="<%=bookings.getContactEmail() != null ? bookings.getContactEmail(): ""%>">
+                                            <input name="contactEmail" id="contact" type="text" disabled class="form-control"
+                                                   value="<%=bookings.getContactEmail() != null ? bookings.getContactEmail(): ""%>">
                                         </div>
                                     </div><!--end col-->
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label class="form-label">Total Price: </label>
-                                            <label for="name"></label><input name="name" id="idnumber" type="text" disabled
-                                                                             class="form-control"
-                                                                             value="<%=bookings.getTotalPrice() != 0 ? bookings.getTotalPrice(): ""%>">
+                                            <input name="totalPrice" id="idnumber" type="text" disabled class="form-control"
+                                                   value="<%=bookings.getTotalPrice() != 0 ? bookings.getTotalPrice(): ""%>">
                                         </div>
                                     </div><!--end col-->
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label class="form-label">Booking Date: </label>
-                                            <label for="name"></label><input name="name" id="date" type="text" disabled
-                                                                             class="form-control"
-                                                                             value="<%=bookings.getBookingDate() != null ? bookings.getBookingDate(): ""%>">
+                                            <input name="bookingDate" id="date" type="text" disabled class="form-control"
+                                                   value="<%=bookings.getBookingDate() != null ? bookings.getBookingDate(): ""%>">
                                         </div>
                                     </div><!--end col-->
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label class="form-label">Status: </label>
-                                            <label for="name"></label><input name="name" id="bookingid" type="text" disabled
-                                                                             class="form-control"
-                                                                             value="<%= bookings.getStatus() == 1 ? "Is Pending" :
-              bookings.getStatus() == 2 ? "Payment Success" :
-                      bookings.getStatus() == 3 ? "Is Cancelled" :
-                              bookings.getStatus() == 4 ? "Refund Pending" : "Refund Completed" %>">
+                                            <input name="status" id="bookingStatus" type="text" disabled class="form-control" value="<%=
+                                               bookings.getStatus() == 1 ? "Is Pending" :
+                                               bookings.getStatus() == 2 ? "Payment Success" :
+                                               bookings.getStatus() == 3 ? "Is Cancelled" :
+                                               bookings.getStatus() == 4 ? "Refund Pending" :
+                                               bookings.getStatus() == 5 ? "Refund Complete" : "" %>">
                                         </div>
-                                    </div><!--end col-->
-                                        <% if (bookings.getAccountID() != 0) {
-                                    %>
+                                    </div>
+
+                                    <% if (bookings.getAccountID() != 0) { %>
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label class="form-label">Account ID: </label>
-                                            <label for="name"></label><input name="name" id="id" type="text" disabled
-                                                                             class="form-control"
-                                                                             value="<%=bookings.getAccountID() != 0 ? bookings.getAccountID(): ""%>">
+                                            <input name="accountId" id="id" type="text" disabled class="form-control"
+                                                   value="<%=bookings.getAccountID() != 0 ? bookings.getAccountID(): ""%>">
                                         </div>
                                     </div><!--end col-->
+                                    <% } %>
+
+                                    <div class="mt-3">
+                                        <a href="${pageContext.request.contextPath}/listBookingsURL" class="btn btn-primary">Back</a>
+                                        <% if (p != null && bookings.getStatus() == 1) { %>
+                                        <button type="button" class="btn btn-success" onclick="confirmPayment(<%= bookings.getBookingID() %>)">Confirm Payment</button>
                                         <% } %>
-
-
-                                    <a href="${pageContext.request.contextPath}/listBookingsURL" class="btn btn-primary">Back</a>
-
+                                        <% if (p != null && bookings.getStatus() == 4) { %>
+                                        <button type="button" class="btn btn-success" onclick="confirmRefund(<%= bookings.getBookingID() %>)">Confirm Refund</button>
+                                        <% } %>
+                                    </div>
+                                </div><!--end row-->
                             </form>
                         </div>
                     </div><!--end col-->
 
-                </div><!--end row-->
-                <div class="col-lg-4 mt-4">
-                    <div class="card rounded border-0 shadow">
-                        <div class="p-4 border-bottom d-flex align-items-center">
-                            <i class="bi bi-pin-angle-fill text-danger me-2"></i> <!-- Biểu tượng Note -->
-                            <h5 class="mb-0">Note</h5>
-                        </div>
-
-                        <ul class="list-unstyled mb-0 p-4" data-simplebar style="height: 664px;">
-                            <div>
-                                Booking name must be ...
+                    <div class="col-lg-4 mt-4">
+                        <div class="card rounded border-0 shadow">
+                            <div class="p-4 border-bottom d-flex align-items-center">
+                                <i class="bi bi-pin-angle-fill text-danger me-2"></i>
+                                <h5 class="mb-0">Note</h5>
                             </div>
-
-                            <li class="mt-4 text-center">
-                                <a href="#" class="btn btn-gradient px-4 py-2 rounded-pill shadow">
-                                    <i class="bi bi-heart-fill text-danger"></i> Thank you <3
-                                </a>
-                            </li>
-                        </ul>
+                            <ul class="list-unstyled mb-0 p-4" data-simplebar style="height: 664px;">
+                                <div>
+                                    Booking name must be ...
+                                </div>
+                                <li class="mt-4 text-center">
+                                    <a href="#" class="btn btn-gradient px-4 py-2 rounded-pill shadow">
+                                        <i class="bi bi-heart-fill text-danger"></i> Thank you <3
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
-                </div>
-            </div>
-        </div><!--end container-->
+                </div><!--end row-->
+            </div><!--end container-->
 
-        <%@include file="bottom.jsp" %>
+            <%@include file="bottom.jsp" %>
     </main>
-    <!--End page-content" -->
+
+    <!-- JavaScript để xử lý Confirm Payment -->
+    <script>
+        function confirmPayment(bookingId) {
+            if (confirm("Are you sure you want to confirm confirm success booking ?")) {
+                fetch(window.location.href, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    },
+                    body: "action=confirmPayment&bookingId=" + bookingId
+                })
+                    .then(response => {
+                        if (response.ok) { // Tương đương status === 200
+                            location.reload();
+                        }
+                    })
+                    .catch(error => console.error("Lỗi:", error));
+            }
+        }
+        function confirmRefund(bookingId) {
+            if (confirm("Are you sure you want to confirm to refunded this booking ?")) {
+                fetch(window.location.href, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    },
+                    body: "action=confirmRefund&bookingId=" + bookingId
+                })
+                    .then(response => {
+                        if (response.ok) { // Tương đương status === 200
+                            location.reload();
+                        }
+                    })
+                    .catch(error => console.error("Lỗi:", error));
+            }
+        }
+
+
+    </script>
+
+
 </div>
 <!-- page-wrapper -->
 

@@ -60,7 +60,7 @@
             ">
                     <li><a href="Infor">Account Information</a></li>
                     <% if(account.getRoleId()==1){ %>
-                    <li><a href="admin">Manager</a></li>
+                    <li><a href="<%= request.getContextPath() %>/dashboardAdmin">Manager</a></li>
                     <%}%>
                     <li><a href="changePaswordURL">Change Password</a></li>
                     <% if(account.getRoleId()==1){ %>
