@@ -28,7 +28,6 @@ public class DiscountAdd extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
         String redirectUrl = request.getContextPath() + "/addDiscounts"; // Quay lại trang add nếu lỗi
         DiscountDAO discountDAO = new DiscountDAO();
         try {
