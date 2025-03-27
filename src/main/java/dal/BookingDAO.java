@@ -162,6 +162,43 @@ public class BookingDAO extends DBConnect{
         return null;
     }
 
+
+    public boolean changeStatusToSuccess(int bookingId) {
+        String sql = "UPDATE Bookings SET status = 2 WHERE bookingID = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, bookingId);
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean changeStatusToRefundPending(int bookingId) {
+        String sql = "UPDATE Bookings SET status = 4 WHERE bookingID = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, bookingId);
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    public boolean changeStatusToRefundSuccess(int bookingId) {
+        String sql = "UPDATE Bookings SET status = 5 WHERE bookingID = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, bookingId);
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
     public List<Bookings> getListOrderByCodeAndAccountId(String code, int accountId) {
         List<Bookings> list = new ArrayList<>();
         String sql = "select * from Bookings\n"

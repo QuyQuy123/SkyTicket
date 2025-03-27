@@ -128,6 +128,8 @@ public class AccountDAO extends DBConnect {
 
 
     public String generateRandomString() {
+        // Tập hợp ký tự gồm chữ in hoa và số
+        final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         StringBuilder sb = new StringBuilder(8);
         Random r = new Random();
         for (int i = 0; i < 8; i++) {
