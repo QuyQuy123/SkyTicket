@@ -7,32 +7,15 @@ public class Payments {
     private int paymentID;
     private int bookingID;
     private String PaymentMethod;
-    private String PaymentStatus;
-    private Date PaymentDate;
+    private int PaymentStatus;
+    private Timestamp PaymentDate;
     private String email;
     private double TotalPrice;
 
     public Payments() {
     }
 
-    public Payments(int paymentID, String paymentMethod, String paymentStatus, Date paymentDate, double totalPrice) {
-        this.paymentID = paymentID;
-        this.PaymentMethod = paymentMethod;
-        this.PaymentStatus = paymentStatus;
-        this.PaymentDate = paymentDate;
-        this.TotalPrice = totalPrice;
-    }
-
-    public Payments(int paymentID, int bookingID, String paymentMethod, String paymentStatus, Date paymentDate, double totalPrice) {
-        this.paymentID = paymentID;
-        this.bookingID = bookingID;
-        this.PaymentMethod = paymentMethod;
-        this.PaymentStatus = paymentStatus;
-        this.PaymentDate = paymentDate;
-        this.TotalPrice = totalPrice;
-    }
-
-    public Payments(int paymentID, int bookingID, String paymentMethod, String paymentStatus, Date paymentDate, String email, double totalPrice) {
+    public Payments(int paymentID, int bookingID, String paymentMethod, int paymentStatus, Timestamp paymentDate, String email, double totalPrice) {
         this.paymentID = paymentID;
         this.bookingID = bookingID;
         PaymentMethod = paymentMethod;
@@ -40,6 +23,23 @@ public class Payments {
         PaymentDate = paymentDate;
         this.email = email;
         TotalPrice = totalPrice;
+    }
+
+    public Payments(int paymentID, String paymentMethod, int paymentStatus, Timestamp paymentDate, double totalPrice) {
+        this.paymentID = paymentID;
+        this.PaymentMethod = paymentMethod;
+        this.PaymentStatus = paymentStatus;
+        this.PaymentDate = paymentDate;
+        this.TotalPrice = totalPrice;
+    }
+
+    public Payments(int paymentID, int bookingID, String paymentMethod, int paymentStatus, Timestamp paymentDate, double totalPrice) {
+        this.paymentID = paymentID;
+        this.bookingID = bookingID;
+        this.PaymentMethod = paymentMethod;
+        this.PaymentStatus = paymentStatus;
+        this.PaymentDate = paymentDate;
+        this.TotalPrice = totalPrice;
     }
 
     public int getPaymentID() {
@@ -66,28 +66,20 @@ public class Payments {
         PaymentMethod = paymentMethod;
     }
 
-    public String getPaymentStatus() {
+    public int getPaymentStatus() {
         return PaymentStatus;
     }
 
-    public void setPaymentStatus(String paymentStatus) {
+    public void setPaymentStatus(int paymentStatus) {
         PaymentStatus = paymentStatus;
     }
 
-    public Date getPaymentDate() {
+    public Timestamp getPaymentDate() {
         return PaymentDate;
     }
 
-    public void setPaymentDate(Date paymentDate) {
+    public void setPaymentDate(Timestamp paymentDate) {
         PaymentDate = paymentDate;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public double getTotalPrice() {
@@ -98,13 +90,21 @@ public class Payments {
         TotalPrice = totalPrice;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     @Override
     public String toString() {
         return "Payments{" +
                 "paymentID=" + paymentID +
                 ", bookingID=" + bookingID +
                 ", PaymentMethod='" + PaymentMethod + '\'' +
-                ", PaymentStatus='" + PaymentStatus + '\'' +
+                ", PaymentStatus=" + PaymentStatus +
                 ", PaymentDate=" + PaymentDate +
                 ", email='" + email + '\'' +
                 ", TotalPrice=" + TotalPrice +

@@ -1,5 +1,6 @@
 package model;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 
@@ -7,8 +8,6 @@ public class Passengers {
     private int passengerID;
     private String passengerName;
     private String phone;
-    private String email;
-    private String numberID;
     private String address;
     private Date dateOfBirth;
     private String gender;
@@ -17,12 +16,10 @@ public class Passengers {
 
     public Passengers() {}
 
-    public Passengers(int passengerID, String passengerName, String phone, String email, String numberID) {
+    public Passengers(int passengerID, String passengerName, String phone) {
         this.passengerID = passengerID;
         this.passengerName = passengerName;
         this.phone = phone;
-        this.email = email;
-        this.numberID = numberID;
     }
     public Passengers(int passengerID, String passengerName, Date dateOfBirth, String gender, int accountID) {
         this.passengerID = passengerID;
@@ -32,24 +29,20 @@ public class Passengers {
         this.accountID = accountID;
     }
 
-    public Passengers(int passengerID, String passengerName, String phone, String email, String numberID, String address, Date dateOfBirth, String gender, int accountID) {
+    public Passengers(int passengerID, String passengerName, String phone, String address, Date dateOfBirth, String gender, int accountID) {
         this.passengerID = passengerID;
         this.passengerName = passengerName;
         this.phone = phone;
-        this.email = email;
-        this.numberID = numberID;
         this.address = address;
         this.dateOfBirth = dateOfBirth;
         this.gender = gender;
         this.accountID = accountID;
     }
 
-    public Passengers(int passengerID, String passengerName, String phone, String email, String numberID, String address, Date dateOfBirth, String gender, int accountID, int bookingId) {
+    public Passengers(int passengerID, String passengerName, String phone, String address, Date dateOfBirth, String gender, int accountID, int bookingId) {
         this.passengerID = passengerID;
         this.passengerName = passengerName;
         this.phone = phone;
-        this.email = email;
-        this.numberID = numberID;
         this.address = address;
         this.dateOfBirth = dateOfBirth;
         this.gender = gender;
@@ -89,22 +82,6 @@ public class Passengers {
         this.phone = phone;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getNumberID() {
-        return numberID;
-    }
-
-    public void setNumberID(String numberID) {
-        this.numberID = numberID;
-    }
-
     public String getAddress() {
         return address;
     }
@@ -113,8 +90,8 @@ public class Passengers {
         this.address = address;
     }
 
-    public java.sql.Date getDateOfBirth() {
-        return (java.sql.Date) dateOfBirth;
+    public Date getDateOfBirth() {
+        return dateOfBirth;
     }
 
     public void setDateOfBirth(Date dateOfBirth) {
@@ -143,8 +120,6 @@ public class Passengers {
                 "passengerID=" + passengerID +
                 ", passengerName='" + passengerName + '\'' +
                 ", phone='" + phone + '\'' +
-                ", email='" + email + '\'' +
-                ", numberID='" + numberID + '\'' +
                 ", address='" + address + '\'' +
                 ", dateOfBirth=" + dateOfBirth +
                 ", gender=" + gender +

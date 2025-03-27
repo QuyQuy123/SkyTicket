@@ -7,6 +7,7 @@ import model.Passengers;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -23,13 +24,11 @@ public class PassengersDAO extends DBConnect {
                 int id = rs.getInt("PassengerId");
                 String name = rs.getString("PassengerName");
                 String phone = rs.getString("Phone");
-                String email = rs.getString("Email");
-                String numberId = rs.getString("IdNumber");
                 String address = rs.getString("Address");
                 Date birthDate = rs.getDate("Dob");
                 String gender = rs.getString("Gender");
                 int accountId = rs.getInt("AccountId");
-                list.add(new Passengers(id, name, phone, email, numberId, address, birthDate, gender, accountId));
+                list.add(new Passengers(id, name, phone, address, birthDate, gender, accountId));
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -40,8 +39,7 @@ public class PassengersDAO extends DBConnect {
     public List<Passengers> getPassengersByPage(int start, int total) {
         List<Passengers> list = new ArrayList<>();
         try {
-            String query = "SELECT passengerid, passengername, phone," +
-                    "email, idnumber FROM Passengers LIMIT ?, ?";
+            String query = "SELECT * FROM Passengers LIMIT ?, ?";
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setInt(1, start);
             ps.setInt(2, total);
@@ -51,8 +49,10 @@ public class PassengersDAO extends DBConnect {
                         rs.getInt("passengerid"),
                         rs.getString("passengername"),
                         rs.getString("phone"),
-                        rs.getString("email"),
-                        rs.getString("IDNumber")
+                        rs.getString("address"),
+                        rs.getDate("dob"),
+                        rs.getString("gender"),
+                        rs.getInt("accountid")
                 ));
             }
         } catch (SQLException e) {
@@ -76,21 +76,29 @@ public class PassengersDAO extends DBConnect {
         return total;
     }
 
-    public List<Passengers> searchPassengerByPage(String keyword, int offset, int limit) {
+    public List<Passengers> searchPassengerByPage(String keyword, String status, int offset, int limit) {
         List<Passengers> list = new ArrayList<>();
-        String sql = "SELECT * FROM Passengers WHERE " +
-                "passengername LIKE ? OR phone LIKE ? OR email LIKE ? OR IDNumber LIKE ? " +
-                "LIMIT ?, ?";
+        String sql = "SELECT * FROM Passengers WHERE 1=1";
+
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            sql += " AND (passengername LIKE ? OR phone LIKE ?)";
+        }
+        if (status != null) {
+            sql += " AND Gender LIKE ?";
+        }
+        sql += " LIMIT ?, ?";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            String searchPattern = "%" + keyword + "%";
-
-            ps.setString(1, searchPattern);
-            ps.setString(2, searchPattern);
-            ps.setString(3, searchPattern);
-            ps.setString(4, searchPattern);
-            ps.setInt(5, offset);
-            ps.setInt(6, limit);
+            int index = 1;
+            if (keyword != null && !keyword.trim().isEmpty()) {
+                ps.setString(index++, "%" + keyword + "%");
+                ps.setString(index++, "%" + keyword + "%");
+            }
+            if (status != null) {
+                ps.setString(index++, "%" + status + "%");
+            }
+            ps.setInt(index++, offset);
+            ps.setInt(index, limit);
 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -98,8 +106,10 @@ public class PassengersDAO extends DBConnect {
                         rs.getInt("passengerid"),
                         rs.getString("passengername"),
                         rs.getString("phone"),
-                        rs.getString("email"),
-                        rs.getString("IDNumber")
+                        rs.getString("address"),
+                        rs.getDate("dob"),
+                        rs.getString("gender"),
+                        rs.getInt("accountid")
                 ));
             }
         } catch (SQLException e) {
@@ -108,18 +118,25 @@ public class PassengersDAO extends DBConnect {
         return list;
     }
 
+    public int getTotalSearchRecords(String keyword, String status) {
+        String sql = "SELECT COUNT(*) FROM Passengers WHERE 1=1";
 
-    public int getTotalSearchRecords(String keyword) {
-        String sql = "SELECT COUNT(*) FROM Passengers WHERE " +
-                "passengername LIKE ? OR phone LIKE ? OR email LIKE ? OR IDNumber LIKE ?";
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            sql += " AND (passengername LIKE ? OR phone LIKE ?)";
+        }
+        if (status != null) {
+            sql += " AND gender LIKE ?";
+        }
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            String searchPattern = "%" + keyword + "%";
-
-            ps.setString(1, searchPattern);
-            ps.setString(2, searchPattern);
-            ps.setString(3, searchPattern);
-            ps.setString(4, searchPattern);
+            int index = 1;
+            if (keyword != null && !keyword.trim().isEmpty()) {
+                ps.setString(index++, "%" + keyword + "%");
+                ps.setString(index++, "%" + keyword + "%");
+            }
+            if (status != null) {
+                ps.setString(index++, "%" + status + "%");
+            }
 
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -140,13 +157,11 @@ public class PassengersDAO extends DBConnect {
                     int passengerId = rs.getInt("passengerid");
                     String passengerName = rs.getString("passengername");
                     String phone = rs.getString("phone");
-                    String email = rs.getString("email");
-                    String idNumber = rs.getString("IDNumber");
                     String address = rs.getString("Address");
                     Date birthDate = rs.getDate("Dob");
                     String gender = rs.getString("Gender");
                     int accountId = rs.getInt("AccountId");
-                    return new Passengers(passengerId, passengerName, phone, email, idNumber, address, birthDate, gender, accountId);
+                    return new Passengers(passengerId, passengerName, phone, address, birthDate, gender, accountId);
                 }
             }
         } catch (SQLException e) {
@@ -190,7 +205,6 @@ public class PassengersDAO extends DBConnect {
                     passenger.setPassengerID(rs.getInt("PassengerId"));
                     passenger.setPassengerName(rs.getString("PassengerName"));
                     passenger.setPhone(rs.getString("Phone"));
-                    passenger.setEmail(rs.getString("Email"));
                     passenger.setAddress(rs.getString("Address"));
                     passenger.setDateOfBirth(rs.getDate("Dob"));
                     passenger.setGender(rs.getString("Gender"));
@@ -231,7 +245,6 @@ public class PassengersDAO extends DBConnect {
                     passenger.setPassengerID(rs.getInt("PassengerId"));
                     passenger.setPassengerName(rs.getString("PassengerName"));
                     passenger.setPhone(rs.getString("Phone"));
-                    passenger.setEmail(rs.getString("Email"));
                     passenger.setAddress(rs.getString("Address"));
                     passenger.setDateOfBirth(rs.getDate("Dob"));
                     passenger.setGender(rs.getString("Gender"));
@@ -268,8 +281,7 @@ public class PassengersDAO extends DBConnect {
 
     public static void main(String[] args) {
         PassengersDAO pd = new PassengersDAO();
-        int a = pd.getPassengerIdByTicketId(1);
-        System.out.println(a);
+        System.out.println(pd.searchPassengerByPage(null, "male", 0, 3));
 
     }
 
