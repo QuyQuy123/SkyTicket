@@ -82,9 +82,9 @@
                                        placeholder="Search by method...">
                                 <select name="status" class="form-select border rounded-pill me-2">
                                     <option value="">All</option>
-                                    <option value="Completed">Completed</option>
-                                    <option value="Failed">Failed</option>
-                                    <option value="Pending">Pending</option>
+                                    <option value="1">Is Pending</option>
+                                    <option value="2">Payment Success</option>
+                                    <option value="3">Is Cancelled</option>
                                 </select>
                                 <button type="submit" class="btn btn-outline-primary rounded-pill me-2">Search</button>
                             </form>
@@ -150,16 +150,21 @@
                                     <td class="p-3"><%= payments.getPaymentDate() %></td>
                                     <td class="p-3"><%= payments.getTotalPrice() %> $</td>
                                     <td class="p-3">
-                                        <span class="badge
-                                        <%= payments.getPaymentStatus().equals("Completed") ? "bg-soft-success" :
-                                            (payments.getPaymentStatus().equals("Pending") ? "bg-soft-info" : "bg-soft-warning") %>">
-                                        <%= payments.getPaymentStatus() %>
-                                        </span>
+    <span class="badge
+    <%= payments.getPaymentStatus() == 1 ? "bg-soft-success" :
+        payments.getPaymentStatus()  == 2 ? "bg-soft-primary" : "bg-soft-danger" %>">
+      <%= payments.getPaymentStatus() == 1 ? "Is Pending" :
+              payments.getPaymentStatus() == 2 ? "Payment Success" : "Is Cancelled" %>
+    </span>
                                     </td>
-
                                     <td class="p-3">
                                         <a href="${pageContext.request.contextPath}/viewPayment?id=<%= payments.getPaymentID() %>" class="btn btn-icon btn-sm btn-soft-primary"><i
                                                 class="uil uil-eye"></i></a>
+                                        <% if (payments.getPaymentStatus() == 1) {
+                                        %>
+                                        <a href="${pageContext.request.contextPath}/updatePayment?id=<%= payments.getPaymentID() %>" class="btn btn-icon btn-sm btn-soft-success"><i
+                                                class="uil uil-pen"></i></a>
+                                        <% } %>
                                     </td>
                                         <% } %>
                                 </tbody>
@@ -211,22 +216,6 @@
 </div>
 <!-- page-wrapper -->
 
-
-
-<!-- javascript -->
-<%--<script>--%>
-<%--    function confirmDelete(locationId) {--%>
-<%--        if (confirm("Are you sure to deactivate this location?")) {--%>
-<%--            window.location.href = "<%= request.getContextPath() %>/deleteLocation?action=deactivate&id=" + locationId;--%>
-<%--        }--%>
-<%--    }--%>
-
-<%--    function confirmRestore(locationId) {--%>
-<%--        if (confirm("Do you want to restore this location?")) {--%>
-<%--            window.location.href = "<%= request.getContextPath() %>/deleteLocation?action=restore&id=" + locationId;--%>
-<%--        }--%>
-<%--    }--%>
-<%--</script>--%>
 
 
 <script src="<%= request.getContextPath() %>/views/admin/assets/js/bootstrap.bundle.min.js"></script>
