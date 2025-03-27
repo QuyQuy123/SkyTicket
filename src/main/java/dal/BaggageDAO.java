@@ -336,6 +336,16 @@ public class BaggageDAO extends DBConnect {
         return baggage;
     }
 
+    public boolean deleteBaggageById(int baggageId) {
+        String sql = "DELETE FROM Baggages WHERE BaggageId = ?";
+        try(PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+            preparedStatement.setInt(1,baggageId);
+            return preparedStatement.executeUpdate() > 0;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     // Hàm main để test các chức năng
     public static void main(String[] args) {
         BaggageDAO baggageDAO = new BaggageDAO();

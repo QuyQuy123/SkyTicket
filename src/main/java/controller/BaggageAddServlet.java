@@ -42,8 +42,8 @@ public class BaggageAddServlet extends HttpServlet {
 
                     if (weight <= 0 || price <= 0) {
                         request.setAttribute("msg", "Weight and Price must be greater than zero.");
-                    } else if (weight > 100 || price > 10000) {
-                        request.setAttribute("msg", "Weight or Price exceeds allowed limit.");
+//                    } else if (weight > 100 || price > 10000) {
+//                        request.setAttribute("msg", "Weight or Price exceeds allowed limit.");
                     } else {
                         Baggages baggages = new Baggages(weight, price, airlineId, status);
                         BaggageDAO baggagesDAO = new BaggageDAO();

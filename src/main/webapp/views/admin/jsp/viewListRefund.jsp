@@ -142,9 +142,25 @@
                                 <tr>
                                     <th class="border-bottom p-3">Refund ID</th>
                                     <th class="border-bottom p-3">Ticket Code</th>
-                                    <th class="border-bottom p-3">Request Date</th>
+                                    <th class="border-bottom p-3">Request Date
+                                        <a href="<%= request.getContextPath() %>/sortRefund?sortBy=requestDate&order=<%= "asc".equals(request.getParameter("order")) && "requestDate".equals(request.getParameter("sortBy")) ? "desc" : "asc" %>">
+                                            <% if ("requestDate".equals(request.getParameter("sortBy"))) { %>
+                                            <i class="uil <%= "asc".equals(request.getParameter("order")) ? "uil-arrow-up" : "uil-arrow-down" %>"></i>
+                                            <% } else { %>
+                                            <i class="uil uil-sort"></i>
+                                            <% } %>
+                                        </a>
+                                    </th>
                                     <th class="border-bottom p-3">Refund Date</th>
-                                    <th class="border-bottom p-3">Refund Price</th>
+                                    <th class="border-bottom p-3">Refund Price
+                                        <a href="<%= request.getContextPath() %>/sortRefund?sortBy=refundPrice&order=<%= "asc".equals(request.getParameter("order")) && "refundPrice".equals(request.getParameter("sortBy")) ? "desc" : "asc" %>">
+                                            <% if ("refundPrice".equals(request.getParameter("sortBy"))) { %>
+                                            <i class="uil <%= "asc".equals(request.getParameter("order")) ? "uil-arrow-up" : "uil-arrow-down" %>"></i>
+                                            <% } else { %>
+                                            <i class="uil uil-sort"></i>
+                                            <% } %>
+                                        </a>
+                                    </th>
                                     <th class="border-bottom p-3">Status</th>
                                     <th class="border-bottom p-3">Action</th>
                                 </tr>
@@ -211,7 +227,10 @@
 
                 <!-- Nút Previous -->
                 <% if (currentPage > 1) { %>
-                <a href="<%= request.getContextPath() %>/refundSearch?RefundID=<%= request.getAttribute("refundIdOrTicketCode") != null ? request.getAttribute("refundIdOrTicketCode") : "" %>&orderPricet=<%= request.getAttribute("orderPricet") != null ? request.getAttribute("orderPricet") : "" %>&status=<%= request.getAttribute("status") != null ? request.getAttribute("status") : "" %>&page=<%= currentPage - 1 %>"
+                <a href="<%= request.getContextPath() %>/refundSearch?RefundID=<%= request.getAttribute("refundIdOrTicketCode") != null ? request.getAttribute("refundIdOrTicketCode") : "" %>
+                    &orderPricet=<%= request.getAttribute("orderPricet") != null ? request.getAttribute("orderPricet") : "" %>
+                    &status=<%= request.getAttribute("status") != null ? request.getAttribute("status") : "" %>
+                    &page=<%= currentPage - 1 %>"
                    class="btn btn-outline-primary">Previous</a>
                 <% } %>
 
@@ -220,7 +239,7 @@
 
                 <!-- Nút Next -->
                 <% if (currentPage < totalPages) { %>
-                <a href="<%= request.getContextPath() %>/refundSearch?RefundID=<%= request.getAttribute("refundIdOrTicketCode") != null ? request.getAttribute("refundIdOrTicketCode") : "" %>&orderPricet=<%= request.getAttribute("orderPricet") != null ? request.getAttribute("orderPricet") : "" %>&status=<%= request.getAttribute("status") != null ? request.getAttribute("status") : "" %>&page=<%= currentPage + 1 %>"
+                <a href="<%= request.getContextPath() %>/refundSearch?RefundID=<%= request.getAttribute("refundIdOrTicketCode") != null ? request.getAttribute("refundIdOrTicketCode") : "" %>&orderPricet=<%= request.getAttribute("orderPricet") != null ? request.getAttribute("orderPricet") : "" %>&status=<%= request.getAttribute("status") != null ? request.getAttribute("status") : "" %>&page=<%= currentPage + 1 %>&sortBy=${sortBy}&order=${order}"
                    class="btn btn-outline-primary">Next</a>
                 <% } %>
 

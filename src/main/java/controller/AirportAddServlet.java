@@ -38,7 +38,7 @@ public class AirportAddServlet extends HttpServlet {
         }
 
         // Validate airportName: chỉ cho phép chữ cái, khoảng trắng, và dấu gạch nối
-        if (!airportName.matches("^[a-zA-Z\\s-]+$")) {
+        if (!airportName.matches("^[\\p{L}\\s]+$")) {
             session.setAttribute("errorMsg", "Airport name can only contain letters, spaces, and hyphens.");
             response.sendRedirect(request.getContextPath() + "/views/admin/jsp/addAirport.jsp");
             return;

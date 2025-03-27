@@ -76,22 +76,43 @@ public class AirlinesUpdateServlet extends HttpServlet {
 
         AirlinesDAO airlineDAO = new AirlinesDAO();
         Airlines airline = airlineDAO.getAirlineById(id);
-        airline.setAirlineName(airlineName);
-        airline.setInformation(information);
-        airline.setImage(fileName);
-        airline.setNumberOfSeatsOnVipRow(numberOfSeatsOnVipRow);
-        airline.setNumberOfSeatsOnVipColumn(numberOfSeatsOnVipColumn);
-        airline.setNumberOfSeatsOnEconomyRow(numberOfSeatsOnEcoRow);
-        airline.setNumberOfSeatsOnEconomyColumn(numberOfSeatsOnEcoColumn);
-        airline.setStatus(status);
-        boolean success = airlineDAO.updateAirline(airline);
+        boolean validation = true;
+        String err = "";
 
-        if (success) {
-            request.setAttribute("msg", "Airline update successfully");
-            request.setAttribute("airline", airline);
-            request.getRequestDispatcher( "/views/admin/jsp/updateAirline.jsp").forward(request, response);
+        if (airlineName == null || airlineName.trim().isEmpty()) {
+            err = "Airline name cannot be empty";
+            validation = false;
+        } else if (airline.getAirlineName().equals(airlineName)
+            && airline.getNumberOfSeatsOnVipRow() == numberOfSeatsOnVipRow
+            && airline.getNumberOfSeatsOnVipColumn() == numberOfSeatsOnVipColumn
+            && airline.getNumberOfSeatsOnEconomyRow() == numberOfSeatsOnEcoRow
+            && airline.getNumberOfSeatsOnEconomyColumn() == numberOfSeatsOnEcoColumn) {
+            err = "Airline already exists";
+            validation = false;
+        }
+
+        if (validation) {
+            airline.setAirlineName(airlineName);
+            airline.setInformation(information);
+            airline.setImage(fileName);
+            airline.setNumberOfSeatsOnVipRow(numberOfSeatsOnVipRow);
+            airline.setNumberOfSeatsOnVipColumn(numberOfSeatsOnVipColumn);
+            airline.setNumberOfSeatsOnEconomyRow(numberOfSeatsOnEcoRow);
+            airline.setNumberOfSeatsOnEconomyColumn(numberOfSeatsOnEcoColumn);
+            airline.setStatus(status);
+            boolean success = airlineDAO.updateAirline(airline);
+
+            if (success) {
+                request.setAttribute("msg", "Airline update successfully");
+                request.setAttribute("airline", airline);
+                request.getRequestDispatcher( "/views/admin/jsp/updateAirline.jsp").forward(request, response);
+            } else {
+                response.sendRedirect("error.jsp");
+            }
         } else {
-            response.sendRedirect("error.jsp");
+            request.setAttribute("err", err);
+            request.setAttribute("airline", airline);
+            request.getRequestDispatcher("/views/admin/jsp/updateAirline.jsp").forward(request, response);
         }
     }
 }

@@ -7,7 +7,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Skyticket - Baggage mangement</title>
+    <title>Skyticket - Baggages mangement</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Premium Bootstrap 4 Landing Page Template" />
     <meta name="keywords" content="Appointment, Booking, System, Dashboard, Health" />
@@ -211,9 +211,10 @@
 
 <!-- javascript -->
 <script>
-    function confirmDelete(seatId) {
-        if (confirm("Are you sure to delete this seat?")) {
-            window.location.href = "<%= request.getContextPath() %>/SeatDelete?seatId=" + seatId;
+    function confirmDelete(baggageId, currentPage) {
+        if (confirm("Are you sure to delete this baggage?")) {
+            window.location.href = "<%= request.getContextPath() %>/deleteBaggage?id=" +
+                baggageId + "&page=" + currentPage;
         }
     }
 </script>
