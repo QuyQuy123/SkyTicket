@@ -9,9 +9,9 @@
 <html>
 <head>
     <%@ page import="model.*" %>
-        <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-        <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+    <%@ page contentType="text/html;charset=UTF-8" language="java" %>
     <title>SkyTicket - Bookings management</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Premium Bootstrap 4 Landing Page Template"/>
@@ -157,10 +157,13 @@
                                             <label class="form-label">Status: </label>
                                             <label for="name"></label><input name="name" id="bookingid" type="text" disabled
                                                                              class="form-control"
-                                                                             value="<%=bookings.getStatus() != 0 ? bookings.getStatus(): ""%>">
+                                                                             value="<%= bookings.getStatus() == 1 ? "Is Pending" :
+              bookings.getStatus() == 2 ? "Payment Success" :
+                      bookings.getStatus() == 3 ? "Is Cancelled" :
+                              bookings.getStatus() == 4 ? "Refund Pending" : "Refund Completed" %>">
                                         </div>
                                     </div><!--end col-->
-                                    <% if (bookings.getAccountID() != 0) {
+                                        <% if (bookings.getAccountID() != 0) {
                                     %>
                                     <div class="col-md-6">
                                         <div class="mb-3">
@@ -170,7 +173,7 @@
                                                                              value="<%=bookings.getAccountID() != 0 ? bookings.getAccountID(): ""%>">
                                         </div>
                                     </div><!--end col-->
-                                    <% } %>
+                                        <% } %>
 
 
                                     <a href="${pageContext.request.contextPath}/listBookingsURL" class="btn btn-primary">Back</a>
