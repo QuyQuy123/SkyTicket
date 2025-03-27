@@ -28,7 +28,6 @@ public class DiscountAdd extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
         String redirectUrl = request.getContextPath() + "/addDiscounts"; // Quay lại trang add nếu lỗi
         DiscountDAO discountDAO = new DiscountDAO();
         try {
@@ -39,19 +38,19 @@ public class DiscountAdd extends HttpServlet {
 
             // Validate input
             if (accountIdStr == null || accountIdStr.isEmpty()) {
-                session.setAttribute("msg", "Account name is required!");
+                request.setAttribute("msg", "Account name is required!");
                 response.sendRedirect(redirectUrl);
                 return;
             }
 
             if (percentStr == null || percentStr.trim().isEmpty()) {
-                session.setAttribute("msg", "Percent is required!");
+                request.setAttribute("msg", "Percent is required!");
                 response.sendRedirect(redirectUrl);
                 return;
             }
 
             if (pointsStr == null || pointsStr.trim().isEmpty()) {
-                session.setAttribute("msg", "Points is required!");
+                request.setAttribute("msg", "Points is required!");
                 response.sendRedirect(redirectUrl);
                 return;
             }
@@ -61,12 +60,12 @@ public class DiscountAdd extends HttpServlet {
             try {
                 percent = Double.parseDouble(percentStr);
                 if (percent < 0 || percent > 100) {
-                    session.setAttribute("msg", "Percent must be between 0 and 100!");
+                    request.setAttribute("msg", "Percent must be between 0 and 100!");
                     response.sendRedirect(redirectUrl);
                     return;
                 }
             } catch (NumberFormatException e) {
-                session.setAttribute("msg", "Percent must be a valid number (no letters or special characters)!");
+                request.setAttribute("msg", "Percent must be a valid number (no letters or special characters)!");
                 response.sendRedirect(redirectUrl);
                 return;
             }
@@ -76,12 +75,12 @@ public class DiscountAdd extends HttpServlet {
             try {
                 points = Integer.parseInt(pointsStr);
                 if (points < 0) {
-                    session.setAttribute("msg", "Points must be a non-negative integer!");
+                    request.setAttribute("msg", "Points must be a non-negative integer!");
                     response.sendRedirect(redirectUrl);
                     return;
                 }
             } catch (NumberFormatException e) {
-                session.setAttribute("msg", "Points must be a valid integer (no letters or special characters)!");
+                request.setAttribute("msg", "Points must be a valid integer (no letters or special characters)!");
                 response.sendRedirect(redirectUrl);
                 return;
             }
@@ -99,22 +98,22 @@ public class DiscountAdd extends HttpServlet {
             boolean isAdded = discountDAO.insertDiscount(accountId, percent, points); // Sửa insertDiscount để nhận các tham số
 
             if (isAdded) {
-                session.setAttribute("msg", "Discount added successfully!");
+                request.setAttribute("msg", "Discount added successfully!");
                 request.getRequestDispatcher("/views/admin/jsp/addDiscount.jsp").forward(request, response);
             } else {
-                session.setAttribute("msg", "Failed to add discount!");
+                request.setAttribute("msg", "Failed to add discount!");
                 request.getRequestDispatcher("/views/admin/jsp/addDiscount.jsp").forward(request, response);
             }
 
         } catch (NumberFormatException e) {
-            session.setAttribute("msg", "Invalid input format!");
+            request.setAttribute("msg", "Invalid input format!");
             response.sendRedirect(redirectUrl);
         } catch (SQLException e) {
-            session.setAttribute("msg", "Database error: " + e.getMessage());
+            request.setAttribute("msg", "Database error: " + e.getMessage());
             response.sendRedirect(redirectUrl);
             e.printStackTrace();
         } catch (Exception e) {
-            session.setAttribute("msg", "Unexpected error: " + e.getMessage());
+            request.setAttribute("msg", "Unexpected error: " + e.getMessage());
             response.sendRedirect(redirectUrl);
             e.printStackTrace();
         }
