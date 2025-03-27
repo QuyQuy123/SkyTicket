@@ -43,8 +43,8 @@ public class BookingsDetail extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
+        int bookingId = Integer.parseInt(req.getParameter("bookingId"));
         if ("confirmPayment".equals(action)) {
-            int bookingId = Integer.parseInt(req.getParameter("bookingId"));
             boolean success = bookingsDAO.changeStatusToSuccess(bookingId);
             Bookings book = bookingsDAO .getBookingById(bookingId);
             email.sendPaymentSuccessfulbyEmail(book.getContactEmail(), book);
@@ -57,10 +57,7 @@ public class BookingsDetail extends HttpServlet {
             req.setAttribute("booking", bookings);
         }
         if ("confirmRefund".equals(action)) {
-            int bookingId = Integer.parseInt(req.getParameter("bookingId"));
             boolean success = bookingsDAO.changeStatusToRefundSuccess(bookingId);
-//            Bookings book = bookingsDAO .getBookingById(bookingId);
-//            email.sendPaymentSuccessfulbyEmail(book.getContactEmail(), book);
             if (success) {
                 req.setAttribute("msg", "Refund confirmed successfully!");
             } else {
@@ -69,6 +66,18 @@ public class BookingsDetail extends HttpServlet {
             Bookings bookings = bookingsDAO.getBookingById(bookingId);
             req.setAttribute("booking", bookings);
         }
+        if ("confirmReject".equals(action)) {
+            boolean success = bookingsDAO.changeStatusToRefundReject(bookingId);
+            if (success) {
+                req.setAttribute("msg", "Refund confirmed successfully!");
+            } else {
+                req.setAttribute("msg", "Failed to confirm Refund.");
+            }
+            Bookings bookings = bookingsDAO.getBookingById(bookingId);
+            req.setAttribute("booking", bookings);
+        }
+
+
 
         req.getRequestDispatcher("views/admin/jsp/viewDetailBooking.jsp").forward(req, resp);
     }

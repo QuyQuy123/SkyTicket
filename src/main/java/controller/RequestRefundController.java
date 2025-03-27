@@ -50,14 +50,12 @@ public class RequestRefundController extends HttpServlet {
 
             int bookId = Integer.parseInt(bookStr);
             List<Tickets> list = td.getAllTicketsByBookingId(bookId);
-            if(list.size() > 1){
                 for (Tickets ticket : list) {
                     td.waitRefundPendingByTicketId(ticket.getTicketId());
                 }
-            }else{
                 bd.changeStatusToRefundPending(bookId);
                 td.waitRefundPending(bookId);
-            }
+
 
 
 

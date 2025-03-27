@@ -126,6 +126,19 @@ public class AccountDAO extends DBConnect {
         }
     }
 
+    public int countStaff(){
+        String sql = "SELECT COUNT(*) AS a FROM accounts WHERE roleid = 2 && status =1 ";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("a");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
 
     public String generateRandomString() {
         // Tập hợp ký tự gồm chữ in hoa và số

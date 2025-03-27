@@ -4,7 +4,9 @@ import model.Bookings;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class BookingDAO extends DBConnect{
 
@@ -133,6 +135,35 @@ public class BookingDAO extends DBConnect{
         return null;
     }
 
+    public Map<Integer, Double> getRevenueByMonth(int year) {
+        Map<Integer, Double> revenueByMonth = new HashMap<>();
+        for (int month = 1; month <= 12; month++) {
+            revenueByMonth.put(month, 0.0);
+        }
+
+        String query = "SELECT MONTH(BookingDate) AS Month, SUM(totalprice) AS Total \n" +
+                "                FROM Bookings \n" +
+                "                WHERE YEAR(BookingDate) = ?\n" +
+                "                GROUP BY MONTH(BookingDate)";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, year);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    int month = rs.getInt("Month");
+                    double total = rs.getDouble("Total");
+                    revenueByMonth.put(month, total);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return revenueByMonth;
+    }
+
+
+
+
+
     public List<Bookings> getOrdersByStatusAndAccountId(int status, int accountId) {
         List<Bookings> list = new ArrayList<>();
         String sql = "select * from Bookings\n"
@@ -188,6 +219,17 @@ public class BookingDAO extends DBConnect{
     }
     public boolean changeStatusToRefundSuccess(int bookingId) {
         String sql = "UPDATE Bookings SET status = 5 WHERE bookingID = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, bookingId);
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    public boolean changeStatusToRefundReject(int bookingId) {
+        String sql = "UPDATE Bookings SET status = 6 WHERE bookingID = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, bookingId);
             int rowsAffected = stmt.executeUpdate();

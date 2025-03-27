@@ -1,0 +1,187 @@
+/* Reset cơ bản để loại bỏ margin, padding mặc định */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Tùy chỉnh body */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f7fa; /* Nền xám nhạt */
+    color: #2c3e50; /* Màu chữ chính */
+}
+
+/* Tùy chỉnh container chính */
+.page-wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Tùy chỉnh nội dung chính */
+.page-content {
+    flex: 1;
+    padding: 20px;
+}
+
+/* Tùy chỉnh container fluid */
+.container-fluid {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Tùy chỉnh layout-specing */
+.layout-specing {
+    padding: 30px;
+}
+
+/* Tùy chỉnh tiêu đề Dashboard */
+.layout-specing h5 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Tùy chỉnh hàng chứa các card */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -15px; /* Tạo khoảng cách giữa các cột */
+}
+
+/* Tùy chỉnh cột */
+[class*="col-"] {
+    padding: 0 15px; /* Khoảng cách giữa các cột */
+    display: flex; /* Đảm bảo card bên trong có chiều cao bằng nhau */
+}
+
+/* Tùy chỉnh card */
+.card {
+    width: 100%;
+    height: 120px; /* Chiều cao cố định để các card bằng nhau */
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    border-radius: 15px;
+    background: linear-gradient(135deg, #ffffff, #f8f9fa); /* Gradient nền nhẹ */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); /* Bóng đổ nhẹ */
+    transition: all 0.3s ease; /* Hiệu ứng mượt mà */
+    border: none;
+}
+
+/* Hiệu ứng hover cho card */
+.card:hover {
+    transform: translateY(-5px); /* Nâng lên khi hover */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Bóng đổ đậm hơn */
+}
+
+/* Tùy chỉnh nội dung trong card */
+.card .d-flex {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+/* Tùy chỉnh icon trong card */
+.card .icon {
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    font-size: 24px;
+    border-radius: 10px;
+    text-align: center;
+    margin-right: 15px; /* Khoảng cách giữa icon và nội dung */
+    transition: all 0.3s ease;
+}
+
+/* Tùy chỉnh số liệu và tiêu đề */
+.card .flex-1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.card h5 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #2c3e50; /* Màu chữ đậm */
+    margin-bottom: 5px; /* Khoảng cách giữa số liệu và tiêu đề */
+}
+
+.card p.text-muted {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #7f8c8d; /* Màu chữ nhạt hơn */
+}
+
+/* Tùy chỉnh màu sắc cho từng card */
+.card:nth-child(1) .icon { /* Card Tickets */
+    background-color: rgba(52, 152, 219, 0.1); /* Nền xanh dương nhạt */
+    color: #3498db; /* Màu xanh dương */
+}
+
+.card:nth-child(1):hover .icon { /* Hiệu ứng hover cho icon */
+    background-color: #3498db;
+    color: #ffffff;
+}
+
+.card:nth-child(2) .icon { /* Card Staff Members */
+    background-color: rgba(231, 76, 60, 0.1); /* Nền đỏ nhạt */
+    color: #e74c3c; /* Màu đỏ */
+}
+
+.card:nth-child(2):hover .icon {
+    background-color: #e74c3c;
+    color: #ffffff;
+}
+
+.card:nth-child(3) .icon { /* Card Total */
+    background-color: rgba(39, 174, 96, 0.1); /* Nền xanh lá nhạt */
+    color: #27ae60; /* Màu xanh lá */
+}
+
+.card:nth-child(3):hover .icon {
+    background-color: #27ae60;
+    color: #ffffff;
+}
+
+.card:nth-child(4) .icon { /* Card Flight */
+    background-color: rgba(241, 196, 15, 0.1); /* Nền vàng nhạt */
+    color: #f1c40f; /* Màu vàng */
+}
+
+.card:nth-child(4):hover .icon {
+    background-color: #f1c40f;
+    color: #ffffff;
+}
+
+/* Tùy chỉnh card Total để số liệu không quá dài */
+.card:nth-child(3) h5 {
+    font-size: 20px; /* Giảm font size cho Total */
+}
+
+/* Responsive cho các cột */
+@media (max-width: 1200px) {
+    .col-xl-2 {
+        flex: 0 0 25%;
+        max-width: 25%;
+    }
+}
+
+@media (max-width: 992px) {
+    .col-lg-4 {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+}
+
+@media (max-width: 576px) {
+    .col-md-4 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+}

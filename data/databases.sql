@@ -27,8 +27,8 @@ CREATE TABLE Accounts (
     FOREIGN KEY (RoleId) REFERENCES Roles(RoleId)
 );
 INSERT INTO Accounts (FullName, Email, Password, Phone, Address, Img, Dob, Status, RoleId) VALUES
-('Admin User', 'admin@example.com', 'admin123', '0123456789', '123 Admin St', 'admin.jpg', '1990-01-01', 1, 1),
-('Member User', 'member@example.com', 'member123', '0987654321', '456 Member St', 'member.jpg', '1995-05-05', 1, 2);
+('Admin User', 'admin@example.com', '$2a$12$h849FSoyKU2DY1AQvIIruOo6TFHpt1oa6ls.dSRReu0OsHvhczYea', '0123456789', '123 Admin St', 'admin.jpg', '1990-01-01', 1, 1),
+('Member User', 'member@example.com', '$2a$12$h849FSoyKU2DY1AQvIIruOo6TFHpt1oa6ls.dSRReu0OsHvhczYea', '0987654321', '456 Member St', 'member.jpg', '1995-05-05', 1, 2);
 
 -- Bảng Discounts
 CREATE TABLE Discounts (
