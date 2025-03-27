@@ -35,6 +35,32 @@ public class RefundDAO extends DBConnect {
         }
         return refundList;
     }
+    public List<Refund> getAllRefunds2() {
+        List<Refund> refundList = new ArrayList<>();
+        String sql = "SELECT r.RefundId, r.TicketId, r.BankAccount, r.BankName, r.RequestDate, " +
+                "r.RefundDate, r.RefundPrice, r.Status, t.Code " +
+                "FROM Refund r JOIN Tickets t ON r.TicketId = t.TicketId";
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                int refundId = rs.getInt("RefundId");
+                int ticketId = rs.getInt("TicketId");
+                String bankAccount = rs.getString("BankAccount");
+                String bankName = rs.getString("BankName");
+                Timestamp requestDate = rs.getTimestamp("RequestDate");
+                Timestamp refundDate = rs.getTimestamp("RefundDate");
+                double refundPrice = rs.getDouble("RefundPrice");
+                int status = rs.getInt("Status");
+                String ticketCode = rs.getString("Code");
+                refundList.add(new Refund(refundId, ticketId, bankAccount, bankName, requestDate, refundDate, refundPrice, status, ticketCode));
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return refundList;
+    }
+
 
     // Lấy danh sách yêu cầu hoàn tiền theo trạng thái
     public List<Refund> getRefundsByStatus(int status) {
@@ -95,8 +121,7 @@ public class RefundDAO extends DBConnect {
         return null;
     }
 
-    // Thêm mới một yêu cầu hoàn tiền
-    public void addRefund(Refund refund) {
+    public int addRefund(Refund refund) {
         String sql = "INSERT INTO Refund (TicketId, BankAccount, BankName, RequestDate, RefundPrice, Status) " +
                 "VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -106,18 +131,27 @@ public class RefundDAO extends DBConnect {
             stmt.setTimestamp(4, refund.getRequestDate());
             stmt.setDouble(5, refund.getRefundPrice());
             stmt.setInt(6, refund.getStatus());
-            stmt.executeUpdate();
+            return stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+            return -1;
         }
     }
 
-    // Cập nhật trạng thái yêu cầu hoàn tiền (Approve hoặc Reject)
+    public static void main(String[] args) {
+        RefundDAO a = new RefundDAO();
+        Timestamp requestDate = new Timestamp(System.currentTimeMillis());
+        Timestamp refundDate = null;
+        int x = a.addRefund(new Refund(1,"00000119496","TP BANK",requestDate,refundDate,2500,1));
+        System.out.println(x);
+    }
+
+
     public void updateRefundStatus(int refundId, int status) {
         String sql;
-        if (status == 2) { // Refund Success
+        if (status == 2) {
             sql = "UPDATE Refund SET Status = ?, RefundDate = NOW() WHERE RefundId = ?";
-        } else { // Refund Failed hoặc Pending
+        } else {
             sql = "UPDATE Refund SET Status = ? WHERE RefundId = ?";
         }
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -125,7 +159,6 @@ public class RefundDAO extends DBConnect {
             stmt.setInt(2, refundId);
             stmt.executeUpdate();
 
-            // Nếu phê duyệt hoàn tiền, cập nhật trạng thái vé thành "Cancelled"
             if (status == 2) {
                 String updateTicketSql = "UPDATE Tickets SET Status = 'Cancelled', CancelledAt = NOW() " +
                         "WHERE TicketId = (SELECT TicketId FROM Refund WHERE RefundId = ?)";
@@ -287,7 +320,5 @@ public class RefundDAO extends DBConnect {
         }
     }
 
-        public static void main(String[] args) {
-            RefundDAO refundDAO = new RefundDAO();
-        }
+
 }

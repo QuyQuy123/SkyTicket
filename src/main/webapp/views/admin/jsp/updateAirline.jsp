@@ -97,6 +97,11 @@
                                         ${msg}
                                 </div>
                             </c:if>
+                            <c:if test="${not empty err}">
+                                <div style="color: red; font-weight: bold;">
+                                        ${err}
+                                </div>
+                            </c:if>
 
                             <form class="mt-4" action="${pageContext.request.contextPath}/updateAirline" method="post" enctype="multipart/form-data">
                                 <input type="hidden" name="airlineId" value="${airl.airlineId}">
