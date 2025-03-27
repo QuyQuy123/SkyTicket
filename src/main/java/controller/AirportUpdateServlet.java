@@ -67,6 +67,13 @@ public class AirportUpdateServlet extends HttpServlet {
         LocationsDAO locationsDAO = new LocationsDAO();
         Locations location = locationsDAO.getLocationById(existingAirport.getLocationId());
 
+        if (existingAirport.getAirportName().equals(airportName) && existingAirport.getStatus() == status) {
+            request.setAttribute("errorMsg", "Airport name already exists!");
+            request.setAttribute("airport", existingAirport);
+            request.setAttribute("location", location);
+            request.getRequestDispatcher("views/admin/jsp/updateAirport.jsp").forward(request, response);
+            return;
+        }
         // Validate airport name (Allow Vietnamese characters)
         if (airportName.isEmpty() || !airportName.matches("^[\\p{L}\\s]+$")) {
             request.setAttribute("errorMsg", "Invalid airport name! It can only contain letters and spaces.");
