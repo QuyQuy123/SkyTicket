@@ -169,14 +169,11 @@
         <div class="container-fluid">
             <div class="layout-specing">
                 <div class="plane-container">
-                    <c:if test="${not empty ali}">
+                    <c:if test="${not empty airline}">
                     <p>Head</p>
                     <hr style="width: 80%; margin: 20px auto; border: 2px  black;">
 
-                    <form id="seatForm" action="${pageContext.request.contextPath}/listseats" method="POST">
-                        <input type="hidden" name="seatId" id="seatId">
-                        <input type="hidden" name="id" value="${ali.airlineId}">
-                    </form>
+
 
                     <c:if test="${not empty seats}">
                     <!-- Ghế VIP -->
@@ -187,7 +184,7 @@
                     <div class="seat-container">
                         <c:forEach var="seat" items="${seats}">
                             <c:if test="${seat.seatClass eq 'Vip'}">
-                                <c:if test="${count % ali.numberOfSeatsOnVipRow == 0}">
+                                <c:if test="${count % airline.numberOfSeatsOnVipRow == 0}">
                                     <div class="row">
                                 </c:if>
 
@@ -198,12 +195,12 @@
                                 </div>
 
                                 <c:set var="count" value="${count + 1}"/>
-                                <c:if test="${count % ali.numberOfSeatsOnVipRow == 0}">
+                                <c:if test="${count % airline.numberOfSeatsOnVipRow == 0}">
                                     </div>
                                 </c:if>
                             </c:if>
                         </c:forEach>
-                        <c:if test="${count % ali.numberOfSeatsOnVipRow != 0}">
+                        <c:if test="${count % airline.numberOfSeatsOnVipRow != 0}">
                     </div>
                     </c:if>
                 </div>
@@ -219,7 +216,7 @@
                 <div class="seat-container">
                     <c:forEach var="seat" items="${seats}">
                         <c:if test="${seat.seatClass eq 'Economy'}">
-                            <c:if test="${count % ali.numberOfSeatsOnEconomyRow == 0}">
+                            <c:if test="${count % airline.numberOfSeatsOnEconomyRow == 0}">
                                 <div class="row">
                             </c:if>
 
@@ -230,12 +227,12 @@
                             </div>
 
                             <c:set var="count" value="${count + 1}"/>
-                            <c:if test="${count % ali.numberOfSeatsOnEconomyRow == 0}">
+                            <c:if test="${count % airline.numberOfSeatsOnEconomyRow == 0}">
                                 </div>
                             </c:if>
                         </c:if>
                     </c:forEach>
-                    <c:if test="${count % ali.numberOfSeatsOnEconomyRow != 0}">
+                    <c:if test="${count % airline.numberOfSeatsOnEconomyRow != 0}">
                 </div>
                 </c:if>
             </div>
@@ -247,7 +244,7 @@
             <hr style="width: 80%; margin: 20px auto; border: 2px black;">
             <p>Tail</p>
             </c:if>
-            <c:if test="${empty ali}">
+            <c:if test="${empty airline}">
                 <p class="text-center">No flight available!</p>
             </c:if>
         </div>
