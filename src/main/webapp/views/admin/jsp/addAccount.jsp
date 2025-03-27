@@ -2,7 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
@@ -27,7 +26,6 @@
     <link href="${pageContext.request.contextPath}/views/admin/assets/css/materialdesignicons.min.css" rel="stylesheet" type="text/css"/>
     <link href="${pageContext.request.contextPath}/views/admin/assets/css/remixicon.css" rel="stylesheet" type="text/css"/>
     <link href="https://unicons.iconscout.com/release/v3.0.6/css/line.css" rel="stylesheet">
-
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
     <!-- Css -->
     <link href="${pageContext.request.contextPath}/views/admin/assets/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt"/>
@@ -53,7 +51,7 @@
 
     <!-- Start Page Content -->
     <main class="page-content bg-light">
-       <%@include file="top.jsp"%>
+        <%@include file="top.jsp"%>
 
         <div class="container-fluid">
             <div class="layout-specing">
@@ -74,7 +72,7 @@
                         <div class="card border-0 p-4 rounded shadow">
 
                             <c:if test="${not empty msg}">
-                                <div style="color: green; font-weight: bold;">
+                                <div style="color: ${msg.contains('successfully') ? 'green' : 'red'}; font-weight: bold;">
                                         ${msg}
                                 </div>
                             </c:if>
@@ -83,7 +81,7 @@
                                 <div class="row align-items-center">
                                     <div class="col-lg-5 col-md-4">
                                         <img id="previewImage" src="${pageContext.request.contextPath}/views/admin/assets/images/client/demo.webp"
-                                             class="avatar rounded shadow mt-3" width="250" alt="Account Lyly ">
+                                             class="avatar rounded shadow mt-3" width="250" alt="Account Lyly">
                                         <hr>
                                         <input type="file" name="accountImg" id="accountImg" class="form-control">
                                     </div><!--end col-->
@@ -93,8 +91,6 @@
                                         <p class="text-muted mb-0"> For best results, use an image at least 600px by
                                             600px in either .jpg or .png format </p>
                                     </div> <!--end col-->
-
-
                                 </div> <!--end row-->
 
                                 <br>
@@ -103,54 +99,48 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label class="form-label" for="fullName">Full Name: </label>
-                                            <input name="fullName" id="fullName" type="text"
-                                                                             class="form-control"
-                                                                             placeholder="Enter your name">
+                                            <input name="fullName" id="fullName" type="text" class="form-control"
+                                                   placeholder="Enter your name" value="${requestScope.fullName != null ? requestScope.fullName : ''}">
                                         </div>
                                     </div>
-
 
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label class="form-label" for="dob">Date of birth: </label>
-                                            <input type="date" name="dob" id="dob"
-                                                                             class="form-control">
+                                            <input type="date" name="dob" id="dob" class="form-control"
+                                                   value="${requestScope.dob != null ? requestScope.dob : ''}">
                                         </div>
                                     </div>
 
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label class="form-label" for="email">Email: </label>
-                                            <input name="email" id="email" type="text"
-                                                                             class="form-control"
-                                                                             placeholder="Enter your email">
+                                            <input name="email" id="email" type="text" class="form-control"
+                                                   placeholder="Enter your email" value="${requestScope.email != null ? requestScope.email : ''}">
                                         </div>
                                     </div>
 
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label class="form-label" for="password">Password: </label>
-                                            <input name="password" id="password" type="text"
-                                                                             class="form-control"
-                                                                             placeholder="Enter your password">
+                                            <input name="password" id="password" type="text" class="form-control"
+                                                   placeholder="Enter your password" value="${requestScope.password != null ? requestScope.password : ''}">
                                         </div>
                                     </div>
 
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label class="form-label" for="phone">Phone: </label>
-                                            <input name="phone" id="phone" type="text"
-                                                                             class="form-control"
-                                                                             placeholder="Phone number">
+                                            <input name="phone" id="phone" type="text" class="form-control"
+                                                   placeholder="Phone number" value="${requestScope.phone != null ? requestScope.phone : ''}">
                                         </div>
                                     </div>
 
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label class="form-label" for="address">Address: </label>
-                                            <input name="address" id="address" type="text"
-                                                                             class="form-control"
-                                                                             placeholder="Enter your address">
+                                            <input name="address" id="address" type="text" class="form-control"
+                                                   placeholder="Enter your address" value="${requestScope.address != null ? requestScope.address : ''}">
                                         </div>
                                     </div>
 
@@ -158,8 +148,8 @@
                                         <div class="mb-3">
                                             <label class="form-label" for="status">Status</label>
                                             <select class="form-control gender-name select2input" name="status" id="status">
-                                                <option value="1">Active</option>
-                                                <option value="0" selected>Deactive</option>
+                                                <option value="1" ${param.status == '1' ? 'selected' : ''}>Active</option>
+                                                <option value="0" ${param.status == '0' || param.status == null ? 'selected' : ''}>Deactive</option>
                                             </select>
                                         </div>
                                     </div>
@@ -167,17 +157,13 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label class="form-label" for="roleId">Role: </label>
-
                                             <select class="form-control gender-name select2input" name="roleId" id="roleId">
                                                 <c:forEach var="role" items="${rolesList}">
-                                                    <option value="${role.roleId}">${role.roleName}</option>
+                                                    <option value="${role.roleId}" ${param.roleId == role.roleId ? 'selected' : ''}>${role.roleName}</option>
                                                 </c:forEach>
                                             </select>
                                         </div>
                                     </div>
-
-
-
                                 </div> <!--end row-->
 
                                 <button type="submit" class="btn btn-primary">Add Account</button>
@@ -209,9 +195,6 @@
                                 </li>
                             </ul>
                         </div>
-
-
-
                     </div>
                 </div> <!--end row-->
             </div>
@@ -225,13 +208,11 @@
 </div>
 <!-- page-wrapper -->
 
-
-
 <!-- javascript -->
 <script src="${pageContext.request.contextPath}/views/admin/assets/js/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/views/admin/assets/js/bootstrap.bundle.min.js"></script>
 <!-- simplebar -->
-<script src="${pageContext.request.contextPath}/views/admin//assets/js/simplebar.min.js"></script>
+<script src="${pageContext.request.contextPath}/views/admin/assets/js/simplebar.min.js"></script>
 <!-- Select2 -->
 <script src="${pageContext.request.contextPath}/views/admin/assets/js/select2.min.js"></script>
 <script src="${pageContext.request.contextPath}/views/admin/assets/js/select2.init.js"></script>
@@ -251,5 +232,4 @@
 </script>
 
 </body>
-
 </html>

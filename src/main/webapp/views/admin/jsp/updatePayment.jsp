@@ -1,4 +1,7 @@
-<%@ page import="model.*" %>
+<%@ page import="model.Locations" %>
+<%@ page import="model.Payments" %>
+<%@ page import="java.awt.print.Book" %>
+<%@ page import="model.Bookings" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -68,20 +71,19 @@
     <main class="page-content bg-light">
         <%@ include file="top.jsp" %>
 
-        <% Payments payments = (Payments) request.getAttribute("payment");
-            Bookings bookings = (Bookings) request.getAttribute("booking");
-        %>
+        <% Payments payments = (Payments) request.getAttribute("payments");
+            Bookings bookings = (Bookings) request.getAttribute("bookings");%>
 
         <div class="container-fluid">
             <div class="layout-specing">
                 <div class="d-md-flex justify-content-between">
-                    <h5 class="mb-0">Payment ID: <%= payments.getPaymentID()%> </h5>
+                    <h5 class="mb-0">Update Payment ID: <%=payments.getPaymentID()%></h5>
 
                     <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
                         <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
                             <li class="breadcrumb-item"><a href="Dashboard.jsp">SkyTicket</a></li>
                             <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/listPaymentsURL">Payments</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">View Payment</li>
+                            <li class="breadcrumb-item active" aria-current="page">Update Payments</li>
                         </ul>
                     </nav>
                 </div>
@@ -89,14 +91,26 @@
                 <div class="row">
                     <div class="col-lg-8 mt-4">
                         <div class="card border-0 p-4 rounded shadow">
+                            <c:if test="${not empty error}">
+                                <div style="color: red; font-weight: bold;">
+                                        ${error}
+                                </div>
+                            </c:if>
                             <c:if test="${not empty msg}">
                                 <div style="color: green; font-weight: bold;">
                                         ${msg}
                                 </div>
                             </c:if>
+                            <c:if test="${not empty error1}">
+                                <div style="color: green; font-weight: bold;">
+                                        ${error1}
+                                </div>
+                            </c:if>
 
-                            <form class="mt-4" action="${pageContext.request.contextPath}/updateLocation" method="post" enctype="multipart/form-data">
 
+                            <form class="mt-4" action="${pageContext.request.contextPath}/updatePayment" method="post">
+
+                                <input type="hidden" name="locationId" value="<%=payments.getPaymentID()%>">
 
                                 <br>
 
@@ -111,19 +125,12 @@
                                     </div><!--end col-->
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label">Email: </label>
-                                            <label for="name"></label><input name="name" id="e" type="text" disabled
-                                                                             class="form-control"
-                                                                             value="<%=payments.getEmail() != null ? payments.getEmail(): ""%>">
-                                        </div>
-                                    </div><!--end col-->
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label class="form-label">Payment Status: </label>
-                                            <label for="name"></label><input name="name" id="phone" type="text" disabled
-                                                                             class="form-control"
-                                                                             value="<%= payments.getPaymentStatus() == 1 ? "Is Pending" :
-              payments.getPaymentStatus() == 2 ? "Payment Success" : "Is Cancelled" %>">
+                                            <label class="form-label" for="we">Status</label>
+                                            <select class="form-control gender-name select2input" name="status" id="we">
+                                                <option value="1" <%=payments.getPaymentStatus() == 1 ? "selected" : ""%>>Is Pending</option>
+                                                <option value="2" <%=payments.getPaymentStatus() == 2 ? "selected" : ""%>>Payment Success</option>
+                                                <option value="3" <%=payments.getPaymentStatus() == 3 ? "selected" : ""%>>Is Cancelled</option>
+                                            </select>
                                         </div>
                                     </div><!--end col-->
                                     <div class="col-md-6">
@@ -151,13 +158,22 @@
                                         </div>
                                     </div><!--end col-->
 
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Email: </label>
+                                            <input name="countryName" id="countryName" disabled
+                                                   type="text" class="form-control"
+                                                   value="<%= payments.getEmail() != null ? payments.getEmail() : "Unknown" %>">
+                                        </div>
+                                    </div><!--end col-->
 
-                                    <a href="${pageContext.request.contextPath}/listPaymentsURL" class="btn btn-primary">Back</a>
-
+                                    <div class="col-md-6">
+                                        <button type="submit" class="btn btn-primary">Update Payment</button>
+                                        <a href="${pageContext.request.contextPath}/listPaymentsURL" class="btn btn-danger">Cancel</a>
+                                    </div>
                             </form>
                         </div>
                     </div><!--end col-->
-
                 </div><!--end row-->
                 <div class="col-lg-4 mt-4">
                     <div class="card rounded border-0 shadow">
@@ -168,7 +184,7 @@
 
                         <ul class="list-unstyled mb-0 p-4" data-simplebar style="height: 664px;">
                             <div>
-                                Passenger name must be ...
+                                Location name must be ...
                             </div>
 
                             <li class="mt-4 text-center">

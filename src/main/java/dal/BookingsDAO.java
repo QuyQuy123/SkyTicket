@@ -46,14 +46,14 @@ public class BookingsDAO extends DBConnect {
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
                 return new Bookings(rs.getInt("BookingId"),
-                rs.getString("Code"),
-                rs.getString("ContactName"),
-                rs.getString("ContactPhone"),
-                rs.getString("ContactEmail"),
-                rs.getDouble("TotalPrice"),
-                rs.getTimestamp("BookingDate"),
-                rs.getInt("status"),
-                rs.getInt("AccountId"));
+                        rs.getString("Code"),
+                        rs.getString("ContactName"),
+                        rs.getString("ContactPhone"),
+                        rs.getString("ContactEmail"),
+                        rs.getDouble("TotalPrice"),
+                        rs.getTimestamp("BookingDate"),
+                        rs.getInt("status"),
+                        rs.getInt("AccountId"));
             }
         } catch (SQLException e) {
             System.out.println(e);

@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TicketsDAO extends DBConnect{
+
+
+
     public List<String> getAllTicketCodesById(int flightlID, int seatId) {
         List<String> ls = new ArrayList<>();
         String sql = "SELECT t.Code \n" +
@@ -30,6 +33,20 @@ public class TicketsDAO extends DBConnect{
             System.out.println(e.getMessage());
         }
         return ls;
+    }
+
+    public int getPriceById(int ticketId) {
+        String sql = "select t.price from Tickets t where ticketId = ?";
+        try(PreparedStatement ps = connection.prepareStatement(sql);) {
+            ps.setInt(1, ticketId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("Price");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
     }
 
     public Tickets getTicketByCode(String code, int flightId, int seatId) {
@@ -189,6 +206,33 @@ public class TicketsDAO extends DBConnect{
         }
 
     }
+
+    public void waitRefundPending(int bookingId) {
+
+        String sql = "UPDATE Tickets SET Status = 10 where bookingId =? ";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, bookingId);
+            ps.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+    public void waitRefundPendingByTicketId(int ticketId) {
+
+        String sql = "UPDATE Tickets SET Status = 4 where ticketId =? ";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, ticketId);
+            ps.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
     public List<Tickets> getAllTickets() {
         List<Tickets> tickets = new ArrayList<>();
         String query = "SELECT * FROM Tickets";
@@ -218,15 +262,48 @@ public class TicketsDAO extends DBConnect{
 
         return tickets;
     }
+    public void cancelTicketById(int id) {
+        String sql = "UPDATE Tickets SET Status = 3, cancelledat = ? WHERE ticketid = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
+            ps.setInt(2, id);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public int countNumberTicketNotCancel(int bookingId) {
+        String sql = "SELECT COUNT(*) AS ticket_count FROM Tickets WHERE BookingId = ? AND (Status = 1 or Status=2)";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, bookingId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("ticket_count");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 
-    public static void main(String[] args) {
-        TicketsDAO tDAO = new TicketsDAO();
-        List<Tickets> tickets = tDAO.getAllTickets();
-        for (Tickets ticket : tickets) {
-            System.out.println(ticket);
+    public void cancelAllTicketsByBookingId(int bookId) {
+        String sql = "UPDATE Tickets SET Status = 3, cancelledat = ? WHERE bookingid = ? and (Status = 1 or Status = 2)";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
+            ps.setInt(2, bookId);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
+    public static void main(String[] args) {
+        TicketsDAO t = new TicketsDAO();
+        int a = t.countNumberTicketNotCancel(1);
+        System.out.println("count : "+a);
+
+    }
 
 
 

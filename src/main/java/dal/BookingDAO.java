@@ -23,7 +23,7 @@ public class BookingDAO extends DBConnect{
             ps.setString(4, contactEmail);
             ps.setFloat(5, totalPrice);
             ps.setTimestamp(6, new Timestamp(System.currentTimeMillis()));
-            ps.setInt(7, 1); // Giả định 1 là trạng thái "pending", bạn có thể thay đổi tùy theo hệ thống
+            ps.setInt(7, 1);
             if (accountId != null) {
                 ps.setInt(8, accountId);
             } else {
@@ -35,8 +35,6 @@ public class BookingDAO extends DBConnect{
             if (affectedRows == 0) {
                 throw new SQLException("Creating booking failed, no rows affected.");
             }
-
-            // Lấy BookingId vừa được tạo
             Integer bookingId = null;
             ResultSet generatedKeys = ps.getGeneratedKeys();
             if (generatedKeys.next()) {
@@ -102,7 +100,6 @@ public class BookingDAO extends DBConnect{
     public void updateTotalPrice(int bookingid, float newTotalPrice) {
         String sql = "UPDATE bookings SET totalPrice = ? WHERE bookingid = ?";
         try( PreparedStatement ps = connection.prepareStatement(sql)) {
-
             ps.setFloat(1, newTotalPrice);
             ps.setInt(2, bookingid);
             ps.executeUpdate();
@@ -165,6 +162,43 @@ public class BookingDAO extends DBConnect{
         return null;
     }
 
+
+    public boolean changeStatusToSuccess(int bookingId) {
+        String sql = "UPDATE Bookings SET status = 2 WHERE bookingID = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, bookingId);
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean changeStatusToRefundPending(int bookingId) {
+        String sql = "UPDATE Bookings SET status = 4 WHERE bookingID = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, bookingId);
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    public boolean changeStatusToRefundSuccess(int bookingId) {
+        String sql = "UPDATE Bookings SET status = 5 WHERE bookingID = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, bookingId);
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
     public List<Bookings> getListOrderByCodeAndAccountId(String code, int accountId) {
         List<Bookings> list = new ArrayList<>();
         String sql = "select * from Bookings\n"
@@ -226,8 +260,8 @@ public class BookingDAO extends DBConnect{
 
     public List<Bookings> getAllOrdersByAccountId(int accountId, int index) {
         List<Bookings> list = new ArrayList<>();
-        int limit = 2; // Mỗi trang hiển thị 2 booking
-        int offset = (index - 1) * limit; // Tính offset
+        int limit = 2;
+        int offset = (index - 1) * limit;
         String sql = "SELECT * FROM Bookings WHERE AccountId = ? ORDER BY BookingId DESC LIMIT ? OFFSET ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -252,20 +286,20 @@ public class BookingDAO extends DBConnect{
 
             return list;
         } catch (Exception e) {
-            e.printStackTrace(); // Thêm log để debug lỗi
+            e.printStackTrace();
         }
         return null;
     }
 
-    public double getTotalPriceAllTickets(int bookingId) {
-        double totalPrice = 0.0;
+    public float getTotalPriceAllTickets(int bookingId) {
+        float totalPrice = 0;
         String query = "SELECT TotalPrice from Bookings  WHERE BookingId = ?";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, bookingId);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    totalPrice = resultSet.getDouble("TotalPrice");
+                    totalPrice = resultSet.getFloat("TotalPrice");
                 }
             }
         } catch (SQLException e) {
@@ -274,11 +308,11 @@ public class BookingDAO extends DBConnect{
 
         return totalPrice;
     }
-    public float getTotalPriceCancelledTicket(int booking) {
-        String sql = "SELECT SUM(Price) as total FROM Tickets WHERE bookingID = ? and (Status = 3 or Status = 4 or Status=5)";
+    public float getTotalPriceCancelledTicket(int id) {
+        String sql = "SELECT Price as total FROM Tickets WHERE ticketId = ? and (Status = 3 or Status = 4 or Status=5)";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setInt(1, booking);
+            ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return rs.getFloat("total");
@@ -289,10 +323,20 @@ public class BookingDAO extends DBConnect{
         return 0;
     }
 
+    public void canceBookingById(int id) {
+        String sql = "UPDATE Bookings SET Status = 3 WHERE bookingId = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void main(String[] args) {
         BookingDAO dao = new BookingDAO();
-        Float a = dao.getTotalPriceCancelledTicket(4);
-        System.out.println(a);
+        dao.canceBookingById(1);
 
 
 

@@ -1,5 +1,7 @@
 package dal;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
@@ -27,20 +29,17 @@ public class LoginDAO extends DBConnect{
     }
 
     public boolean checkPassword(String emailOrPhoneNumber, String password) {
-        String sql = "SELECT * FROM Accounts WHERE (Email=? OR Phone=?) AND Password=?";
-
-        try (PreparedStatement st = connection.prepareStatement(sql)){
+        String sql = "SELECT Password FROM Accounts WHERE Email=? OR Phone=?";
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
             st.setString(1, emailOrPhoneNumber);
             st.setString(2, emailOrPhoneNumber);
-            st.setString(3, password);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
-                return true;
-            } else {
-                return false;
+                String hashedPassword = rs.getString("Password");
+                return BCrypt.checkpw(password, hashedPassword);
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
         return false;
     }
