@@ -332,6 +332,22 @@
 
 
     </style>
+
+    <script>
+        function submitPassengerForm(totalPassenger) {
+            console.log("Hàm submitPassengerForm được gọi với totalPassenger =", totalPassenger);
+
+            const form = document.getElementById("passengerForm");
+            if (form) {
+                console.log("Tìm thấy form:", form);
+            } else {
+                console.log("Không tìm thấy form!");
+            }
+
+            console.log("Form hợp lệ, đang submit...");
+            form.submit();
+        }
+    </script>
 </head>
 <body>
 <jsp:include page="/views/layout/Header.jsp"/>
@@ -1341,15 +1357,6 @@
         return true;
     }
 
-    function submitPassengerForm(totalPassenger) {
-        const form = document.getElementById("passengerForm");
-        if (form.checkValidity() && validateSelectTicket() && validateNameInput(totalPassenger)) {
-            form.submit();
-        } else {
-            form.reportValidity();
-        }
-
-    }
     function updateTotalBaggage() {
         var totalBaggage = 0;
         var baggageId = 0;
@@ -1404,4 +1411,3 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </html>
-
