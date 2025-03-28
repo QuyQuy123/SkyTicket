@@ -112,9 +112,7 @@ public class ManageAccountsServlet extends HttpServlet {
         if ("update".equals(action)) {
 
             // Nhận dữ liệu từ form
-
             String password = request.getParameter("password");
-
 
             try {
                 int status = Integer.parseInt(request.getParameter("status"));
@@ -126,7 +124,6 @@ public class ManageAccountsServlet extends HttpServlet {
                     request.getRequestDispatcher("/views/admin/jsp/updateAccount.jsp").forward(request, response);
                     return;
                 }
-
 
                 System.out.println("status: " + status);
                 System.out.println("roleId: " + roleId);
