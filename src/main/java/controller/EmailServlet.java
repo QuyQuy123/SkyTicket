@@ -72,7 +72,7 @@ public class EmailServlet {
                             + "Please make the payment at least <strong>10 days</strong> before your flight to secure your booking."
                             + "</p>"
                             + "<div style='text-align: center; margin-top: 30px;'>"
-                            + "<a href='https://yourwebsite.com/payment' style='background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold;'>Make Payment Now</a>"
+                            + "<a href='http://localhost:8080/SkyTicket/bookingFlightTicketsURL' style='background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold;'>Make Payment Now</a>"
                             + "</div>"
                             + "<p style='font-size: 12px; color: #777; text-align: center; margin-top: 20px;'>"
                             + "If you have any questions, please contact our support team."

@@ -433,6 +433,7 @@
                 boolean allTicketsCancelled = true;
                 Payments payment = pmd.getPaymentByBookingId(b.getBookingID());
                 boolean isPaid = payment != null && payment.getPaymentDate() != null;
+
             %>
             <% LocalDateTime depDateTime = null;
                 for (Tickets t : listTicketInBooking) { %>
@@ -442,7 +443,7 @@
                 <div class="flight-info" style="display: flex; flex-direction: column; gap: 5px;">
                     <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px">
                         <div class="airline-image">
-                            <img src="<%=request.getContextPath()%>/img/tong_dai.jpg" alt="Airline Logo" class="img-fluid">
+                            <img src="<%=request.getContextPath()%>/img/logo.jpg" alt="Airline Logo" class="img-fluid">
                         </div>
                         <div>
                             <div>Ticket <%=count%></div>

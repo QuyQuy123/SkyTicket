@@ -4,6 +4,7 @@ package controller;
 import dal.BookingDAO;
 import dal.BookingsDAO;
 
+import dal.PaymentsDAO;
 import dal.TicketsDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -19,11 +20,13 @@ import java.io.IOException;
 public class BookingsDetail extends HttpServlet {
     private BookingDAO bookingsDAO;
     private EmailServlet email ;
+    private PaymentsDAO p;
 
     @Override
     public void init() throws ServletException {
         bookingsDAO = new BookingDAO();
         email = new EmailServlet();
+        p = new PaymentsDAO();
     }
 
     @Override
@@ -44,8 +47,10 @@ public class BookingsDetail extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
         int bookingId = Integer.parseInt(req.getParameter("bookingId"));
+        int payid = p.getIdByBookingid(bookingId);
         if ("confirmPayment".equals(action)) {
             boolean success = bookingsDAO.changeStatusToSuccess(bookingId);
+             p.updatePaymentStatus(2,payid);
             Bookings book = bookingsDAO .getBookingById(bookingId);
             email.sendPaymentSuccessfulbyEmail(book.getContactEmail(), book);
             if (success) {

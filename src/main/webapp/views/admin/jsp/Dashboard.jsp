@@ -140,11 +140,11 @@
                 </div>
 
                 <!-- Thêm phần biểu đồ doanh thu -->
-                <div class="row">
+                <div class="row" style="margin-top: 50px;">
                     <div class="col-xl-8 col-lg-7 mt-4">
                         <div class="card shadow border-0 p-4">
                             <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h6 class="align-items-center mb-0">Patients visit by Gender</h6>
+                                <h6 class="align-items-center mb-0">Revenue statistics</h6>
                                 <div class="mb-0 position-relative">
                                     <select class="form-select form-control" id="yearchart">
                                         <option selected>2020</option>
@@ -160,7 +160,7 @@
                     <div class="col-xl-4 col-lg-5 mt-4">
                         <div class="card shadow border-0 p-4">
                             <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h6 class="align-items-center mb-0">Patients by Department</h6>
+                                <h6 class="align-items-center mb-0">Number of Tickets</h6>
 
 
                                 <div class="mb-0 position-relative">

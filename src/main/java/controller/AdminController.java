@@ -19,10 +19,6 @@ public class AdminController extends HttpServlet {
         TicketsDAO td = new TicketsDAO();
         BookingDAO bd = new BookingDAO();
         int year = 2025;
-        Map<Integer, Double> revenueByMonth = bd.getRevenueByMonth(year);
-        request.setAttribute("revenueByMonth", revenueByMonth);
-        System.out.println(revenueByMonth);
-
         request.getRequestDispatcher("views/admin/jsp/Dashboard.jsp").forward(request, resp);
     }
     @Override
