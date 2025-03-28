@@ -12,9 +12,11 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.Bookings;
+import model.Tickets;
 
 
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet("/viewBooking")
 public class BookingsDetail extends HttpServlet {
@@ -33,6 +35,9 @@ public class BookingsDetail extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter("id"));
         Bookings bookings = bookingsDAO.getBookingById(id);
+        TicketsDAO ticketsDAO = new TicketsDAO();
+        List<Tickets> ticketsList = ticketsDAO.getAllTicketsByBookingId(id);
+        req.setAttribute("ticketsList", ticketsList);
 
         if (bookings == null) {
             req.setAttribute("error", "Booking not found");
