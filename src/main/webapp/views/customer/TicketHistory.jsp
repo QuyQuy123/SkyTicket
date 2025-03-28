@@ -24,36 +24,21 @@
             padding: 0;
             box-sizing: border-box;
         }
-
-
-
-
         body {
             font-family: 'Arial', sans-serif;
             background-color: #f4f7fa;
             line-height: 1.6;
         }
-
-
-
-
         /* Container chính */
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
         }
-
-
-
-
         .order-container {
             margin-top: 30px; /* Thay vì dùng transform: translateY */
             margin-bottom: 50px;
         }
-
-
-
 
         /* Buying History */
         .buying-history {
@@ -61,9 +46,6 @@
             flex-direction: column;
             gap: 30px;
         }
-
-
-
 
         .order-card {
             border: none;
@@ -74,16 +56,10 @@
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
-
-
-
         .order-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
         }
-
-
-
 
         .order-header {
             display: flex;
@@ -93,16 +69,10 @@
             border-bottom: 2px solid #eef2f7;
         }
 
-
-
-
         .order-id strong {
             font-size: 26px;
             color: #1a73e8;
         }
-
-
-
 
         .contact-info {
             font-size: 14px;
@@ -110,16 +80,10 @@
             margin-top: 8px;
         }
 
-
-
-
         .contact-info i {
             margin-right: 5px;
             color: #1a73e8;
         }
-
-
-
 
         /* Ticket Details */
         .ticket-details {
@@ -132,15 +96,9 @@
             transition: background-color 0.2s ease;
         }
 
-
-
-
         .ticket-details:hover {
             background-color: #f1f5f9;
         }
-
-
-
 
         .airline-image img {
             width: 90px;
@@ -149,16 +107,10 @@
             object-fit: cover;
         }
 
-
-
-
         .flight-info {
             flex-grow: 1;
             padding-left: 20px;
         }
-
-
-
 
         .flight-info div {
             font-size: 15px;
@@ -166,16 +118,10 @@
             margin-bottom: 8px;
         }
 
-
-
-
         .flight-info i {
             color: #1a73e8;
             margin-right: 8px;
         }
-
-
-
 
         .ticket-actions {
             display: flex;
@@ -185,9 +131,6 @@
             padding-left: 20px;
         }
 
-
-
-
         .ticket-actions .btn {
             padding: 8px 20px;
             font-size: 14px;
@@ -195,16 +138,10 @@
             transition: all 0.3s ease;
         }
 
-
-
-
         .ticket-actions .btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
-
-
-
 
         /* Status Labels */
         .status-label {
@@ -217,9 +154,6 @@
             text-align: center;
         }
 
-
-
-
         .status-label.completed { background-color: #343a40; }
         .status-label.pending { background-color: #ffc107; color: #333; }
         .status-label.successful { background-color: #28a745; }
@@ -229,9 +163,6 @@
         .status-label.rejection { background-color: #dc3545; }
         .status-label.request { background-color: #ffc107; color: #333; }
 
-
-
-
         /* Order Total */
         .list-price {
             padding: 15px 0;
@@ -240,28 +171,10 @@
             color: #555;
             text-align: right;
         }
-
-
-
-
-        .order-total {
-            font-size: 18px;
-            font-weight: 600;
-            color: #1a73e8;
-            margin-top: 10px;
-        }
-
-
-
-
         .order-actions {
             margin-top: 15px;
             text-align: right;
         }
-
-
-
-
         .order-actions .btn {
             padding: 10px 25px;
             font-size: 15px;
@@ -269,31 +182,10 @@
             transition: all 0.3s ease;
         }
 
-
-
-
         .order-actions .btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
-
-
-
-
-        /* Payment Methods */
-        #payment_methods {
-            margin-top: 30px;
-            padding: 25px;
-            background-color: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-            max-width: 1200px; /* Đồng bộ với container */
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-
-
 
         #payment_methods h2 {
             font-size: 22px;
@@ -303,23 +195,14 @@
             margin-bottom: 25px;
         }
 
-
-
-
         .payment-options {
             display: flex;
             gap: 20px;
         }
 
-
-
-
         .payment-option {
             flex: 1;
         }
-
-
-
 
         .payment-option .btn {
             display: flex;
@@ -333,19 +216,12 @@
             transition: all 0.3s ease;
         }
 
-
-
-
         .payment-option .btn:hover {
             background-color: #e9ecef;
             border-color: #1a73e8;
             transform: translateY(-3px);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
-
-
-
-
         .imgPayment {
             width: 45px;
             height: 45px;
@@ -353,33 +229,20 @@
             border-radius: 5px;
         }
 
-
-
-
         .name-pay {
             font-size: 15px;
             color: #333;
         }
-
-
-
-
         .name-pay br + span {
             color: #6c757d;
             font-size: 13px;
         }
-
-
-
 
         /* Pagination */
         .pagination {
             justify-content: center;
             margin-top: 30px;
         }
-
-
-
 
         .pagination .page-link {
             border-radius: 6px;
@@ -389,26 +252,17 @@
             transition: all 0.3s ease;
         }
 
-
-
-
         .pagination .page-link:hover {
             background-color: #1a73e8;
             color: #fff;
             border-color: #1a73e8;
         }
 
-
-
-
         .pagination .active .page-link {
             background-color: #1a73e8;
             border-color: #1a73e8;
             color: #fff;
         }
-
-
-
 
         /* Responsive */
         @media (max-width: 768px) {
@@ -417,18 +271,11 @@
                 align-items: flex-start;
                 gap: 10px;
             }
-
-
-
-
             .ticket-details {
                 flex-direction: column;
                 align-items: flex-start;
                 padding: 15px;
             }
-
-
-
 
             .ticket-actions {
                 align-items: flex-start;
@@ -436,21 +283,47 @@
                 margin-top: 15px;
             }
 
-
-
-
             .payment-options {
                 flex-direction: column;
                 gap: 15px;
             }
 
 
+        }
 
 
-            #payment_methods {
-                max-width: 100%;
-                padding: 20px;
-            }
+        .status-filter {
+            width: 200px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            padding: 8px;
+            font-weight: 500;
+            color: #333;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .status-filter option[value=""] {
+            color: #6c757d;
+        }
+
+        .status-filter option[value="2"] {
+            color: #27ae60; /* Màu xanh lá cho "Booking Successful" */
+        }
+
+        .status-filter option[value="3"] {
+            color: #e74c3c; /* Màu đỏ đậm cho "Is Cancelled" */
+        }
+
+        .status-filter option[value="5"] {
+            color: #3498db; /* Màu xanh dương cho "Refund Completed" */
+        }
+
+        /* Tùy chỉnh giao diện khi focus */
+        .status-filter:focus {
+            outline: none; /* Bỏ viền mặc định khi focus */
+            border-color: #27ae60; /* Viền xanh lá khi focus */
+            box-shadow: 0 0 5px rgba(39, 174, 96, 0.3); /* Hiệu ứng sáng khi focus */
         }
     </style>
 
@@ -475,18 +348,7 @@
         PaymentsDAO pmd = new PaymentsDAO();
     %>
 
-    <!-- Status Tabs Section -->
-    <div class="row" style="margin-top: 20px">
-        <div class="col-md-12">
-            <ul class="nav nav-tabs">
-                <li class="nav-item">
-                    <a style="color: green" class="nav-link <%= request.getParameter("status") == null ? "active" : "" %>" href="ticketHistoryURL">All</a>
-                </li>
-            </ul>
-        </div>
-    </div>
 
-    <% if (request.getParameter("status") == null) { %>
     <div class="row mt-3 mb-3">
         <div class="col-md-12">
             <form action="ticketHistoryURL" method="get" class="form-inline justify-content-center">
@@ -499,7 +361,26 @@
             </form>
         </div>
     </div>
-    <% } %>
+
+
+    <!-- Status Tabs Section -->
+    <div class="row" style="margin-top: 20px">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label for="statusFilter" style="font-weight: bold;">Filter by Status:</label>
+                <select id="statusFilter" class="form-control status-filter" onchange="filterByStatus(this)">
+                    <option value="" <%= request.getParameter("status") == null ? "selected" : "" %>>All</option>
+                    <option value="1" <%= "1".equals(request.getParameter("status")) ? "selected" : "" %>>Is Pending</option>
+                    <option value="2" <%= "2".equals(request.getParameter("status")) ? "selected" : "" %>>Booking Successful</option>
+                    <option value="3" <%= "3".equals(request.getParameter("status")) ? "selected" : "" %>>Is Cancelled</option>
+                    <option value="4" <%= "4".equals(request.getParameter("status")) ? "selected" : "" %>>Refund Pending</option>
+                    <option value="5" <%= "5".equals(request.getParameter("status")) ? "selected" : "" %>>Refund Completed</option>
+                    <option value="6" <%= "6".equals(request.getParameter("status")) ? "selected" : "" %>>Rejected Refund</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
 
     <!-- Buying History -->
     <div class="buying-history">
@@ -535,6 +416,9 @@
                         case 5: %>
                     <span class="status-label successful">Refund Complete</span>
                     <% break;
+                        case 6: %>
+                    <span class="status-label cancelled">Reject Refund</span>
+                    <% break;
                     } %>
                 </div>
             </div>
@@ -549,6 +433,7 @@
                 boolean allTicketsCancelled = true;
                 Payments payment = pmd.getPaymentByBookingId(b.getBookingID());
                 boolean isPaid = payment != null && payment.getPaymentDate() != null;
+
             %>
             <% LocalDateTime depDateTime = null;
                 for (Tickets t : listTicketInBooking) { %>
@@ -558,7 +443,7 @@
                 <div class="flight-info" style="display: flex; flex-direction: column; gap: 5px;">
                     <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px">
                         <div class="airline-image">
-                            <img src="<%=request.getContextPath()%>/img/tong_dai.jpg" alt="Airline Logo" class="img-fluid">
+                            <img src="<%=request.getContextPath()%>/img/logo.jpg" alt="Airline Logo" class="img-fluid">
                         </div>
                         <div>
                             <div>Ticket <%=count%></div>
@@ -613,25 +498,6 @@
                     <%
                         depDateTime = LocalDateTime.of(depDate != null ? depDate : LocalDate.now(), depTime != null ? depTime : LocalTime.now());
                     %>
-                    <!-- Logic hiển thị nút Cancel Ticket -->
-                    <%
-                        if ((b.getStatus() == 1 || b.getStatus() == 2) && (t.getStatus() == 1 || t.getStatus() == 2) && currentDateTime.isBefore(depDateTime)) {
-                    %>
-                    <button class="btn btn-danger" style="text-decoration: none; margin-top: 5px;" onclick="openModalTicket(
-                    <%= t.getTicketId()%>, <%=b.getBookingID()%>)">Cancel Ticket</button>
-                    <% } else if (t.getStatus() == 3) { %>
-                    <button class="btn btn-danger" style="text-decoration: none; margin-top: 5px;" disabled>Is Cancelled</button>
-                    <% } else if (t.getStatus() == 4) { %>
-                    <button class="btn btn-warning" style="text-decoration: none; margin-top: 5px;" disabled>Refund Pending</button>
-                    <% } else if (t.getStatus() == 5) { %>
-                    <span class="status-label successful" style="margin-top: 5px;">Refund Complete</span>
-                    <% } %>
-
-                    <!-- Logic hiển thị nút Request Refund cho từng ticket -->
-                    <% if (t.getStatus() == 3 && isPaid && b.getStatus() == 2 && listTicketInBooking.size() >= 1) { %>
-                    <button class="btn btn-warning" style="text-decoration: none; margin-top: 5px;" onclick="openModalRequestRefund(
-                        <%=t.getTicketId()%>, <%=b.getBookingID()%>)">Request Refund</button>
-                    <% } %>
                 </div>
             </div>
             <% count++; %>
@@ -639,13 +505,6 @@
 
             <div class="list-price" style="text-align: right; padding: 15px 0">
                 <div>Totals Booking Tickets: <%=currencyFormatter.format(bkd.getTotalPriceAllTickets(b.getBookingID()))%></div>
-<%--                <div>Cancel Tickets: <%=currencyFormatter.format(bkd.getTotalPriceCancelledTicket(b.getBookingID()))%></div>--%>
-<%--                <div class="order-discount">Discount: 0 đ</div>--%>
-<%--                <%--%>
-<%--                    double totals = bkd.getTotalPriceAllTickets(b.getBookingID()) - bkd.getTotalPriceCancelledTicket(b.getBookingID());--%>
-<%--                    if (totals < 0) totals = 0; // Đảm bảo tổng không âm--%>
-<%--                %>--%>
-<%--                <div class="order-total"><strong style="font-size: 1.2em;">Total: <%=currencyFormatter.format(totals)%></strong></div>--%>
             </div>
 
             <div class="order-total-section" style="font-size: 1.2em;">
@@ -666,7 +525,8 @@
                 " onclick="paymentMedthodDisplay(<%=b.getBookingID()%>)">PAY NOW</button>
                     <% } %>
                     <%
-                        if (currentDateTime.isBefore(depDateTime) && b.getStatus() != 3 && b.getStatus() != 4 && b.getStatus() != 5 && !allTicketsCancelled) {
+                        if (currentDateTime.isBefore(depDateTime) && b.getStatus() != 3 && b.getStatus() != 4 && b.getStatus() != 5
+                                && b.getStatus() != 6 && !allTicketsCancelled) {
                     %>
                     <button class="btn btn-danger" style="text-decoration: none;" onclick="openModalOrder(
                         <%=b.getBookingID()%>)">Cancel Order</button>
@@ -935,6 +795,15 @@
         } else {
             paymentMethods.style.display = 'none';
         }
+    }
+
+    function filterByStatus(selectElement) {
+        var status = selectElement.value;
+        var url = "ticketHistoryURL";
+        if (status) {
+            url += "?status=" + status;
+        }
+        window.location.href = url;
     }
 </script>
 

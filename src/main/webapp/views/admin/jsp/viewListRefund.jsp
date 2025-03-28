@@ -27,6 +27,28 @@
     <link href="https://unicons.iconscout.com/release/v3.0.6/css/line.css"  rel="stylesheet">
     <!-- Css -->
     <link href="<%= request.getContextPath() %>/views/admin/assets/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
+
+    <style>
+        .badge {
+            font-weight: 500;
+            text-align: center;
+            border-radius: 20px;
+            padding: 6px 12px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-transform: uppercase;
+            display: inline-block;
+        }
+        .badge.status-refund-pending {
+            background-color: #f1c40f;
+        }
+        .badge.status-refund-success {
+            background-color: #27ae60;
+        }
+        .badge.status-failed {
+            background-color: #e74c3c;
+        }
+
+    </style>
 </head>
 
 <body>
@@ -35,9 +57,6 @@
     List<Tickets> ticketsList = (List<Tickets>) request.getAttribute("ticketsList");
     int currentPage = (Integer) request.getAttribute("currentPage");
     int totalPages = (Integer) request.getAttribute("totalPages");
-//    int currentPage = (Integer) request.getAttribute("currentPage");
-//    int totalPages = (Integer) request.getAttribute("totalPages");
-
 
 %>
 
@@ -91,12 +110,15 @@
                                     <option value="desc" ${param.order == 'desc' ? 'selected' : ''}>Price Descending</option>
                                 </select>
                                 <!-- Bộ lọc trạng thái -->
+
                                 <select name="status" class="form-select border rounded-pill me-2">
                                     <option value="">All Status</option>
                                     <option value="1">Pending</option>
                                     <option value="2">Success</option>
                                     <option value="3">Failed</option>
                                 </select>
+
+
                                 <!-- Nút tìm kiếm -->
                                 <button type="submit" class="btn btn-outline-primary rounded-pill me-2">Search</button>
                             </form>
@@ -120,16 +142,32 @@
                                 <tr>
                                     <th class="border-bottom p-3">Refund ID</th>
                                     <th class="border-bottom p-3">Ticket Code</th>
-                                    <th class="border-bottom p-3">Request Date</th>
+                                    <th class="border-bottom p-3">Request Date
+                                        <a href="<%= request.getContextPath() %>/sortRefund?sortBy=requestDate&order=<%= "asc".equals(request.getParameter("order")) && "requestDate".equals(request.getParameter("sortBy")) ? "desc" : "asc" %>">
+                                            <% if ("requestDate".equals(request.getParameter("sortBy"))) { %>
+                                            <i class="uil <%= "asc".equals(request.getParameter("order")) ? "uil-arrow-up" : "uil-arrow-down" %>"></i>
+                                            <% } else { %>
+                                            <i class="uil uil-sort"></i>
+                                            <% } %>
+                                        </a>
+                                    </th>
                                     <th class="border-bottom p-3">Refund Date</th>
-                                    <th class="border-bottom p-3">Refund Price</th>
+                                    <th class="border-bottom p-3">Refund Price
+                                        <a href="<%= request.getContextPath() %>/sortRefund?sortBy=refundPrice&order=<%= "asc".equals(request.getParameter("order")) && "refundPrice".equals(request.getParameter("sortBy")) ? "desc" : "asc" %>">
+                                            <% if ("refundPrice".equals(request.getParameter("sortBy"))) { %>
+                                            <i class="uil <%= "asc".equals(request.getParameter("order")) ? "uil-arrow-up" : "uil-arrow-down" %>"></i>
+                                            <% } else { %>
+                                            <i class="uil uil-sort"></i>
+                                            <% } %>
+                                        </a>
+                                    </th>
                                     <th class="border-bottom p-3">Status</th>
                                     <th class="border-bottom p-3">Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <%
-                                    for (Refund r : refundList) {
+                                    for (Refund                                     r : refundList) {
                                         String ticketCode = "Unknown";
                                         for(Tickets t : ticketsList){
                                             if(r.getTicketId() == t.getTicketId()){
@@ -144,13 +182,16 @@
                                     <td class="p-3"><%= r.getRequestDate()%></td>
                                     <td class="p-3"><%= r.getRefundDate() %></td>
                                     <td class="p-3"><%= r.getRefundPrice() %></td>
+
                                     <td class="p-3">
-                                        <span class="badge
-                                            <%= r.getStatus() == 1 ? "bg-soft-warning text-warning" :
-                                                r.getStatus() == 2 ? "bg-soft-success text-success" :
-                                                "bg-soft-danger text-danger" %>">
-                                            <%= r.getStatus() == 1 ? "Refund Pending" :
-                                                    r.getStatus() == 2 ? "Refund Success" :
+                                        <span class="badge <%=
+                                            r.getStatus() == 1 ? "status-refund-pending" :
+                                            r.getStatus() == 2 ? "status-refund-success" :
+                                            "status-failed" %> <%=
+                                            r.getStatus() == 1 ? "bg-soft-warning text-warning" :
+                                            r.getStatus() == 2 ? "bg-soft-success text-success" :
+                                            "bg-soft-danger text-danger" %>">
+                                            <%= r.getStatus() == 1 ? "Refund Pending" : r.getStatus() == 2 ? "Refund Success" :
                                                             "Failed" %>
                                         </span>
                                     </td>
@@ -186,7 +227,10 @@
 
                 <!-- Nút Previous -->
                 <% if (currentPage > 1) { %>
-                <a href="<%= request.getContextPath() %>/refundSearch?RefundID=<%= request.getAttribute("refundIdOrTicketCode") != null ? request.getAttribute("refundIdOrTicketCode") : "" %>&orderPricet=<%= request.getAttribute("orderPricet") != null ? request.getAttribute("orderPricet") : "" %>&status=<%= request.getAttribute("status") != null ? request.getAttribute("status") : "" %>&page=<%= currentPage - 1 %>"
+                <a href="<%= request.getContextPath() %>/refundSearch?RefundID=<%= request.getAttribute("refundIdOrTicketCode") != null ? request.getAttribute("refundIdOrTicketCode") : "" %>
+                    &orderPricet=<%= request.getAttribute("orderPricet") != null ? request.getAttribute("orderPricet") : "" %>
+                    &status=<%= request.getAttribute("status") != null ? request.getAttribute("status") : "" %>
+                    &page=<%= currentPage - 1 %>"
                    class="btn btn-outline-primary">Previous</a>
                 <% } %>
 
@@ -195,7 +239,7 @@
 
                 <!-- Nút Next -->
                 <% if (currentPage < totalPages) { %>
-                <a href="<%= request.getContextPath() %>/refundSearch?RefundID=<%= request.getAttribute("refundIdOrTicketCode") != null ? request.getAttribute("refundIdOrTicketCode") : "" %>&orderPricet=<%= request.getAttribute("orderPricet") != null ? request.getAttribute("orderPricet") : "" %>&status=<%= request.getAttribute("status") != null ? request.getAttribute("status") : "" %>&page=<%= currentPage + 1 %>"
+                <a href="<%= request.getContextPath() %>/refundSearch?RefundID=<%= request.getAttribute("refundIdOrTicketCode") != null ? request.getAttribute("refundIdOrTicketCode") : "" %>&orderPricet=<%= request.getAttribute("orderPricet") != null ? request.getAttribute("orderPricet") : "" %>&status=<%= request.getAttribute("status") != null ? request.getAttribute("status") : "" %>&page=<%= currentPage + 1 %>&sortBy=${sortBy}&order=${order}"
                    class="btn btn-outline-primary">Next</a>
                 <% } %>
 

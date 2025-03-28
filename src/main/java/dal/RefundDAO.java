@@ -35,6 +35,32 @@ public class RefundDAO extends DBConnect {
         }
         return refundList;
     }
+    public List<Refund> getAllRefunds2() {
+        List<Refund> refundList = new ArrayList<>();
+        String sql = "SELECT r.RefundId, r.TicketId, r.BankAccount, r.BankName, r.RequestDate, " +
+                "r.RefundDate, r.RefundPrice, r.Status, t.Code " +
+                "FROM Refund r JOIN Tickets t ON r.TicketId = t.TicketId";
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                int refundId = rs.getInt("RefundId");
+                int ticketId = rs.getInt("TicketId");
+                String bankAccount = rs.getString("BankAccount");
+                String bankName = rs.getString("BankName");
+                Timestamp requestDate = rs.getTimestamp("RequestDate");
+                Timestamp refundDate = rs.getTimestamp("RefundDate");
+                double refundPrice = rs.getDouble("RefundPrice");
+                int status = rs.getInt("Status");
+                String ticketCode = rs.getString("Code");
+                refundList.add(new Refund(refundId, ticketId, bankAccount, bankName, requestDate, refundDate, refundPrice, status, ticketCode));
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return refundList;
+    }
+
 
     // Lấy danh sách yêu cầu hoàn tiền theo trạng thái
     public List<Refund> getRefundsByStatus(int status) {

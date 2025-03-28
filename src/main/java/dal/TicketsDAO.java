@@ -161,15 +161,31 @@ public class TicketsDAO extends DBConnect{
         return tickets;
     }
 
+    public double getTotalPrice() {
+        double totalPrice = 0.0;
+        String query = "SELECT SUM(price) AS Total FROM Tickets WHERE status = 2";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    totalPrice = rs.getDouble("Total");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return totalPrice;
+    }
+
+
+
+
+
     public List<Tickets> getAllTicketSuccessfulPaymentByBookingId(int bookingId) {
         List<Tickets> ls = new ArrayList<>();
         String sql ="select * FROM Tickets where bookingId =? and status = 1";
-
-        try {
-            PreparedStatement pre = connection.prepareStatement(sql);
+        try(PreparedStatement pre = connection.prepareStatement(sql);) {
             pre.setInt(1, bookingId);
             ResultSet rs = pre.executeQuery();
-
             while (rs.next()) {
                 Tickets t = new Tickets(
                         rs.getInt("TicketId"),
@@ -286,6 +302,21 @@ public class TicketsDAO extends DBConnect{
         }
         return 0;
     }
+
+
+    public int countNumberTicketSuccess() {
+        String sql = "SELECT COUNT(*) AS ticket_count FROM Tickets WHERE Status = 2 ";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("ticket_count");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
 
     public void cancelAllTicketsByBookingId(int bookId) {
         String sql = "UPDATE Tickets SET Status = 3, cancelledat = ? WHERE bookingid = ? and (Status = 1 or Status = 2)";

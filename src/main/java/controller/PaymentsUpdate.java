@@ -73,7 +73,7 @@ public class PaymentsUpdate extends HttpServlet {
 
             payments.setPaymentStatus(status);
 
-            boolean success = paymentsDAO.updatePaymentStatus(id, status);
+            boolean success = paymentsDAO.updatePaymentStatus(status,id);
             if (success) {
                 req.setAttribute("msg", "Payment updated successfully!");
                 req.setAttribute("payments", payments);

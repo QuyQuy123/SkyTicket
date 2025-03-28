@@ -40,9 +40,7 @@ public class Login extends HttpServlet {
             } else if (!ld.checkPassword(u, p)) {
                 request.setAttribute("error", "Your password is incorrect!");
                 request.getRequestDispatcher(LOGIN_VIEW).forward(request, response);
-//            } else if (ld.checkStatus(u)) {
-//                request.setAttribute("error", "Your account has been deactivated!");
-//                request.getRequestDispatcher("views/public/Login.jsp").forward(request, response);
+
             } else {
                 Cookie cu = new Cookie("cuser", u);
                 Cookie cp = new Cookie("cpass", p);

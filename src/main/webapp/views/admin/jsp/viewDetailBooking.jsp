@@ -50,6 +50,94 @@
             background: linear-gradient(45deg, #ff4b2b, #ff416c);
             transform: scale(1.05);
         }
+        #bookingStatus {
+            font-weight: 500;
+            text-align: center;
+            border-radius: 20px;
+            padding: 8px 15px;
+            border: none;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            color: #fff;
+            text-transform: uppercase;
+        }
+        #bookingStatus.status-pending {
+            background-color: #f39c12;
+        }
+
+        #bookingStatus.status-success {
+            background-color: #27ae60;
+        }
+
+        #bookingStatus.status-cancelled {
+            background-color: #e74c3c;
+        }
+
+        #bookingStatus.status-refund-pending {
+            background-color: #f1c40f;
+        }
+
+        #bookingStatus.status-refund-complete {
+            background-color: #3498db;
+        }
+
+        #bookingStatus:disabled {
+            opacity: 1;
+        }
+
+        .ticket {
+            width: 600px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            margin: 20px auto;
+            display: flex;
+            border: 2px dashed #333; /* Viền nét đứt */
+            position: relative;
+        }
+
+        .ticket-left, .ticket-right {
+            padding: 20px;
+            width: 50%;
+        }
+
+        .ticket-left {
+            background: #ff6600; /* Màu cam */
+            color: white;
+            border-radius: 10px 0 0 10px;
+        }
+
+        .ticket-right {
+            background: #f4f4f4;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .ticket-left h2 {
+            margin-bottom: 10px;
+        }
+
+        .ticket::before,
+        .ticket::after {
+            content: "";
+            width: 20px;
+            height: 20px;
+            background: white;
+            position: absolute;
+            border-radius: 50%;
+        }
+
+        .ticket::before {
+            top: 50%;
+            left: -10px;
+            transform: translateY(-50%);
+        }
+
+        .ticket::after {
+            top: 50%;
+            right: -10px;
+            transform: translateY(-50%);
+        }
+
+
     </style>
 </head>
 
@@ -84,28 +172,6 @@
             Payments p = pd.getPaymentByBookingId(bookings.getBookingID());
             BookingDAO bd = new BookingDAO();
 
-
-            // Xử lý yêu cầu từ AJAX
-            String action = request.getParameter("action");
-            if ("confirmPayment".equals(action)) {
-                int bookingId = Integer.parseInt(request.getParameter("bookingId"));
-                boolean success = bd.changeStatusToSuccess(bookingId);
-                if (success) {
-                    bookings = bd.getBookingById(bookingId); // Cập nhật lại booking
-                    request.setAttribute("msg", "Payment confirmed successfully!");
-                } else {
-                    request.setAttribute("msg", "Failed to confirm payment.");
-                }
-            }else if ("confirmRefund".equals(action)) {
-            int bookingId = Integer.parseInt(request.getParameter("bookingId"));
-            boolean success = bd.changeStatusToRefundSuccess(bookingId);
-            if (success) {
-                bookings = bd.getBookingById(bookingId); // Cập nhật lại booking
-                request.setAttribute("msg", "Refund confirmed successfully!");
-            } else {
-                request.setAttribute("msg", "Failed to confirm Refund.");
-            }
-        }
         %>
 
         <div class="container-fluid">
@@ -130,6 +196,30 @@
                                         ${msg}
                                 </div>
                             </c:if>
+                            <hr>
+<%--                            Code phần vé--%>
+                            <c:if test="${not empty ticketsList}">
+                                <c:forEach var="ticket" items="${ticketsList}">
+                                    <div class="ticket">
+                                        <div class="ticket-left">
+                                            <h2>${ticket.code}</h2>
+                                            <p><strong>Passenger Id:</strong> ${ticket.passengerId}</p>
+                                            <p><strong>Seat ID:</strong> ${ticket.seatId}</p>
+                                            <p><strong>Status:</strong> ${ticket.status}</p>
+                                        </div>
+                                        <div class="ticket-right">
+                                            <p><strong>Create at:</strong> ${ticket.createAt}</p>
+                                            <p><strong>Price:</strong> ${ticket.price} VND</p>
+                                            <p><strong>FlightId:</strong> ${ticket.flightId}</p>
+                                            <p><strong>BaggageId:</strong> ${ticket.baggageId}</p>
+                                        </div>
+                                    </div>
+                                </c:forEach>
+                            </c:if>
+
+
+
+                            <hr>
 
                             <form class="mt-4" action="${pageContext.request.contextPath}/updateLocation" method="post" enctype="multipart/form-data">
                                 <div class="row">
@@ -178,15 +268,24 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label class="form-label">Status: </label>
-                                            <input name="status" id="bookingStatus" type="text" disabled class="form-control" value="<%=
-                                               bookings.getStatus() == 1 ? "Is Pending" :
-                                               bookings.getStatus() == 2 ? "Payment Success" :
-                                               bookings.getStatus() == 3 ? "Is Cancelled" :
-                                               bookings.getStatus() == 4 ? "Refund Pending" :
-                                               bookings.getStatus() == 5 ? "Refund Complete" : "" %>">
+                                            <input name="status" id="bookingStatus" type="text" disabled class="form-control <%=
+                                                bookings.getStatus() == 1 ? "status-pending" :
+                                                bookings.getStatus() == 2 ? "status-success" :
+                                                bookings.getStatus() == 4 ? "status-refund-pending" :
+                                                bookings.getStatus() == 3 ? "status-cancelled" :
+                                                bookings.getStatus() == 5 ? "status-refund-complete" :
+                                                bookings.getStatus() == 6 ? "status-cancelled" :"" %>"
+                                                   value="<%=
+                                                bookings.getStatus() == 1 ? "Is Pending" :
+                                                bookings.getStatus() == 2 ? "Payment Success" :
+                                                bookings.getStatus() == 3 ? "Is Cancelled" :
+                                                bookings.getStatus() == 4 ? "Refund Pending" :
+                                                bookings.getStatus() == 5 ? "Is Cancelled / Refund Complete" :
+                                                bookings.getStatus() == 6 ? "Is Cancelled / Reject Refund" :
+                                                "" %>">
                                         </div>
-                                    </div>
 
+                                    </div>
                                     <% if (bookings.getAccountID() != 0) { %>
                                     <div class="col-md-6">
                                         <div class="mb-3">
@@ -198,12 +297,15 @@
                                     <% } %>
 
                                     <div class="mt-3">
-                                        <a href="${pageContext.request.contextPath}/listBookingsURL" class="btn btn-primary">Back</a>
+                                        <a  href="${pageContext.request.contextPath}/listBookingsURL" class="btn btn-primary">Back</a>
                                         <% if (p != null && bookings.getStatus() == 1) { %>
                                         <button type="button" class="btn btn-success" onclick="confirmPayment(<%= bookings.getBookingID() %>)">Confirm Payment</button>
                                         <% } %>
                                         <% if (p != null && bookings.getStatus() == 4) { %>
-                                        <button type="button" class="btn btn-success" onclick="confirmRefund(<%= bookings.getBookingID() %>)">Confirm Refund</button>
+                                        <div class="button-group" style="margin-top: 20px">
+                                            <button type="button" class="btn btn-success btn-confirm-refund" onclick="confirmRefund(<%= bookings.getBookingID() %>)">Confirm Refund</button>
+                                            <button type="button" class="btn btn-danger btn-reject-refund" onclick="rejectRefund(<%= bookings.getBookingID() %>)">Reject Refund</button>
+                                        </div>
                                         <% } %>
                                     </div>
                                 </div><!--end row-->
@@ -262,6 +364,24 @@
                         "Content-Type": "application/x-www-form-urlencoded"
                     },
                     body: "action=confirmRefund&bookingId=" + bookingId
+                })
+                    .then(response => {
+                        if (response.ok) { // Tương đương status === 200
+                            location.reload();
+                        }
+                    })
+                    .catch(error => console.error("Lỗi:", error));
+            }
+        }
+
+        function rejectRefund(bookingId) {
+            if (confirm("Are you sure you want to confirm to reject  this refund ?")) {
+                fetch(window.location.href, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    },
+                    body: "action=confirmReject&bookingId=" + bookingId
                 })
                     .then(response => {
                         if (response.ok) { // Tương đương status === 200

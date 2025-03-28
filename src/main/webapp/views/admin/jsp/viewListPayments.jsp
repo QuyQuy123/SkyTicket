@@ -134,7 +134,6 @@
                                         </a>
                                     </th>
 
-
                                     <th class="border-bottom p-3">Status</th>
                                     <th class="border-bottom p-3">Actions</th>
                                 </tr>
@@ -150,12 +149,12 @@
                                     <td class="p-3"><%= payments.getPaymentDate() %></td>
                                     <td class="p-3"><%= payments.getTotalPrice() %> $</td>
                                     <td class="p-3">
-    <span class="badge
-    <%= payments.getPaymentStatus() == 1 ? "bg-soft-success" :
-        payments.getPaymentStatus()  == 2 ? "bg-soft-primary" : "bg-soft-danger" %>">
-      <%= payments.getPaymentStatus() == 1 ? "Is Pending" :
-              payments.getPaymentStatus() == 2 ? "Payment Success" : "Is Cancelled" %>
-    </span>
+                                        <span class="badge
+                                        <%= payments.getPaymentStatus() == 1 ? "bg-soft-success" :
+                                            payments.getPaymentStatus()  == 2 ? "bg-soft-primary" : "bg-soft-danger" %>">
+                                          <%= payments.getPaymentStatus() == 1 ? "Is Pending" :
+                                                  payments.getPaymentStatus() == 2 ? "Payment Success" : "Is Cancelled" %>
+                                        </span>
                                     </td>
                                     <td class="p-3">
                                         <a href="${pageContext.request.contextPath}/viewPayment?id=<%= payments.getPaymentID() %>" class="btn btn-icon btn-sm btn-soft-primary"><i
