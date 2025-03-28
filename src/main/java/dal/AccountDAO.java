@@ -2,6 +2,7 @@ package dal;
 
 import model.Accounts;
 import model.UserGoogle;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -80,27 +81,25 @@ public class AccountDAO extends DBConnect {
     }
 
     public void changePassword(String idAccount, String newPassword) {
-        String sqlupdate = "UPDATE Accounts \n"
-                + "SET\n"
-                + "password = ?\n"
-                + "WHERE AccountId = ?";
-        try( PreparedStatement pre = connection.prepareStatement(sqlupdate);) {
-//            String encode = encryptAES(newPassword, SECRET_KEY);
-            pre.setString(1, newPassword);
+        String sqlUpdate = "UPDATE Accounts SET password = ? WHERE AccountId = ?";
+        try (PreparedStatement pre = connection.prepareStatement(sqlUpdate)) {
+            String hashedPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt(12));
+            pre.setString(1, hashedPassword);
             pre.setString(2, idAccount);
             pre.executeUpdate();
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             ex.printStackTrace();
         }
     }
 
+
     public void addNewAccount(Accounts a) {
         String sql = "INSERT INTO Accounts (FullName, email, password, Phone, RolesId, Status) VALUES (?,?,?,?,?,?)";
         try (PreparedStatement st = connection.prepareStatement(sql)) {
+            String hashedPassword = BCrypt.hashpw(a.getPassword(), BCrypt.gensalt(12));
             st.setString(1, a.getFullName());
             st.setString(2, a.getEmail());
-//            String encode = encryptAES(a.getPassword(), SECRET_KEY);
-            st.setString(3, a.getPassword());
+            st.setString(3, hashedPassword);
             st.setString(4, a.getPhone());
             st.setInt(5, a.getRoleId());
             st.setInt(6, a.getStatus());

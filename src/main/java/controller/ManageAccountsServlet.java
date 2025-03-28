@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
 import model.Accounts;
 import model.Roles;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.File;
 import java.io.IOException;
@@ -138,7 +139,8 @@ public class ManageAccountsServlet extends HttpServlet {
                 Accounts account = accountDAO.getAccountsById(accountId);
 
 
-                account.setPassword(password);
+                String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(12));
+                account.setPassword(hashedPassword);
                 account.setRoleId(roleId);
                 account.setStatus(status);
 
@@ -219,8 +221,10 @@ public class ManageAccountsServlet extends HttpServlet {
                 System.out.println("status: " + status);
                 System.out.println("roleId: " + roleId);
 
+                String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(12));
+                System.out.println("password: " + hashedPassword);
                 // Thêm tài khoản
-                Accounts account = new Accounts(fullName, email, password, phone, address, fileName, dob, status, roleId);
+                Accounts account = new Accounts(fullName, email, hashedPassword, phone, address, fileName, dob, status, roleId);
                 boolean isAdded = accountDAO.addAccount(account);
 
                 request.setAttribute("msg", isAdded ? "Add account successfully!" : "Add account failed!");

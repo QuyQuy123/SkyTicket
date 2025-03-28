@@ -129,7 +129,7 @@
                                             <label class="form-label" for="password">Password: </label>
                                             <input name="password" id="password" type="text"
                                                    class="form-control"
-                                                   placeholder="Enter your password" value="${ac.password!=null?ac.password:''}" disabled>
+                                                   placeholder="" value="" disabled>
                                         </div>
                                     </div>
 
