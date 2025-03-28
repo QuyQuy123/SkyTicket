@@ -63,7 +63,7 @@ public class AirlinesAddServlet extends HttpServlet {
                 int airlineId = success;
                 SeatsDAO seatsDAO = new SeatsDAO();
                 for (int i = 1; i <= numberOfSeatsOnVipRow * numberOfSeatsOnVipColumn; i++) {
-                    Seats seat = new Seats(airlineId, 1, i, "Vip", 0);
+                    Seats seat = new Seats(airlineId, 1, i, "Business", 0);
                     seatsDAO.createSeat(seat); //nhwos theem hamf check
                 }
                 for (int i = 1; i <= numberOfSeatsOnEcoRow * numberOfSeatsOnEcoColumn; i++) {

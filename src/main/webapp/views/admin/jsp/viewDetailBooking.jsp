@@ -83,6 +83,61 @@
         #bookingStatus:disabled {
             opacity: 1;
         }
+
+        .ticket {
+            width: 600px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            margin: 20px auto;
+            display: flex;
+            border: 2px dashed #333; /* Viền nét đứt */
+            position: relative;
+        }
+
+        .ticket-left, .ticket-right {
+            padding: 20px;
+            width: 50%;
+        }
+
+        .ticket-left {
+            background: #ff6600; /* Màu cam */
+            color: white;
+            border-radius: 10px 0 0 10px;
+        }
+
+        .ticket-right {
+            background: #f4f4f4;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .ticket-left h2 {
+            margin-bottom: 10px;
+        }
+
+        .ticket::before,
+        .ticket::after {
+            content: "";
+            width: 20px;
+            height: 20px;
+            background: white;
+            position: absolute;
+            border-radius: 50%;
+        }
+
+        .ticket::before {
+            top: 50%;
+            left: -10px;
+            transform: translateY(-50%);
+        }
+
+        .ticket::after {
+            top: 50%;
+            right: -10px;
+            transform: translateY(-50%);
+        }
+
+
     </style>
 </head>
 
@@ -141,6 +196,30 @@
                                         ${msg}
                                 </div>
                             </c:if>
+                            <hr>
+<%--                            Code phần vé--%>
+                            <c:if test="${not empty ticketsList}">
+                                <c:forEach var="ticket" items="${ticketsList}">
+                                    <div class="ticket">
+                                        <div class="ticket-left">
+                                            <h2>${ticket.code}</h2>
+                                            <p><strong>Passenger Id:</strong> ${ticket.passengerId}</p>
+                                            <p><strong>Seat ID:</strong> ${ticket.seatId}</p>
+                                            <p><strong>Status:</strong> ${ticket.status}</p>
+                                        </div>
+                                        <div class="ticket-right">
+                                            <p><strong>Create at:</strong> ${ticket.createAt}</p>
+                                            <p><strong>Price:</strong> ${ticket.price} VND</p>
+                                            <p><strong>FlightId:</strong> ${ticket.flightId}</p>
+                                            <p><strong>BaggageId:</strong> ${ticket.baggageId}</p>
+                                        </div>
+                                    </div>
+                                </c:forEach>
+                            </c:if>
+
+
+
+                            <hr>
 
                             <form class="mt-4" action="${pageContext.request.contextPath}/updateLocation" method="post" enctype="multipart/form-data">
                                 <div class="row">

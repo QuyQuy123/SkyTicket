@@ -139,7 +139,7 @@
                   <td class="p-3"><%= bookings.getContactName() %></td>
                   <td class="p-3"><%= bookings.getContactPhone() %></td>
                   <td class="p-3"><%= bookings.getContactEmail() %></td>
-                  <td class="p-3"><%= bookings.getTotalPrice() %> $</td>
+                  <td class="p-3"><%= bookings.getTotalPrice() %> VND</td>
 
                   <td class="p-3">
                     <span class="badge <%=

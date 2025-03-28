@@ -226,7 +226,7 @@
                         <p>VIP Seats</p>
                         <c:set var="count" value="0"/>
                         <c:forEach var="seat" items="${seats}">
-                            <c:if test="${seat.seatClass eq 'Vip'}">
+                            <c:if test="${seat.seatClass eq 'Business'}">
                                 <!-- Nếu là ghế đầu tiên của hàng mới, tạo div row -->
                                 <c:if test="${count % airline.numberOfSeatsOnVipRow == 0}">
                                     <div class="row">
