@@ -130,6 +130,11 @@
                                         ${msg}
                                 </div>
                             </c:if>
+                            <hr>
+<%--                            Code phần vé--%>
+
+
+                            <hr>
 
                             <form class="mt-4" action="${pageContext.request.contextPath}/updateLocation" method="post" enctype="multipart/form-data">
                                 <div class="row">
