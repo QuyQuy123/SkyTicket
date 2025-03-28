@@ -81,13 +81,12 @@ public class BookingFlightTicketsController extends HttpServlet {
                 String pName = request.getParameter("pName" + i).trim();
                 Date pDob = Date.valueOf(request.getParameter("pDob" + i));
                 String pPhoneNumber = request.getParameter("pPhoneNumber" + i);
-                int seatId1 = 1;
+                int seatId1 = Integer.parseInt(request.getParameter("code" + i));
                 pd.createPassenger(pName, pPhoneNumber, pDob, pSex, id, newBookId.getBookingID());
                 Passengers newPassenger = pd.getLatestPassengerByBookingId(newBookId.getBookingID());
-
                 if (newPassenger != null) {
                     if (flightDetailId2Str != null) {
-                        int seatId2 = 2;
+                        int seatId2 = Integer.parseInt(request.getParameter("codem" + i));
 
                         if (i >= adultTicket + 1 && i <= adultTicket + childTicket) {
                             td.createTicket(null, flightDetailId, seatId1, newPassenger.getPassengerID(), newBookId.getBookingID(), null, (float) (commonPrice*0.9));

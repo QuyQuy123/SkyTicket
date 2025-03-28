@@ -29,7 +29,16 @@
   <link href="https://unicons.iconscout.com/release/v3.0.6/css/line.css"  rel="stylesheet">
   <!-- Css -->
   <link href="<%= request.getContextPath() %>/views/admin/assets/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
-
+  <style>
+    .badge {
+      font-weight: 500;
+      text-align: center;
+      border-radius: 20px;
+      padding: 6px 12px;
+      text-transform: uppercase;
+      display: inline-block;
+    }
+  </style>
 </head>
 
 <body>
@@ -87,6 +96,7 @@
                   <option value="3">Is Cancelled</option>
                   <option value="4">Refund Pending </option>
                   <option value="5">Refund Successfull</option>
+                  <option value="6">Reject Refund</option>
                 </select>
                 <button type="submit" class="btn btn-outline-primary rounded-pill me-2">Search</button>
               </form>
@@ -130,18 +140,24 @@
                   <td class="p-3"><%= bookings.getContactPhone() %></td>
                   <td class="p-3"><%= bookings.getContactEmail() %></td>
                   <td class="p-3"><%= bookings.getTotalPrice() %> $</td>
+
                   <td class="p-3">
                     <span class="badge <%=
                         bookings.getStatus() == 1 ? "bg-soft-warning" :
                         bookings.getStatus() == 2 ? "bg-soft-success" :
                         bookings.getStatus() == 3 ? "bg-soft-danger" :
-                        bookings.getStatus() == 4 ? "bg-soft-info" : "bg-soft-primary" %>">
+                        bookings.getStatus() == 4 ? "bg-soft-info" :
+                        bookings.getStatus() == 5 ? "bg-soft-primary" :
+                         "bg-soft-danger" %>">
                       <%=
                               bookings.getStatus() == 1 ? "Is Pending" : bookings.getStatus() == 2 ? "Payment Success" :
                               bookings.getStatus() == 3 ? "Is Cancelled" :
-                              bookings.getStatus() == 4 ? "Refund Pending" : "Refund Complete" %>
+                              bookings.getStatus() == 4 ? "Refund Pending" :
+                              bookings.getStatus() == 5 ? "Refund Complete" :
+                                       "Is Cancelled" %>
                     </span>
                   </td>
+
                   <td class="p-3">
                     <a href="${pageContext.request.contextPath}/viewBooking?id=<%= bookings.getBookingID() %>" class="btn btn-icon btn-sm btn-soft-primary"><i
                             class="uil uil-eye"></i></a>

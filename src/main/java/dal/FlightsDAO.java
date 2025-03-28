@@ -11,6 +11,20 @@ import java.util.List;
 
 public class FlightsDAO extends DBConnect {
 
+    public int getFlightCountByStatus() {
+        int count = 0;
+        String query = "SELECT COUNT(*) AS FlightCount FROM Flights WHERE Status = 1";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    count = rs.getInt("FlightCount");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
 
     // Lấy tất cả các chuyến bay
     public List<Flights> getAllFlights() {

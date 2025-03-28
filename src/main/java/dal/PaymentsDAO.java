@@ -38,7 +38,7 @@ public class PaymentsDAO extends DBConnect {
     public List<Payments> getPaymentsByPage(int start, int total) {
         List<Payments> list = new ArrayList<>();
         try {
-            String query = "SELECT paymentid, PaymentMethod, PaymentStatus, PaymentDate, TotalPrice FROM Payments LIMIT ?, ?";
+            String query = "(SELECT paymentid, PaymentMethod, PaymentStatus, PaymentDate, TotalPrice FROM Payments LIMIT ?, ?)";
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setInt(1, start);
             ps.setInt(2, total);
@@ -181,7 +181,7 @@ public class PaymentsDAO extends DBConnect {
         return 0;
     }
 
-    public boolean updatePaymentStatus(int id, int status) {
+    public boolean updatePaymentStatus( int status,int id) {
         String query = "UPDATE Payments SET PaymentStatus = ? WHERE paymentid = ?";
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setInt(1, status);
@@ -225,13 +225,13 @@ public class PaymentsDAO extends DBConnect {
     }
 
     public int getIdByBookingid(int id) {
-        String sql = "Select bookingid from Payments where paymentid = ?";
+        String sql = "Select paymentid from Payments where bookingid = ?";
         try {
             PreparedStatement prepare = connection.prepareStatement(sql);
             prepare.setInt(1, id);
             ResultSet resultSet = prepare.executeQuery();
             if (resultSet.next()) {
-                return resultSet.getInt("bookingid");
+                return resultSet.getInt("paymentid");
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
