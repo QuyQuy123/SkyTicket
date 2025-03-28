@@ -1,4 +1,3 @@
-
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="dal.*" %>
 <%@ page import="model.*" %>
@@ -6,8 +5,7 @@
 <%@ page import="java.text.NumberFormat" %>
 <%@ page import="java.util.Locale" %>
 <%@ page import="java.util.List" %>
-<%@ page import="com.google.gson.Gson" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <%--
 
   Created by IntelliJ IDEA.
@@ -17,7 +15,6 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -30,7 +27,6 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
     <style>
-
         body {
             background-color: #f7f7f7;
             color: #333;
@@ -174,161 +170,6 @@
         .ticket-item span:last-child, .ticket-total span:last-child {
             color: #333;
         }
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            justify-content: center;
-            align-items: center;
-        }
-
-        /* Hộp modal */
-
-
-        /* Nút đóng */
-
-    </style>
-
-
-    <style>
-        .modalSeat {
-
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5); /* Làm mờ nền */
-            display: none;
-            z-index: 999;
-            justify-content: center;
-            align-items: center;
-
-        }
-        .modalSeat2 {
-
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5); /* Làm mờ nền */
-            display: none;
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-
-        }
-
-        .modal-content {
-            background: white;
-            width: 80%; /* Hoặc chỉnh theo mong muốn */
-            max-width: 800px; /* Giới hạn tối đa */
-            max-height: 80vh; /* Giới hạn chiều cao */
-            overflow-y: auto; /* Cuộn khi nội dung quá dài */
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        /* Căn chỉnh phần container */
-        .plane-container {
-            text-align: center;
-            padding: 20px;
-        }
-
-        /* Viền ngoài cho hình máy bay */
-        .plane-container {
-            margin-top: 20px;
-            border: 4px dashed #40c18b; /* Viền đậm màu xám đen */
-            border-radius: 15px; /* Bo góc nhẹ */
-            padding: 20px; /* Khoảng cách bên trong */
-            background-color: #f8f9fa; /* Màu nền nhẹ */
-            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3); /* Hiệu ứng bóng */
-        }
-
-
-        /* Tiêu đề */
-        h5 {
-            font-weight: bold;
-            color: #333;
-            text-align: center;
-        }
-
-        /* Hàng ghế */
-        .row {
-            display: flex;
-            justify-content: center;
-            margin: 10px 0;
-        }
-
-        /* Ghế */
-        .seat {
-            width: 50px !important;
-            height: 50px;
-            margin: 5px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 10px;
-            font-weight: bold;
-            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease-in-out;
-        }
-
-        /* Màu ghế */
-        .seat.vip {
-            background-color: gold;
-            color: black;
-        }
-
-        .seat.regular {
-            background-color: lightgreen;
-            color: black;
-        }
-
-        .seat.btn-soft-secondary {
-            background-color: lightcoral;
-            color: white;
-        }
-
-        /* Hover hiệu ứng rõ ràng hơn */
-        .seat:hover {
-            transform: scale(1.15); /* Phóng to ghế */
-            box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3); /* Tạo bóng đổ */
-        }
-
-        /* Đổi màu nền khi hover */
-        .seat.vip:hover {
-            background-color: orange;
-        }
-        .seat.selector {
-            background-color: #5a5959;
-        }
-
-        .seat.regular:hover {
-            background-color: mediumseagreen;
-        }
-
-        .seat.btn-soft-secondary:hover {
-            background-color: darkred;
-        }
-        .close-btn {
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            font-size: 24px;
-            cursor: pointer;
-            border: none;
-            background: none;
-        }
-
-        .close-btn:hover {
-            color: red;
-        }
 
 
     </style>
@@ -337,6 +178,8 @@
 <jsp:include page="/views/layout/Header.jsp"/>
 
 <%
+    SimpleDateFormat timeFmt = new SimpleDateFormat("HH:mm");
+    SimpleDateFormat dateFmt = new SimpleDateFormat("dd/MM/yyyy");
     AirlinesDAO ald = new AirlinesDAO();
     FlightsDAO fd = new FlightsDAO();
     SeatsDAO sd = new SeatsDAO();
@@ -344,7 +187,6 @@
     LocationsDAO ld = new LocationsDAO();
     CountriesDAO cd = new CountriesDAO();
     BaggageDAO bd = new BaggageDAO();
-    SeatsDAO seatsDAO = new SeatsDAO();
 
 
     int adultTicket = Integer.parseInt(request.getParameter("adult"));
@@ -353,21 +195,11 @@
     int totalPassengers = adultTicket + childTicket +infantTicket;
 
     Seats s = sd.getSeatById(Integer.parseInt(request.getParameter("seatCategory")));//seatId
-    String seatClass = s.getSeatClass();
 
     int flightlId = Integer.parseInt(request.getParameter("flightDetailId"));
     Flights f = fd.getFlightById(flightlId);
     int airlineId = f.getAirlineId();
-    Airlines airline = ald.getAirlineById(airlineId);
-
-
-    List<Seats> seats = seatsDAO.getAllSeatByAirlineId(airline.getAirlineId());
-
-    request.setAttribute("airline", airline);
-
-    request.setAttribute("seats", seats);
-    request.setAttribute("seatClass", seatClass);
-
+    Airlines a = ald.getAirlineById(airlineId);
     int departureAirportId = f.getDepartureAirportId();
     Airports dpa = apd.getAirportById(departureAirportId);
     Locations dpl = ld.getLocationByLId(dpa.getLocationId());
@@ -381,23 +213,17 @@
 
 
 %>
-<script>
-    var airline = "<%= request.getAttribute("airline") %>";
-    var seats = <%= new Gson().toJson(request.getAttribute("seats")) %>; // Nếu `seats` là danh sách
-    console.log("Airline:", airline);
-    console.log("Seats:", seats);
-</script>
-<main>
 
+<main>
     <div class="container" style="margin-top: 100px;">
         <div class="main-container">
-            <img src="<%= request.getContextPath() + "/img/" + airline.getImage() %>" alt="Logo">
+            <img src="<%= request.getContextPath() + "/img/" + a.getImage() %>" alt="Logo">
             <div class="details">
                 <h3>Additional Details: </h3>
                 <p>- Passengers: <span><%=adultTicket%> adult,
                             <%=childTicket%> children,
                             <%=infantTicket%> infant</span></p>
-                <p>- Airline: <span><%=airline.getAirlineName()%></span></p>
+                <p>- Airline: <span><%=a.getAirlineName()%></span></p>
 
             </div>
             <div class="details">
@@ -416,29 +242,26 @@
             <%
                 int flightDetailId2 = -1;
                 Seats s2 = null;
+                int airlineId2 = -1;
                 Flights f2 = null;
                 if(request.getParameter("flightDetailId2")!=null){
                     totalPassengers*=2;
                     flightDetailId2= Integer.parseInt(request.getParameter("flightDetailId2"));
                     s2 = sd.getSeatById(Integer.parseInt(request.getParameter("seatCategory2")));
+//                    fl2 = (Flights)fd.getFlightById(flightDetailId2);
                      f2 = fd.getFlightById(flightDetailId2);
+                    airlineId2 = f2.getAirlineId();
+                    Airlines a2 = ald.getAirlineById(airlineId2);
                     int departureAirportId2 = f2.getDepartureAirportId();
                     Airports dpa2 = apd.getAirportById(departureAirportId2);
                     Locations dpl2 = ld.getLocationByLId(dpa2.getLocationId());
+
+                    Countries dpc2 = cd.getCountryById(dpl2.getCountryId());
+
                     int destinationAirportId2 = f2.getArrivalAirportId();
                     Airports dsa2 = apd.getAirportById(destinationAirportId2);
                     Locations dsl2 = ld.getLocationByLId(dsa2.getLocationId());
-                    String seatClass2 = s2.getSeatClass();
-                    int airlineId2 = f2.getAirlineId();
-                    Airlines airline2 = ald.getAirlineById(airlineId2);
-
-
-                    List<Seats> seats2 = seatsDAO.getAllSeatByAirlineId(airline2.getAirlineId());
-
-                    request.setAttribute("airline2", airline2);
-
-                    request.setAttribute("seats2", seats2);
-                    request.setAttribute("seatClass2", seatClass2);
+                    Countries dsc2 = cd.getCountryById(dsl2.getCountryId());
             %>
 
             <div class="details">
@@ -534,7 +357,7 @@
                         <div style="width: 100%" class="inform">
                             <% for(int i = 1; i<=adultTicket; i++){
                             %>
-                            <div  class="passenger-info-input" style="position: relative">
+                            <div class="passenger-info-input" style="position: relative">
                                 <div style="position: absolute;
                                          top: -14px;
                                          font-size: 16px;
@@ -577,7 +400,7 @@
                                             %>
                                         </select>
                                     </div>
-
+<%--fix--%>
                                     <div id="Adult<%=i%>" class="passenger-info-input-box">
                                         <div class="passenger-info-input-title" style="width: 200px">Select seat for departuring:</div>
                                         <div style="display: flex; align-items: center; margin-right: 20px; font-weight: 600; font-size: 16px; color: #3C6E57">
@@ -605,7 +428,7 @@
 
                                         </select>
                                     </div>
-
+<%--                                    fix--%>
                                     <div id="Adultm<%=i%>" class="passenger-info-input-box">
                                         <div class="passenger-info-input-title" style="width: 200px">Select seat for departuring:</div>
                                         <div style="display: flex; align-items: center; margin-right: 20px; font-weight: 600; font-size: 16px; color: #3C6E57">
@@ -624,7 +447,6 @@
                             %>
                             <% for(int i = adultTicket+1; i<=adultTicket+childTicket; i++){
                             %>
-
                             <div class="passenger-info-input" style="position: relative">
                                 <div style="position: absolute;
                                          top: -14px;
@@ -650,6 +472,7 @@
                                         %>
                                         <input type="date" name="pDob<%=i%>" required max="<%=maxDateChild%>" onkeydown="return false;">
                                     </div>
+<%--fix--%>
                                     <div id="<%=i%>" class="passenger-info-input-box">
                                         <div class="passenger-info-input-title" style="width: 200px">Select seat for departuring:</div>
                                         <div style="display: flex; align-items: center; margin-right: 20px; font-weight: 600; font-size: 16px; color: #3C6E57">
@@ -659,8 +482,10 @@
                                         <input type="hidden" name="code<%=i%>" id="seatCode<%=i%>"/>
                                     </div>
 
+
                                     <% if(m==2){
                                     %>
+<%--                                    fix--%>
                                     <div id="m<%=i%>" class="passenger-info-input-box">
                                         <div class="passenger-info-input-title" style="width: 200px">Select seat for departuring:</div>
                                         <div style="display: flex; align-items: center; margin-right: 20px; font-weight: 600; font-size: 16px; color: #3C6E57">
@@ -784,55 +609,94 @@
                     >SUBMIT</button>
                 </div>
             </div>
+
+
         </div>
 
 
     </div>
 
 </main>
-<jsp:include page="/views/layout/Footer.jsp"/>
 
-
+    <div style="margin-bottom: 0px">
+        <jsp:include page="/views/layout/Footer.jsp"/>
+    </div>
 
 
 <section>
 
-<div id="ModalSeat" class="modalSeat"  >
-    <div class="modal-content">
-        <button class="close-btn" onclick="closeModal()">&times;</button>
-        <div class="container-fluid" >
-            <div class="layout-specing">
-                <div class="plane-container">
-                    <div class="plane-title"><img
-                            alt="control room"
-                            src="${pageContext.request.contextPath}/views/admin/assets/images/airlines/control_room_airline.png">
-                    </div>
+    <div id="ModalSeat" class="modalSeat"  >
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal()">&times;</button>
+            <div class="container-fluid" >
+                <div class="layout-specing">
+                    <div class="plane-container">
+                        <div class="plane-title"><img
+                                alt="control room"
+                                src="${pageContext.request.contextPath}/views/admin/assets/images/airlines/control_room_airline.png">
+                        </div>
 
-                    <div class="plane">
+                        <div class="plane">
+                            <hr style="width: 80%; margin: 20px auto; border: 2px solid black;">
+
+                            <!-- Form ẩn để gửi dữ liệu bằng POST -->
+                            <form id="seatForm" action="${pageContext.request.contextPath}/listseats" method="POST">
+                                <input type="hidden" name="seatId" id="seatId">
+                                <input type="hidden" name="id" value="${airline.airlineId}">
+                            </form>
+                            <c:if test="${not empty airline}">
+                            <!-- Ghế VIP -->
+                            <p>VIP Seats</p>
+                            <c:set var="count" value="0"/>
+                            <c:forEach var="seat" items="${seats}">
+                                <c:if test="${seat.seatClass eq 'Vip'}">
+                                    <!-- Nếu là ghế đầu tiên của hàng mới, tạo div row -->
+                                    <c:if test="${count % airline.numberOfSeatsOnVipRow == 0}">
+                                        <div class="row">
+                                    </c:if>
+                                    <!-- Hiển thị ghế -->
+                                    <c:choose>
+                                        <c:when test="${seat.status == 1}">
+                                            <button id="${seat.seatId}"   class="seat vip" data-seat="1" data-number="${seat.seatNumber}" data-id="${seat.seatId}" style=" border: none; padding: 0; font-size: inherit; color: inherit; cursor: pointer;"
+                                            >
+                                                    ${seat.seatNumber}
+                                            </button>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <button class="seat vip btn-soft-secondary" style=" border: none; padding: 0; font-size: inherit; color: inherit; cursor: pointer;"
+                                            >
+                                                ❌
+                                            </button>
+
+                                        </c:otherwise>
+                                    </c:choose>
+                                    <c:set var="count" value="${count + 1}"/>
+
+                                    <!-- Nếu đủ 6 ghế, đóng div row -->
+                                    <c:if test="${count % airline.numberOfSeatsOnVipRow == 0}">
+                                        </div>
+                                    </c:if>
+                                </c:if>
+                            </c:forEach>
+
+                            <c:if test="${count % airline.numberOfSeatsOnVipRow != 0}">
+                        </div>
+                        </c:if>
                         <hr style="width: 80%; margin: 20px auto; border: 2px solid black;">
 
-                        <!-- Form ẩn để gửi dữ liệu bằng POST -->
-                        <form id="seatForm" action="${pageContext.request.contextPath}/listseats" method="POST">
-                            <input type="hidden" name="seatId" id="seatId">
-                            <input type="hidden" name="id" value="${airline.airlineId}">
-                        </form>
-
-                        <c:if test="${not empty airline}">
-                        <!-- Ghế VIP -->
-                        <p>VIP Seats</p>
+                        <!-- Ghế Economy -->
+                        <p>Economy Seats</p>
                         <c:set var="count" value="0"/>
                         <c:forEach var="seat" items="${seats}">
-                            <c:if test="${seat.seatClass eq 'Vip'}">
-                                <!-- Nếu là ghế đầu tiên của hàng mới, tạo div row -->
-                                <c:if test="${count % airline.numberOfSeatsOnVipRow == 0}">
+                            <c:if test="${seat.seatClass eq 'Economy'}">
+                                <c:if test="${count % airline.numberOfSeatsOnEconomyRow == 0}">
                                     <div class="row">
                                 </c:if>
 
-                                <!-- Hiển thị ghế -->
                                 <c:choose>
                                     <c:when test="${seat.status == 1}">
 
-                                        <button id="${seat.seatId}"   class="seat vip" data-seat="1" data-number="${seat.seatNumber}" data-id="${seat.seatId}" style=" border: none; padding: 0; font-size: inherit; color: inherit; cursor: pointer;"
+                                        <button id="${seat.seatId}"  class="seat regular" data-seat="1" data-number="${seat.seatNumber}" data-id="${seat.seatId}" style=" border: none; padding: 0; font-size: inherit; color: inherit; cursor: pointer;"
                                         >
                                                 ${seat.seatNumber}
                                         </button>
@@ -840,7 +704,7 @@
                                     </c:when>
                                     <c:otherwise>
 
-                                        <button class="seat vip btn-soft-secondary" style=" border: none; padding: 0; font-size: inherit; color: inherit; cursor: pointer;"
+                                        <button class="seat regular btn-soft-secondary" style=" border: none; padding: 0; font-size: inherit; color: inherit; cursor: pointer;"
                                         >
                                             ❌
                                         </button>
@@ -848,106 +712,105 @@
                                     </c:otherwise>
                                 </c:choose>
 
-
                                 <c:set var="count" value="${count + 1}"/>
 
-                                <!-- Nếu đủ 6 ghế, đóng div row -->
-                                <c:if test="${count % airline.numberOfSeatsOnVipRow == 0}">
+                                <c:if test="${count % airline.numberOfSeatsOnEconomyRow == 0}">
                                     </div>
                                 </c:if>
                             </c:if>
                         </c:forEach>
 
-                        <c:if test="${count % airline.numberOfSeatsOnVipRow != 0}">
+                        <c:if test="${count % airline.numberOfSeatsOnEconomyRow != 0}">
                     </div>
                     </c:if>
+                    </c:if>
+
 
                     <hr style="width: 80%; margin: 20px auto; border: 2px solid black;">
 
-                    <!-- Ghế Economy -->
-                    <p>Economy Seats</p>
-                    <c:set var="count" value="0"/>
-                    <c:forEach var="seat" items="${seats}">
-                        <c:if test="${seat.seatClass eq 'Economy'}">
-                            <c:if test="${count % airline.numberOfSeatsOnEconomyRow == 0}">
-                                <div class="row">
-                            </c:if>
-
-                            <c:choose>
-                                <c:when test="${seat.status == 1}">
-
-                                    <button id="${seat.seatId}"  class="seat regular" data-seat="1" data-number="${seat.seatNumber}" data-id="${seat.seatId}" style=" border: none; padding: 0; font-size: inherit; color: inherit; cursor: pointer;"
-                                    >
-                                            ${seat.seatNumber}
-                                    </button>
-
-                                </c:when>
-                                <c:otherwise>
-
-                                    <button class="seat regular btn-soft-secondary" style=" border: none; padding: 0; font-size: inherit; color: inherit; cursor: pointer;"
-                                    >
-                                        ❌
-                                    </button>
-
-                                </c:otherwise>
-                            </c:choose>
-
-                            <c:set var="count" value="${count + 1}"/>
-
-                            <c:if test="${count % airline.numberOfSeatsOnEconomyRow == 0}">
-                                </div>
-                            </c:if>
-                        </c:if>
-                    </c:forEach>
-
-                    <c:if test="${count % airline.numberOfSeatsOnEconomyRow != 0}">
-                </div>
-                </c:if>
-                </c:if>
-
-
-                <hr style="width: 80%; margin: 20px auto; border: 2px solid black;">
-
-                <div class="plane-title"><img
-                        alt="airline tail"
-                        src="${pageContext.request.contextPath}/views/admin/assets/images/airlines/tail.png">
+                    <div class="plane-title"><img
+                            alt="airline tail"
+                            src="${pageContext.request.contextPath}/views/admin/assets/images/airlines/tail.png">
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 </section>
 <section>
-<div id="ModalSeat2" class="modalSeat2"  >
-    <div class="modal-content">
-        <button class="close-btn" onclick="closeModal2()">&times;</button>
-        <div class="container-fluid" >
-            <div class="layout-specing">
-                <div class="plane-container">
-                    <div class="plane-title"><img
-                            alt="control room"
-                            src="${pageContext.request.contextPath}/views/admin/assets/images/airlines/control_room_airline.png">
-                    </div>
+    <div id="ModalSeat2" class="modalSeat2"  >
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal2()">&times;</button>
+            <div class="container-fluid" >
+                <div class="layout-specing">
+                    <div class="plane-container">
+                        <div class="plane-title"><img
+                                alt="control room"
+                                src="${pageContext.request.contextPath}/views/admin/assets/images/airlines/control_room_airline.png">
+                        </div>
 
-                    <div class="plane">
+                        <div class="plane">
+                            <hr style="width: 80%; margin: 20px auto; border: 2px solid black;">
+
+                            <c:if test="${not empty airline2}">
+                            <!-- Ghế VIP -->
+                            <p>VIP Seats</p>
+                            <c:set var="count" value="0"/>
+                            <c:forEach var="seat" items="${seats2}">
+                                <c:if test="${seat.seatClass eq 'Vip'}">
+                                    <!-- Nếu là ghế đầu tiên của hàng mới, tạo div row -->
+                                    <c:if test="${count % airline2.numberOfSeatsOnVipRow == 0}">
+                                        <div class="row">
+                                    </c:if>
+
+                                    <!-- Hiển thị ghế -->
+                                    <c:choose>
+                                        <c:when test="${seat.status == 1}">
+
+                                            <button  id="${seat.seatId}" class="seat vip" data-seat="2" data-number="${seat.seatNumber}" data-id="${seat.seatId}" style="background-color: gold; border: none; padding: 0; font-size: inherit; color: inherit; cursor: pointer;"
+                                            >
+                                                    ${seat.seatNumber}
+                                            </button>
+
+                                        </c:when>
+                                        <c:otherwise>
+
+                                            <button class="seat vip btn-soft-secondary" style=" border: none; padding: 0; font-size: inherit; color: inherit; cursor: pointer;"
+                                            >
+                                                ❌
+                                            </button>
+
+                                        </c:otherwise>
+                                    </c:choose>
+
+
+                                    <c:set var="count" value="${count + 1}"/>
+
+                                    <!-- Nếu đủ 6 ghế, đóng div row -->
+                                    <c:if test="${count % airline2.numberOfSeatsOnVipRow == 0}">
+                                        </div>
+                                    </c:if>
+                                </c:if>
+                            </c:forEach>
+                            <c:if test="${count % airline2.numberOfSeatsOnVipRow != 0}">
+                        </div>
+                        </c:if>
+
                         <hr style="width: 80%; margin: 20px auto; border: 2px solid black;">
 
-                        <c:if test="${not empty airline2}">
-                        <!-- Ghế VIP -->
-                        <p>VIP Seats</p>
+                        <!-- Ghế Economy -->
+                        <p>Economy Seats</p>
                         <c:set var="count" value="0"/>
                         <c:forEach var="seat" items="${seats2}">
-                            <c:if test="${seat.seatClass eq 'Vip'}">
-                                <!-- Nếu là ghế đầu tiên của hàng mới, tạo div row -->
-                                <c:if test="${count % airline2.numberOfSeatsOnVipRow == 0}">
+                            <c:if test="${seat.seatClass eq 'Economy'}">
+                                <c:if test="${count % airline2.numberOfSeatsOnEconomyRow == 0}">
                                     <div class="row">
                                 </c:if>
 
-                                <!-- Hiển thị ghế -->
                                 <c:choose>
                                     <c:when test="${seat.status == 1}">
 
-                                        <button  id="${seat.seatId}" class="seat vip" data-seat="2" data-number="${seat.seatNumber}" data-id="${seat.seatId}" style="background-color: gold; border: none; padding: 0; font-size: inherit; color: inherit; cursor: pointer;"
+                                        <button id="${seat.seatId}" class="seat regular" data-seat="2" data-number="${seat.seatNumber}" data-id="${seat.seatId}" style=" border: none; padding: 0; font-size: inherit; color: inherit; cursor: pointer;"
                                         >
                                                 ${seat.seatNumber}
                                         </button>
@@ -955,7 +818,7 @@
                                     </c:when>
                                     <c:otherwise>
 
-                                        <button class="seat vip btn-soft-secondary" style=" border: none; padding: 0; font-size: inherit; color: inherit; cursor: pointer;"
+                                        <button  class="seat regular btn-soft-secondary" style=" border: none; padding: 0; font-size: inherit; color: inherit; cursor: pointer;"
                                         >
                                             ❌
                                         </button>
@@ -963,77 +826,32 @@
                                     </c:otherwise>
                                 </c:choose>
 
-
                                 <c:set var="count" value="${count + 1}"/>
 
-                                <!-- Nếu đủ 6 ghế, đóng div row -->
-                                <c:if test="${count % airline2.numberOfSeatsOnVipRow == 0}">
+                                <c:if test="${count % airline2.numberOfSeatsOnEconomyRow == 0}">
                                     </div>
                                 </c:if>
                             </c:if>
                         </c:forEach>
 
-                        <c:if test="${count % airline2.numberOfSeatsOnVipRow != 0}">
+                        <c:if test="${count % airline2.numberOfSeatsOnEconomyRow != 0}">
                     </div>
                     </c:if>
+                    </c:if>
+
 
                     <hr style="width: 80%; margin: 20px auto; border: 2px solid black;">
 
-                    <!-- Ghế Economy -->
-                    <p>Economy Seats</p>
-                    <c:set var="count" value="0"/>
-                    <c:forEach var="seat" items="${seats2}">
-                        <c:if test="${seat.seatClass eq 'Economy'}">
-                            <c:if test="${count % airline2.numberOfSeatsOnEconomyRow == 0}">
-                                <div class="row">
-                            </c:if>
-
-                            <c:choose>
-                                <c:when test="${seat.status == 1}">
-
-                                    <button id="${seat.seatId}" class="seat regular" data-seat="2" data-number="${seat.seatNumber}" data-id="${seat.seatId}" style=" border: none; padding: 0; font-size: inherit; color: inherit; cursor: pointer;"
-                                    >
-                                            ${seat.seatNumber}
-                                    </button>
-
-                                </c:when>
-                                <c:otherwise>
-
-                                    <button  class="seat regular btn-soft-secondary" style=" border: none; padding: 0; font-size: inherit; color: inherit; cursor: pointer;"
-                                    >
-                                        ❌
-                                    </button>
-
-                                </c:otherwise>
-                            </c:choose>
-
-                            <c:set var="count" value="${count + 1}"/>
-
-                            <c:if test="${count % airline2.numberOfSeatsOnEconomyRow == 0}">
-                                </div>
-                            </c:if>
-                        </c:if>
-                    </c:forEach>
-
-                    <c:if test="${count % airline2.numberOfSeatsOnEconomyRow != 0}">
-                </div>
-                </c:if>
-                </c:if>
-
-
-                <hr style="width: 80%; margin: 20px auto; border: 2px solid black;">
-
-                <div class="plane-title"><img
-                        alt="airline tail"
-                        src="${pageContext.request.contextPath}/views/admin/assets/images/airlines/tail.png">
+                    <div class="plane-title"><img
+                            alt="airline tail"
+                            src="${pageContext.request.contextPath}/views/admin/assets/images/airlines/tail.png">
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
 </section>
-
 <script>
     function closeModal() {
         document.getElementById("ModalSeat").style.display = "none";
@@ -1042,7 +860,6 @@
         document.getElementById("ModalSeat2").style.display = "none";
     }
 </script>
-
 
 
 <script>
@@ -1156,7 +973,7 @@
                     const seatId = selectedSeats[userSeatIndex].seatId;
                     document.getElementById(seatId)?.classList.remove("selector");
                     console.log(document.getElementById(seatId))
-                                     // **Cập nhật seatId mới trong danh sách**
+                    // **Cập nhật seatId mới trong danh sách**
                     selectedSeats[userSeatIndex].seatId = seatCode;
 
                     seatButton.classList.add("selector"); // Thêm màu ghế mới
@@ -1202,7 +1019,10 @@
         });
     }
 </script>
+
+
 <script>
+
     function validateNameInput(totalPassenger) {
         for (var psg = 0; psg <= totalPassenger; psg++) {
             const name = document.getElementById("name" + psg).value.trim();
@@ -1213,7 +1033,6 @@
         }
         return true;
     }
-
     function handleSeatClick(seat, seatColor, i) {
         console.log("Seat color: " + seatColor);
         if (seatColor === '#FFF') {
@@ -1222,6 +1041,7 @@
             alert('This seat cannot be selected.');
         }
     }
+
     let currentChoosingSeat = [];
     let selectedSeats = [];
     let selectedSeats2 = [];
@@ -1329,6 +1149,7 @@
 
     }
 
+
     function validateSelectTicket() {
         const seatInputs = document.querySelectorAll("input[type='hidden'][name^='code']");
 
@@ -1397,11 +1218,7 @@
 
 
 </body>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<!-- Bootstrap -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </html>
 
