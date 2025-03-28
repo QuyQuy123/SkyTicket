@@ -40,7 +40,7 @@
     <form action="LoginURL" method="post">
 
         <div class="form-group">
-            <input
+            <input id="username"
                     type="text"
                     name="username"
                     value="${cookie.cuser.value}"
@@ -80,7 +80,7 @@
         <a id="forgetPassword" href="<%= request.getContextPath() %>/ResetPasswordURL">Forget Password</a
         ><br /><br />
         <div class="button" style="height: 60px">
-            <input type="submit" value="Login" /><br /><br />
+            <input type="submit" value="Login" id="loginButton" /><br /><br />
         </div>
         <div style="display: flex; justify-content: center;">
             <a href="https://accounts.google.com/o/oauth2/auth?scope=email profile openid&redirect_uri=http://localhost:8080/SkyTicket/LoginGoogle&response_type=code&client_id=320434410566-roa3pt0l2daks98s6r9o32t9jn4akq79.apps.googleusercontent.com&approval_prompt=force"
