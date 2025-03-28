@@ -1036,6 +1036,7 @@
                             <c:if test="${not empty airline2}">
                             <!-- Ghế VIP -->
                             <p>VIP Seats</p>
+                            <c:if test="">
                             <c:set var="count" value="0"/>
                             <c:forEach var="seat" items="${seats2}">
                                 <c:if test="${seat.seatClass eq 'Vip'}">
@@ -1084,6 +1085,8 @@
                             <c:if test="${count % airline2.numberOfSeatsOnVipRow != 0}">
                         </div>
                         </c:if>
+                            </c:if>
+
 
 
                         <hr style="width: 80%; margin: 20px auto; border: 2px solid black;">

@@ -129,8 +129,43 @@ public class SeatsDAO extends DBConnect{
         return false;
     }
 
+    public boolean resetIsBookedByAirlineId(int airlineId) {
+        String sql = "UPDATE Seats SET IsBooked = 0 WHERE AirlineId = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, airlineId);
+            return ps.executeUpdate() > 0; // Trả về true nếu có ít nhất 1 dòng bị ảnh hưởng
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
 
+
+
+
+    public boolean markSeatsAsBooked(int bookingId) {
+        String selectSQL = "SELECT SeatId FROM Tickets WHERE BookingId = ?";
+        String updateSQL = "UPDATE Seats SET IsBooked = 1 WHERE SeatId = ?";
+
+        try (PreparedStatement selectStmt = connection.prepareStatement(selectSQL)) {
+            selectStmt.setInt(1, bookingId);
+            ResultSet rs = selectStmt.executeQuery();
+
+            boolean updated = false;
+            try (PreparedStatement updateStmt = connection.prepareStatement(updateSQL)) {
+                while (rs.next()) {
+                    updateStmt.setInt(1, rs.getInt("SeatId"));
+                    updateStmt.executeUpdate();
+                    updated = true;
+                }
+            }
+            return updated;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
 
 

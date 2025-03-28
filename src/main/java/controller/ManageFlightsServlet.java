@@ -3,6 +3,7 @@ package controller;
 import dal.AirlinesDAO;
 import dal.AirportsDAO;
 import dal.FlightsDAO;
+import dal.SeatsDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
