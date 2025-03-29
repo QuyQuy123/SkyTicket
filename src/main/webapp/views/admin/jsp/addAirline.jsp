@@ -97,6 +97,17 @@
                                         ${msg}
                                 </div>
                             </c:if>
+                            <c:if test="${not empty err}">
+                                <div style="color: red; font-weight: bold;">
+                                        ${err}
+                                </div>
+                            </c:if>
+
+                            <c:if test="${not empty error}">
+                                <div style="color: green; font-weight: bold;">
+                                        ${error}
+                                </div>
+                            </c:if>
 
                             <form class="mt-4" action="${pageContext.request.contextPath}/addAirline" method="post" enctype="multipart/form-data">
                                 <div class="row align-items-center">
@@ -124,15 +135,15 @@
                                             <label class="form-label" for="name">Airline Name<span class="text-danger">*</span> : </label>
                                             <input name="name" id="name" type="text"
                                                                              class="form-control"
-                                                                             placeholder="Airline name">
+                                                                             placeholder="Airline name" required>
                                         </div>
                                     </div><!--end col-->
 
 
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label">Status<span class="text-danger">*</span> :</label>
-                                            <select class="form-control gender-name select2input" name="status">
+                                            <label class="form-label" for="star">Status<span class="text-danger">*</span> :</label>
+                                            <select class="form-control gender-name select2input" name="status" id="star" required>
                                                 <option value="1">Active</option>
                                                 <option value="0" selected>Deactive</option>
                                             </select>
@@ -145,7 +156,7 @@
                                             <input name="numberOfSeatsOnVipRow" id="vipRow"
                                                    type="number" min="1" max="4"
                                                    class="form-control"
-                                                   placeholder="Enter number < 5 ">
+                                                   placeholder="Enter number < 5 " required>
                                         </div>
                                     </div>
 
@@ -155,7 +166,7 @@
                                             <input name="numberOfSeatsOnVipColumn" id="vipCol"
                                                    type="number" min="1" max="10"
                                                    class="form-control"
-                                                   placeholder="Enter number from 1 to 10">
+                                                   placeholder="Enter number from 1 to 10" required>
                                         </div>
                                     </div>
 
@@ -166,7 +177,7 @@
                                                    id="ecoRow" type="number"
                                                    min="1" max="10"
                                                    class="form-control"
-                                                   placeholder="Enter number from 1 to 10 ">
+                                                   placeholder="Enter number from 1 to 10 " required>
                                         </div>
                                     </div>
 
@@ -177,7 +188,7 @@
                                                    id="ecoCol" type="number"
                                                    min="10" max="50"
                                                    class="form-control"
-                                                   placeholder="Enter number from 10 to 50 ">
+                                                   placeholder="Enter number from 10 to 50 " required>
                                         </div>
                                     </div>
 

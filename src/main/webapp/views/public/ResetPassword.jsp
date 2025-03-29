@@ -4,7 +4,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>Reset Password</title>
+    <title>Đặt lại mật khẩu</title>
     <link rel="shortcut icon" type="image/jpg" href="<%= request.getContextPath() %>/img/logo.jpg" />
     <link rel="stylesheet" href="<%= request.getContextPath() %>/css/Login.css" type="text/css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
@@ -13,7 +13,7 @@
 <body>
 <div class="container">
     <h1 style="margin-bottom: 30px">
-        Reset Password<a
+        Đặt lại mật khẩu<a
             style="
                     float: right;
                     font-size: 25px;
@@ -34,7 +34,7 @@
     <form action="<%= request.getContextPath() %>/ResetPasswordURL" method="post">
         <div class="form-group">
             <input type="email" name="email" required />
-            <label >Your email:</label>
+            <label >Email của bạn:</label>
 
         </div>
         <p id="capslock-warning" style="display: none; margin-bottom: 30px">⚠️ Caps Lock is on</p>
@@ -42,7 +42,7 @@
         <div class="button">
             <input id="submit" type="submit" value="Continue" /><br /><br />
         </div>
-        Did you remember the password? <a class="letDoIt" href="LoginURL">Login</a>
+        Bạn đã nhớ mật khẩu? <a class="letDoIt" href="LoginURL">Đăng nhập</a>
     </form>
 </div>
 <script>

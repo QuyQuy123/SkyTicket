@@ -43,7 +43,9 @@
                     border-radius: 58px;
                     cursor: pointer;
                     margin-left: 92px;
-            " src="<%= request.getContextPath() %>/img/<%= account.getImg() %>" alt="User Image">
+            " src="<%= request.getContextPath() %>/views/customer/<%= (account.getImg() != null && !account.getImg().isEmpty()) ? account.getImg() : "account-demo.jpg" %>"
+                   alt="User">
+
             <div class="account-infor">
                 <ul id="header-subnav" style="
                     display: none;

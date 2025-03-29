@@ -9,25 +9,27 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
 import model.Accounts;
-import jakarta.servlet.annotation.MultipartConfig;
-
 import java.io.File;
-import java.io.FileOutputStream;
+
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Paths;
+
 import java.sql.Date;
+@MultipartConfig(
+        fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+        maxFileSize = 1024 * 1024 * 10,      // 10MB
+        maxRequestSize = 1024 * 1024 * 50    // 50MB
+)
 @WebServlet(name = "InforUpdateController", urlPatterns = {"/updateURL"})
 public class InforUpdateController extends HttpServlet {
 
 
-    private static final String UPLOAD_DIR = "img";
+    private static final String UPLOAD_DIR = "views/customer";
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         AccountDAO ad = new AccountDAO();
         try {
-            String image = "img/" + req.getParameter("image");
+
             String name = req.getParameter("name");
             String dobStr = req.getParameter("birth");
             String email = req.getParameter("email");
@@ -35,20 +37,30 @@ public class InforUpdateController extends HttpServlet {
             String address = req.getParameter("address");
             int id = Integer.parseInt(req.getParameter("id"));
 
-//            Part filePart = req.getPart("image");
-//            String fileName = filePart.getSubmittedFileName();
-//            String uploadPath = getServletContext().getRealPath("") + File.separator + UPLOAD_DIR;
-//            File uploadDir = new File(uploadPath);
-//            if (!uploadDir.exists()) uploadDir.mkdir();
-//
-//            String filePath = uploadPath + File.separator + fileName;
-//            filePart.write(filePath);
-//
-            if (image.equals("img/")) {
-                image = ad.getAccountsById(id).getImg();
+            Part filePart = req.getPart("image");
+            String fileName = (filePart != null) ? System.currentTimeMillis() + "_" + filePart.getSubmittedFileName() : null;
+
+            if (fileName == null || fileName.trim().isEmpty() || !fileName.matches(".*\\.(jpg|png|jepg)$")) {
+                System.out.println("Invalid file name");
+                Accounts updatedAcc = ad.getAccountsById(id);
+                req.setAttribute("account", updatedAcc);
+                req.setAttribute("error", "Invalid image format");
+                req.getRequestDispatcher("views/customer/ViewProfile.jsp").forward(req, resp);
+                return;
             }
+
+
+            String uploadPath = getServletContext().getRealPath("") + File.separator + UPLOAD_DIR;
+            File uploadDir = new File(uploadPath);
+            if (!uploadDir.exists()) uploadDir.mkdir();
+            System.out.println("Upload path: " + uploadPath);
+            String filePath = uploadPath + File.separator + fileName;
+            filePart.write(filePath);
+
+
             Date dob = Date.valueOf(dobStr);
-            Accounts newAcc = new Accounts(id, name, email, phone, address, image, dob);
+            System.out.println("dob: " + dob);
+            Accounts newAcc = new Accounts(id, name, email, phone, address, fileName, dob);
             ad.infoUpdate(newAcc);
 
             // Lấy lại thông tin tài khoản sau khi update

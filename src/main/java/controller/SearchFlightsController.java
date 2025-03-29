@@ -62,13 +62,17 @@ public class SearchFlightsController extends HttpServlet {
                 int depAStrs = Integer.parseInt(depAStr);
                 int desAStrs = Integer.parseInt(desAStr);
                 Date parsedDate = Date.valueOf(depDateStr);
-                flightList = fldao.getFlightsByAirportAndDate(depAStrs, desAStrs, parsedDate);
+                int adultTickets = Integer.parseInt(request.getParameter("adult"));
+                int childTickets = Integer.parseInt(request.getParameter("child"));
+                flightList = fldao.getFlightsByAirportAndDate(depAStrs, desAStrs, parsedDate, adultTickets + childTickets);
             } else {
                 request.setAttribute("reDate", reDateStr);
                 int depA = Integer.parseInt(depAStr);
                 int desA = Integer.parseInt(desAStr);
                 Date reDate = Date.valueOf(reDateStr);
-                flightList = fldao.getFlightsByAirportAndDate(desA, depA, reDate);
+                int adultTickets = Integer.parseInt(request.getParameter("adult"));
+                int childTickets = Integer.parseInt(request.getParameter("child"));
+                flightList = fldao.getFlightsByAirportAndDate(desA, depA, reDate, adultTickets+childTickets);
             }
         } catch (Exception e) {
             System.out.println("Error fetching flights: " + e.getMessage());

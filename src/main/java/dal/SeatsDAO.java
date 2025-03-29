@@ -159,11 +159,16 @@ public class SeatsDAO extends DBConnect{
         return false;
     }
 
-
-
-
-
-
+    public boolean resetIsBookedByAirlineId(int airlineId) {
+        String sql = "UPDATE Seats SET IsBooked = 0 WHERE AirlineId = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, airlineId);
+            return ps.executeUpdate() > 0; // Trả về true nếu có ít nhất 1 dòng bị ảnh hưởng
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
 
 }

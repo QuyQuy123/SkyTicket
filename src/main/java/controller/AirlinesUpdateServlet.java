@@ -62,7 +62,7 @@ public class AirlinesUpdateServlet extends HttpServlet {
         String fileName = "";
 
         if (filePart != null && filePart.getSize() > 0) {
-            fileName = filePart.getSubmittedFileName();
+            fileName = System.currentTimeMillis() + "_" + filePart.getSubmittedFileName();
             String uploadPath = getServletContext().getRealPath("") + File.separator + UPLOAD_DIR;
             File uploadDir = new File(uploadPath);
             if (!uploadDir.exists()) uploadDir.mkdirs();
@@ -86,7 +86,8 @@ public class AirlinesUpdateServlet extends HttpServlet {
             && airline.getNumberOfSeatsOnVipRow() == numberOfSeatsOnVipRow
             && airline.getNumberOfSeatsOnVipColumn() == numberOfSeatsOnVipColumn
             && airline.getNumberOfSeatsOnEconomyRow() == numberOfSeatsOnEcoRow
-            && airline.getNumberOfSeatsOnEconomyColumn() == numberOfSeatsOnEcoColumn) {
+            && airline.getNumberOfSeatsOnEconomyColumn() == numberOfSeatsOnEcoColumn
+        && airline.getImage() == fileName) {
             err = "Airline already exists";
             validation = false;
         }
@@ -107,7 +108,9 @@ public class AirlinesUpdateServlet extends HttpServlet {
                 request.setAttribute("airline", airline);
                 request.getRequestDispatcher( "/views/admin/jsp/updateAirline.jsp").forward(request, response);
             } else {
-                response.sendRedirect("error.jsp");
+                request.setAttribute("err", "Airline update failed");
+                request.setAttribute("airline", airline);
+                request.getRequestDispatcher("/views/admin/jsp/updateAirline.jsp").forward(request, response);
             }
         } else {
             request.setAttribute("err", err);

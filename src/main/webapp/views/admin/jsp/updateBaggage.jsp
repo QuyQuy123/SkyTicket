@@ -78,7 +78,7 @@
         <div class="container-fluid">
             <div class="layout-specing">
                 <div class="d-md-flex justify-content-between">
-                    <h5 class="mb-0">Update Location ID: <%=baggages.getBaggageId()%></h5>
+                    <h5 class="mb-0">Update Baggage ID: <%=baggages.getBaggageId()%></h5>
 
                     <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
                         <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
@@ -175,7 +175,7 @@
 
                         <ul class="list-unstyled mb-0 p-4" data-simplebar style="height: 664px;">
                             <div>
-                                Location name must be ...
+                                ...
                             </div>
 
                             <li class="mt-4 text-center">

@@ -3,6 +3,7 @@ package controller;
 import dal.AirlinesDAO;
 import dal.AirportsDAO;
 import dal.FlightsDAO;
+import dal.SeatsDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -13,6 +14,8 @@ import model.Airports;
 import model.Flights;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @WebServlet("/manageFlights") // Định danh Servlet tại URL "/template"
@@ -56,14 +59,14 @@ public class ManageFlightsServlet extends HttpServlet {
 
             case "delete":
                 int idDelete = Integer.parseInt(request.getParameter("id"));
-                boolean check = flightsDAO.updateFlightStatus(idDelete,0);
+                boolean check = flightsDAO.updateFlightStatus(idDelete, 0);
                 request.setAttribute("msg", check ? "Deleted successfully!" : "Delete failed!");
                 response.sendRedirect("/listFlights");
                 break;
 
             case "restore":
                 int idRetore = Integer.parseInt(request.getParameter("id"));
-                boolean check1 = flightsDAO.updateFlightStatus(idRetore,1);
+                boolean check1 = flightsDAO.updateFlightStatus(idRetore, 1);
                 request.setAttribute("msg", check1 ? "Restore successfully!" : "Restore failed!");
                 response.sendRedirect("/listFlights");
                 break;
@@ -124,13 +127,13 @@ public class ManageFlightsServlet extends HttpServlet {
         switch (action) {
             case "add":
                 request.setAttribute("isAdd", true);
-                if(departureAirport == arrivalAirport){
+                if (departureAirport == arrivalAirport) {
                     request.setAttribute("msg", "Duplicate departure!");
                     request.getRequestDispatcher("/views/admin/jsp/manageFlightsForm.jsp").forward(request, response);
                     break;
                 }
 
-                if(!sqlDepartureTimestamp.before(sqlArrivalTimestamp)){
+                if (!sqlDepartureTimestamp.before(sqlArrivalTimestamp)) {
                     request.setAttribute("msg", "Departure time must be before Arrival time!");
                     request.getRequestDispatcher("/views/admin/jsp/manageFlightsForm.jsp").forward(request, response);
                     break;
@@ -163,22 +166,37 @@ public class ManageFlightsServlet extends HttpServlet {
                 int id = Integer.parseInt(request.getParameter("id"));
                 Flights flyUpdate = flightsDAO.getFlightById(id);
 
+                // Lấy thời gian hiện tại
+                LocalDateTime now = LocalDateTime.now();
+
+                // Lấy thời gian khởi hành chuyến bay từ database
+                LocalDateTime flightDeparture = flyUpdate.getDepartureTime().toLocalDateTime();
+
+                // Kiểm tra nếu chỉ còn dưới 24 giờ thì không cho phép cập nhật
+                if (ChronoUnit.HOURS.between(now, flightDeparture) < 24*3) {
+                    request.setAttribute("flight", flyUpdate);
+                    request.setAttribute("err", "You can only update flights at least 3 day before departure!");
+                    request.getRequestDispatcher("/views/admin/jsp/manageFlightsForm.jsp").forward(request, response);
+                    return; // Dừng xử lý tiếp
+                }
+
+
                 flyUpdate.setDepartureAirportId(departureAirport);
-                System.out.println("de:"+flyUpdate.getDepartureAirportId());
+                System.out.println("de:" + flyUpdate.getDepartureAirportId());
 
                 flyUpdate.setArrivalAirportId(arrivalAirport);
-                System.out.println("ar"+flyUpdate.getArrivalAirportId());
+                System.out.println("ar" + flyUpdate.getArrivalAirportId());
 
                 request.setAttribute("isUpdate", true);
 
-                if(departureAirport == arrivalAirport){
+                if (departureAirport == arrivalAirport) {
                     request.setAttribute("flight", flyUpdate);
                     request.setAttribute("msg", "Duplicate departure!");
                     request.getRequestDispatcher("/views/admin/jsp/manageFlightsForm.jsp").forward(request, response);
                     break;
                 }
 
-                if(!sqlDepartureTimestamp.before(sqlArrivalTimestamp)){
+                if (!sqlDepartureTimestamp.before(sqlArrivalTimestamp)) {
                     request.setAttribute("flight", flyUpdate);
                     request.setAttribute("msg", "Departure time must be before Arrival time!");
                     request.getRequestDispatcher("/views/admin/jsp/manageFlightsForm.jsp").forward(request, response);
@@ -202,10 +220,11 @@ public class ManageFlightsServlet extends HttpServlet {
                 if (check) {
                     request.setAttribute("msg", "Update flight successfully");
                 } else {
-                    request.setAttribute("msg", "Update flight failed");
+                    request.setAttribute("err", "Update flight failed");
                 }
                 request.getRequestDispatcher("/views/admin/jsp/manageFlightsForm.jsp").forward(request, response);
                 break;
+
 
             default:
                 break;

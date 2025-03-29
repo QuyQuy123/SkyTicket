@@ -24,7 +24,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Skyticket - Fly with us</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet">
@@ -172,227 +172,225 @@
     LocationsDAO locate = new LocationsDAO();
     AirportsDAO airport = new AirportsDAO();
 %>
- <div>
+<div>
 
-<div class="background">
-    <div class="flight-form ">
-    <form id="input-form" action="SearchFlightsURL" method="GET" class="row g-1" onsubmit="return validateLocations(event)">
-        <div class="form-container" style="margin: 0 auto">
-            <div class="row form-input">
-                <div style="display: flex;">
-                    <div style="display: flex; align-items: center; font-size: 16px; margin-right: 20px">
-                        <input type="radio" id="oneWay" name="flightType" value="oneWay" style="transform: scale(1.5);" checked onclick="toggleReturnDate()">
-                        <label for="oneWay" style="color: black;margin: 0; margin-left: 10px">One-way</label>
-                    </div>
-                    <div style="display: flex; align-items: center; font-size: 16px">
-                        <input type="radio" id="roundTrip" name="flightType" value="roundTrip" style="transform: scale(1.5);" onclick="toggleReturnDate()">
-                        <label for="roundTrip" style="color: black;margin: 0; margin-left: 10px">Round-trip</label>
-                    </div>
-                </div>
-                <p id="errorMessage" style="font-size: 16px; color: red;"></p>
-<%--                <%if(request.getAttribute("account") != null && ((Accounts)request.getAttribute("account")).getRoleId() != 2){--%>
-<%--                %>--%>
-<%--                <p style="font-size: 16px;color: red;">Please use customer account to use the service.</p>--%>
-<%--                <%--%>
-<%--                    }--%>
-<%--                %>--%>
+    <div class="background">
+        <div class="flight-form ">
+            <form id="input-form" action="SearchFlightsURL" method="GET" class="row g-1" onsubmit="return validateLocations(event)">
+                <div class="form-container" style="margin: 0 auto">
+                    <div class="row form-input">
+                        <div style="display: flex;">
+                            <div style="display: flex; align-items: center; font-size: 16px; margin-right: 20px">
+                                <input type="radio" id="oneWay" name="flightType" value="oneWay" style="transform: scale(1.5);" checked onclick="toggleReturnDate()">
+                                <label for="oneWay" style="color: black;margin: 0; margin-left: 10px">Một chiều</label>
+                            </div>
+                            <div style="display: flex; align-items: center; font-size: 16px">
+                                <input type="radio" id="roundTrip" name="flightType" value="roundTrip" style="transform: scale(1.5);" onclick="toggleReturnDate()">
+                                <label for="roundTrip" style="color: black;margin: 0; margin-left: 10px">Khứ Hồi</label>
+                            </div>
+                        </div>
+                        <p id="errorMessage" style="font-size: 16px; color: red;"></p>
+                        <%--                <%if(request.getAttribute("account") != null && ((Accounts)request.getAttribute("account")).getRoleId() != 2){--%>
+                        <%--                %>--%>
+                        <%--                <p style="font-size: 16px;color: red;">Please use customer account to use the service.</p>--%>
+                        <%--                <%--%>
+                        <%--                    }--%>
+                        <%--                %>--%>
 
-                <div class="row" style="height: 55px; margin-top: 20px">
-                    <!-- From Field -->
-                    <div class="col-md-2" style="padding-right: 0">
-                        <p style="color: black; margin: 0; font-size: 12px">FROM</p>
-                        <input type="text" value="Ha Noi" readonly style="height: 100%;font-size: 18px" class="form-control" id="fromDisplay" onclick="showLocationList('from')" oninput="filterLocations('from')" placeholder="FROM" required >
-                        <input type="hidden" value="1" id="from" name="departure">
-                        <div id="from-locations" class="location-list" style="margin-top: 88px;margin-left: 85px;width: 300px;height: 300px">
+                        <div class="row" style="height: 55px; margin-top: 20px">
+                            <!-- From Field -->
+                            <div class="col-md-2" style="padding-right: 0">
+                                <p style="color: black; margin: 0; font-size: 12px">Từ</p>
+                                <input type="text" value="Ha Noi" readonly style="height: 100%;font-size: 18px" class="form-control" id="fromDisplay" onclick="showLocationList('from')" oninput="filterLocations('from')" placeholder="FROM" required >
+                                <input type="hidden" value="1" id="from" name="departure">
+                                <div id="from-locations" class="location-list" style="margin-top: 88px;margin-left: 85px;width: 300px;height: 300px">
 
-                            <input type="text" id="searchLocation1" onkeyup="filterLocations(event)"
-                                   placeholder="Tìm kiếm địa điểm..."
-                                   style="width: 100%; padding: 8px; margin-bottom: 10px; font-size: 14px;">
+                                    <input type="text" id="searchLocation1" onkeyup="filterLocations(event)"
+                                           placeholder="Tìm kiếm địa điểm..."
+                                           style="width: 100%; padding: 8px; margin-bottom: 10px; font-size: 14px;">
 
-                            <%
-                                for(Locations lo : locate.getAllLocation()) {
-                                    for(Airports ai : airport.getAllAirports()){
-                                        if(ai.getLocationId() == lo.getLocationId()){
-                            %>
-                            <div class="location-item" onclick="selectLocation('<%= ai.getAirportId() %>', '<%= lo.getLocationName() %>', 'from')">
+                                    <%
+                                        for(Locations lo : locate.getAllLocation()) {
+                                            for(Airports ai : airport.getAllAirports()){
+                                                if(ai.getLocationId() == lo.getLocationId()){
+                                    %>
+                                    <div class="location-item" onclick="selectLocation('<%= ai.getAirportId() %>', '<%= lo.getLocationName() %>', 'from')">
                                 <span class="location-name" style="font-weight: bold; font-size: 16px; color: black;">
                                     <%= lo.getLocationName() %>
                                 </span><br>
-                                <span class="airport-name" style="font-size: 14px; color: grey; filter: blur(1%);">
+                                        <span class="airport-name" style="font-size: 14px; color: grey; filter: blur(1%);">
                                     <%= ai.getAirportName() %>
                                 </span>
+                                    </div>
+                                    <% } } } %>
+                                </div>
+
                             </div>
-                            <% } } } %>
-                        </div>
-
-                    </div>
 
 
 
-                    <!-- To Field -->
-                    <div class="col-md-2" style="padding-right: 0px">
-                        <p style="color: black; margin: 0; font-size: 12px">TO</p>
-                        <input type="text" value="TP.Ho Chi Minh" readonly style="height: 100%;font-size: 18px" class="form-control" id="toDisplay" onclick="showLocationList('to')" oninput="filterLocations('to')" placeholder="TO" required>
-                        <input type="hidden" value="2" id="to" name="destination">
-                        <div id="to-locations" class="location-list" style="margin-top: 88px;margin-left: 260px;width: 300px;height: 300px">
+                            <!-- To Field -->
+                            <div class="col-md-2" style="padding-right: 0px">
+                                <p style="color: black; margin: 0; font-size: 12px">Đến</p>
+                                <input type="text" value="TP.Ho Chi Minh" readonly style="height: 100%;font-size: 18px" class="form-control" id="toDisplay" onclick="showLocationList('to')" oninput="filterLocations('to')" placeholder="TO" required>
+                                <input type="hidden" value="2" id="to" name="destination">
+                                <div id="to-locations" class="location-list" style="margin-top: 88px;margin-left: 260px;width: 300px;height: 300px">
 
-                            <input type="text" id="searchLocation2" onkeyup="filterLocations(event)"
-                                   placeholder="Tìm kiếm địa điểm..."
-                                   style="width: 100%; padding: 8px; margin-bottom: 10px; font-size: 14px;">
-                            <%
-                                for(Locations lo : locate.getAllLocation()) {
-                                    for(Airports ai : airport.getAllAirports()){
-                                        if(ai.getLocationId() == lo.getLocationId()){
-                            %>
-                            <div class="location-item" onclick="selectLocation('<%= ai.getAirportId() %>', '<%= lo.getLocationName() %>', 'to')">
+                                    <input type="text" id="searchLocation2" onkeyup="filterLocations(event)"
+                                           placeholder="Tìm kiếm địa điểm..."
+                                           style="width: 100%; padding: 8px; margin-bottom: 10px; font-size: 14px;">
+                                    <%
+                                        for(Locations lo : locate.getAllLocation()) {
+                                            for(Airports ai : airport.getAllAirports()){
+                                                if(ai.getLocationId() == lo.getLocationId()){
+                                    %>
+                                    <div class="location-item" onclick="selectLocation('<%= ai.getAirportId() %>', '<%= lo.getLocationName() %>', 'to')">
                                 <span class="location-name" style="font-weight: bold; font-size: 16px; color: black;">
                                                     <%= lo.getLocationName() %>
                                 </span><br>
-                                <span class="airport-name" style="font-size: 14px; color: grey; filter: blur(1%);">
+                                        <span class="airport-name" style="font-size: 14px; color: grey; filter: blur(1%);">
                                                     <%= ai.getAirportName() %>
                                 </span>
+                                    </div>
+                                    <% } } } %>
+                                </div>
                             </div>
-                            <% } } } %>
-                        </div>
-                    </div>
 
-                    <!-- Departure Date Field -->
-                    <div class="col-md-2" style="padding-right: 0px">
-                        <p style="color: black; margin: 0; font-size: 12px">DEPART</p>
-                        <input type="date" id="departureDate" class="form-control" name="departureDate" style="height: 100%;font-size: 18px;" placeholder="dd-mm-yyyy" onkeydown="return false;" required >
-                    </div>
-                    <div class="col-md-2" id="returnDateField" style="display:none;padding-right: 0" >
-                        <p style="color: black; margin: 0; font-size: 12px">RETURN</p>
-                        <input type="date" id="returnDate" class="form-control" name="returnDate" style="height: 100%;font-size: 18px;" autocomplete="off" placeholder="dd-mm-yyyy" onkeydown="return false;">
-                    </div>
-                    <!-- Passengers Field -->
-                    <div class="col-md-4" id="passengerField" style="position: relative; padding-right: 0;">
-                        <p style="color: black; margin: 0; font-size: 12px">PASSENGER</p>
-                        <input type="number" class="form-control" id="passengers" value="1" min="1" max="10" required readonly
-                               onclick="togglePassengerOptions()"
-                               style="height: 100%; width: 100%; font-size: 18px;">
+                            <!-- Departure Date Field -->
+                            <div class="col-md-2" style="padding-right: 0px">
+                                <p style="color: black; margin: 0; font-size: 12px">Ngày Khởi hành</p>
+                                <input type="date" id="departureDate" class="form-control" name="departureDate" style="height: 100%;font-size: 18px;" placeholder="dd-mm-yyyy" onkeydown="return false;" required >
+                            </div>
+                            <div class="col-md-2" id="returnDateField" style="display:none;padding-right: 0" >
+                                <p style="color: black; margin: 0; font-size: 12px">Ngày về</p>
+                                <input type="date" id="returnDate" class="form-control" name="returnDate" style="height: 100%;font-size: 18px;" autocomplete="off" placeholder="dd-mm-yyyy" onkeydown="return false;">
+                            </div>
+                            <!-- Passengers Field -->
+                            <div class="col-md-4" id="passengerField" style="position: relative; padding-right: 0;">
+                                <p style="color: black; margin: 0; font-size: 12px">Số hành khách</p>
+                                <input type="number" class="form-control" id="passengers" value="1" min="1" max="10" required readonly
+                                       onclick="togglePassengerOptions()"
+                                       style="height: 100%; width: 100%; font-size: 18px;">
 
-                        <div id="passenger-options" class="passenger-options"
-                             style="display: none; position: absolute; top: 50px; left: 15px; z-index: 1000;">
-                            <div class="options-container" style="margin-top: 46px;margin-left: -32px">
-                                <div class="passenger-selector" style="    width: 350px;margin-left: -37px;">
-                                    <div class="passenger-type">
-                                        <div class="passenger-label">Adult</div>
-                                        <div class="passenger-controls">
-                                            <input type="number" id="adult-count" class="passenger-count" name="adult" value="1" min="1" max="10" class="passenger-input">
+                                <div id="passenger-options" class="passenger-options"
+                                     style="display: none; position: absolute; top: 50px; left: 15px; z-index: 1000;">
+                                    <div class="options-container" style="margin-top: 46px;margin-left: -32px">
+                                        <div class="passenger-selector" style="    width: 350px;margin-left: -37px;">
+                                            <div class="passenger-type">
+                                                <div class="passenger-label">Người lớn</div>
+                                                <div class="passenger-controls">
+                                                    <input type="number" id="adult-count" class="passenger-count" name="adult" value="1" min="1" max="10" class="passenger-input">
+                                                </div>
+                                            </div>
+                                            <div class="passenger-type">
+                                                <div class="passenger-label">Trẻ em</div>
+                                                <div class="passenger-controls">
+                                                    <input type="number"id="child-count" class="passenger-count" name="child" value="0" min="0" max="9" class="passenger-input">
+                                                </div>
+                                                <div class="age-range">2-11 Year Olds</div>
+                                            </div>
+                                            <div class="passenger-type">
+                                                <div class="passenger-label">Em bé</div>
+                                                <div class="passenger-controls">
+                                                    <input type="number" id="infant-count" class="passenger-count" name="infant" value="0" min="0" max="5" class="passenger-input">
+                                                </div>
+                                                <div class="age-range">0-2 Year Olds</div>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="passenger-type">
-                                        <div class="passenger-label">Children</div>
-                                        <div class="passenger-controls">
-                                            <input type="number"id="child-count" class="passenger-count" name="child" value="0" min="0" max="9" class="passenger-input">
-                                        </div>
-                                        <div class="age-range">2-11 Year Olds</div>
-                                    </div>
-                                    <div class="passenger-type">
-                                        <div class="passenger-label">Infant</div>
-                                        <div class="passenger-controls">
-                                            <input type="number" id="infant-count" class="passenger-count" name="infant" value="0" min="0" max="5" class="passenger-input">
-                                        </div>
-                                        <div class="age-range">0-2 Year Olds</div>
                                     </div>
                                 </div>
                             </div>
+
+                            <!-- Submit Button -->
+                            <div class="col-md-2">
+                                <button type="submit" class="search-button" onclick="validateDates()" style="margin-top: 21px">
+                                    <%--                                <%= (request.getAttribute("account") == null || ((Accounts)request.getAttribute("account")).getRoleId() == 3) ? "" : "disabled" %>>--%>
+                                    Tìm chuyến bay
+                                </button>
+                            </div>
                         </div>
                     </div>
+                </div>
+            </form>
 
-                    <!-- Submit Button -->
-                    <div class="col-md-2">
-                        <button type="submit" class="search-button" onclick="validateDates()" style="margin-top: 21px">
-<%--                                <%= (request.getAttribute("account") == null || ((Accounts)request.getAttribute("account")).getRoleId() == 3) ? "" : "disabled" %>>--%>
-                            Search Flights
-                        </button>
+        </div>
+
+    </div>
+
+    <div class="main-container">
+        <div id="introduction">
+            <h1 style="font-size: 30px">Chào mừng bạn đến với SkyTicket!</h1>
+            <p style="font-size: 16px">Hành trình mới đang chờ đón – Đặt vé ngay để khám phá thế giới!</p>
+        </div>
+
+        <div id="promotion">
+            <div class="promotion-item row">
+                <div class="col-md-6">
+                    <img style="transform: rotateY(180deg);" src="<%= request.getContextPath() %>/img/tong_dai.jpg" alt="">
+                </div>
+                <div class="col-md-6">
+                    <h3>Ưu đãi hấp dẫn</h3>
+                    <p>
+                        SkyTicket cam kết mang đến giá vé hợp lý, đa dạng lựa chọn di chuyển và nhiều ưu đãi hấp dẫn.
+                        Đội ngũ chăm sóc khách hàng 24/7 luôn sẵn sàng hỗ trợ để mang đến trải nghiệm tốt nhất cho bạn.
+                    </p>
+                </div>
+            </div>
+            <div class="promotion-item row">
+                <div class="col-md-6">
+                    <img src="<%= request.getContextPath() %>/img/news_bamboo_2.jpg" alt="">
+                </div>
+                <div class="col-md-6">
+                    <h3>Đảm bảo an toàn</h3>
+                    <p>
+                        SkyTicket cam kết đảm bảo an toàn tuyệt đối cho khách hàng. Đội ngũ tài xế được đào tạo chuyên nghiệp, phương tiện luôn được bảo trì định kỳ và trang bị đầy đủ thiết bị an toàn tiêu chuẩn, giúp mỗi chuyến đi của bạn diễn ra suôn sẻ và an toàn.
+                    </p>
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="main-container" id="body-2">
+
+        <div style="display: ${empty param.id ? '' : 'none'};margin: 60px 0">
+            <h1 style="margin-bottom: 30px; text-align: center; font-size: 30px;color: #007acc">Tin tức nổi bật</h1>
+            <div class="news-container">
+                <%
+
+                    List<News> listNew = (List<News>) request.getAttribute("listNew");
+
+                    if (listNew != null) {
+                        for (int i = listNew.size() - 1; i >= listNew.size()-4; i--) {
+                            News n = listNew.get(i);
+                %>
+                <div class="news-item" onclick="viewNews('<%= n.getNewId() %>')">
+                    <img src="<%= n.getImg() %>" alt="<%= n.getTitle() %>" >
+
+                    <h2 style="height: 25%;"><%= n.getTitle() %></h2>
+                    <div class="news-content" style="display: none;">
+                        <p><%= n.getContent() %></p>
                     </div>
+
                 </div>
-            </div>
-        </div>
-    </form>
-
-    </div>
-
-</div>
-
-<div class="main-container">
-    <div id="introduction">
-        <h1 style="font-size: 30px">Welcome to SkyTicket!</h1>
-        <p style="font-size: 16px">Embark on a new adventure – Book your ticket now and explore the world!</p>
-    </div>
-
-    <div id="promotion">
-        <div class="promotion-item row">
-            <div class="col-md-6">
-                <img style="transform: rotateY(180deg);" src="<%= request.getContextPath() %>/img/tong_dai.jpg" alt="">
-            </div>
-            <div class="col-md-6">
-                <h3>Attractive offers</h3>
-                <p>
-                    SkyTicket is committed to providing reasonable fares, many transportation options and attractive promotions.
-                    The 24/7 customer care team is always ready to support to bring the best experience to you.
-                </p>
-            </div>
-        </div>
-        <div class="promotion-item row">
-            <div class="col-md-6">
-                <img src="<%= request.getContextPath() %>/img/news_bamboo_2.jpg" alt="">
-            </div>
-            <div class="col-md-6">
-                <h3>Peaceful discovery</h3>
-                <p>
-                    SkyTicket is committed to ensuring absolute safety for customers. The team of drivers are professionally trained, vehicles are always periodically maintained and equipped with standard safety equipment, so that each of your trips goes smoothly and safely.
-                </p>
-            </div>
-        </div>
-
-    </div>
-
-</div>
-
-<div class="main-container" id="body-2">
-
-    <div style="display: ${empty param.id ? '' : 'none'};margin: 60px 0">
-        <h1 style="margin-bottom: 30px; text-align: center; font-size: 30px;color: #007acc">NEWS</h1>
-        <div class="news-container">
-            <%
-
-               List<News> listNew = (List<News>) request.getAttribute("listNew");
-
-                if (listNew != null) {
-                    for (int i = listNew.size() - 1; i >= listNew.size()-4; i--) {
-                        News n = listNew.get(i);
-            %>
-            <div class="news-item" onclick="viewNews('<%= n.getNewId() %>')">
-                <img src="<%= n.getImg() %>" alt="<%= n.getTitle() %>" >
-
-                <h2 style="height: 25%;"><%= n.getTitle() %></h2>
-                <div class="news-content" style="display: none;">
-                    <p><%= n.getContent() %></p>
-                </div>
-
-            </div>
-            <%
+                <%
+                        }
                     }
-                }
-            %>
-        </div>
-        <div style="width: 100%; text-align: center; margin-top: 20px; ">
-            <a href="NewsURL" style="font-size: 20px; color: #3C6E57">More >></a>
+                %>
+            </div>
+            <div style="width: 100%; text-align: center; margin-top: 20px; ">
+                <a href="NewsURL" style="font-size: 20px; color: #3C6E57">Xem thêm >></a>
 
+            </div>
         </div>
+
     </div>
-
 </div>
- </div>
 <jsp:include page="/views/layout/Footer.jsp"/>
 
 
 
 </body>
 </html>
-
-
-

@@ -20,7 +20,7 @@
 <div class="container" style="width: 24%;">
     <div style="display: flex">
         <h1 style="margin-bottom: 30px">
-            Login
+            Đăng nhập
         </h1>
 
         <div>
@@ -40,13 +40,13 @@
     <form action="LoginURL" method="post">
 
         <div class="form-group">
-            <input
+            <input id="username"
                     type="text"
                     name="username"
                     value="${cookie.cuser.value}"
                     required
             />
-            <label >Email or Phone Number</label>
+            <label >Email hoặc Số điện thoại</label>
         </div>
         <div class="form-group">
             <input
@@ -56,7 +56,7 @@
                     value="${cookie.cpass.value}"
                     required
             />
-            <label >Password</label>
+            <label >Mật khẩu</label>
             <svg id="eye"
                  style="position: absolute;
                          z-index: 9999;
@@ -76,11 +76,11 @@
             ⚠️ Caps Lock is on
         </p>
         <input type="checkbox" ${cookie.crem != null ? 'checked' : ''}
-               name="rem" value="ON"/> Remember me
-        <a id="forgetPassword" href="<%= request.getContextPath() %>/ResetPasswordURL">Forget Password</a
+               name="rem" value="ON"/> Lưu thông tin đăng nhập
+        <a id="forgetPassword" href="<%= request.getContextPath() %>/ResetPasswordURL">Quên mật khẩu </a
         ><br /><br />
         <div class="button" style="height: 60px">
-            <input type="submit" value="Login" /><br /><br />
+            <input type="submit" value="Đăng nhập" id="loginButton" /><br /><br />
         </div>
         <div style="display: flex; justify-content: center;">
             <a href="https://accounts.google.com/o/oauth2/auth?scope=email profile openid&redirect_uri=http://localhost:8080/SkyTicket/LoginGoogle&response_type=code&client_id=320434410566-roa3pt0l2daks98s6r9o32t9jn4akq79.apps.googleusercontent.com&approval_prompt=force"
@@ -107,7 +107,7 @@
                     <path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/>
                     <path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/>
                 </svg>
-                Login with Google
+                Đăng nhập bằng Google
             </a>
         </div>
         <!--Login by Google-->
@@ -129,8 +129,8 @@
 <%--            </div>--%>
 <%--        </div>--%>
         <br>
-        Don't have an account?
-        <a class="letDoIt" href="RegisterURL">Register Now</a>
+        Bạn chưa có tài khoản?
+        <a class="letDoIt" href="RegisterURL">Đăng ký ngay</a>
     </form>
 </div>
 <script>

@@ -15,7 +15,7 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title>Search Flights</title>
+  <title>Tìm kiếm chuyến bay</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <link rel="stylesheet" href="<%= request.getContextPath() %>/css/ViewFlight.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -128,14 +128,14 @@
         if(request.getParameter("flightDetailId")==null){
 
       %>
-      <div style="width: 100%; color:#3C6E57; text-align: center; "><h3>SELECT OUTBOUND FLIGHT</h3></div>
+      <div style="width: 100%; color:#3C6E57; text-align: center; "><h3>Chọn chuyến bay khởi hành</h3></div>
       <%} else {
         Airports tmpA = depAirport; depAirport = desAirport; desAirport = tmpA;
         Locations tmpL = depLocation; depLocation = desLocation; desLocation = tmpL;
         Countries tmpC = depCountry; depCountry = desCountry; desCountry = tmpC;
 //          System.out.println(request.getParameter("flightDetailId"));
       %>
-      <div style="width: 100%; color:#3C6E57; text-align: center "><h3>SELECT REBOUND FLIGHT</h3></div>
+      <div style="width: 100%; color:#3C6E57; text-align: center "><h3>Chọn chuyến bay khứ hồi</h3></div>
       <% }
           assert depCountry != null;%>
       <div class="flight-info" style="width: 100%">
@@ -146,11 +146,11 @@
         </div>
         <div class="flight-details">
           <div class="flight-icon">🛫</div>
-          <div class="flight-type">Passenger</div>
+          <div class="flight-type">Hành khách</div>
           <div class="flight-time">
-            <%= adultNumber %> Adult<% if (adultNumber > 1) { %>s<% } %>
-            <% if (childNumber > 0) { %>, <%= childNumber %> Child<% } %>
-            <% if (infantNumber > 0) { %>, <%= infantNumber %> Infant<% } %>
+            <%= adultNumber %> Người lớn<% if (adultNumber > 1) { %>s<% } %>
+            <% if (childNumber > 0) { %>, <%= childNumber %> Trẻ em<% } %>
+            <% if (infantNumber > 0) { %>, <%= infantNumber %> Em bé<% } %>
           </div>
         </div>
         <div class="airport-info">
@@ -165,22 +165,22 @@
           <div class="col-md-3">
               <div class="flight-detail" style="display: block; height: fit-content; background-color: #f9f9f9">
                   <div class="sorting-options">
-                      <h5>Sort by:</h5>
+                      <h5>Sắp xếp theo:</h5>
                       <div>
                           <input type="radio" id="sortTimeAsc" name="sortFlights" value="timeAsc" onchange="sortFlights(this.value)" checked>
-                          <label for="sortTimeAsc">Earliest First</label>
+                          <label for="sortTimeAsc">Sớm nhất trước</label>
                       </div>
                       <div>
                           <input type="radio" id="sortTimeDesc" name="sortFlights" value="timeDesc" onchange="sortFlights(this.value)">
-                          <label for="sortTimeDesc">Latest First</label>
+                          <label for="sortTimeDesc">Muộn nhất trước</label>
                       </div>
                       <div>
                           <input type="radio" id="sortPriceAsc" name="sortFlights" value="priceAsc" onchange="sortFlights(this.value)">
-                          <label for="sortPriceAsc">Price: Low to High</label>
+                          <label for="sortPriceAsc">Giá: Thấp đến cao</label>
                       </div>
                       <div>
                           <input type="radio" id="sortPriceDesc" name="sortFlights" value="priceDesc" onchange="sortFlights(this.value)">
-                          <label for="sortPriceDesc">Price: High to Low</label>
+                          <label for="sortPriceDesc">Giá: Cao đến thấp</label>
                       </div>
                   </div>
 
@@ -216,7 +216,7 @@
                       <div style="width: 88%; display: flex; align-items: center; padding: 30px 15px">
                           <div style="width: 20%; text-align: left">
                               <p class="airline-name"><%= ald.getNameById(airlineId) %></p>
-                              <a style="cursor: pointer" onclick="openModal(<%=f.getFlightId()%>)">Detail Information</a>
+                              <a style="cursor: pointer" onclick="openModal(<%=f.getFlightId()%>)">Thông tin chi tiết</a>
                           </div>
 
                           <div style="display: flex; width: 42%; padding-top: 1%">
@@ -241,7 +241,7 @@
                           <div style="display: flex; align-items: center; width: 38%; justify-content: end">
                               <div class="price">
                                   <span class="old-price"><%= NumberFormat.getInstance().format(f.getClassVipPrice()) %> ₫</span>
-                                  <span><span style="font-size: 17px">only from</span> <%= NumberFormat.getInstance().format(f.getClassEconomyPrice())%> ₫</span>
+                                  <span><span style="font-size: 17px">chỉ từ</span> <%= NumberFormat.getInstance().format(f.getClassEconomyPrice())%> ₫</span>
                               </div>
                               <div style="display: flex; margin-left: 20px" onclick="showTicketCategory(<%=f.getFlightId()%>)">
 
@@ -255,7 +255,7 @@
 
 
                   <div id="ticket-category-container<%=f.getFlightId()%>" style="max-height: 0; overflow: hidden; transition: max-height 0.5s ease, opacity 0.5s ease; opacity: 0;">
-                      <div style="text-align: center; font-size: 20px">Select Ticket Class</div>
+                      <div style="text-align: center; font-size: 20px">Chọn hạng vé</div>
                       <div class="ticket-category-list" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 90px;">
                           <%
                               Set<String> displayedClasses = new HashSet<>();
@@ -319,11 +319,11 @@
                                       <%
                                           if (totalPassengers <= 10) {
                                       %>
-                                      <button style="background-color: cadetblue;" type="submit">Buy Ticket</button>
+                                      <button style="background-color: cadetblue;" type="submit">Mua Vé</button>
                                       <%
                                       } else {
                                       %>
-                                      <button style="background-color: #aaa" disabled>SOLD OUT</button>
+                                      <button style="background-color: #aaa" disabled>Đã bán hết</button>
                                       <%
                                           }
                                       %>
@@ -345,11 +345,11 @@
                                       <%
                                           if (totalPassengers <= 10) {
                                       %>
-                                      <button style="background-color:cadetblue;width: 83%" type="submit">Select Departure Ticket</button>
+                                      <button style="background-color:cadetblue;width: 83%" type="submit">Chọn vé khởi hành</button>
                                       <%
                                       } else {
                                       %>
-                                      <button style="background-color: #aaa" disabled>SOLD OUT</button>
+                                      <button style="background-color: #aaa" disabled>Đã bán hết</button>
                                       <%
                                           }
                                       %>
@@ -366,11 +366,11 @@
                                       <%
                                           if (totalPassengers <= 10) {
                                       %>
-                                      <button style="background-color: cadetblue;width: 75%" type="submit">Select Return Ticket</button>
+                                      <button style="background-color: cadetblue;width: 75%" type="submit">Chọn vé khứ hồi</button>
                                       <%
                                       } else {
                                       %>
-                                      <button style="background-color: #aaa" disabled>SOLD OUT</button>
+                                      <button style="background-color: #aaa" disabled>Đã bán hết</button>
                                       <%
                                           }
                                       %>
@@ -409,19 +409,19 @@
                                   </div>
                                   <div class="modal-body row" style="padding:18px 50px;">
                                       <div class="col-md-4" style="width: 41%">
-                                          <p>Departs: <span class="departure-time"><%= timeFormat.format(f.getDepartureTime()) %></span></p>
+                                          <p>Khởi hành: <span class="departure-time"><%= timeFormat.format(f.getDepartureTime()) %></span></p>
                                           <%
                                               long totalTime = f.getArrivalTime().getTime()-f.getDepartureTime().getTime();
                                               long hours = totalTime / (1000 * 60 * 60);
                                               long minutes = (totalTime / (1000 * 60)) % 60;
                                           %>
-                                          <p>Total time: <span class="total-time"><%= hours %> h <%= minutes %> m</span></p>
+                                          <p>Tổng thời gian: <span class="total-time"><%= hours %> giờ <%= minutes %> phút</span></p>
                                           <div>
                                               <div class="airline-logo-container" style="width: 65%; margin: 15px 0">
                                                   <img src="<%= request.getContextPath() + "/img/" + airlineImage %>"
                                                        alt="Logo">
                                               </div>
-                                              <p class="airline-name"><strong>Airline: </strong><%= ald.getNameById(airlineId) %></p>
+                                              <p class="airline-name"><strong>Hãng bay: </strong><%= ald.getNameById(airlineId) %></p>
 
                                           </div>
                                       </div>
@@ -456,7 +456,7 @@
                                       </div>
                                   </div>
                                   <div class="modal-footer">
-                                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
                                   </div>
 
                               </div>
@@ -498,12 +498,12 @@
                       <% if (flightDetailId != null) { %>
                       <input type="hidden" name="flightDetailId" value="<%= flightDetailId %>">
                       <% } %>
-                      <button type="submit" class="pagination-button">Previous</button>
+                      <button type="submit" class="pagination-button">Trang trước</button>
                   </form>
                   <% } %>
 
                   <% if (hasFlights) { %>
-                  <span class="pagination-current">Page <%= currentPage %> / <%= totalPages %></span>
+                  <span class="pagination-current">Trang <%= currentPage %> / <%= totalPages %></span>
                   <% } else { %>
                   <span class="pagination-current">Không có chuyến bay nào được tìm thấy</span>
                   <% } %>
@@ -523,7 +523,7 @@
                       <% if (flightDetailId != null) { %>
                       <input type="hidden" name="flightDetailId" value="<%= flightDetailId %>">
                       <% } %>
-                      <button type="submit" class="pagination-button">Next</button>
+                      <button type="submit" class="pagination-button">Trang sau</button>
                   </form>
                   <% } %>
               </div>
