@@ -229,7 +229,7 @@ public class BookingDAO extends DBConnect{
         }
     }
     public boolean changeStatusToRefundReject(int bookingId) {
-        String sql = "UPDATE Bookings SET status = 6 WHERE bookingID = ?";
+        String sql = "UPDATE Bookings SET status = 2 WHERE bookingID = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, bookingId);
             int rowsAffected = stmt.executeUpdate();

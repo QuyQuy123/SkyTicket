@@ -1,11 +1,8 @@
 package controller;
 
 
-import dal.BookingDAO;
-import dal.BookingsDAO;
+import dal.*;
 
-import dal.PaymentsDAO;
-import dal.TicketsDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -23,12 +20,16 @@ public class BookingsDetail extends HttpServlet {
     private BookingDAO bookingsDAO;
     private EmailServlet email ;
     private PaymentsDAO p;
+    private TicketsDAO td;
+    private SeatsDAO s;
 
     @Override
     public void init() throws ServletException {
         bookingsDAO = new BookingDAO();
         email = new EmailServlet();
         p = new PaymentsDAO();
+        s= new SeatsDAO();
+        td = new TicketsDAO();
     }
 
     @Override
@@ -53,21 +54,24 @@ public class BookingsDetail extends HttpServlet {
         String action = req.getParameter("action");
         int bookingId = Integer.parseInt(req.getParameter("bookingId"));
         int payid = p.getIdByBookingid(bookingId);
+        Bookings book = bookingsDAO .getBookingById(bookingId);
+        if(bookingId == 2){
+            td.confirmSuccessAllTicketsByBookingId(bookingId);
+        }
         if ("confirmPayment".equals(action)) {
             boolean success = bookingsDAO.changeStatusToSuccess(bookingId);
-             p.updatePaymentStatus(2,payid);
-            Bookings book = bookingsDAO .getBookingById(bookingId);
+            p.updatePaymentStatus(2,payid);
             email.sendPaymentSuccessfulbyEmail(book.getContactEmail(), book);
             if (success) {
                 req.setAttribute("msg", "Payment confirmed successfully!");
             } else {
                 req.setAttribute("msg", "Failed to confirm payment.");
             }
-            Bookings bookings = bookingsDAO.getBookingById(bookingId);
-            req.setAttribute("booking", bookings);
+            req.setAttribute("booking", book);
         }
         if ("confirmRefund".equals(action)) {
             boolean success = bookingsDAO.changeStatusToRefundSuccess(bookingId);
+            bookingsDAO.updateTotalPrice(bookingId, bookingsDAO.getTotalPriceAllTickets(bookingId) - bookingsDAO.getTotalPriceCancelledTicket(bookingId));
             if (success) {
                 req.setAttribute("msg", "Refund confirmed successfully!");
             } else {

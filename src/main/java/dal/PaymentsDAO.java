@@ -181,6 +181,38 @@ public class PaymentsDAO extends DBConnect {
         return 0;
     }
 
+    public boolean confirmBookingAndTicketsSuccess(int bookingId) {
+        String updateBookingsSql = "UPDATE Bookings SET Status = 2 WHERE BookingId = ?";
+        String updateTicketsSql = "UPDATE Tickets SET Status = 2 WHERE BookingId = ?";
+
+        PreparedStatement updateBookingsStmt = null;
+        PreparedStatement updateTicketsStmt = null;
+        try {
+            connection.setAutoCommit(false);
+            updateBookingsStmt = connection.prepareStatement(updateBookingsSql);
+            updateBookingsStmt.setInt(1, bookingId);
+            int bookingsRowsAffected = updateBookingsStmt.executeUpdate();
+            updateTicketsStmt = connection.prepareStatement(updateTicketsSql);
+            updateTicketsStmt.setInt(1, bookingId);
+            int ticketsRowsAffected = updateTicketsStmt.executeUpdate();
+            if (bookingsRowsAffected == 0) {
+                connection.rollback();
+                return false;
+            }
+
+            connection.commit();
+            return true;
+        } catch (SQLException e) {
+
+        }
+        return false;
+    }
+
+
+
+
+
+
     public boolean updatePaymentStatus( int status,int id) {
         String query = "UPDATE Payments SET PaymentStatus = ? WHERE paymentid = ?";
         try (PreparedStatement ps = connection.prepareStatement(query)) {
@@ -283,7 +315,7 @@ public class PaymentsDAO extends DBConnect {
 
     public static void main(String[] args) {
         PaymentsDAO dao = new PaymentsDAO();
-        Payments a = dao.getPaymentByBookingId(3);
+        boolean a = dao.confirmBookingAndTicketsSuccess(2);
         System.out.println(a);
     }
 }
