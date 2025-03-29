@@ -233,7 +233,7 @@ public class ManageAccountsServlet extends HttpServlet {
                 String fileName = request.getParameter("oldImage");
 
                 if (filePart != null && filePart.getSize() > 0) {
-                    fileName = filePart.getSubmittedFileName();
+                    fileName = System.currentTimeMillis() + "_" + filePart.getSubmittedFileName();
                     String uploadPath = getServletContext().getRealPath("") + File.separator + UPLOAD_DIR;
                     File uploadDir = new File(uploadPath);
                     if (!uploadDir.exists()) {

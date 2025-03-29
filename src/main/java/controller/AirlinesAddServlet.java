@@ -6,12 +6,12 @@ import java.io.IOException;
 import dal.AirlinesDAO;
 import dal.SeatsDAO;
 import jakarta.servlet.ServletException;
-
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import model.Airlines;
 import model.Seats;
+import java.util.regex.Pattern;
 
 @WebServlet("/addAirline")
 @MultipartConfig(
@@ -23,13 +23,13 @@ public class AirlinesAddServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private static final String UPLOAD_DIR = "img";
 
-
-
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.sendRedirect(request.getContextPath() + "/views/admin/jsp/addAirline.jsp");
+    private boolean isValidAirlineName(String name) {
+        return name.length() >= 2 && name.length() <= 255 && Pattern.matches("^[a-zA-Z0-9 ]+$", name);
     }
 
+    private boolean isValidSeats(int value, int min, int max) {
+        return value >= min && value <= max;
+    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -42,9 +42,29 @@ public class AirlinesAddServlet extends HttpServlet {
             int numberOfSeatsOnEcoColumn = Integer.parseInt(request.getParameter("numberOfSeatsOnEcoColumn"));
             int status = Integer.parseInt(request.getParameter("status"));
 
-            // Xử lý file upload
+            if (!isValidAirlineName(airlineName)) {
+                request.setAttribute("error", "Invalid airline name");
+                request.getRequestDispatcher("/views/admin/jsp/addAirline.jsp").forward(request, response);
+                return;
+            }
+
+            if (!isValidSeats(numberOfSeatsOnVipRow, 1, 4) || !isValidSeats(numberOfSeatsOnVipColumn, 1, 10) ||
+                    !isValidSeats(numberOfSeatsOnEcoRow, 1, 10) || !isValidSeats(numberOfSeatsOnEcoColumn, 10, 50)) {
+                request.setAttribute("error", "Invalid seat configuration");
+                request.getRequestDispatcher("/views/admin/jsp/addAirline.jsp").forward(request, response);
+                return;
+            }
+
             Part filePart = request.getPart("airlineImage");
-            String fileName = filePart.getSubmittedFileName();
+            String fileName = (filePart != null) ? System.currentTimeMillis() + "_" + filePart.getSubmittedFileName() : null;
+
+            if (fileName == null || fileName.trim().isEmpty() || !fileName.matches(".*\\.(jpg|png)$")) {
+                request.setAttribute("error", "Invalid image format");
+                request.getRequestDispatcher("/views/admin/jsp/addAirline.jsp").forward(request, response);
+                return;
+            }
+
+
             String uploadPath = getServletContext().getRealPath("") + File.separator + UPLOAD_DIR;
             File uploadDir = new File(uploadPath);
             if (!uploadDir.exists()) uploadDir.mkdir();
@@ -52,6 +72,28 @@ public class AirlinesAddServlet extends HttpServlet {
             String filePath = uploadPath + File.separator + fileName;
             filePart.write(filePath);
 
+<<<<<<< HEAD
+            Airlines airline = new Airlines(airlineName, fileName, information, status, numberOfSeatsOnVipRow, numberOfSeatsOnVipColumn, numberOfSeatsOnEcoRow, numberOfSeatsOnEcoColumn);
+            AirlinesDAO airlineDAO = new AirlinesDAO();
+            int success = airlineDAO.addAirline(airline);
+
+            if (success != 0) {
+                int airlineId = success;
+                SeatsDAO seatsDAO = new SeatsDAO();
+                for (int i = 1; i <= numberOfSeatsOnVipRow * numberOfSeatsOnVipColumn; i++) {
+                    Seats seat = new Seats(airlineId, 1, i, "Business", 0);
+                    seatsDAO.createSeat(seat);
+                }
+                for (int i = 1; i <= numberOfSeatsOnEcoRow * numberOfSeatsOnEcoColumn; i++) {
+                    Seats seat = new Seats(airlineId, 1, i, "Economy", 0);
+                    seatsDAO.createSeat(seat);
+                }
+                request.setAttribute("msg", "Airline added successfully");
+                request.setAttribute("msg1", "Seats added successfully");
+                request.getRequestDispatcher("/views/admin/jsp/addAirline.jsp").forward(request, response);
+            } else {
+                response.sendRedirect("views/public/error.jsp");
+=======
             if (airlineName != null && !airlineName.trim().isEmpty()) {
                 Airlines airline = new Airlines(airlineName, fileName, information, status, numberOfSeatsOnVipRow, numberOfSeatsOnVipColumn, numberOfSeatsOnEcoRow, numberOfSeatsOnEcoColumn);
                 AirlinesDAO airlineDAO = new AirlinesDAO();
@@ -75,14 +117,19 @@ public class AirlinesAddServlet extends HttpServlet {
                     request.setAttribute("err", "Airline added failed!");
                     request.getRequestDispatcher("/views/admin/jsp/addAirline.jsp").forward(request, response);
                 }
+>>>>>>> e22e393de32b77babe98647b1bd064bc002c1e37
             }
             request.setAttribute("err", "Airline Name is not empty");
             request.getRequestDispatcher("/views/admin/jsp/addAirline.jsp").forward(request, response);
 
         } catch (Exception e) {
             e.printStackTrace();
+<<<<<<< HEAD
+            response.sendRedirect("views/public/error.jsp");
+=======
             request.setAttribute("err", "Airline added failed!");
             request.getRequestDispatcher("/views/admin/jsp/addAirline.jsp").forward(request, response);
+>>>>>>> e22e393de32b77babe98647b1bd064bc002c1e37
         }
     }
 }
