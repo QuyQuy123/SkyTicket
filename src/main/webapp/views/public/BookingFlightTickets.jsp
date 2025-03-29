@@ -454,6 +454,10 @@
 
 
 //    DiscountDAO dd = new DiscountDAO();
+
+
+
+
 %>
 <script>
     var airline = "<%= request.getAttribute("airline") %>";
@@ -462,6 +466,8 @@
     console.log("Seats:", seats);
 </script>
 <main>
+
+
     <div class="container" style="margin-top: 100px;">
         <div class="main-container">
             <img src="<%= request.getContextPath() + "/img/" + airline.getImage() %>" alt="Logo">
@@ -471,18 +477,24 @@
                            <%=childTicket%> children,
                            <%=infantTicket%> infant</span></p>
                 <p>- Airline: <span><%=airline.getAirlineName()%></span></p>
+
+
             </div>
             <div class="details">
                 <h3>Depart Flight Information: </h3>
                 <%
                     SimpleDateFormat dateTimeFmt = new SimpleDateFormat("HH:mm dd/MM/yyyy");
                 %>
+
+
                 <p>- Departure: <span><%=dateTimeFmt.format(f.getDepartureTime())%></span></p>
                 <p><span><%=dpa.getAirportName()%>, <%=dpl.getLocationName()%>,<%=dpc.getCountryName()%> </span></p>
                 <p>- Destination: <span><%=dateTimeFmt.format(f.getArrivalTime())%></span></p>
                 <p><span><%=dsa.getAirportName()%>, <%=dsl.getLocationName()%>, <%=dsc.getCountryName()%></span></p>
 
+
             </div>
+
 
             <%
                 int flightDetailId2 = -1;
@@ -503,6 +515,9 @@
                     int airlineId2 = f2.getAirlineId();
                     Airlines airline2 = ald.getAirlineById(airlineId2);
 
+
+
+
                     List<Seats> seats2 = seatsDAO.getAllSeatByAirlineId(airline2.getAirlineId());
 
 
@@ -513,12 +528,14 @@
                     request.setAttribute("seatClass2", seatClass2);
             %>
 
+
             <div class="details">
                 <h3>Return Flight Information: </h3>
                 <p>- Departure: <span><%=dateTimeFmt.format(f2.getDepartureTime())%></span></p>
                 <p><span><%=dpa2.getAirportName()%>, <%=dpl2.getLocationName()%>,<%=dpc.getCountryName()%></span></p>
                 <p>- Destination: <span><%=dateTimeFmt.format(f2.getArrivalTime())%></span></p>
                 <p><span><%=dsa2.getAirportName()%>, <%=dsl2.getLocationName()%>,<%=dsc.getCountryName()%></span></p>
+
 
             </div>
             <%
@@ -533,6 +550,7 @@
                 currentAcc = (Accounts) request.getAttribute("account");
             }
         %>
+
 
         <div style="display: flex; justify-content: space-between">
             <div style="width: 68%; display: block">
@@ -680,6 +698,9 @@
                                                     }
                                                 }
                                             %>
+
+
+
 
                                         </select>
                                     </div>
@@ -876,11 +897,22 @@
                 </div>
             </div>
         </div>
+
+
+
+
     </div>
 
 
 </main>
 <jsp:include page="/views/layout/Footer.jsp"/>
+
+
+
+
+
+
+
 
 <section>
 
@@ -930,6 +962,7 @@
                                                     ${seat.seatNumber}
                                             </button>
 
+
                                         </c:when>
                                         <c:otherwise>
 
@@ -943,7 +976,11 @@
                                         </c:otherwise>
                                     </c:choose>
 
+
+
+
                                     <c:set var="count" value="${count + 1}"/>
+
 
                                     <!-- Nếu đủ 6 ghế, đóng div row -->
                                     <c:if test="${count % airline.numberOfSeatsOnVipRow == 0}">
@@ -957,7 +994,9 @@
                         </div>
                         </c:if>
 
+
                         <hr style="width: 80%; margin: 20px auto; border: 2px solid black;">
+
 
                         <!-- Ghế Economy -->
                         <p>Economy Seats</p>
@@ -968,6 +1007,7 @@
                                     <div class="row">
                                 </c:if>
 
+
                                 <c:choose>
                                     <c:when test="${seat.status == 1}">
 
@@ -977,8 +1017,10 @@
                                                 ${seat.seatNumber}
                                         </button>
 
+
                                     </c:when>
                                     <c:otherwise>
+
 
                                         <button class="seat regular btn-soft-secondary" style=" border: none; padding: 0; font-size: inherit; color: inherit; cursor: pointer;"
                                         >
@@ -1005,6 +1047,9 @@
                     </c:if>
                     </c:if>
 
+
+
+
                     <hr style="width: 80%; margin: 20px auto; border: 2px solid black;">
 
 
@@ -1029,6 +1074,7 @@
                                 src="${pageContext.request.contextPath}/views/admin/assets/images/airlines/control_room_airline.png">
                         </div>
 
+
                         <div class="plane">
                             <hr style="width: 80%; margin: 20px auto; border: 2px solid black;">
 
@@ -1044,6 +1090,8 @@
                                     <c:if test="${count % airline2.numberOfSeatsOnVipRow == 0}">
                                         <div class="row">
                                     </c:if>
+
+
                                     <!-- Hiển thị ghế -->
                                     <c:choose>
                                         <c:when test="${seat.status == 1}">
@@ -1100,6 +1148,7 @@
                                 <c:if test="${count % airline2.numberOfSeatsOnEconomyRow == 0}">
                                     <div class="row">
                                 </c:if>
+
 
                                 <c:choose>
                                     <c:when test="${seat.status == 1}">

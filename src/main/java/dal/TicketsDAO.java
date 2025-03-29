@@ -160,7 +160,6 @@ public class TicketsDAO extends DBConnect{
 
         return tickets;
     }
-
     public double getTotalPrice() {
         double totalPrice = 0.0;
         String query = "SELECT SUM(price) AS Total FROM Tickets WHERE status = 2";
@@ -209,23 +208,27 @@ public class TicketsDAO extends DBConnect{
         return null;
     }
 
-    public void confirmSuccessAllTicketsByBookingId(int bookid) {
-
-        String sql = "UPDATE Tickets SET Status = 2 where bookingId =? and Status = 1";
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setInt(1, bookid);
-            ps.executeUpdate();
-
-        } catch (Exception e) {
+    public boolean confirmSuccessAllTicketsByBookingId(int id) {
+        String sql = "UPDATE Tickets SET Status = 2 WHERE bookingid = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
+    }
+
+    public static void main(String[] args) {
+        TicketsDAO tDAO = new TicketsDAO();
+        tDAO.confirmSuccessAllTicketsByBookingId(2);
 
     }
 
     public void waitRefundPending(int bookingId) {
 
-        String sql = "UPDATE Tickets SET Status = 10 where bookingId =? ";
+        String sql = "UPDATE Tickets SET Status = 2 where bookingId =? ";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, bookingId);
@@ -238,7 +241,7 @@ public class TicketsDAO extends DBConnect{
     }
     public void waitRefundPendingByTicketId(int ticketId) {
 
-        String sql = "UPDATE Tickets SET Status = 4 where ticketId =? ";
+        String sql = "UPDATE Tickets SET Status = 2 where ticketId =? ";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, ticketId);
@@ -328,14 +331,6 @@ public class TicketsDAO extends DBConnect{
             e.printStackTrace();
         }
     }
-
-    public static void main(String[] args) {
-        TicketsDAO t = new TicketsDAO();
-        int a = t.countNumberTicketNotCancel(1);
-        System.out.println("count : "+a);
-
-    }
-
 
 
 
