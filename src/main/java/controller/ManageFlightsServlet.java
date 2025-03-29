@@ -14,6 +14,8 @@ import model.Airports;
 import model.Flights;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @WebServlet("/manageFlights") // Định danh Servlet tại URL "/template"
@@ -57,14 +59,14 @@ public class ManageFlightsServlet extends HttpServlet {
 
             case "delete":
                 int idDelete = Integer.parseInt(request.getParameter("id"));
-                boolean check = flightsDAO.updateFlightStatus(idDelete,0);
+                boolean check = flightsDAO.updateFlightStatus(idDelete, 0);
                 request.setAttribute("msg", check ? "Deleted successfully!" : "Delete failed!");
                 response.sendRedirect("/listFlights");
                 break;
 
             case "restore":
                 int idRetore = Integer.parseInt(request.getParameter("id"));
-                boolean check1 = flightsDAO.updateFlightStatus(idRetore,1);
+                boolean check1 = flightsDAO.updateFlightStatus(idRetore, 1);
                 request.setAttribute("msg", check1 ? "Restore successfully!" : "Restore failed!");
                 response.sendRedirect("/listFlights");
                 break;
@@ -125,13 +127,13 @@ public class ManageFlightsServlet extends HttpServlet {
         switch (action) {
             case "add":
                 request.setAttribute("isAdd", true);
-                if(departureAirport == arrivalAirport){
+                if (departureAirport == arrivalAirport) {
                     request.setAttribute("msg", "Duplicate departure!");
                     request.getRequestDispatcher("/views/admin/jsp/manageFlightsForm.jsp").forward(request, response);
                     break;
                 }
 
-                if(!sqlDepartureTimestamp.before(sqlArrivalTimestamp)){
+                if (!sqlDepartureTimestamp.before(sqlArrivalTimestamp)) {
                     request.setAttribute("msg", "Departure time must be before Arrival time!");
                     request.getRequestDispatcher("/views/admin/jsp/manageFlightsForm.jsp").forward(request, response);
                     break;
@@ -164,54 +166,65 @@ public class ManageFlightsServlet extends HttpServlet {
                 int id = Integer.parseInt(request.getParameter("id"));
                 Flights flyUpdate = flightsDAO.getFlightById(id);
 
-                if (flyUpdate.getDepartureAirportId() != departureAirport && flyUpdate.getArrivalAirportId() != arrivalAirport
-                    && !flyUpdate.getDepartureTime().equals(departureTime) && !flyUpdate.getArrivalTime().equals(arrivalTime)) {
-                    flyUpdate.setDepartureAirportId(departureAirport);
-                    System.out.println("de:"+flyUpdate.getDepartureAirportId());
+                // Lấy thời gian hiện tại
+                LocalDateTime now = LocalDateTime.now();
 
-                    flyUpdate.setArrivalAirportId(arrivalAirport);
-                    System.out.println("ar"+flyUpdate.getArrivalAirportId());
+                // Lấy thời gian khởi hành chuyến bay từ database
+                LocalDateTime flightDeparture = flyUpdate.getDepartureTime().toLocalDateTime();
 
-                    request.setAttribute("isUpdate", true);
-
-                    if(departureAirport == arrivalAirport){
-                        request.setAttribute("flight", flyUpdate);
-                        request.setAttribute("msg", "Duplicate departure!");
-                        request.getRequestDispatcher("/views/admin/jsp/manageFlightsForm.jsp").forward(request, response);
-                        break;
-                    }
-
-                    if(!sqlDepartureTimestamp.before(sqlArrivalTimestamp)){
-                        request.setAttribute("flight", flyUpdate);
-                        request.setAttribute("msg", "Departure time must be before Arrival time!");
-                        request.getRequestDispatcher("/views/admin/jsp/manageFlightsForm.jsp").forward(request, response);
-                        break;
-                    }
-
-
-                    flyUpdate.setArrivalTime(sqlArrivalTimestamp);  // Lưu vào DB kiểu DATETIME
-                    flyUpdate.setDepartureTime(sqlDepartureTimestamp);
-                    flyUpdate.setClassVipPrice(priceVip);
-                    flyUpdate.setClassEconomyPrice(priceEconomy);
-                    flyUpdate.setStatus(status);
-                    flyUpdate.setAirlineId(airlineId);
-
-
-                    check = flightsDAO.updateFlight(flyUpdate);
-
+                // Kiểm tra nếu chỉ còn dưới 24 giờ thì không cho phép cập nhật
+                if (ChronoUnit.HOURS.between(now, flightDeparture) < 24*3) {
                     request.setAttribute("flight", flyUpdate);
+                    request.setAttribute("err", "You can only update flights at least 3 day before departure!");
+                    request.getRequestDispatcher("/views/admin/jsp/manageFlightsForm.jsp").forward(request, response);
+                    return; // Dừng xử lý tiếp
+                }
 
 
-                    if (check) {
-                        request.setAttribute("msg", "Update flight successfully");
-                    } else {
-                        request.setAttribute("err", "Update flight failed");
-                    }
+                flyUpdate.setDepartureAirportId(departureAirport);
+                System.out.println("de:" + flyUpdate.getDepartureAirportId());
+
+                flyUpdate.setArrivalAirportId(arrivalAirport);
+                System.out.println("ar" + flyUpdate.getArrivalAirportId());
+
+                request.setAttribute("isUpdate", true);
+
+                if (departureAirport == arrivalAirport) {
+                    request.setAttribute("flight", flyUpdate);
+                    request.setAttribute("msg", "Duplicate departure!");
                     request.getRequestDispatcher("/views/admin/jsp/manageFlightsForm.jsp").forward(request, response);
                     break;
                 }
-                request.setAttribute("err", "Flight already exists!");
+
+                if (!sqlDepartureTimestamp.before(sqlArrivalTimestamp)) {
+                    request.setAttribute("flight", flyUpdate);
+                    request.setAttribute("msg", "Departure time must be before Arrival time!");
+                    request.getRequestDispatcher("/views/admin/jsp/manageFlightsForm.jsp").forward(request, response);
+                    break;
+                }
+
+
+                flyUpdate.setArrivalTime(sqlArrivalTimestamp);  // Lưu vào DB kiểu DATETIME
+                flyUpdate.setDepartureTime(sqlDepartureTimestamp);
+                flyUpdate.setClassVipPrice(priceVip);
+                flyUpdate.setClassEconomyPrice(priceEconomy);
+                flyUpdate.setStatus(status);
+                flyUpdate.setAirlineId(airlineId);
+
+
+                check = flightsDAO.updateFlight(flyUpdate);
+
+                request.setAttribute("flight", flyUpdate);
+
+
+                if (check) {
+                    request.setAttribute("msg", "Update flight successfully");
+                } else {
+                    request.setAttribute("err", "Update flight failed");
+                }
                 request.getRequestDispatcher("/views/admin/jsp/manageFlightsForm.jsp").forward(request, response);
+                break;
+
 
             default:
                 break;

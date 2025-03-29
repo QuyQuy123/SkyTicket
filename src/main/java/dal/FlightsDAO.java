@@ -136,18 +136,24 @@ public class FlightsDAO extends DBConnect {
         ps.setDouble(8, flight.getClassEconomyPrice());
     }
 
-    public List<Flights> getFlightsByAirportAndDate(int depAirportId, int arrAirportId, Date date) {
+    public List<Flights> getFlightsByAirportAndDate(int depAirportId, int arrAirportId, Date date, int totalPassenger) {
         List<Flights> flights = new ArrayList<>();
-        String sql = "SELECT * FROM flights " +
-                "WHERE DepartureAirportId = ? " +
-                "AND ArrivalAirportId = ? " +
-                "AND DATE(DepartureTime) = ? " +
-                "ORDER BY DepartureTime ASC";
+        String sql = "SELECT f.* FROM Flights f " +
+                "JOIN Airlines a ON f.AirlineId = a.AirlineId " +
+                "JOIN Seats s ON s.AirlineId = a.AirlineId " +
+                "WHERE f.DepartureAirportId = ? " +
+                "AND f.ArrivalAirportId = ? " +
+                "AND DATE(f.DepartureTime) = ? " +
+                "AND s.IsBooked = 0 " +  // Chỉ lấy ghế trống
+                "GROUP BY f.FlightId " +
+                "HAVING COUNT(s.SeatId) >= ? " +  // Đảm bảo đủ số ghế trống
+                "ORDER BY f.DepartureTime ASC";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, depAirportId);
             ps.setInt(2, arrAirportId);
-            ps.setDate(3,date);
+            ps.setDate(3, date);
+            ps.setInt(4, totalPassenger); // Số lượng khách cần đặt
 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -168,6 +174,7 @@ public class FlightsDAO extends DBConnect {
         }
         return flights;
     }
+
 
 
 
