@@ -97,6 +97,11 @@
                                         ${msg}
                                 </div>
                             </c:if>
+                            <c:if test="${not empty err}">
+                                <div style="color: red; font-weight: bold;">
+                                        ${err}
+                                </div>
+                            </c:if>
 
                             <c:if test="${not empty error}">
                                 <div style="color: green; font-weight: bold;">
