@@ -381,20 +381,38 @@
 
 
     <script>
+
+
+        function validateSelectTicket() {
+            const seatInputs = document.querySelectorAll("input[type='hidden'][name^='code']");
+            for (let input of seatInputs) {
+                if (!input.value) {
+                    alert("Please select a seat for all tickets before submitting.");
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        function validateNameInput(totalPassenger) {
+            for (var psg = 0; psg <= totalPassenger; psg++) {
+                const name = document.getElementById("name" + psg).value.trim();
+                if (name === "") {
+                    alert("Please enter a valid name for passenger " + psg + ". Do not enter spaces only.");
+                    return false;
+                }
+            }
+            return true;
+        }
+
         function submitPassengerForm(totalPassenger) {
-            console.log("Hàm submitPassengerForm được gọi với totalPassenger =", totalPassenger);
-
-
             const form = document.getElementById("passengerForm");
-            if (form) {
-                console.log("Tìm thấy form:", form);
+            if (form.checkValidity() && validateSelectTicket() && validateNameInput(totalPassenger)) {
+                form.submit();
             } else {
-                console.log("Không tìm thấy form!");
+                form.reportValidity();
             }
 
-
-            console.log("Form hợp lệ, đang submit...");
-            form.submit();
         }
     </script>
 </head>
