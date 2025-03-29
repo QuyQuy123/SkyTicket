@@ -8,7 +8,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Payment - Sky Ticket</title>
+    <title>Thanh toán - Sky Ticket</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link href="https://pay.vnpay.vn/lib/vnpay/vnpay.css" rel="stylesheet" />
     <script src="https://pay.vnpay.vn/lib/vnpay/vnpay.min.js"></script>
@@ -339,11 +339,11 @@
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
             <path fill="#32b877" d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"></path>
         </svg>
-        <h3>Order Booking Successful</h3>
-        <p>Order approved, please pay at least 10 days before flight time</p>
+        <h3>Đặt vé thành công</h3>
+        <p>Đơn hàng đã được duyệt, vui lòng thanh toán ít nhất 10 ngày trước giờ bay</p>
         <div class="button-container">
-            <button class="button pay-now" onclick="showPaymentDetails()">Pay Now</button>
-            <button class="button pay-later" onclick="goHome()">Pay Later</button>
+            <button class="button pay-now" onclick="showPaymentDetails()">Thanh toán ngay</button>
+            <button class="button pay-later" onclick="goHome()">Thanh toán sau</button>
         </div>
     </div>
 
@@ -351,34 +351,34 @@
     <div class="details-container" id="detailsContainer">
         <div class="main-details">
             <div class="details-section">
-                <h3>Additional Details:</h3>
+                <h3>Thông tin bổ sung:</h3>
                 <%
 
                 %>
-                <p>-<strong> Passengers: </strong><span>adult <%=adultTicket%>, children <%=childTicket%>, infant <%=infantTicket%></span></p>
+                <p>-<strong> Hành khách: </strong><span>người lớn <%=adultTicket%>, trẻ em <%=childTicket%>, em bé <%=infantTicket%></span></p>
 
             </div>
             <div class="details-section">
-                <h3>Depart Flight Information:</h3>
+                <h3>Thông tin chuyến bay đi:</h3>
                 <%
                     SimpleDateFormat dateTimeFmt = new SimpleDateFormat("HH:mm dd/MM/yyyy");
                 %>
-                <p>-<strong> Airline: </strong><span><%= airline.getAirlineName() %></span></p>
-                <p>-<strong> Departure:</strong> <span><%=dateTimeFmt.format(flight.getDepartureTime())%></span></p>
+                <p>-<strong> Hãng bay: </strong><span><%= airline.getAirlineName() %></span></p>
+                <p>-<strong> Khởi hành:</strong> <span><%=dateTimeFmt.format(flight.getDepartureTime())%></span></p>
                     <span><%= departureAirport.getAirportName() %>, <%= depLocation.getLocationName() %></span></p>
-                <p>-<strong> Destination:</strong> <span><%=dateTimeFmt.format(flight.getArrivalTime())%></span></p>
+                <p>-<strong> Điểm đến:</strong> <span><%=dateTimeFmt.format(flight.getArrivalTime())%></span></p>
                     <span><%= arrivalAirport.getAirportName() %>, <%= arrLocation.getLocationName() %></span></p>
             </div>
             <% if (flightDetailId2str != null) { %>
             <div class="details-section">
-                <h3>Return Flight Information:</h3>
+                <h3>Thông tìn chuyến bay khứ hồi:</h3>
                 <%
                      dateTimeFmt = new SimpleDateFormat("HH:mm dd/MM/yyyy");
                 %>
-                <p>-<strong> Airline: </strong><span><%=airline2.getAirlineName() %></span></p>
-                <p>-<strong> Departure:</strong> <span><%=dateTimeFmt.format(flight2.getDepartureTime())%></span></p>
+                <p>-<strong> Hãng bay: </strong><span><%=airline2.getAirlineName() %></span></p>
+                <p>-<strong> Khởi hành:</strong> <span><%=dateTimeFmt.format(flight2.getDepartureTime())%></span></p>
                 <span><%= departureAirport2.getAirportName() %>, <%= depLocation2.getLocationName() %></span></p>
-                <p>-<strong> Destination:</strong> <span><%=dateTimeFmt.format(flight2.getArrivalTime())%></span></p>
+                <p>-<strong> Điểm đến:</strong> <span><%=dateTimeFmt.format(flight2.getArrivalTime())%></span></p>
                 <span><%= arrivalAirport2.getAirportName() %>, <%= arrLocation2.getLocationName() %></span></p>
             </div>
             <% } %>
@@ -389,7 +389,7 @@
             </div>
         </div>
         <div class="payment-methods">
-            <h2>Payment Methods</h2>
+            <h2>Phương thức thanh toán</h2>
             <div class="payment-options">
                 <div class="payment-option">
                     <form action="VnpayServletURL" id="frmCreateOrder" method="post">
@@ -400,7 +400,7 @@
                         <button type="submit">
                             <img class="img-payment" src="<%= request.getContextPath() %>/img/VnPay.jpg" alt="VNPAY">
                             <div class="payment-name">
-                                VNPAY<br><span>VNPAY payment gateway</span>
+                                VNPAY<br><span>Cổng thanh toán VNPAY</span>
                             </div>
                         </button>
                     </form>
@@ -411,7 +411,7 @@
                         <button type="submit">
                             <img class="img-payment" src="<%= request.getContextPath() %>/img/qr.png" alt="QR CODE">
                             <div class="payment-name">
-                                QR Code<br><span>Pay by QR Code transfer</span>
+                                QR Code<br><span>Thanh toán bằng mã QR</span>
                             </div>
                         </button>
                     </form>
