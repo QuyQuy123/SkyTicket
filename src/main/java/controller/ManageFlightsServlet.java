@@ -163,49 +163,54 @@ public class ManageFlightsServlet extends HttpServlet {
                 int id = Integer.parseInt(request.getParameter("id"));
                 Flights flyUpdate = flightsDAO.getFlightById(id);
 
-                flyUpdate.setDepartureAirportId(departureAirport);
-                System.out.println("de:"+flyUpdate.getDepartureAirportId());
+                if (flyUpdate.getDepartureAirportId() != departureAirport && flyUpdate.getArrivalAirportId() != arrivalAirport
+                    && !flyUpdate.getDepartureTime().equals(departureTime) && !flyUpdate.getArrivalTime().equals(arrivalTime)) {
+                    flyUpdate.setDepartureAirportId(departureAirport);
+                    System.out.println("de:"+flyUpdate.getDepartureAirportId());
 
-                flyUpdate.setArrivalAirportId(arrivalAirport);
-                System.out.println("ar"+flyUpdate.getArrivalAirportId());
+                    flyUpdate.setArrivalAirportId(arrivalAirport);
+                    System.out.println("ar"+flyUpdate.getArrivalAirportId());
 
-                request.setAttribute("isUpdate", true);
+                    request.setAttribute("isUpdate", true);
 
-                if(departureAirport == arrivalAirport){
+                    if(departureAirport == arrivalAirport){
+                        request.setAttribute("flight", flyUpdate);
+                        request.setAttribute("msg", "Duplicate departure!");
+                        request.getRequestDispatcher("/views/admin/jsp/manageFlightsForm.jsp").forward(request, response);
+                        break;
+                    }
+
+                    if(!sqlDepartureTimestamp.before(sqlArrivalTimestamp)){
+                        request.setAttribute("flight", flyUpdate);
+                        request.setAttribute("msg", "Departure time must be before Arrival time!");
+                        request.getRequestDispatcher("/views/admin/jsp/manageFlightsForm.jsp").forward(request, response);
+                        break;
+                    }
+
+
+                    flyUpdate.setArrivalTime(sqlArrivalTimestamp);  // Lưu vào DB kiểu DATETIME
+                    flyUpdate.setDepartureTime(sqlDepartureTimestamp);
+                    flyUpdate.setClassVipPrice(priceVip);
+                    flyUpdate.setClassEconomyPrice(priceEconomy);
+                    flyUpdate.setStatus(status);
+                    flyUpdate.setAirlineId(airlineId);
+
+
+                    check = flightsDAO.updateFlight(flyUpdate);
+
                     request.setAttribute("flight", flyUpdate);
-                    request.setAttribute("msg", "Duplicate departure!");
+
+
+                    if (check) {
+                        request.setAttribute("msg", "Update flight successfully");
+                    } else {
+                        request.setAttribute("err", "Update flight failed");
+                    }
                     request.getRequestDispatcher("/views/admin/jsp/manageFlightsForm.jsp").forward(request, response);
                     break;
                 }
-
-                if(!sqlDepartureTimestamp.before(sqlArrivalTimestamp)){
-                    request.setAttribute("flight", flyUpdate);
-                    request.setAttribute("msg", "Departure time must be before Arrival time!");
-                    request.getRequestDispatcher("/views/admin/jsp/manageFlightsForm.jsp").forward(request, response);
-                    break;
-                }
-
-
-                flyUpdate.setArrivalTime(sqlArrivalTimestamp);  // Lưu vào DB kiểu DATETIME
-                flyUpdate.setDepartureTime(sqlDepartureTimestamp);
-                flyUpdate.setClassVipPrice(priceVip);
-                flyUpdate.setClassEconomyPrice(priceEconomy);
-                flyUpdate.setStatus(status);
-                flyUpdate.setAirlineId(airlineId);
-
-
-                check = flightsDAO.updateFlight(flyUpdate);
-
-                request.setAttribute("flight", flyUpdate);
-
-
-                if (check) {
-                    request.setAttribute("msg", "Update flight successfully");
-                } else {
-                    request.setAttribute("msg", "Update flight failed");
-                }
+                request.setAttribute("err", "Flight already exists!");
                 request.getRequestDispatcher("/views/admin/jsp/manageFlightsForm.jsp").forward(request, response);
-                break;
 
             default:
                 break;

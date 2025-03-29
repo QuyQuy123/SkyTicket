@@ -168,7 +168,8 @@
 
                         <ul class="list-unstyled mb-0 p-4" data-simplebar style="height: 664px;">
                             <div>
-                                Passenger name must be ...
+                                Payment Method must be QR or VNPAY. <br>
+                                ...
                             </div>
 
                             <li class="mt-4 text-center">

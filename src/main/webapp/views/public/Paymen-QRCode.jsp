@@ -184,8 +184,11 @@
                 <img class="img-payment" src="<%= request.getContextPath() %>/img/qr.png" alt="QR CODE">
             </div>
             <div class="details">
-                <p>Payment customer information: <b><%=phone%>-- <%=email%></b></p>
+                <p>Payment customer information:<br> <b>Email: <%=email%></b><br>
+                    <b>Phone: <%=phone%></b>
+                </p>
                 <p>Payment amount: <b><fmt:formatNumber value="<%= totalCost%>" type="number" groupingUsed="true" /> VND</b></p>
+                <p class="warning-text"><i style="color: red">*Please enter the exact phone number in the transfer details for the system to process the payment automatically</i></p>
                 <p><i>Payment time within 24 hours. If after 24 hours you do not receive transfer information, the order will be canceled.</i></p>
                 <form action="QRCodeURL" method="get">
                     <input type="hidden" value="<%= totalCost%>" name="totalCost"/>

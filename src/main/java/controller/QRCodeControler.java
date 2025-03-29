@@ -32,7 +32,6 @@ public class QRCodeControler extends HttpServlet {
         int bookingId = (int) session.getAttribute("bookID");
         try {
             pd.insertPayment(bookingId,"QRCode",bk.getBookingById(bookingId).getContactEmail(),bk.getBookingById(bookingId).getTotalPrice());
-            td.confirmSuccessAllTicketsByBookingId(bookingId);
             request.getRequestDispatcher("views/public/SuccessfullPayment.jsp").forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();

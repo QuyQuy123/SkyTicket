@@ -274,14 +274,14 @@
                                                 bookings.getStatus() == 4 ? "status-refund-pending" :
                                                 bookings.getStatus() == 3 ? "status-cancelled" :
                                                 bookings.getStatus() == 5 ? "status-refund-complete" :
-                                                bookings.getStatus() == 6 ? "status-cancelled" :"" %>"
+                                                        "" %>"
                                                    value="<%=
                                                 bookings.getStatus() == 1 ? "Is Pending" :
                                                 bookings.getStatus() == 2 ? "Payment Success" :
                                                 bookings.getStatus() == 3 ? "Is Cancelled" :
                                                 bookings.getStatus() == 4 ? "Refund Pending" :
                                                 bookings.getStatus() == 5 ? "Is Cancelled / Refund Complete" :
-                                                bookings.getStatus() == 6 ? "Is Cancelled / Reject Refund" :
+
                                                 "" %>">
                                         </div>
 
@@ -321,7 +321,7 @@
                             </div>
                             <ul class="list-unstyled mb-0 p-4" data-simplebar style="height: 664px;">
                                 <div>
-                                    Booking name must be ...
+                                    Booking code must be ...
                                 </div>
                                 <li class="mt-4 text-center">
                                     <a href="#" class="btn btn-gradient px-4 py-2 rounded-pill shadow">
@@ -340,7 +340,7 @@
     <!-- JavaScript để xử lý Confirm Payment -->
     <script>
         function confirmPayment(bookingId) {
-            if (confirm("Are you sure you want to confirm confirm success booking ?")) {
+            if (confirm("Are you sure you want to confirm success booking?")) {
                 fetch(window.location.href, {
                     method: "POST",
                     headers: {
@@ -349,8 +349,10 @@
                     body: "action=confirmPayment&bookingId=" + bookingId
                 })
                     .then(response => {
-                        if (response.ok) { // Tương đương status === 200
+                        if (response.ok) {
                             location.reload();
+                        } else {
+                            throw new Error("Server error: " + response.status);
                         }
                     })
                     .catch(error => console.error("Lỗi:", error));

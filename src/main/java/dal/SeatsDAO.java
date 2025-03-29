@@ -33,6 +33,36 @@ public class SeatsDAO extends DBConnect{
         }
         return seatsList;
     }
+
+    public boolean markSeatsAsBooked(int bookingId) {
+        String sql = "UPDATE Seats SET IsBooked = 1 WHERE SeatId IN (SELECT SeatId FROM Tickets WHERE BookingId = ?)";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, bookingId);
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+
+
+    public void changeStatusSeats(int seatid) {
+        String sql = "UPDATE seats SET isbooked = 1 where seatid =?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, seatid);
+            ps.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
     public List<Seats> getAllSeatByAirlineId(int id) {
         List<Seats> seatCategories = new ArrayList<>();
         String sql = "SELECT * FROM Seats WHERE AirlineId = ? ORDER BY SeatNumber ASC";

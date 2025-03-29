@@ -52,32 +52,37 @@ public class AirlinesAddServlet extends HttpServlet {
             String filePath = uploadPath + File.separator + fileName;
             filePart.write(filePath);
 
+            if (airlineName != null && !airlineName.trim().isEmpty()) {
+                Airlines airline = new Airlines(airlineName, fileName, information, status, numberOfSeatsOnVipRow, numberOfSeatsOnVipColumn, numberOfSeatsOnEcoRow, numberOfSeatsOnEcoColumn);
+                AirlinesDAO airlineDAO = new AirlinesDAO();
 
+                int success = airlineDAO.addAirline(airline);
 
-            Airlines airline = new Airlines(airlineName, fileName, information, status, numberOfSeatsOnVipRow, numberOfSeatsOnVipColumn, numberOfSeatsOnEcoRow, numberOfSeatsOnEcoColumn);
-            AirlinesDAO airlineDAO = new AirlinesDAO();
-
-            int success = airlineDAO.addAirline(airline);
-
-            if (success != 0) {
-                int airlineId = success;
-                SeatsDAO seatsDAO = new SeatsDAO();
-                for (int i = 1; i <= numberOfSeatsOnVipRow * numberOfSeatsOnVipColumn; i++) {
-                    Seats seat = new Seats(airlineId, 1, i, "Business", 0);
-                    seatsDAO.createSeat(seat); //nhwos theem hamf check
+                if (success != 0) {
+                    int airlineId = success;
+                    SeatsDAO seatsDAO = new SeatsDAO();
+                    for (int i = 1; i <= numberOfSeatsOnVipRow * numberOfSeatsOnVipColumn; i++) {
+                        Seats seat = new Seats(airlineId, 1, i, "Business", 0);
+                        seatsDAO.createSeat(seat); //nhwos theem hamf check
+                    }
+                    for (int i = 1; i <= numberOfSeatsOnEcoRow * numberOfSeatsOnEcoColumn; i++) {
+                        Seats seat = new Seats(airlineId, 1, i, "Economy", 0);
+                        seatsDAO.createSeat(seat);
+                    }
+                    request.setAttribute("msg", "Airline added successfully");
+                    request.getRequestDispatcher("/views/admin/jsp/addAirline.jsp").forward(request, response);
+                } else {
+                    request.setAttribute("err", "Airline added failed!");
+                    request.getRequestDispatcher("/views/admin/jsp/addAirline.jsp").forward(request, response);
                 }
-                for (int i = 1; i <= numberOfSeatsOnEcoRow * numberOfSeatsOnEcoColumn; i++) {
-                    Seats seat = new Seats(airlineId, 1, i, "Economy", 0);
-                    seatsDAO.createSeat(seat);
-                }
-                request.setAttribute("msg", "Airline added successfully");
-                request.getRequestDispatcher("/views/admin/jsp/addAirline.jsp").forward(request, response);
-            } else {
-                response.sendRedirect("error.jsp");
             }
+            request.setAttribute("err", "Airline Name is not empty");
+            request.getRequestDispatcher("/views/admin/jsp/addAirline.jsp").forward(request, response);
+
         } catch (Exception e) {
             e.printStackTrace();
-            response.sendRedirect("error.jsp");
+            request.setAttribute("err", "Airline added failed!");
+            request.getRequestDispatcher("/views/admin/jsp/addAirline.jsp").forward(request, response);
         }
     }
 }

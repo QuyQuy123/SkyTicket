@@ -257,13 +257,6 @@ CREATE TABLE Seats (
     FOREIGN KEY (AirlineId) REFERENCES Airlines(AirlineId)  -- Khóa ngoại liên kết với Airlines
 );
 
--- Dữ liệu mẫu cho bảng Seats (cập nhật để sử dụng AirlineId)
-INSERT INTO Seats (AirlineId, SeatNumber, SeatClass) VALUES
-(1, 1, 'Economy'), (1, 2, 'Economy'), (1, 3, 'Business'), (1, 4, 'Business'), (1, 5, 'Economy'),
-(2, 1, 'Economy'), (2, 2, 'Business'), (2, 3, 'Business'), (2, 4, 'Economy'), (2, 5, 'Economy'),
-(3, 1, 'Business'), (3, 2, 'Economy'), (3, 3, 'Economy'), (3, 4, 'Business'), (3, 5, 'Economy'),
-(4, 1, 'Business'), (4, 2, 'Business'), (4, 3, 'Economy'), (4, 4, 'Economy'), (4, 5, 'Economy'),
-(2, 1, 'Economy'), (2, 2, 'Economy'), (2, 3, 'Business'), (2, 4, 'Business'), (2, 5, 'Economy');
 
 -- Bảng Tickets
 CREATE TABLE Tickets (
