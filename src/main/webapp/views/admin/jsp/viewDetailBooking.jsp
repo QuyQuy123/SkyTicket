@@ -321,7 +321,7 @@
                             </div>
                             <ul class="list-unstyled mb-0 p-4" data-simplebar style="height: 664px;">
                                 <div>
-                                    Booking name must be ...
+                                    Booking code must be ...
                                 </div>
                                 <li class="mt-4 text-center">
                                     <a href="#" class="btn btn-gradient px-4 py-2 rounded-pill shadow">

@@ -107,7 +107,9 @@ public class AirlinesUpdateServlet extends HttpServlet {
                 request.setAttribute("airline", airline);
                 request.getRequestDispatcher( "/views/admin/jsp/updateAirline.jsp").forward(request, response);
             } else {
-                response.sendRedirect("error.jsp");
+                request.setAttribute("err", "Airline update failed");
+                request.setAttribute("airline", airline);
+                request.getRequestDispatcher("/views/admin/jsp/updateAirline.jsp").forward(request, response);
             }
         } else {
             request.setAttribute("err", err);
