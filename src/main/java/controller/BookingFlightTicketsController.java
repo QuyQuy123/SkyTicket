@@ -40,6 +40,7 @@ public class BookingFlightTicketsController extends HttpServlet {
         PassengersDAO pd = new PassengersDAO();
         BaggageDAO bgd = new BaggageDAO();
         AccountDAO ad = new AccountDAO();
+        SeatsDAO sd = new SeatsDAO();
         HttpSession session = request.getSession();
         EmailServlet email = new EmailServlet();
         Integer id = (Integer) session.getAttribute("id");
@@ -117,11 +118,14 @@ public class BookingFlightTicketsController extends HttpServlet {
                     }
                     bd.updateTotalPrice(newBookId.getBookingID(),totalPrice);
                 }
+
+                sd.markSeatsAsBooked(newBookId.getBookingID());
             }
             if (id != null) {
                 Accounts acc = ad.getAccountsById(id);
                 request.setAttribute("account", acc);
             }
+
              Bookings b = bd.getLatestBooking();
             email.sendBookingEmail(b.getContactEmail(),b);
 

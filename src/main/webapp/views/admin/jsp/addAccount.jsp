@@ -204,7 +204,7 @@
         <%@ include file="bottom.jsp"%>
         <!-- End -->
     </main>
-    <!--End page-content" -->
+
 </div>
 <!-- page-wrapper -->
 

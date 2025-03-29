@@ -48,7 +48,7 @@ public class CancelOrderController extends HttpServlet {
             int bookingId = Integer.parseInt(bookingIdStr);
             td.cancelAllTicketsByBookingId(bookingId);
             bd.canceBookingById(bookingId);
-//            bd.updateTotalPrice(bookingId, bd.getTotalPriceAllTickets(bookingId) - bd.getTotalPriceCancelledTicket(bookingId));
+           
         } catch (Exception e) {
 
         }
