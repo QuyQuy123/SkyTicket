@@ -140,7 +140,7 @@
 <body>
 <div class="container">
   <img style="border-radius: 45px;border: 1px solid #3c6e57" src="<%= request.getContextPath() %>/img/logo.jpg" alt="Loading Icon" class="icon">
-  <h4 class="otp-title">Please enter your OTP</h4>
+  <h4 class="otp-title">Vui lòng nhập mã OTP</h4>
 
   <form action="VerifyURL" method="POST">
     <div class="otp-container">
@@ -167,7 +167,7 @@
   </c:if>
   <div class="footcard">
 
-    You want to retry register? <a class="letDoIt" href="RegisterURL">Register</a>
+    Bạn muốn thử đăng ký lại? <a class="letDoIt" href="RegisterURL">Đăng ký</a>
   </div>
 
 </div>

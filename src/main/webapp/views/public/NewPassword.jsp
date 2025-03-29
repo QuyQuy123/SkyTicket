@@ -10,7 +10,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>Set New Password</title>
+    <title>Đặt mật khẩu mới</title>
     <link rel="stylesheet" href="<%= request.getContextPath() %>/css/Login.css" type="text/css" />
     <style>
         .form-group {
@@ -29,11 +29,11 @@
 </head>
 <body>
 <div class="container">
-    <h1 style="padding: 37px; padding-top: 10px;">Set New Password</h1>
+    <h1 style="padding: 37px; padding-top: 10px;">Đặt mật khẩu mới</h1>
     <form action="<%= request.getContextPath() %>/UpdatePasswordURL" method="post">
         <div class="form-group">
             <input type="password" name="newPassword" id="newPassword" required />
-            <label>New Password:</label>
+            <label>Mật khẩu mới:</label>
             <img src="https://cdn-icons-png.flaticon.com/512/159/159604.png"
                  class="toggle-password"
                  onclick="togglePassword('newPassword')"
@@ -41,7 +41,7 @@
         </div>
         <div class="form-group">
             <input type="password" name="confirmPassword" id="confirmPassword" required />
-            <label>Confirm Password:</label>
+            <label>Xác nhận mật khẩu:</label>
             <img src="https://cdn-icons-png.flaticon.com/512/159/159604.png"
                  class="toggle-password"
                  onclick="togglePassword('confirmPassword')"
@@ -49,7 +49,7 @@
         </div>
         <h5 style="color: red">${requestScope.error}</h5><br>
         <div class="button">
-            <input id="submit" type="submit" value="Update Password" /><br /><br />
+            <input id="submit" type="submit" value="Cập nhật mật khẩu" /><br /><br />
         </div>
     </form>
 </div>

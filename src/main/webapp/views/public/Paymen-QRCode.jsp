@@ -7,7 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QR Code Payment</title>
+    <title>Thanh toán bằng mã QR</title>
     <style>
         :root {
             --primary-color: #3c6e57;
@@ -178,18 +178,18 @@
 %>
 <div class="content" style="margin-top: 135px;margin-bottom: 100px">
     <div class="container">
-        <h1>QR Code Payment</h1>
+        <h1>Thanh toán bằng mã QR</h1>
         <div class="content-inner">
             <div class="qr-code">
                 <img class="img-payment" src="<%= request.getContextPath() %>/img/qr.png" alt="QR CODE">
             </div>
             <div class="details">
-                <p>Payment customer information:<br> <b>Email: <%=email%></b><br>
-                    <b>Phone: <%=phone%></b>
+                <p>Thông tin khách hàng thanh toán:<br> <b>Email: <%=email%></b><br>
+                    <b>Số điện thoại: <%=phone%></b>
                 </p>
-                <p>Payment amount: <b><fmt:formatNumber value="<%= totalCost%>" type="number" groupingUsed="true" /> VND</b></p>
-                <p class="warning-text"><i style="color: red">*Please enter the exact phone number in the transfer details for the system to process the payment automatically</i></p>
-                <p><i>Payment time within 24 hours. If after 24 hours you do not receive transfer information, the order will be canceled.</i></p>
+                <p>Số tiền thanh toán: <b><fmt:formatNumber value="<%= totalCost%>" type="number" groupingUsed="true" /> VND</b></p>
+                <p class="warning-text"><i style="color: red">*Vui lòng nhập chính xác số điện thoại vào chi tiết chuyển khoản để hệ thống xử lý thanh toán tự động</i></p>
+                <p><i>Thời gian thanh toán trong vòng 24 giờ. Nếu sau 24 giờ bạn không nhận được thông tin chuyển khoản, đơn hàng sẽ bị hủy.</i></p>
                 <form action="QRCodeURL" method="get">
                     <input type="hidden" value="<%= totalCost%>" name="totalCost"/>
                     <input type="submit" value="Confirm Payment" class="submit-btn">

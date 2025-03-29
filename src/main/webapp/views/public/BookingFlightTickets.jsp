@@ -25,7 +25,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Booking Flight Tickets</title>
+    <title>Đặt vé máy bay</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.1.0/ckeditor5.css">
     <script src="<%= request.getContextPath() %>/js/Validation.js"></script>
@@ -398,7 +398,7 @@
             for (var psg = 0; psg <= totalPassenger; psg++) {
                 const name = document.getElementById("name" + psg).value.trim();
                 if (name === "") {
-                    alert("Please enter a valid name for passenger " + psg + ". Do not enter spaces only.");
+                    alert("Vui lòng nhập họ tên hợp lệ cho hành khách " + psg + ". Không chỉ nhập khoảng trắng.");
                     return false;
                 }
             }
@@ -490,24 +490,24 @@
         <div class="main-container">
             <img src="<%= request.getContextPath() + "/img/" + airline.getImage() %>" alt="Logo">
             <div class="details">
-                <h3>Additional Details: </h3>
-                <p>- Passengers: <span><%=adultTicket%> adult,
-                           <%=childTicket%> children,
-                           <%=infantTicket%> infant</span></p>
-                <p>- Airline: <span><%=airline.getAirlineName()%></span></p>
+                <h3>Thông tin bổ sung: </h3>
+                <p>- Hành khách: <span><%=adultTicket%> người lớn,
+                           <%=childTicket%> trẻ em,
+                           <%=infantTicket%> em bé</span></p>
+                <p>- Hãng bay: <span><%=airline.getAirlineName()%></span></p>
 
 
             </div>
             <div class="details">
-                <h3>Depart Flight Information: </h3>
+                <h3>Thông tin chuyến bay đi: </h3>
                 <%
                     SimpleDateFormat dateTimeFmt = new SimpleDateFormat("HH:mm dd/MM/yyyy");
                 %>
 
 
-                <p>- Departure: <span><%=dateTimeFmt.format(f.getDepartureTime())%></span></p>
+                <p>- Khởi hành: <span><%=dateTimeFmt.format(f.getDepartureTime())%></span></p>
                 <p><span><%=dpa.getAirportName()%>, <%=dpl.getLocationName()%>,<%=dpc.getCountryName()%> </span></p>
-                <p>- Destination: <span><%=dateTimeFmt.format(f.getArrivalTime())%></span></p>
+                <p>- Điểm đến: <span><%=dateTimeFmt.format(f.getArrivalTime())%></span></p>
                 <p><span><%=dsa.getAirportName()%>, <%=dsl.getLocationName()%>, <%=dsc.getCountryName()%></span></p>
 
 
@@ -548,7 +548,7 @@
 
 
             <div class="details">
-                <h3>Return Flight Information: </h3>
+                <h3>Thông tin chuyến bay khứ hồi: </h3>
                 <p>- Departure: <span><%=dateTimeFmt.format(f2.getDepartureTime())%></span></p>
                 <p><span><%=dpa2.getAirportName()%>, <%=dpl2.getLocationName()%>,<%=dpc.getCountryName()%></span></p>
                 <p>- Destination: <span><%=dateTimeFmt.format(f2.getArrivalTime())%></span></p>
@@ -616,16 +616,16 @@
                                 color: #333;
                                 margin-bottom: 20px;
                                 color: #3C6E57;
-                                letter-spacing: 1px;"><p>PASSENGER CONTACT</p></div>
+                                letter-spacing: 1px;"><p>Thông tin liên hệ hành khách</p></div>
                         <div style="width: 100%" class="inform">
                             <div class="passenger-info-input" style="position: relative">
                                 <div style="padding: 15px">
                                     <div class="passenger-info-input-box">
-                                        <div class="passenger-info-input-title">Full Name:</div>
+                                        <div class="passenger-info-input-title">Họ và tên:</div>
                                         <input type="text" pattern="^[\p{L}\s]+$" name="pContactName" id="name0" value="<%=(currentAcc!=null)?currentAcc.getFullName():""%>" required/>
                                     </div>
                                     <div class="passenger-info-input-box">
-                                        <div class="passenger-info-input-title">Phone number:</div>
+                                        <div class="passenger-info-input-title">Số điện thoại:</div>
                                         <input type="text" oninput="validatePhone(this)" name="pContactPhoneNumber" value="<%=(currentAcc!=null)?currentAcc.getPhone():""%>" required/>
                                     </div>
                                     <div class="passenger-info-input-box">
@@ -642,7 +642,7 @@
                                 color: #333;
                                 margin-bottom: 20px;
                                 color: #3C6E57;
-                                letter-spacing: 1px;"><p>PASSENGER INFORMATION</p></div>
+                                letter-spacing: 1px;"><p>Thông tin hành khách</p></div>
                         <div style="width: 100%" class="inform">
                             <% for(int i = 1; i<=adultTicket; i++){
                             %>
@@ -652,18 +652,18 @@
                                         font-size: 16px;
                                         background-color: white;
                                         color: #3C6E57;
-                                        padding: 0 10px;">PASSENGER ADULT <%=i%> </div>
+                                        padding: 0 10px;">Hành khách người lớn <%=i%> </div>
                                 <div style="padding: 15px">
                                     <div class="passenger-info-input-box">
-                                        <div class="passenger-info-input-title" style="width: 168px">Full Name:</div>
+                                        <div class="passenger-info-input-title" style="width: 168px">Họ và tên:</div>
                                         <select name="pSex<%=i%>" style="margin-right: 5px">
-                                            <option value="1">Mr</option>
+                                            <option value="1">Ông</option>
                                             <option value="0">Mrs</option>
                                         </select>
                                         <input type="text" pattern="^[\p{L}\s]+$" id="name<%=i%>" name="pName<%=i%>" required/>
                                     </div>
                                     <div class="passenger-info-input-box">
-                                        <div class="passenger-info-input-title">Date of birth:</div>
+                                        <div class="passenger-info-input-title">Ngày sinh:</div>
                                         <%
                                             java.util.Calendar calendarAdult = java.util.Calendar.getInstance();
                                             calendarAdult.add(java.util.Calendar.YEAR, -12);
@@ -672,17 +672,17 @@
                                         <input type="date" name="pDob<%=i%>" required max="<%=maxDateAdult%>" onkeydown="return false;">
                                     </div>
                                     <div class="passenger-info-input-box">
-                                        <div class="passenger-info-input-title">Phone number:</div>
+                                        <div class="passenger-info-input-title">Số điện :</div>
                                         <input type="text" oninput="validatePhone(this)" name="pPhoneNumber<%=i%>" required/>
                                     </div>
                                     <div class="passenger-info-input-box"  >
-                                        <div class="passenger-info-input-title" style="width: 121px">Baggage:</div>
+                                        <div class="passenger-info-input-title" style="width: 121px">Hành lý:</div>
                                         <select name="pBaggages<%=i%>" id="baggage<%=i%>" onchange= "updateTotalBaggage()">
-                                            <option value="0">Buy 0kg extra checked baggage - <%=currencyFormatter.format(0)%>></option>
+                                            <option value="0">Mua 0kg hành lý ký gửi thêm - <%=currencyFormatter.format(0)%>></option>
                                             <% for(Baggages b : bd.getAllBaggagesByAirline(airlineId)){
                                                 if(b.getStatus() == 1){
                                             %>
-                                            <option value="<%=b.getBaggageId()%>" data-price="<%=b.getPrice()%>">Buy <%=b.getWeight()%>kg extra checked baggage - <%=currencyFormatter.format(b.getPrice())%></option>
+                                            <option value="<%=b.getBaggageId()%>" data-price="<%=b.getPrice()%>">Mua <%=b.getWeight()%>kg hành lý ký gửi thêm - <%=currencyFormatter.format(b.getPrice())%></option>
                                             <%
                                                     }
                                                 }
@@ -690,49 +690,41 @@
                                         </select>
                                     </div>
 
-
                                     <div id="Adult<%=i%>" class="passenger-info-input-box">
-                                        <div class="passenger-info-input-title" style="width: 200px">Select seat for departuring:</div>
+                                        <div class="passenger-info-input-title" style="width: 200px">Chọn ghế cho chuyến đi:</div>
                                         <div style="display: flex; align-items: center; margin-right: 20px; font-weight: 600; font-size: 16px; color: #3C6E57">
-                                            <span style=""><%=s.getSeatClass()%> - <span id="seatCodeForDisplaying<%=i%>">Not Selected</span></span>
+                                            <span style=""><%=s.getSeatClass()%> - <span id="seatCodeForDisplaying<%=i%>">Chưa chọn</span></span>
                                         </div>
-                                        <button type="button" class="btn btn-info" style="text-decoration: none"  onclick="openSeatModal('Adult<%=i%>')">Choose</button>
+                                        <button type="button" class="btn btn-info" style="text-decoration: none"  onclick="openSeatModal('Adult<%=i%>')">Chọn</button>
                                         <input type="hidden" name="code<%=i%>" id="seatCode<%=i%>"/>
                                     </div>
-
 
                                     <% if(m==2){
                                     %>
                                     <div class="passenger-info-input-box"  >
-                                        <div class="passenger-info-input-title" style="width: 121px">Baggage:</div>
+                                        <div class="passenger-info-input-title" style="width: 121px">Hành lý:</div>
                                         <label for="baggage<%=i+totalPassengers/2%>"></label>
                                         <select name="pBaggages<%=i+totalPassengers/2%>" id="baggage<%=i+totalPassengers/2%>" onchange="updateTotalBaggage()">
-                                            <option value="0">Buy 0kg extra checked baggage - <%=currencyFormatter.format(0)%>></option>
+                                            <option value="0">Mua 0Kg hành lý ký gửi thêm - <%=currencyFormatter.format(0)%>></option>
                                             <% for(Baggages b : bd.getAllBaggagesByAirline(airlineId)){
                                                 if(b.getStatus() == 1){
                                             %>
-                                            <option value="<%=b.getBaggageId()%>" data-price="<%=b.getPrice()%>">Buy <%=b.getWeight()%>kg extra checked baggage - <%=currencyFormatter.format(b.getPrice())%></option>
+                                            <option value="<%=b.getBaggageId()%>" data-price="<%=b.getPrice()%>">Mua  <%=b.getWeight()%>kg hành lý ký gửi thêm - <%=currencyFormatter.format(b.getPrice())%></option>
                                             <%
                                                     }
                                                 }
                                             %>
-
-
-
-
                                         </select>
                                     </div>
 
-
                                     <div id="Adultm<%=i%>" class="passenger-info-input-box">
-                                        <div class="passenger-info-input-title" style="width: 200px">Select seat for departuring:</div>
+                                        <div class="passenger-info-input-title" style="width: 200px">Chọn ghế cho chuyến đi:</div>
                                         <div style="display: flex; align-items: center; margin-right: 20px; font-weight: 600; font-size: 16px; color: #3C6E57">
-                                            <span style=""><%=s2.getSeatClass()%> - <span id="seatCodeForDisplayingm<%=i%>">Not Selected</span></span>
+                                            <span style=""><%=s2.getSeatClass()%> - <span id="seatCodeForDisplayingm<%=i%>">Chưa chọn</span></span>
                                         </div>
-                                        <button type="button" class="btn btn-info" style="text-decoration: none" onclick="openSeatModal2('Adultm<%=i%>')">Choose</button>
+                                        <button type="button" class="btn btn-info" style="text-decoration: none" onclick="openSeatModal2('Adultm<%=i%>')">Chọn</button>
                                         <input type="hidden" name="codem<%=i%>" id="seatCodem<%=i%>"/>
                                     </div>
-
 
                                     <%
                                         }%>
@@ -744,25 +736,24 @@
                             <% for(int i = adultTicket+1; i<=adultTicket+childTicket; i++){
                             %>
 
-
                             <div class="passenger-info-input" style="position: relative">
                                 <div style="position: absolute;
                                         top: -14px;
                                         font-size: 16px;
                                         background-color: white;
                                         color: #3C6E57;
-                                        padding: 0 10px;">PASSENGER CHILDREN <%=i-adultTicket%> </div>
+                                        padding: 0 10px;">Hành khách trẻ em <%=i-adultTicket%> </div>
                                 <div style="padding: 15px">
                                     <div class="passenger-info-input-box">
-                                        <div class="passenger-info-input-title" style="width: 168px">Full Name:</div>
+                                        <div class="passenger-info-input-title" style="width: 168px">Họ và tên:</div>
                                         <select name="pSex<%=i%>" style="margin-right: 5px">
-                                            <option value="1">Boy</option>
-                                            <option value="0">Girl</option>
+                                            <option value="1">Bé trai</option>
+                                            <option value="0">Bé gái</option>
                                         </select>
                                         <input type="text" pattern="^[\p{L}\s]+$" id="name<%=i%>" name="pName<%=i%>" required/>
                                     </div>
                                     <div class="passenger-info-input-box">
-                                        <div class="passenger-info-input-title">Date of birth:</div>
+                                        <div class="passenger-info-input-title">Ngày sinh:</div>
                                         <%
                                             java.util.Calendar calendarChild = java.util.Calendar.getInstance();
                                             calendarChild.add(java.util.Calendar.YEAR, -2);
@@ -771,11 +762,11 @@
                                         <input type="date" name="pDob<%=i%>" required max="<%=maxDateChild%>" onkeydown="return false;">
                                     </div>
                                     <div id="<%=i%>" class="passenger-info-input-box">
-                                        <div class="passenger-info-input-title" style="width: 200px">Select seat for departuring:</div>
+                                        <div class="passenger-info-input-title" style="width: 200px">Chọn ghế cho chuyến đi:</div>
                                         <div style="display: flex; align-items: center; margin-right: 20px; font-weight: 600; font-size: 16px; color: #3C6E57">
-                                            <span style=""><%=s.getSeatClass()%> - <span id="seatCodeForDisplaying<%=i%>">Not Selected</span></span>
+                                            <span style=""><%=s.getSeatClass()%> - <span id="seatCodeForDisplaying<%=i%>">Chưa chọn</span></span>
                                         </div>
-                                        <button type="button" class="btn btn-info" style="text-decoration: none" onclick="openSeatModal('Child<%=i%>')">Choose</button>
+                                        <button type="button" class="btn btn-info" style="text-decoration: none" onclick="openSeatModal('Child<%=i%>')">Chọn</button>
                                         <input type="hidden" name="code<%=i%>" id="seatCode<%=i%>"/>
                                     </div>
 
@@ -783,15 +774,13 @@
                                     <% if(m==2){
                                     %>
                                     <div id="m<%=i%>" class="passenger-info-input-box">
-                                        <div class="passenger-info-input-title" style="width: 200px">Select seat for departuring:</div>
+                                        <div class="passenger-info-input-title" style="width: 200px">Chọn ghế cho chuyến đi:</div>
                                         <div style="display: flex; align-items: center; margin-right: 20px; font-weight: 600; font-size: 16px; color: #3C6E57">
-                                            <span style=""><%=s2.getSeatClass()%> - <span id="seatCodeForDisplayingm<%=i%>">Not Selected</span></span>
+                                            <span style=""><%=s2.getSeatClass()%> - <span id="seatCodeForDisplayingm<%=i%>">Chưa chọn</span></span>
                                         </div>
-                                        <button type="button" class="btn btn-info" style="text-decoration: none" onclick="openSeatModal2('Childm<%=i%>')">Choose</button>
+                                        <button type="button" class="btn btn-info" style="text-decoration: none" onclick="openSeatModal2('Childm<%=i%>')">Chọn</button>
                                         <input type="hidden" name="codem<%=i%>" id="seatCodem<%=i%>"/>
                                     </div>
-
-
                                     <%
                                         }%>
                                 </div>
@@ -807,18 +796,18 @@
                                         font-size: 16px;
                                         background-color: white;
                                         color: #3C6E57;
-                                        padding: 0 10px;">PASSENGER INFANT <%=i-(adultTicket+childTicket)%> </div>
+                                        padding: 0 10px;">Hành khách em bé <%=i-(adultTicket+childTicket)%> </div>
                                 <div style="padding: 15px">
                                     <div class="passenger-info-input-box">
-                                        <div class="passenger-info-input-title" style="width: 168px">Full Name:</div>
+                                        <div class="passenger-info-input-title" style="width: 168px">Họ và tên:</div>
                                         <select name="pSex<%=i%>" style="margin-right: 5px">
-                                            <option value="1">Boy</option>
-                                            <option value="0">Girl</option>
+                                            <option value="1">Bé trai</option>
+                                            <option value="0">Bé gái</option>
                                         </select>
                                         <input type="text" pattern="^[\p{L}\s]+$" id="name<%=i%>" name="pName<%=i%>" required/>
                                     </div>
                                     <div class="passenger-info-input-box">
-                                        <div class="passenger-info-input-title">Date of birth:</div>
+                                        <div class="passenger-info-input-title">Ngày sinh:</div>
                                         <%
                                             java.util.Calendar calendarInfant = java.util.Calendar.getInstance();
                                             calendarInfant.add(java.util.Calendar.YEAR, 0);
@@ -842,7 +831,7 @@
             <%--hóa đơn--%>
             <div class="main-container2 passenger-info" style="width: 30%; height: fit-content">
                 <div style="width: 100%; text-align: center; font-size: 20px; color: #3C6E57; margin-bottom: 20px; letter-spacing: 1px;">
-                    <p>INVOICE</p>
+                    <p>Hóa đơn</p>
                 </div>
                 <div class="ticket-pricing">
                     <%
@@ -888,30 +877,30 @@
 
                     %>
                     <div class="ticket-item">
-                        <span>Adult Ticket x <%= adultTicket * m %></span>
+                        <span>Vé người lớn x <%= adultTicket * m %></span>
                         <span>= <%= currencyFormatter.format(adultTotalPrice) %> </span>
                     </div>
                     <div class="ticket-item">
-                        <span>Children Ticket x <%= childTicket * m %></span>
+                        <span>Vé trẻ em x <%= childTicket * m %></span>
                         <span>= <%= currencyFormatter.format(childTotalPrice) %> </span>
                     </div>
                     <div class="ticket-item">
-                        <span>Infant Ticket x <%= infantTicket * m %></span>
+                        <span>Vé em bé x <%= infantTicket * m %></span>
                         <span>= <%= currencyFormatter.format(infantTotalPrice) %></span>
                     </div>
                     <div class="ticket-item">
-                        <span>Baggage</span>
+                        <span>Hành lý</span>
                         <span id="totalBaggage">= 0 ₫</span>
                     </div>
                     <div class="ticket-total">
-                        <span>Total Price:</span>
+                        <span>Tổng giá:</span>
                         <span id="totalPrice" data-total-ticket-price="<%= totalTicketPrice %>"><%= currencyFormatter.format(totalTicketPrice) %> ₫</span>
                     </div>
                 </div>
                 <div style="width: 100%">
                     <button style="width: 100%; background-color: #9DC567; padding: 10px 30px; border: none; border-radius: 8px; color: white"
                             onclick="submitPassengerForm(<%=adultTicket + childTicket + infantTicket%>)"
-                    >SUBMIT</button>
+                    >Xác nhận</button>
                 </div>
             </div>
         </div>
@@ -942,7 +931,7 @@
                 <div class="layout-specing">
                     <div class="plane-container">
                         <div class="plane-title"><img
-                                alt="control room"
+                                alt="Phòng điều khiển"
                                 src="${pageContext.request.contextPath}/views/admin/assets/images/airlines/control_room_airline.png">
                         </div>
 
@@ -993,12 +982,7 @@
 
                                         </c:otherwise>
                                     </c:choose>
-
-
-
-
                                     <c:set var="count" value="${count + 1}"/>
-
 
                                     <!-- Nếu đủ 6 ghế, đóng div row -->
                                     <c:if test="${count % airline.numberOfSeatsOnVipRow == 0}">
@@ -1007,17 +991,14 @@
                                 </c:if>
                             </c:forEach>
 
-
                             <c:if test="${count % airline.numberOfSeatsOnVipRow != 0}">
                         </div>
                         </c:if>
 
-
                         <hr style="width: 80%; margin: 20px auto; border: 2px solid black;">
 
-
                         <!-- Ghế Economy -->
-                        <p>Economy Seats</p>
+                        <p>Ghế phổ thông</p>
                         <c:set var="count" value="0"/>
                         <c:forEach var="seat" items="${seats}">
                             <c:if test="${seat.seatClass eq 'Economy'}">
@@ -1072,7 +1053,7 @@
 
 
                     <div class="plane-title"><img
-                            alt="airline tail"
+                            alt="Đuôi máy bay"
                             src="${pageContext.request.contextPath}/views/admin/assets/images/airlines/tail.png">
                     </div>
                 </div>
@@ -1092,14 +1073,12 @@
                                 src="${pageContext.request.contextPath}/views/admin/assets/images/airlines/control_room_airline.png">
                         </div>
 
-
                         <div class="plane">
                             <hr style="width: 80%; margin: 20px auto; border: 2px solid black;">
 
-
                             <c:if test="${not empty airline2}">
                             <!-- Ghế VIP -->
-                            <p>VIP Seats</p>
+                            <p>Ghế VIP</p>
                             <c:if test="">
                             <c:set var="count" value="0"/>
                             <c:forEach var="seat" items="${seats2}">
@@ -1109,36 +1088,26 @@
                                         <div class="row">
                                     </c:if>
 
-
                                     <!-- Hiển thị ghế -->
                                     <c:choose>
                                         <c:when test="${seat.status == 1}">
-
 
                                             <button  id="${seat.seatId}" class="seat vip" data-seat="2" data-number="${seat.seatNumber}" data-id="${seat.seatId}" style="background-color: gold; border: none; padding: 0; font-size: inherit; color: inherit; cursor: pointer;"
                                             >
                                                     ${seat.seatNumber}
                                             </button>
 
-
                                         </c:when>
                                         <c:otherwise>
-
-
                                             <button class="seat vip btn-soft-secondary" style=" border: none; padding: 0; font-size: inherit; color: inherit; cursor: pointer;"
                                             >
                                                 ❌
                                             </button>
 
-
                                         </c:otherwise>
                                     </c:choose>
 
-
-
-
                                     <c:set var="count" value="${count + 1}"/>
-
 
                                     <!-- Nếu đủ 6 ghế, đóng div row -->
                                     <c:if test="${count % airline2.numberOfSeatsOnVipRow == 0}">
@@ -1146,54 +1115,38 @@
                                     </c:if>
                                 </c:if>
                             </c:forEach>
-
-
                             <c:if test="${count % airline2.numberOfSeatsOnVipRow != 0}">
                         </div>
                         </c:if>
                             </c:if>
 
-
-
                         <hr style="width: 80%; margin: 20px auto; border: 2px solid black;">
 
-
                         <!-- Ghế Economy -->
-                        <p>Economy Seats</p>
+                        <p>Ghế phổ thông</p>
                         <c:set var="count" value="0"/>
                         <c:forEach var="seat" items="${seats2}">
                             <c:if test="${seat.seatClass eq 'Economy'}">
                                 <c:if test="${count % airline2.numberOfSeatsOnEconomyRow == 0}">
                                     <div class="row">
                                 </c:if>
-
-
                                 <c:choose>
                                     <c:when test="${seat.status == 1}">
-
-
                                         <button id="${seat.seatId}" class="seat regular" data-seat="2" data-number="${seat.seatNumber}" data-id="${seat.seatId}" style=" border: none; padding: 0; font-size: inherit; color: inherit; cursor: pointer;"
                                         >
                                                 ${seat.seatNumber}
                                         </button>
-
-
                                     </c:when>
                                     <c:otherwise>
-
 
                                         <button  class="seat regular btn-soft-secondary" style=" border: none; padding: 0; font-size: inherit; color: inherit; cursor: pointer;"
                                         >
                                             ❌
                                         </button>
-
-
                                     </c:otherwise>
                                 </c:choose>
 
-
                                 <c:set var="count" value="${count + 1}"/>
-
 
                                 <c:if test="${count % airline2.numberOfSeatsOnEconomyRow == 0}">
                                     </div>
@@ -1201,14 +1154,12 @@
                             </c:if>
                         </c:forEach>
 
-
                         <c:if test="${count % airline2.numberOfSeatsOnEconomyRow != 0}">
                     </div>
                     </c:if>
                     </c:if>
 
                     <hr style="width: 80%; margin: 20px auto; border: 2px solid black;">
-
 
                     <div class="plane-title"><img
                             alt="airline tail"
@@ -1497,12 +1448,12 @@
         const seatCode = seat.querySelector('.seatName').value;
         if (i <= <%=adultTicket+childTicket+infantTicket%>) {
             if (selectedSeats.includes(seatCode) && currentChoosingSeat[i] !== seat) {
-                alert('This seat is already selected by another passenger.');
+                alert('Ghế này đã được hành khách khác chọn.');
                 return;
             }
         } else {
             if (selectedSeats2.includes(seatCode) && currentChoosingSeat[i] !== seat) {
-                alert('This seat is already selected by another passenger.');
+                alert('Ghế này đã được hành khách khác chọn.');
                 return;
             }
         }
@@ -1599,7 +1550,7 @@
         const seatInputs = document.querySelectorAll("input[type='hidden'][name^='code']");
         for (let input of seatInputs) {
             if (!input.value) {
-                alert("Please select a seat for all tickets before submitting.");
+                alert("Vui lòng chọn ghế cho tất cả các vé trước khi gửi.");
                 return false;
             }
         }

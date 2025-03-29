@@ -15,11 +15,11 @@
     String passengerId = (String) request.getAttribute("passengerId");
 %>
 <div id="<%= passengerId %>" class="passenger-info-input-box">
-    <div class="passenger-info-input-title" style="width: 200px">Select seat for departuring:</div>
+    <div class="passenger-info-input-title" style="width: 200px">Chọn ghế cho chuyến bay:</div>
     <div style="display: flex; align-items: center; margin-right: 20px; font-weight: 600; font-size: 16px; color: #3C6E57">
-        <span style=""><%=s.getSeatClass()%> - <span id="seatCodeForDisplaying<%=i%>">Not Selected</span></span>
+        <span style=""><%=s.getSeatClass()%> - <span id="seatCodeForDisplaying<%=i%>">Chưa chọn</span></span>
     </div>
-    <button class="btn btn-info" style="text-decoration: none" onclick="openSeatModal(<%=i%>)">Choose</button>
+    <button class="btn btn-info" style="text-decoration: none" onclick="openSeatModal(<%=i%>)">Chọn</button>
     <input type="hidden" name="code<%=i%>" id="seatCode<%=i%>"/>
 </div>
 <script>
