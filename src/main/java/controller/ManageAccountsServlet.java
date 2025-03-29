@@ -137,6 +137,33 @@ public class ManageAccountsServlet extends HttpServlet {
                 int accountId = Integer.parseInt(request.getParameter("accountId"));
                 System.out.println("id: : " + accountId);
                 Accounts account = accountDAO.getAccountsById(accountId);
+                String oldImage = account.getImg();
+
+                // Xử lý file upload
+                Part filePart = request.getPart("accountImg");
+                String uniqueFilename = request.getParameter("oldImage");
+
+
+                if (filePart != null && filePart.getSize() > 0) {  // Nếu có file mới
+                    String fileName = filePart.getSubmittedFileName();
+                    uniqueFilename =  System.currentTimeMillis() +"_"+ fileName;
+                    String uploadPath = getServletContext().getRealPath("") + File.separator + UPLOAD_DIR;
+                    File uploadDir = new File(uploadPath);
+                    if (!uploadDir.exists()) {
+                        uploadDir.mkdirs(); // Tạo thư mục nếu chưa có
+                    }
+
+                    // Xóa ảnh cũ (nếu có)
+                    if (oldImage != null && !oldImage.isEmpty()) {
+                        File oldFile = new File(uploadPath + File.separator + oldImage);
+                        if (oldFile.exists()) {
+                            oldFile.delete();
+                        }
+                    }
+
+                    String filePath = uploadPath + File.separator + uniqueFilename;
+                    filePart.write(filePath);
+                }
 
 
                 String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(12));
@@ -197,17 +224,18 @@ public class ManageAccountsServlet extends HttpServlet {
 
                 // Xử lý file upload
                 Part filePart = request.getPart("accountImg");
-                String fileName = request.getParameter("oldImage"); // Lấy file cũ mặc định
+                String uniqueFilename = request.getParameter("oldImage");
 
                 if (filePart != null && filePart.getSize() > 0) {  // Nếu có file mới
-                    fileName = filePart.getSubmittedFileName();
+                    String fileName = filePart.getSubmittedFileName();
+                    uniqueFilename =  System.currentTimeMillis() +"_"+ fileName;
                     String uploadPath = getServletContext().getRealPath("") + File.separator + UPLOAD_DIR;
                     File uploadDir = new File(uploadPath);
                     if (!uploadDir.exists()) {
                         uploadDir.mkdirs(); // Tạo thư mục nếu chưa có
                     }
 
-                    String filePath = uploadPath + File.separator + fileName;
+                    String filePath = uploadPath + File.separator + uniqueFilename;
                     filePart.write(filePath);
                 }
 
@@ -216,7 +244,7 @@ public class ManageAccountsServlet extends HttpServlet {
                 System.out.println("password: " + password);
                 System.out.println("phone: " + phone);
                 System.out.println("address: " + address);
-                System.out.println("fileName: " + fileName);
+                System.out.println("fileName: " );
                 System.out.println("dob: " + dob);
                 System.out.println("status: " + status);
                 System.out.println("roleId: " + roleId);
@@ -224,7 +252,7 @@ public class ManageAccountsServlet extends HttpServlet {
                 String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(12));
                 System.out.println("password: " + hashedPassword);
                 // Thêm tài khoản
-                Accounts account = new Accounts(fullName, email, hashedPassword, phone, address, fileName, dob, status, roleId);
+                Accounts account = new Accounts(fullName, email, hashedPassword, phone, address, uniqueFilename, dob, status, roleId);
                 boolean isAdded = accountDAO.addAccount(account);
 
                 request.setAttribute("msg", isAdded ? "Add account successfully!" : "Add account failed!");

@@ -56,13 +56,14 @@ public class AirlinesAddServlet extends HttpServlet {
             }
 
             Part filePart = request.getPart("airlineImage");
-            String fileName = (filePart != null) ? filePart.getSubmittedFileName() : null;
+            String fileName = (filePart != null) ? System.currentTimeMillis() + "_" + filePart.getSubmittedFileName() : null;
 
             if (fileName == null || fileName.trim().isEmpty() || !fileName.matches(".*\\.(jpg|png)$")) {
                 request.setAttribute("error", "Invalid image format");
                 request.getRequestDispatcher("/views/admin/jsp/addAirline.jsp").forward(request, response);
                 return;
             }
+
 
             String uploadPath = getServletContext().getRealPath("") + File.separator + UPLOAD_DIR;
             File uploadDir = new File(uploadPath);
