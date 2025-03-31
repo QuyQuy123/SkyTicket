@@ -1,4 +1,9 @@
-<%--
+<%@ page import="java.text.NumberFormat" %>
+<%@ page import="java.util.Locale" %>
+<%@ page import="java.util.List" %>
+<%@ page import="model.Bookings" %>
+<%@ page import="dal.*" %>
+<%@ page import="model.Airlines" %><%--
  Created by IntelliJ IDEA.
  User: Administrator
  Date: 2/8/2025
@@ -53,6 +58,26 @@
 <div class="page-wrapper doctris-theme toggled">
     <%@ include file="right.jsp"%>
 
+    <%
+        TicketsDAO td = new TicketsDAO();
+        AccountDAO ad = new AccountDAO();
+        BookingsDAO bd = new BookingsDAO();
+        PaymentsDAO pd = new PaymentsDAO();
+        AirlinesDAO ald = new AirlinesDAO();
+        double price = td.getTotalPrice();
+        NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+        String formattedPrice = currencyFormat.format(price);
+        FlightsDAO fd = new FlightsDAO();
+        int flight = fd.getFlightCountByStatus();
+        List<Accounts> acc = ad.getAllAccounts();
+        List<Bookings> book = bd.getAllBookings();
+        List<Airlines> air = ald.getAllAirlines();
+        int numAcc = acc.size();
+        int numBook = book.size();
+        int numPay = pd.getTotalRecords();
+        int numAir = air.size();
+    %>
+
 
     <!-- Start Page Content -->
     <main class="page-content bg-light">
@@ -74,7 +99,7 @@
                                     <i class="uil uil-bed h3 mb-0"></i>
                                 </div>
                                 <div class="flex-1 ms-2">
-                                    <h5 class="mb-0">558</h5>
+                                    <h5 class="mb-0"><%=numAcc%></h5>
                                     <p class="text-muted mb-0">Accounts</p>
                                 </div>
                             </div>
@@ -89,7 +114,7 @@
                                     <i class="uil uil-file-medical-alt h3 mb-0"></i>
                                 </div>
                                 <div class="flex-1 ms-2">
-                                    <h5 class="mb-0">$2164</h5>
+                                    <h5 class="mb-0"><%=formattedPrice%></h5>
                                     <p class="text-muted mb-0">Tổng doanh thu</p>
                                 </div>
                             </div>
@@ -104,7 +129,7 @@
                                     <i class="uil uil-social-distancing h3 mb-0"></i>
                                 </div>
                                 <div class="flex-1 ms-2">
-                                    <h5 class="mb-0">112</h5>
+                                    <h5 class="mb-0"><%=numAir%></h5>
                                     <p class="text-muted mb-0">Máy bay</p>
                                 </div>
                             </div>
@@ -119,7 +144,7 @@
                                     <i class="uil uil-ambulance h3 mb-0"></i>
                                 </div>
                                 <div class="flex-1 ms-2">
-                                    <h5 class="mb-0">16</h5>
+                                    <h5 class="mb-0"><%=flight%></h5>
                                     <p class="text-muted mb-0">Chuyến bay</p>
                                 </div>
                             </div>
@@ -136,7 +161,7 @@
                                     <i class="uil uil-medkit h3 mb-0"></i>
                                 </div>
                                 <div class="flex-1 ms-2">
-                                    <h5 class="mb-0">220</h5>
+                                    <h5 class="mb-0"><%=numBook%></h5>
                                     <p class="text-muted mb-0">Đặt vé</p>
                                 </div>
                             </div>
@@ -151,7 +176,7 @@
                                     <i class="uil uil-medical-drip h3 mb-0"></i>
                                 </div>
                                 <div class="flex-1 ms-2">
-                                    <h5 class="mb-0">10</h5>
+                                    <h5 class="mb-0"><%=numPay%></h5>
                                     <p class="text-muted mb-0">Thanh toán</p>
                                 </div>
                             </div>

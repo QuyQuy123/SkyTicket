@@ -658,8 +658,7 @@
                         <option value="BIDV">BIDV</option>
                         <option value="TP Bank">TP Bank</option>
                         <option value="MB Bank">MB Bank</option>
-                        <option value="MB Bank">Mai Bank</option>
-                        <option value="MB Bank">Toi e bank</option>
+
                     </select>
                 </div>
                 <div class="form-group">
