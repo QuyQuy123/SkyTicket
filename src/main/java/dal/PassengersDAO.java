@@ -280,10 +280,9 @@ public class PassengersDAO extends DBConnect {
 
 
     public static void main(String[] args) {
-        PassengersDAO pd = new PassengersDAO();
-        System.out.println(pd.searchPassengerByPage(null, "male", 0, 3));
-
+        System.out.println("Xin chao cac ban");
     }
+    
 
 
 }

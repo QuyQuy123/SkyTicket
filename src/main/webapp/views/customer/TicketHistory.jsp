@@ -514,7 +514,10 @@
                 %>
                 <div class="order-actions" style="margin-top: 10px; text-align: right">
                     <button class="btn btn-warning" style="text-decoration: none;" onclick="openModalRequestRefund(
-                        <%=listTicketInBooking.get(0).getTicketId()%>, <%=b.getBookingID()%>)">Request Refund</button>
+                        <%=listTicketInBooking.get(0).getTicketId()%>,
+                        <%=b.getBookingID()%>,
+                            '<%=b.getCode()%>',
+                            '<%=currencyFormatter.format(listTicketInBooking.get(0).getPrice())%>')">Request Refund</button>
                 </div>
                 <% } %>
 
@@ -543,7 +546,7 @@
                     <form action="VnpayServlet" id="frmCreateOrder" method="post">
                         <input type="hidden" name="bookingID" value="<%=b.getBookingID()%>"/>
                         <input type="hidden" name="bankCode" value="">
-                        <input type="hidden" class="form-control" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="amount" max="1000000000" min="1" name="amount" type="number" value="
+                        <input type="hidden" class="form-control" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="" max="1000000000" min="1" name="amount" type="number" value="
             <%=b.getTotalPrice()%>"/>
                         <input type="hidden" name="language" checked value="vn">
                         <button type="submit" class="btn btn-default">
@@ -642,58 +645,106 @@
     </div>
 </div>
 
+
+
+<!-- Modal Request Refund -->
 <!-- Modal Request Refund -->
 <div id="requestRefundModal" class="modal" role="dialog" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5);">
-    <div class="modal-dialog" style="margin: 15% auto; width: 30%; position: relative;">
-        <div class="modal-content" style="background-color: #fff; padding: 20px; border: 1px solid #888; margin-top: -110px;">
+    <div class="modal-dialog" style="margin: 15% auto; width: 30%; position: relative; margin-top: 5px">
+        <div class="modal-content" style="background-color: #fff; padding: 20px; border: 1px solid #888; border-radius: 8px;">
             <form action="requestRefund" method="post" onsubmit="return validateBankAccount()">
                 <input type="hidden" id="modalTicketId2" name="ticketId" value="">
                 <input type="hidden" id="modalOrderId2" name="orderId" value="">
-                <h2 id="requestRefundLabel">Request Refund</h2>
-                <p id="requestRefundDescription">Please provide your bank details to request a refund.</p>
+                <h2>Request Refund</h2>
                 <div class="form-group">
-                    <label for="bank">Bank Name</label>
+                    <label for="accountHolder">Chủ tài khoản</label>
+                    <input type="text" id="accountHolder" name="accountHolder" value="" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="bank">Ngân hàng</label>
                     <select id="bank" name="bank" required class="form-control">
                         <option value="">Select a bank</option>
-                        <option value="BIDV">BIDV</option>
-                        <option value="TP Bank">TP Bank</option>
-                        <option value="MB Bank">MB Bank</option>
-
+                        <option value="ACB">ACB</option>
+                        <option value="TPBank">TP Bank</option>
+                        <option value="VCBank">VC BANK</option>
+                        <option value="MBBank">MB BANK</option>
+                        <option value="TechBank">TECH BANK</option>
+                        <option value="MaiBank">MAI BANK</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="bankAccount">Bank Account</label>
-                    <input type="text" id="bankAccount" name="bankAccount" required class="form-control">
+                    <label for="bankAccount">Số tài khoản</label>
+                    <input type="text" id="bankAccount" name="bankAccount" value="" class="form-control">
                 </div>
                 <div class="form-group">
-                    <label for="confirmBankAccount">Confirm Bank Account</label>
-                    <input type="text" id="confirmBankAccount" name="confirmBankAccount" required class="form-control">
+                    <label for="orderCode">Mã đơn</label>
+                    <input type="text" id="orderCode" name="orderCode" value="" class="form-control" readonly>
                 </div>
-                <div style="display: flex; justify-content: space-between;">
-                    <button type="submit" id="confirmRequestRefund" class="btn btn-danger" style="flex: 1; margin-right: 10px;">Yes</button>
-                    <button type="button" id="closeRequestRefundModal" class="btn btn-secondary" style="flex: 1;" onclick="closeOrderModal()">No</button>
+                <div class="form-group">
+                    <label for="amount">Số tiền rút</label>
+                    <input type="text" id="amount" name="amount" value="" class="form-control" readonly>
+                </div>
+                <div style="text-align: right; margin-top: 20px;">
+                    <button type="button" id="closeRequestRefundModal" class="btn btn-secondary" style="padding: 10px 20px; background-color: #6c757d; color: #fff; border: none; border-radius: 4px; margin-right: 10px;">No</button>
+                    <button type="reset" class="btn btn-reset" style="padding: 10px 20px; background-color: #ff9800; color: #fff; border: none; border-radius: 4px; margin-right: 10px;">Reset</button>
+                    <button type="submit" class="btn btn-submit" style="padding: 10px 20px; background-color: #007bff; color: #fff; border: none; border-radius: 4px;">Submit</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
+<%--Note
+
+--%>
+
+
 <!-- JavaScript -->
 <script>
+    // Function to open the modal with orderCode and amount
+    function openModalRequestRefund(ticketId, orderId, orderCode, amount) {
+        document.getElementById("modalTicketId2").value = ticketId;
+        document.getElementById("modalOrderId2").value = orderId;
+        document.getElementById("orderCode").value = orderCode;
+        document.getElementById("amount").value = amount; // Amount should be pre-formatted (e.g., "450.000 đ")
+        document.getElementById("requestRefundModal").style.display = "block";
+    }
+
+    // Function to close the modal
+    function closeModalRequestRefund() {
+        document.getElementById("requestRefundModal").style.display = "none";
+    }
+
+    // Add event listener for the close button
+    document.addEventListener('DOMContentLoaded', function() {
+        const closeButton = document.getElementById("closeRequestRefundModal");
+        if (closeButton) {
+            closeButton.onclick = closeModalRequestRefund;
+        }
+    });
+
+    // Close modal when clicking outside
+    window.onclick = function(event) {
+        var modal = document.getElementById("requestRefundModal");
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    };
+
+    // Validation function
     function validateBankAccount() {
         const bankSelect = document.getElementById('bank').value;
         const bankAccount = document.getElementById('bankAccount').value;
         let regex;
 
         switch (bankSelect) {
-            case 'BIDV':
-                regex = /^455\d{11}$/;
-                break;
-            case 'TP Bank':
-                regex = /^0000\d{7}$/;
-                break;
-            case 'MB Bank':
-                regex = /^\d{10}$/;
+            case 'ACB':
+            case 'TPBank':
+            case 'VCBank':
+            case 'MBBank':
+            case 'TechBank':
+            case 'MaiBank':
+                regex = /^\d{10,12}$/; // Generic 10-12 digit account number
                 break;
             default:
                 alert('Please select a valid bank.');
@@ -701,31 +752,14 @@
         }
 
         if (!regex.test(bankAccount)) {
-            alert('Invalid bank account number for the selected bank.');
-            return false;
-        }
-
-        const confirmBankAccount = document.getElementById('confirmBankAccount').value;
-        if (bankAccount !== confirmBankAccount) {
-            alert('Bank account and confirm bank account do not match.');
+            alert('Invalid bank account number. Please enter a 10-12 digit number.');
             return false;
         }
 
         return true;
     }
 
-    function openModalRequestRefund(ticketId, orderId) {
-        document.getElementById("modalTicketId2").value = ticketId;
-        document.getElementById("modalOrderId2").value = orderId;
-        document.getElementById("requestRefundModal").style.display = "block";
-    }
-
-    function closeModalRequestRefund() {
-        document.getElementById("requestRefundModal").style.display = "none";
-    }
-
-    document.getElementById("closeRequestRefundModal").onclick = closeModalRequestRefund;
-
+    // Other modal functions
     function openModalTicket(ticketId, orderId) {
         document.getElementById("modalTicketId").value = ticketId;
         document.getElementById("modalOrderId").value = orderId;
@@ -745,25 +779,25 @@
 
     function closeOrderModal() {
         document.getElementById('cancelOrderModal').style.display = 'none';
-        document.getElementById('requestRefundModal').style.display = 'none'; // Đóng cả modal refund
+        document.getElementById('requestRefundModal').style.display = 'none';
     }
 
     document.getElementById("closeOrderModal").onclick = closeOrderModal;
 
-    window.onclick = function (event) {
+    window.onclick = function(event) {
         const modals = [
             document.getElementById("requestRefundModal"),
             document.getElementById("cancelTicketModal"),
             document.getElementById("cancelOrderModal")
         ];
-        modals.forEach(function (modal) {
+        modals.forEach(function(modal) {
             if (event.target === modal) {
                 modal.style.display = "none";
             }
         });
     };
 
-    $("#frmCreateOrder").submit(function () {
+    $("#frmCreateOrder").submit(function() {
         var postData = $("#frmCreateOrder").serialize();
         var submitUrl = $("#frmCreateOrder").attr("action");
         $.ajax({
@@ -771,7 +805,7 @@
             url: submitUrl,
             data: postData,
             dataType: 'JSON',
-            success: function (x) {
+            success: function(x) {
                 if (x.code === '00') {
                     if (window.vnpay) {
                         vnpay.open({width: 768, height: 600, url: x.data});
@@ -805,6 +839,8 @@
         window.location.href = url;
     }
 </script>
+
+
 
 <script src="https://pay.vnpay.vn/lib/vnpay/vnpay.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>

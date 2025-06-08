@@ -21,7 +21,7 @@
                     <p class="mb-0 text-muted">
                         <script>document.write(new Date().getFullYear())</script>
                         © SkyTicket. Fly with love <i class="mdi mdi-heart text-danger"></i> by <a
-                            href="Dashboard.jsp" target="_blank" class="text-reset">Team 2</a>.
+                            href="#" target="_blank" class="text-reset">Team</a>.
                     </p>
                 </div>
             </div><!--end col-->

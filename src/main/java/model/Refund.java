@@ -11,12 +11,34 @@ public class Refund {
     private Timestamp refundDate;
     private double refundPrice;
     private int status;
-    private String ticketCode;
+    private String accountHolder;
+    private String TicketCode;
+    private String CreatedBy;
 
     public Refund() {
     }
 
-    public Refund(int refundId, int ticketId, String bankAccount, String bankName, Timestamp requestDate, Timestamp refundDate, double refundPrice, int status, String ticketCode) {
+
+
+    public Refund(int ticketId, String bankAccount, String bankName, Timestamp requestDate, double refundPrice, int status, String accountHolder) {
+        this.ticketId = ticketId;
+        this.bankAccount = bankAccount;
+        this.bankName = bankName;
+        this.requestDate = requestDate;
+        this.refundPrice = refundPrice;
+        this.status = status;
+        this.accountHolder = accountHolder;
+    }
+
+    public String getTicketCode() {
+        return TicketCode;
+    }
+
+    public void setTicketCode(String ticketCode) {
+        TicketCode = ticketCode;
+    }
+
+    public Refund(int refundId, int ticketId, String bankAccount, String bankName, Timestamp requestDate, Timestamp refundDate, double refundPrice, int status, String accountHolder) {
         this.refundId = refundId;
         this.ticketId = ticketId;
         this.bankAccount = bankAccount;
@@ -25,10 +47,11 @@ public class Refund {
         this.refundDate = refundDate;
         this.refundPrice = refundPrice;
         this.status = status;
-        this.ticketCode = ticketCode;
+        this.accountHolder = accountHolder;
     }
 
-    public Refund( int ticketId, String bankAccount, String bankName, Timestamp requestDate, Timestamp refundDate, double refundPrice, int status) {
+    public Refund(int refundId, int ticketId, String bankAccount, String bankName, Timestamp requestDate, Timestamp refundDate, double refundPrice, int status, String accountHolder, String CreatedBy) {
+        this.refundId = refundId;
         this.ticketId = ticketId;
         this.bankAccount = bankAccount;
         this.bankName = bankName;
@@ -36,11 +59,24 @@ public class Refund {
         this.refundDate = refundDate;
         this.refundPrice = refundPrice;
         this.status = status;
+        this.accountHolder = accountHolder;
+        this.CreatedBy = CreatedBy;
+
     }
 
+    public Refund(int ticketId, String bankAccount, String bank, Timestamp requestDate, Timestamp refundDate, double refundPrice, int i, String accountHolder) {
+    }
 
     public int getRefundId() {
         return refundId;
+    }
+
+    public String getCreatedBy() {
+        return CreatedBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        CreatedBy = createdBy;
     }
 
     public void setRefundId(int refundId) {
@@ -76,7 +112,7 @@ public class Refund {
     }
 
     public void setRequestDate(Timestamp requestDate) {
-       this.requestDate=requestDate;
+        this.requestDate = requestDate;
     }
 
     public Timestamp getRefundDate() {
@@ -103,26 +139,11 @@ public class Refund {
         this.status = status;
     }
 
-    public String getTicketCode() {
-        return ticketCode;
+    public String getAccountHolder() {
+        return accountHolder;
     }
 
-    public void setTicketCode(String ticketCode) {
-        this.ticketCode = ticketCode;
-    }
-
-    @Override
-    public String toString() {
-        return "Refund{" +
-                "refundId=" + refundId +
-                ", ticketId=" + ticketId +
-                ", bankAccount='" + bankAccount + '\'' +
-                ", bankName='" + bankName + '\'' +
-                ", requestDate=" + requestDate +
-                ", refundDate=" + refundDate +
-                ", refundPrice=" + refundPrice +
-                ", status=" + status +
-                ", ticketCode='" + ticketCode + '\'' +
-                '}';
+    public void setAccountHolder(String accountHolder) {
+        this.accountHolder = accountHolder;
     }
 }

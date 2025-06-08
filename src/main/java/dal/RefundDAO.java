@@ -13,7 +13,7 @@ public class RefundDAO extends DBConnect {
     public List<Refund> getAllRefunds() {
         List<Refund> refundList = new ArrayList<>();
         String sql = "SELECT r.RefundId, r.TicketId, r.BankAccount, r.BankName, r.RequestDate, " +
-                "r.RefundDate, r.RefundPrice, r.Status, t.Code " +
+                "r.RefundDate, r.RefundPrice, r.Status, t.Code, r.AccountHolder, r.CreatedBy " +
                 "FROM Refund r JOIN Tickets t ON r.TicketId = t.TicketId";
         try (PreparedStatement stmt = connection.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
@@ -28,6 +28,8 @@ public class RefundDAO extends DBConnect {
                 refund.setRefundPrice(rs.getDouble("RefundPrice"));
                 refund.setStatus(rs.getInt("Status"));
                 refund.setTicketCode(rs.getString("Code"));
+                refund.setAccountHolder(rs.getString("AccountHolder"));
+                refund.setCreatedBy(rs.getString("CreatedBy"));
                 refundList.add(refund);
             }
         } catch (SQLException e) {
@@ -92,6 +94,19 @@ public class RefundDAO extends DBConnect {
         return refundList;
     }
 
+    public void updateRefundInfo(int refundId, String holder, String bank, String account) {
+        String sql = "UPDATE refund SET AccountHolder = ?, BankName = ?,BankAccount = ? WHERE RefundId = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, holder);
+            ps.setString(2, bank);
+            ps.setString(3, account);
+            ps.setInt(4, refundId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     // Lấy chi tiết một yêu cầu hoàn tiền theo RefundId
     public Refund getRefundById(int refundId) {
         String sql = "SELECT r.RefundId, r.TicketId, r.BankAccount, r.BankName, r.RequestDate, " +
@@ -122,29 +137,52 @@ public class RefundDAO extends DBConnect {
     }
 
     public int addRefund(Refund refund) {
-        String sql = "INSERT INTO Refund (TicketId, BankAccount, BankName, RequestDate, RefundPrice, Status) " +
-                "VALUES (?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+        String sql = "INSERT INTO Refund (TicketId, BankAccount, BankName, RequestDate, RefundPrice, Status, AccountHolder) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setInt(1, refund.getTicketId());
             stmt.setString(2, refund.getBankAccount());
             stmt.setString(3, refund.getBankName());
             stmt.setTimestamp(4, refund.getRequestDate());
             stmt.setDouble(5, refund.getRefundPrice());
             stmt.setInt(6, refund.getStatus());
-            return stmt.executeUpdate();
+            stmt.setString(7, refund.getAccountHolder());
+
+            int rowsAffected = stmt.executeUpdate();
+
+            if (rowsAffected > 0) {
+                try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        return generatedKeys.getInt(1); // Trả về refundId
+                    }
+                }
+            }
+            return -1; // Trả về -1 nếu không lấy được refundId
         } catch (SQLException e) {
             e.printStackTrace();
+            System.err.println("SQL Error: " + e.getMessage()); // In lỗi chi tiết
             return -1;
         }
     }
 
     public static void main(String[] args) {
-        RefundDAO a = new RefundDAO();
-        Timestamp requestDate = new Timestamp(System.currentTimeMillis());
-        Timestamp refundDate = null;
-        int x = a.addRefund(new Refund(1,"00000119496","TP BANK",requestDate,refundDate,2500,1));
-        System.out.println(x);
+        RefundDAO r = new RefundDAO(); // Giả sử connection đã được khởi tạo trong constructor
+        Timestamp requestDate = new Timestamp(System.currentTimeMillis()); // Thời gian hiện tại
+        Refund refund = new Refund(
+                12,              // ticketId
+                "123456789",     // bankAccount
+                "Vietcombank",   // bankName
+                requestDate,     // requestDate
+                1000000,         // refundPrice
+                1,               // status
+                "Nguyen Van A"   // accountHolder
+        );
+        int refundId = r.addRefund(refund);
+        System.out.println("Refund ID: " + refundId);
     }
+
+
+
 
 
     public void updateRefundStatus(int refundId, int status) {
