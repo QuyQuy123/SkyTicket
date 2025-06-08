@@ -13,7 +13,7 @@ public class AirportsDAO extends DBConnect {
 
     public int insertAirport(Airports ap) {
         int n = 0;
-        String sql = "INSERT INTO `skytickets`.`airports`\n" +
+        String sql = "INSERT INTO `skytickets`.`Airports`\n" +
                 "(`AirportId`,\n" +
                 "`AirportName`,\n" +
                 "`LocationId`)\n" +
@@ -32,7 +32,7 @@ public class AirportsDAO extends DBConnect {
 
     public int updateAirport(Airports ap) {
         int n = 0;
-        String sql = "UPDATE `skytickets`.`airports` " +
+        String sql = "UPDATE `skytickets`.`Airports` " +
                 "SET " +
                 "`AirportName` = ?, " +
                 "`LocationId` = ?, " +
@@ -52,7 +52,7 @@ public class AirportsDAO extends DBConnect {
     }
 
     public List<Airports> getAllAirports(){
-        String sql = "select * from airports";
+        String sql = "select * from Airports";
         List<Airports> list = new ArrayList<>();
         try(PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
             while(rs.next()){
@@ -89,7 +89,7 @@ public class AirportsDAO extends DBConnect {
         return list;
     }
     public int getTotalAirports() {
-        String sql = "select count(*) from airports";
+        String sql = "select count(*) from Airports";
         try {
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
@@ -120,7 +120,7 @@ public class AirportsDAO extends DBConnect {
     }
     public int removeAirport(String airportID) {
         int n = 0;
-        String sql = "DELETE FROM `skytickets`.`airports`\n" +
+        String sql = "DELETE FROM `skytickets`.`Airports`\n" +
                 "WHERE AirportId = " + airportID;
         try {
             Statement state = connection.createStatement();
@@ -226,7 +226,7 @@ public class AirportsDAO extends DBConnect {
         }
     }
     public boolean isAirportExist(String airportName) {
-        String sql = "SELECT 1 FROM airports WHERE airportName LIKE ?";
+        String sql = "SELECT 1 FROM Airports WHERE airportName LIKE ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, "%" + airportName + "%"); // Tìm kiếm một phần tên sân bay
             try (ResultSet rs = ps.executeQuery()) {
