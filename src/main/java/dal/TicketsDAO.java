@@ -220,12 +220,6 @@ public class TicketsDAO extends DBConnect{
         return false;
     }
 
-    public static void main(String[] args) {
-        TicketsDAO tDAO = new TicketsDAO();
-        tDAO.confirmSuccessAllTicketsByBookingId(2);
-
-    }
-
     public void waitRefundPending(int bookingId) {
 
         String sql = "UPDATE Tickets SET Status = 2 where bookingId =? ";
@@ -334,7 +328,13 @@ public class TicketsDAO extends DBConnect{
 
 
 
-
+    public static void main(String[] args) {
+        TicketsDAO tDAO = new TicketsDAO();
+        List<Tickets> list = tDAO.getAllTicketsByBookingId(32);
+        for (Tickets t : list) {
+            System.out.println(t.toString());
+        }
+    }
 
 
 

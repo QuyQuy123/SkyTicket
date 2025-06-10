@@ -66,7 +66,7 @@
                     <%}%>
                     <li><a href="changePaswordURL">Change Password</a></li>
                     <% if(account.getRoleId()==2){ %>
-                    <li><a href="ticketHistoryURL">Ticket History</a></li>
+                    <li><a href="ticketHistoryURL?status=<%= account.getStatus() %>">Ticket History</a></li>
                     <%}%>
                     <li><a style="color: red;" href="LogoutURL">Log out</a></li>
                 </ul>

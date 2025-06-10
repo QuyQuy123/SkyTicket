@@ -42,7 +42,7 @@ public class BookingFlightTicketsController extends HttpServlet {
         AccountDAO ad = new AccountDAO();
         SeatsDAO sd = new SeatsDAO();
         HttpSession session = request.getSession();
-        EmailServlet email = new EmailServlet();
+//        EmailServlet email = new EmailServlet();
         Integer id = (Integer) session.getAttribute("id");
         float totalPrice =0;
         try {
@@ -127,7 +127,8 @@ public class BookingFlightTicketsController extends HttpServlet {
             }
 
              Bookings b = bd.getLatestBooking();
-            email.sendBookingEmail(b.getContactEmail(),b);
+
+            // email.sendBookingEmail(b.getContactEmail(),b);
 
             request.setAttribute("bookingId", b.getBookingID());
             request.setAttribute("price", b.getTotalPrice());

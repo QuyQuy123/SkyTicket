@@ -378,18 +378,12 @@ public class BookingDAO extends DBConnect{
 
     public static void main(String[] args) {
         BookingDAO dao = new BookingDAO();
-        dao.canceBookingById(1);
-
-
+        List<Bookings> list = dao.getOrdersByStatusAndAccountId(1,11);
+        for(Bookings b : list) {
+            System.out.println(b.toString());
+        }
 
     }
-
-
-
-
-
-
-
 
 }
 

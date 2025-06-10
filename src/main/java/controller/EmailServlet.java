@@ -53,7 +53,7 @@ public class EmailServlet {
                 return new PasswordAuthentication(from, passWord);
             }
         };
-
+    /*
         Session session = Session.getInstance(pro, authen);
         try {
             MimeMessage msg = new MimeMessage(session);
@@ -72,7 +72,7 @@ public class EmailServlet {
                             + "Please make the payment at least <strong>10 days</strong> before your flight to secure your booking."
                             + "</p>"
                             + "<div style='text-align: center; margin-top: 30px;'>"
-                            + "<a href='http://localhost:8080/SkyTicket/bookingFlightTicketsURL' style='background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold;'>Make Payment Now</a>"
+                            + "<a href='https://ve247vn.com/bookingFlightTicketsURL' style='background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold;'>Make Payment Now</a>"
                             + "</div>"
                             + "<p style='font-size: 12px; color: #777; text-align: center; margin-top: 20px;'>"
                             + "If you have any questions, please contact our support team."
@@ -84,6 +84,8 @@ public class EmailServlet {
         } catch (MessagingException ex) {
             ex.printStackTrace();
         }
+
+     */
     }
     public String generateOTP(int length) {
         StringBuilder otp = new StringBuilder();
@@ -120,6 +122,7 @@ public class EmailServlet {
                 return new PasswordAuthentication(from, passWord);
             }
         };
+
         Session session = Session.getInstance(pro, authen);
         MimeMessage msg = new MimeMessage(session);
         try {
@@ -134,8 +137,10 @@ public class EmailServlet {
         } catch (MessagingException ex) {
             ex.printStackTrace();
         }
+
     }
 
+    /*
     public void sendPaymentSuccessfulbyEmail(String to, Bookings b) {
 
         Properties pro = new Properties();
@@ -191,9 +196,5 @@ public class EmailServlet {
             ex.printStackTrace();
         }
     }
-
-
-
-
-
+*/
 }

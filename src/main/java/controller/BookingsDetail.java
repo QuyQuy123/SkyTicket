@@ -61,7 +61,7 @@ public class BookingsDetail extends HttpServlet {
         if ("confirmPayment".equals(action)) {
             boolean success = bookingsDAO.changeStatusToSuccess(bookingId);
             p.updatePaymentStatus(2,payid);
-            email.sendPaymentSuccessfulbyEmail(book.getContactEmail(), book);
+            // email.sendPaymentSuccessfulbyEmail(book.getContactEmail(), book);
             if (success) {
                 req.setAttribute("msg", "Payment confirmed successfully!");
             } else {
