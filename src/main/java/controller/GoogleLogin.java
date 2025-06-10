@@ -13,7 +13,7 @@ public class GoogleLogin {
 
     public static final String GOOGLE_CLIENT_SECRET = "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";
 
-    public static final String GOOGLE_REDIRECT_URI = "http://localhost:8080/SkyTicket/LoginGoogle";
+    public static final String GOOGLE_REDIRECT_URI = "http://localhost:8090/LoginGoogle";
 
     public static final String GOOGLE_GRANT_TYPE = "authorization_code";
 

@@ -65,7 +65,7 @@
                     <li><a href="<%= request.getContextPath() %>/dashboardAdmin">Manager</a></li>
                     <%}%>
                     <li><a href="changePaswordURL">Change Password</a></li>
-                    <% if(account.getRoleId()==1){ %>
+                    <% if(account.getRoleId()==2){ %>
                     <li><a href="ticketHistoryURL">Ticket History</a></li>
                     <%}%>
                     <li><a style="color: red;" href="LogoutURL">Log out</a></li>
