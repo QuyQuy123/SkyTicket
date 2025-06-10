@@ -32,7 +32,7 @@ public class EmailServlet {
 
 
     final String from = "skyticket.work@gmail.com";
-    final String passWord = "hzxd bxzv pmsm grut";
+    final String passWord = "gnwb uglr iyda idhi";
 
     public void sendBookingEmail(String to, Bookings b) {
         new Thread(() -> {
@@ -120,9 +120,7 @@ public class EmailServlet {
                 return new PasswordAuthentication(from, passWord);
             }
         };
-
         Session session = Session.getInstance(pro, authen);
-
         MimeMessage msg = new MimeMessage(session);
         try {
             msg.addHeader("Content-type", "text/HTML");
@@ -131,7 +129,6 @@ public class EmailServlet {
             msg.setSubject("Mã OTP Xác Thực Của Bạn", "UTF-8");
             msg.setSentDate(new Date());
             msg.setText("Mã OTP của bạn là: " + otp + "\nMã này có hiệu lực trong vòng 5 phút.", "UTF-8");
-
             Transport.send(msg);
             System.out.println("Email OTP đã được gửi thành công!");
         } catch (MessagingException ex) {
@@ -139,10 +136,8 @@ public class EmailServlet {
         }
     }
 
-
-
-
     public void sendPaymentSuccessfulbyEmail(String to, Bookings b) {
+
         Properties pro = new Properties();
         pro.put("mail.smtp.host", "smtp.gmail.com");
         pro.put("mail.smtp.port", "587");
