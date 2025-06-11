@@ -10,6 +10,7 @@
         <entry key="file://$PROJECT_DIR$/src/main/webapp/views/admin/jsp/updateLocation.jsp" value="file://$PROJECT_DIR$/src/main/webapp/views/admin/jsp" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/views/admin/jsp/viewListAirlines.jsp" value="file://$PROJECT_DIR$/src/main/webapp/views/admin/jsp" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/views/admin/jsp/viewListNews.jsp" value="file://$PROJECT_DIR$/src/main/webapp/views/admin/jsp" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/views/customer/TicketHistory.jsp" value="file://$PROJECT_DIR$/src/main/webapp/views/customer" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/views/public/Home.jsp" value="file://$PROJECT_DIR$/src/main/webapp/views/public" />
       </map>
     </option>

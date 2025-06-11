@@ -60,6 +60,7 @@ public class Login extends HttpServlet {
                 response.addCookie(cr);
                 int id = ad.getIdByEmailOrPhoneNumber(u);
                 session.setAttribute("id", id);
+                session.setAttribute("account", ad.getAccountsById(id));
                 response.sendRedirect("home");
             }
         } catch (Exception ex) {

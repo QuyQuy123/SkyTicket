@@ -4,11 +4,11 @@
 <%@ page import="java.time.LocalTime" %>
 <%@ page import="java.time.LocalDate" %>
 <%@ page import="java.time.LocalDateTime" %>
-<%@ page import="dal.*" %>
 <%@ page import="java.time.format.DateTimeFormatter" %>
 <%@ page import="java.sql.Timestamp" %>
 <%@ page import="java.text.NumberFormat" %>
 <%@ page import="java.util.Locale" %>
+<%@ page import="dal.*" %>
 <%@ page import="model.*" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -384,7 +384,6 @@
 
     <!-- Buying History -->
     <div class="buying-history">
-        <% int id = 0; %>
         <% for (Bookings b : listBooking) { %>
         <% List<Tickets> listTicketInBooking = td.getAllTicketsByBookingId(b.getBookingID()); %>
         <% if (!listTicketInBooking.isEmpty()) { %>
@@ -437,7 +436,7 @@
             %>
             <% LocalDateTime depDateTime = null;
                 for (Tickets t : listTicketInBooking) { %>
-            <% id = t.getTicketId(); %>
+            <% int id = t.getTicketId(); %>
             <% if (t.getStatus() != 3) allTicketsCancelled = false; %>
             <div class="ticket-details">
                 <div class="flight-info" style="display: flex; flex-direction: column; gap: 5px;">
